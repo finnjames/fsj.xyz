@@ -1,0 +1,19 @@
+$black: #1c1c1c;
+$white: #fff;
+$accent: #7822e2;
+
+$gray1: lighten($black, 36%);
+$gray2: lighten($black, 46%);
+$gray3: lighten($black, 56%);
+$gray4: lighten($black, 68%);
+$gray5: lighten($black, 80%);
+
+$roman: 400;
+$bold: 800;
+
+$typecolor: $black;
+$fontstack: "Recursive", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$titlestack: $fontstack;
+$fontweight: $roman;
+$titleweight: $bold;

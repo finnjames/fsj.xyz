@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,MONO@-15..0,300..800,0..1,0..1&display=swap");
+:root { --container-width: 32rem; }
+
+.container { width: 100vw; max-width: var(--container-width); }
+
+.row { width: 100%; padding: 0 0.6rem; margin: 0; display: flex; flex-direction: row; box-sizing: border-box; }
+
+.column, .columns { display: block; padding: 0.6rem; box-sizing: border-box; width: 100%; }
+
+.one { width: calc(100%*1/12); }
+
+.two { width: calc(100%*2/12); }
+
+.three { width: calc(100%*3/12); }
+
+.four { width: calc(100%*4/12); }
+
+.five { width: calc(100%*5/12); }
+
+.six { width: calc(100%*6/12); }
+
+.seven { width: calc(100%*7/12); }
+
+.eight { width: calc(100%*8/12); }
+
+.nine { width: calc(100%*9/12); }
+
+.ten { width: calc(100%*10/12); }
+
+.eleven { width: calc(100%*11/12); }
+
+.twelve { width: calc(100%*12/12); }
+
+.image { max-width: 100%; max-height: 90vh; margin: 2rem auto 4rem; }
+
+html, body { font-family: "Recursive", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; color: #1c1c1c; height: 100%; line-height: 140%; }
+
+#content { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; }
+
+header { width: 100%; flex: 0 0 0; margin-top: 2rem; }
+
+#navbar { font-size: larger; display: flex; }
+#navbar div { margin-right: 2rem; padding-left: 0.02rem; }
+#navbar #me-icon { border-radius: 50%; height: inherit; }
+#navbar a { font-variation-settings: "wght" 400; transition: font-variation-settings 100ms ease-in-out; }
+#navbar a:hover { font-variation-settings: "wght" 800; }
+
+.current_page { color: #787878; font-variation-settings: "wght" 800; font-weight: 800; }
+
+@media (max-width: 512px) { #navbar { flex-direction: column; }
+  #navbar div { padding-bottom: 1rem; align-items: flex-start; margin: 0; } }
+#title a { color: #913bfc; text-decoration: none; font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15 !important; }
+#title a div { background-color: #7822e2; border-radius: 50%; height: 3.4rem; width: 3.4rem; padding: 0; margin: 0 1.2rem 0 -0.2rem; }
+#title a div::after { content: " "; position: absolute; width: inherit; height: inherit; border-radius: 50%; border: solid 0px #fff; transition: border 100ms linear; }
+#title a:hover div::after { border: solid 4px #d0b2f5; }
+
+@media only screen and (max-width: 512px) { #contact { display: none; }
+  #small-contact { display: flex !important; } }
+.inline-mobile { display: none; }
+
+@media only screen and (max-width: 512px) { .inline-mobile { display: inline !important; } }
+#small-contact { display: none; color: #fff; margin: 1.4rem 0 0; max-width: 90vw; box-sizing: border-box; flex-direction: row; }
+#small-contact a { background: #7a25e2; display: inline-flex; align-items: center; padding: 0.8rem 1.4rem; border-radius: 4rem; cursor: pointer; color: #fff; text-decoration: none; border: none; margin-right: 0.6rem; }
+
+#contact { background: #7822e2; background: linear-gradient(180deg, #7822e2 20%, #7d16c2 100%); padding: 2.2rem; border-radius: 3.8rem; color: #fff; margin: 2.8rem 0; max-width: 90vw; box-sizing: border-box; box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.1), 0 0.4rem 1.6rem rgba(0, 0, 0, 0.2), 0 0.8rem 2.4rem rgba(0, 0, 0, 0.1); }
+#contact #contact-header { border-radius: 2.2rem; padding: 2.3rem 2.2rem 2.2rem; max-width: 20rem; border: solid 4px rgba(255, 255, 255, 0.4); }
+#contact #contact-header::before { content: "Contact"; font-weight: 800; font-variation-settings: "CASL" 1; font-size: x-large; font-style: italic; text-align: center; position: absolute; left: 50%; width: 8rem; margin: -3.14rem 0 0 -4rem; background: #7822e2; }
+#contact #contact-flex { display: flex; justify-content: space-between; margin: 2rem 0 0; }
+#contact .contact-button { display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; height: 4.8rem; width: 4.8rem; padding: 1rem 1.2rem; border-radius: 1rem; background-color: rgba(255, 255, 255, 0.2); cursor: pointer; color: #fff; }
+#contact .contact-button .icon { font-size: 2.8rem; }
+#contact .contact-button:hover { background-color: rgba(28, 28, 28, 0.2); }
+#contact .contact-button:first-child { margin-right: 2rem; margin-left: 0; }
+#contact .contact-button span:last-child { margin-top: 0.3rem; }
+#contact #email-info { display: flex; align-items: center; width: inherit; box-sizing: border-box; height: 3.6rem; border-radius: 1rem; color: #fff; }
+#contact #email-info::before { padding: 1rem 1.2rem; content: "email"; box-sizing: border-box; height: 100%; background-color: rgba(255, 255, 255, 0.2); border-radius: 1rem 0 0 1rem; display: flex; align-items: center; }
+#contact #email-info #email-address-wrapper { content: " "; background-color: #4f2484; display: flex; flex-grow: 1; box-sizing: border-box; height: inherit; padding: 1rem; }
+#contact #email-info #email-address { color: #fff; border: none; background: transparent; max-width: 6.2rem; }
+#contact #email-info #email-copy { border-radius: 0 1rem 1rem 0; font-size: 1.2rem; box-sizing: border-box; height: inherit; display: flex; align-items: center; cursor: pointer; outline-offset: 0.2rem; background-color: #411e6c; background: linear-gradient(to right, #411e6c 0%, #411e6c 72%, #24113c 100%); }
+#contact #email-info #email-copy .front { padding: 1rem 1.2rem; background-color: #4f2484; border-radius: 0 1rem 1rem 0; font-size: 1.2rem; box-sizing: border-box; height: inherit; display: flex; align-items: center; cursor: pointer; will-change: transform, filter; transition: transform 420ms cubic-bezier(0.3, 0.7, 0.4, 1), filter 420ms cubic-bezier(0.3, 0.7, 0.4, 1); transform: translateY(0px); filter: brightness(100%); }
+#contact #email-info #email-copy:hover .front { transform: translateY(-8px); transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.6), filter 250ms cubic-bezier(0.3, 0.7, 0.4, 1); filter: brightness(120%); }
+#contact #email-info #email-copy:active .front { transform: translateY(-2px); transition: transform 34ms; }
+#contact a { text-decoration: none; }
+
+main { flex: 1 0 auto; }
+
+footer { color: #ababab; flex-shrink: 0; }
+
+h1, h2, h3, h4, h5, h6 { font-family: "Recursive", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; position: relative; font-variation-settings: "wght" 800; }
+
+h1::before { position: absolute; color: #c9c9c9; content: "#"; left: -1.9rem; }
+@media (max-width: 36rem) { h1::before { display: none; } }
+
+h2::before { position: absolute; color: #c9c9c9; content: "##"; left: -2.76rem; }
+@media (max-width: 36rem) { h2::before { display: none; } }
+
+h3::before { position: absolute; color: #c9c9c9; content: "###"; left: -3.14rem; }
+@media (max-width: 36rem) { h3::before { display: none; } }
+
+h4::before { position: absolute; color: #c9c9c9; content: "####"; left: -3.42rem; }
+@media (max-width: 36rem) { h4::before { display: none; } }
+
+h2, h3 { margin-bottom: 0.6rem; }
+
+h4, h5, h6 { margin-bottom: 0.4rem; }
+
+p { margin: 0.8rem 0 1rem; }
+
+a { color: #ababab; text-decoration: none; }
+a:hover { color: #919191; }
+a:active { color: #787878; }
+
+main a, footer a { text-decoration: underline; }
+
+code { display: inline-block; background: #e8e8e8; border-radius: 4px; padding: 0.1rem 0.2rem; height: 1rem; font-size: 0.94rem; }
+
+.roman { font-weight: 400; }
+
+.bold { font-weight: 800; }
+
+.italic { font-style: italic; font-variation-settings: "CASL" 1; }
+
+.nounderline { text-decoration: none; }
+
+.underline { text-decoration: underline; }
+
+.small { font-size: 0.8rem; }
+
+.large { font-size: 2rem; }
+
+.black { color: #1c1c1c; }
+
+.gray { color: #919191; }
+
+.flex { display: flex; align-items: center; justify-content: center; }

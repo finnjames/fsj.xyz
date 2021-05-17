@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- basic page stuff -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Finn James - Portfolio</title>
+
+  <!-- favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/assets/favicon/site.webmanifest">
+  <link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#7822e2">
+  <link rel="shortcut icon" href="/assets/favicon/favicon.ico">
+  <meta name="msapplication-TileColor" content="#7822e2">
+  <meta name="msapplication-config" content="/assets/favicon/browserconfig.xml">
+  <meta name="theme-color" content="#7822e2">
+
+  <!-- script -->
+  <script src="/assets/js/script.js"></script>
+
+  <!-- fonts -->
+  <script src="https://kit.fontawesome.com/2834682fc0.js" crossorigin="anonymous"></script>
+
+  <!-- normalize.css -->
+  <link rel="stylesheet" type="text/css" href="/assets/css/normalize.css">
+
+  <!-- custom css -->
+  <link rel="stylesheet" type="text/css" href="/main.css">
+
+</head>
+
+<body>
+
+  <div id="content">
+  <header class="container">
+    <div class="row">
+      <div class="twelve columns" id="navbar">
+        <div class="bold italic" id="title" style="white-space: nowrap">
+          <a class="flex" href="/">
+            <div class="flex">
+              <img id="me-icon" src="/assets/images/purple2-smaller.png" />
+            </div>
+            Finn James
+          </a>
+        </div>
+        
+        <a class="flex" href="/cv">
+          <div class="navitem ">
+            CV
+          </div>
+        </a>
+        
+        <a class="flex" href="/posts">
+          <div class="navitem ">
+            Posts
+          </div>
+        </a>
+        
+        <a class="flex" href="/portfolio">
+          <div class="navitem  current_page ">
+            Portfolio
+          </div>
+        </a>
+        
+      </div>
+    </div>
+  </header>
+
+  <head><style>
+  html { background: black; }
+  #title > a { color: white; }
+  #title > a:hover { color: #ddd }
+  .current_page { color: #ccc; }
+  .current_page:hover { color: #a6a6a6; }
+  footer, footer a { color: #717171; }
+  h1 { color: #717171; padding-top: 2.4rem; margin-top: 0rem; }
+  h1::before { display: none; }
+  .image_container {max-width: 1000px; display: flex; flex-direction: column; align-items: center; height: auto; box-sizing: border-box}
+</style></head>
+
+<div>
+  <div class="image_container">
+    <h1 id="photography">Photography</h1>
+    <img class="image" src="/assets/photos/e2.jpeg" />
+    <img class="image" src="/assets/photos/t1.jpeg" />
+    <img class="image" src="/assets/photos/h1.jpeg" />
+    <img class="image" src="/assets/photos/e1.jpeg" />
+    <h1 id="drawing">Drawing</h1>
+    <img class="image" src="/assets/art/c1.jpeg" />
+    <img class="image" src="/assets/art/i1.jpeg" />
+    <img class="image" src="/assets/art/c2.jpeg" />
+  </div>
+</div>
+
+
+  <footer class="container">
+    <div class="row">
+      <div class="twelve columns small" style="text-align: center;">This work licensed under
+        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</body>
+
+</html>
