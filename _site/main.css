@@ -74,7 +74,7 @@ header { width: 100%; flex: 0 0 0; margin-top: 2rem; }
 #contact #email-info { display: flex; align-items: center; width: inherit; box-sizing: border-box; height: 3.6rem; border-radius: 1rem; color: #fff; }
 #contact #email-info::before { padding: 1rem 1.2rem; content: "email"; box-sizing: border-box; height: 100%; background-color: rgba(255, 255, 255, 0.2); border-radius: 1rem 0 0 1rem; display: flex; align-items: center; }
 #contact #email-info #email-address-wrapper { content: " "; background-color: #4f2484; display: flex; flex-grow: 1; box-sizing: border-box; height: inherit; padding: 1rem; }
-#contact #email-info #email-address { color: #fff; border: none; background: transparent; max-width: 6.2rem; }
+#contact #email-info #email-address { color: #fff; border: none; background: transparent; max-width: 10.2ch; }
 #contact #email-info #email-copy { border-radius: 0 1rem 1rem 0; font-size: 1.2rem; box-sizing: border-box; height: inherit; display: flex; align-items: center; cursor: pointer; outline-offset: 0.2rem; background-color: #411e6c; background: linear-gradient(to right, #411e6c 0%, #411e6c 72%, #24113c 100%); }
 #contact #email-info #email-copy .front { padding: 1rem 1.2rem; background-color: #4f2484; border-radius: 0 1rem 1rem 0; font-size: 1.2rem; box-sizing: border-box; height: inherit; display: flex; align-items: center; cursor: pointer; will-change: transform, filter; transition: transform 420ms cubic-bezier(0.3, 0.7, 0.4, 1), filter 420ms cubic-bezier(0.3, 0.7, 0.4, 1); transform: translateY(0px); filter: brightness(100%); }
 #contact #email-info #email-copy:hover .front { transform: translateY(-8px); transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.6), filter 250ms cubic-bezier(0.3, 0.7, 0.4, 1); filter: brightness(120%); }
