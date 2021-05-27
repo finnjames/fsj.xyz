@@ -76,7 +76,7 @@ For my first project, I wrote the logic and UI/UX for software to interpret data
 
 Now, I am building a new front-end application for the Skynet robotic telescope network, with a focus on the radio data interpretation and analysis tools.
 
-### Web Designer/Developer, <span class="roman">freelance</span>
+### Web Designer/Developer, <span class="roman">Freelance</span>
 
 <span class="gray">June 2019 – Present</span>
 
