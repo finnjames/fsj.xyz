@@ -76,11 +76,11 @@ For my first project, I wrote the logic and UI/UX for software to interpret data
 
 Now, I am building a new front-end application for the Skynet robotic telescope network, with a focus on the radio data interpretation and analysis tools.
 
-### Web Designer/Developer, <span class="roman">Radiolevity</span>
+### Web Designer/Developer, <span class="roman">freelance</span>
 
 <span class="gray">June 2019 – Present</span>
 
-I am a designer and full-stack web developer under my own brand “radiolevity.” I am a one-stop shop for local clients to create or overhaul their web presence. A portfolio example: the [Chapel Hill Friends Meeting website](https://chapelhillfriends.org).
+I am a freelance designer and full-stack web developer. I am a one-stop shop for local clients to create or overhaul their web presence. A portfolio example: the [Chapel Hill Friends Meeting website](https://chapelhillfriends.org).
 
 ### Counselor, <span class="roman">Carolina Friends School</span>
 
