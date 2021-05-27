@@ -375,6 +375,7 @@ code {
 
 .roman {
   font-weight: $roman;
+  font-variation-settings: "wght" 400;
 }
 .bold {
   font-weight: $bold;
