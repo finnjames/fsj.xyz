@@ -1,3 +1,7 @@
+<script lang="ts">
+	import Contact from "../components/Contact.svelte";
+</script>
+
 <h1>Hey!</h1>
 <p>
 	My name is Finn. How’s it going? I like drawing, reading, photography, and

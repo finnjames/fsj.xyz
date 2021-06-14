@@ -1,8 +1,11 @@
 <script lang="ts">
-  import Contact from "./components/Contact.svelte";
+  import Index from "./pages/Index.svelte";
 </script>
 
-<main />
+<main>
+  <h1>fsj</h1>
+  <Index />
+</main>
 
 <style lang="scss">
   main {
