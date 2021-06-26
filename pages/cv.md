@@ -86,7 +86,7 @@ I help teach undergraduate students in COMP541, an upper-level chip architecture
 
 <span class="gray">June 2019 – Present</span>
 
-I am a designer and full-stack web developer under my own brand “radiolevity.” I am a one-stop shop for local clients to create or overhaul their web presence. A portfolio example: the [Chapel Hill Friends Meeting website](https://chapelhillfriends.org).
+I am a freelance designer and full-stack web developer. I am a one-stop shop for local clients to create or overhaul their web presence. A portfolio example: the [Chapel Hill Friends Meeting website](https://chapelhillfriends.org).
 
 ### Carolina Friends School <span class="roman">— Counselor</span>
 
