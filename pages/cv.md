@@ -58,31 +58,37 @@ I won second place for my hardware project at HackNC 2019. My team and I constru
 
 I was honored with the Rotary Youth Leadership Award for exhibiting leadership and initiative in my community service and schoolwork, and I attended the associated conference. The conference is an 18-hour-a-day high-energy event where the recipients work with each other to develop leadership and problem solving skills. I was sponsored by the East Chapel Hill Rotary Club.
 
-## Employment
+## Work
 
-### UX Developer Intern, <span class="roman">SAS</span>
+### SAS <span class="roman">— UX Developer Intern</span>
 
 <span class="gray">May 2021 – August 2021</span>
 
-I have accepted an offer for a User Experience Intern position at SAS.
+I am creating a new internal application to improve interface accessibility and consistency.
 
-### Research Assistant, <span class="roman">UNC Department of Physics & Astronomy</span>
+### UNC Department of Physics & Astronomy <span class="roman">— Research Assistant</span>
 
 <span class="gray">August 2019 – Present</span>
 
 I do astrophysics research and software development with Dr. Dan Reichart in the Physics & Astronomy Department at UNC.
 
-For my first project, I wrote the logic and UI/UX for software to interpret data coming from the 40' radio telescope at the Green Bank Observatory. I engineered the system to interface between sixty-year-old radio astronomy equipment and modern analysis programs, all while remaining accessible to the scientists who use it for their research.
+For my first project, I wrote [an open source application](https://github.com/radiolevity/threepio) to interpret data coming from the 40' radio telescope at the Green Bank Observatory. I engineered the data logic to interface between sixty-year-old radio astronomy equipment and modern analysis programs. I designed the UI/UX to remain accessible to the students and scientists who use it for their research.
 
 Now, I am building a new front-end application for the Skynet robotic telescope network, with a focus on the radio data interpretation and analysis tools.
 
-### Web Designer/Developer, <span class="roman">Radiolevity</span>
+### UNC Department of Computer Science <span class="roman">— Learning Assistant</span>
+
+<span class="gray">Spring 2021 – Present<span>
+
+I help teach undergraduate students in COMP541, an upper-level chip architecture course taught by Dr. Montek Singh.
+
+### Radiolevity <span class="roman">— Web Developer & Designer</span>
 
 <span class="gray">June 2019 – Present</span>
 
 I am a designer and full-stack web developer under my own brand “radiolevity.” I am a one-stop shop for local clients to create or overhaul their web presence. A portfolio example: the [Chapel Hill Friends Meeting website](https://chapelhillfriends.org).
 
-### Counselor, <span class="roman">Carolina Friends School</span>
+### Carolina Friends School <span class="roman">— Counselor</span>
 
 <span class="gray">Summer 2016 – Summer 2019</span>
 
@@ -170,4 +176,4 @@ I love to cook, especially Japanese and Italian cuisine. I also once threw a Lat
 <br />
 <br />
 
-<span class="gray">Updated May 2021</span>
+<span class="gray">Updated June 2021</span>

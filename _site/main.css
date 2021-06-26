@@ -113,7 +113,7 @@ main a, footer a { text-decoration: underline; }
 
 code { display: inline-block; background: #e8e8e8; border-radius: 4px; padding: 0.1rem 0.2rem; height: 1rem; font-size: 0.94rem; }
 
-.roman { font-weight: 400; }
+.roman { font-weight: 400; font-variation-settings: "wght" 400; }
 
 .bold { font-weight: 800; }
 
