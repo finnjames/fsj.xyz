@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,MONO@-15..0,300..800,0..1,0..1&display=swap");
+
+:root {
+  --bg: white;
+  --fg: black;
+  --light-gray: #ccc;
+  --med-light-gray: #aaa;
+  --med-gray: #999;
+  --med-dark-gray: #777;
+  --dark-gray: #333;
+  --light-purple: #e4d0ff;
+  --purple: #a154ff;
+  --dark-purple: #5417a0;
+}
+
+::selection {
+  background: var(--light-purple);
+}
+
+html {
+  font-family: "Recursive", sans-serif;
+  overflow-x: hidden;
+}
+
+content a {
+  color: var(--purple);
+  text-decoration-thickness: 2px;
+  transition: opacity 100ms;
+  &:hover {
+    opacity: 0.6;
+  }
+  &:active {
+    opacity: 0.4;
+  }
+}
