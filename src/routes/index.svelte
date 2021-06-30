@@ -36,6 +36,9 @@
     padding: 0.4rem 0.8rem;
     transform: translateX(-20px);
     color: var(--bg);
+    font-variation-settings: "wght" 500, "CASL" 1;
+    cursor: default;
+    user-select: none;
     background-image: linear-gradient(
       60deg,
       #3d33ff 16.67%,
