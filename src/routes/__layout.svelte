@@ -11,17 +11,22 @@
 <div class="container">
   <div class="constraint">
     <Header />
-    <slot />
+    <content>
+      <slot />
+    </content>
   </div>
 </div>
 
 <style lang="scss">
   .container {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    // position: fixed;
     .constraint {
-      width: 100vw;
-      max-width: 80ch;
-      border: solid 1px red;
+      width: 96vw;
+      max-width: 100ch;
       padding: 2rem 4rem;
     }
   }

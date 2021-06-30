@@ -4,7 +4,6 @@
     { name: "cv", link: "/cv" },
     { name: "blog", link: "/blog" },
     { name: "portfolio", link: "/portfolio" },
-    { name: "polywork", link: "https://polywork.fsj.xyz" },
     { name: "contact", link: "/contact" }
   ];
 </script>
@@ -16,7 +15,7 @@
 <div id="header">
   <div id="logo">
     <a href="/">
-      <img src="/fsj.png" alt="fsj logo" width="72" />
+      <img src="/images/fsj.png" alt="fsj logo" width="100" />
     </a>
   </div>
   <nav>
@@ -33,16 +32,43 @@
     display: flex;
     align-items: center;
   }
+  #logo:hover {
+    animation: jiggle 700ms 1 ease-in-out;
+    opacity: 1;
+  }
+  @keyframes jiggle {
+    0% {
+      transform: rotate(5deg);
+    }
+    30% {
+      transform: rotate(-10deg);
+    }
+    60% {
+      transform: rotate(5deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
   nav {
     display: flex;
     align-items: center;
     a {
-      padding: 1rem;
+      padding: 1.2rem;
       text-transform: uppercase;
       text-decoration: none;
+      font-size: larger;
+      transform: translateY(-4px);
       color: var(--med-gray);
+      transition: opacity 100ms;
+      &:first-of-type {
+        margin-left: 1.4rem;
+      }
       &:hover {
-        color: var(--med-dark-gray);
+        opacity: 0.6;
+      }
+      &:active {
+        opacity: 0.4;
       }
       &.active {
         color: var(--dark-gray);
