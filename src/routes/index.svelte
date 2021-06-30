@@ -1,11 +1,18 @@
+<script lang="ts">
+  let barber = false;
+</script>
+
 <div class="relative">
   <img id="splash" src="/images/flight-suit.png" alt="me in a flight suit" height="800" />
   <div class="half">
     <h1 id="hey">Hey!</h1>
-    <p>My name is <span class="bold">Finn James</span>.</p>
     <p>
-      I am a frontend developer and<br />
-      amateur illustrator. I also<br />
+      My name is <span class="bold">Finn James</span>. I live in <br />
+      Chapel Hill, NC, and I use <br /><span class="pride">he/him</span> pronouns.
+    </p>
+    <p>
+      I am a frontend developer and <br />
+      amateur illustrator. I also <br />
       write <a href="https://github.com/radiolevity/threepio">software</a> for
       <a href="https://skynet.unc.edu">telescopes</a>.
     </p>
@@ -14,7 +21,6 @@
     <p><a href="https://polywork.fsj.xyz">polywork</a></p>
 
     <div style="height: 2rem" />
-    <span id="pride">he/him</span>
   </div>
 </div>
 
@@ -29,29 +35,23 @@
     left: 28rem;
     top: -8rem;
     z-index: -10;
-  }
-  #pride {
-    background-color: purple;
-    border-radius: 16rem;
-    padding: 0.4rem 0.8rem;
-    transform: translateX(-20px);
-    color: var(--bg);
-    font-variation-settings: "wght" 500, "CASL" 1;
-    cursor: default;
     user-select: none;
+  }
+  .pride {
+    font-variation-settings: "wght" 800;
+    font-weight: 800;
+    background-clip: text;
+    color: transparent;
+    // background-size: 200% 200%;
     background-image: linear-gradient(
-      60deg,
-      #3d33ff 16.67%,
+      -60deg,
+      #3d33ff 0%,
       #8f33ff 16.67%,
-      #8f33ff 33.33%,
       #cc0092 33.33%,
-      #cc0092 50%,
       #3d33ff 50%,
-      #3d33ff 66.67%,
       #8f33ff 66.67%,
-      #8f33ff 83.33%,
       #cc0092 83.33%,
-      #cc0092 100%
+      #3d33ff 100%
     );
   }
   .half {
@@ -64,6 +64,7 @@
   }
   p {
     font-size: large;
+    line-height: 1.6rem;
   }
 
   .bold {

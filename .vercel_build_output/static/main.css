@@ -10,9 +10,14 @@
   --light-purple: #e4d0ff;
   --purple: #a154ff;
   --dark-purple: #5417a0;
-  --light-cyan: #a2eff1;
-  --cyan: #2ddce2;
-  --magenta: #ff68a5;
+}
+
+::-moz-selection {
+  background: var(--light-purple);
+}
+
+::selection {
+  background: var(--light-purple);
 }
 
 html {
@@ -23,18 +28,15 @@ html {
 content a {
   color: var(--purple);
   text-decoration-thickness: 2px;
-  -webkit-transition: color 100ms linear;
-  transition: color 100ms linear;
-  -webkit-text-decoration-color: var(--magenta);
-          text-decoration-color: var(--magenta);
-  font-weight: 500;
+  -webkit-transition: opacity 100ms;
+  transition: opacity 100ms;
 }
 
 content a:hover {
-  color: var(--magenta);
+  opacity: 0.6;
 }
 
 content a:active {
-  opacity: 0.6;
+  opacity: 0.4;
 }
 /*# sourceMappingURL=main.css.map */

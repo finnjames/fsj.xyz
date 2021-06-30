@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-  <!-- <link rel="stylesheet" href="/static/main.css" /> -->
+  <link href="/main.css" rel="stylesheet" />
 </svelte:head>
 
 <div class="container">

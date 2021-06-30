@@ -1,10 +1,10 @@
 <script lang="ts">
   import { page } from "$app/stores";
   const nav = [
-    { name: "cv", link: "/cv" },
-    { name: "blog", link: "/blog" },
-    { name: "portfolio", link: "/portfolio" },
-    { name: "contact", link: "/contact" }
+    { name: "CV", link: "/cv" },
+    { name: "Blog", link: "/blog" },
+    { name: "Portfolio", link: "/portfolio" },
+    { name: "Contact", link: "/contact" }
   ];
 </script>
 
@@ -33,21 +33,27 @@
     align-items: center;
   }
   #logo:hover {
-    animation: jiggle 700ms 1 ease-in-out;
+    animation: jiggle 500ms 1 cubic-bezier(0.11, 0.87, 0.7, 1.01);
     opacity: 1;
   }
   @keyframes jiggle {
     0% {
-      transform: rotate(5deg);
+      transform: rotate(0deg) scale(100%);
     }
-    30% {
-      transform: rotate(-10deg);
+    10% {
+      transform: rotate(4deg) scale(100%);
+    }
+    35% {
+      transform: rotate(-8deg) scale(100%);
     }
     60% {
-      transform: rotate(5deg);
+      transform: rotate(4deg) scale(100%);
+    }
+    80% {
+      transform: rotate(-2deg) scale(100%);
     }
     100% {
-      transform: rotate(0deg);
+      transform: rotate(0deg) scale(100%);
     }
   }
   nav {
@@ -55,23 +61,27 @@
     align-items: center;
     a {
       padding: 1.2rem;
-      text-transform: uppercase;
+      // text-transform: uppercase;
       text-decoration: none;
+      font-variation-settings: "wght" 400, "CASL" 1, "slnt" -15;
       font-size: larger;
       transform: translateY(-4px);
-      color: var(--med-gray);
-      transition: opacity 100ms;
+      color: var(--fg);
+      opacity: 0.4;
+      transition: font-variation-settings 100ms;
       &:first-of-type {
         margin-left: 1.4rem;
       }
       &:hover {
-        opacity: 0.6;
+        font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15;
       }
       &:active {
-        opacity: 0.4;
+        opacity: 0.8;
+        font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15;
       }
       &.active {
-        color: var(--dark-gray);
+        opacity: 1;
+        font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15;
       }
     }
   }
