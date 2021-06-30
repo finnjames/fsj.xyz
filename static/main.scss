@@ -14,6 +14,7 @@
   --light-cyan: #a2eff1;
   --cyan: #2ddce2;
   --magenta: #ff68a5;
+  --dark-magenta: #f04288;
 }
 
 html {
@@ -28,7 +29,7 @@ content a {
   text-decoration-color: var(--magenta);
   font-weight: 500;
   &:hover {
-    color: var(--magenta);
+    color: var(--dark-magenta);
   }
   &:active {
     opacity: 0.6;

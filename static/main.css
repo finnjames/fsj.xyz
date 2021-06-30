@@ -13,6 +13,7 @@
   --light-cyan: #a2eff1;
   --cyan: #2ddce2;
   --magenta: #ff68a5;
+  --dark-magenta: #f04288;
 }
 
 html {
@@ -31,7 +32,7 @@ content a {
 }
 
 content a:hover {
-  color: var(--magenta);
+  color: var(--dark-magenta);
 }
 
 content a:active {

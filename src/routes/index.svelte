@@ -17,8 +17,8 @@
       <a href="https://skynet.unc.edu">telescopes</a>.
     </p>
 
-    <p><a href="https://github.com/radiolevity">github</a></p>
-    <p><a href="https://polywork.fsj.xyz">polywork</a></p>
+    <p><a href="https://github.com/radiolevity">GitHub</a></p>
+    <p><a href="https://polywork.fsj.xyz">Polywork</a></p>
 
     <div style="height: 2rem" />
   </div>
@@ -32,26 +32,26 @@
     height: 92vh;
     min-height: 40rem;
     position: absolute;
-    left: 28rem;
+    left: 20rem;
     top: -8rem;
     z-index: -10;
     user-select: none;
   }
   .pride {
-    font-variation-settings: "wght" 800;
-    font-weight: 800;
+    font-variation-settings: "wght" 600;
+    font-weight: 600;
     background-clip: text;
     color: transparent;
     // background-size: 200% 200%;
     background-image: linear-gradient(
       -60deg,
-      #3d33ff 0%,
-      #8f33ff 16.67%,
-      #cc0092 33.33%,
-      #3d33ff 50%,
-      #8f33ff 66.67%,
-      #cc0092 83.33%,
-      #3d33ff 100%
+      #6e66ff 0%,
+      #a861ff 16.67%,
+      #e924b1 33.33%,
+      #6e66ff 50%,
+      #a861ff 66.67%,
+      #e924b1 83.33%,
+      #6e66ff 100%
     );
   }
   .half {
@@ -65,6 +65,7 @@
   p {
     font-size: large;
     line-height: 1.6rem;
+    margin-bottom: 1.6rem;
   }
 
   .bold {

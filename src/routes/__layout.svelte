@@ -24,7 +24,7 @@
     // position: fixed;
     .constraint {
       width: 96vw;
-      max-width: 100ch;
+      max-width: 86ch;
       padding: 2rem 4rem;
     }
   }

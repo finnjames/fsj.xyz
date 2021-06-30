@@ -15,7 +15,7 @@
 <div id="header">
   <div id="logo">
     <a href="/">
-      <img src="/images/fsj.png" alt="fsj logo" width="100" />
+      <img src="/images/fsj.svg" alt="fsj logo" width="100" />
     </a>
   </div>
   <nav>
