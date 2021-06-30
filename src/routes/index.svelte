@@ -1,6 +1,3 @@
-<script lang="ts">
-</script>
-
 <div class="relative">
   <img id="splash" src="/images/flight-suit.png" alt="me in a flight suit" height="800" />
   <div class="half">
