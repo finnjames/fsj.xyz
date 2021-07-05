@@ -1,19 +1,17 @@
-<script lang="ts">
-  let barber = false;
-</script>
-
 <div class="relative">
   <img id="splash" src="/images/flight-suit.png" alt="me in a flight suit" height="800" />
   <div class="half">
     <h1 id="hey">Hey!</h1>
     <p>
-      My name is <span class="bold">Finn James</span>. I live in <br />
-      Chapel Hill, NC, and I use <br /><span class="pride">he/him</span> pronouns.
+      My name is <span class="bold">Finn James</span>. I use <br />
+      <span class="pride">he/him</span> pronouns.
     </p>
     <p>
-      I am a frontend developer and <br />
-      amateur illustrator. I also <br />
-      write <a href="https://github.com/radiolevity/threepio">software</a> for
+      I am a frontend developer <br />
+      and amateur illustrator based <br />
+      in Chapel Hill, NC. I also <br />
+      write <a href="https://github.com/radiolevity/threepio">software</a>
+      for
       <a href="https://skynet.unc.edu">telescopes</a>.
     </p>
 

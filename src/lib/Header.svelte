@@ -2,7 +2,7 @@
   import { page } from "$app/stores";
   const nav = [
     { name: "CV", link: "/cv" },
-    { name: "Blog", link: "/blog" },
+    { name: "Posts", link: "/posts" },
     { name: "Portfolio", link: "/portfolio" },
     { name: "Contact", link: "/contact" }
   ];
@@ -32,28 +32,16 @@
     display: flex;
     align-items: center;
   }
-  #logo:hover {
-    animation: jiggle 500ms 1 cubic-bezier(0.11, 0.87, 0.7, 1.01);
+  #logo {
     opacity: 1;
-  }
-  @keyframes jiggle {
-    0% {
-      transform: rotate(0deg) scale(100%);
+    transition: transform 100ms ease, filter 100ms ease;
+    &:hover {
+      transition: transform 200ms cubic-bezier(0.51, 0.01, 0.44, 2);
+      transform: scale(112%) rotate(-4deg);
     }
-    10% {
-      transform: rotate(4deg) scale(100%);
-    }
-    35% {
-      transform: rotate(-8deg) scale(100%);
-    }
-    60% {
-      transform: rotate(4deg) scale(100%);
-    }
-    80% {
-      transform: rotate(-2deg) scale(100%);
-    }
-    100% {
-      transform: rotate(0deg) scale(100%);
+    &:active {
+      transition: transform 100ms ease;
+      transform: none;
     }
   }
   nav {

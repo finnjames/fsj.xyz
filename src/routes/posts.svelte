@@ -1,4 +1,7 @@
-<h1>Blog</h1>
+<script lang="ts">
+</script>
+
+<h1>Posts</h1>
 <p>Gotta test scrolling somehow right</p>
 <p>
   I'm baby tumeric pabst sustainable leggings PBR&B quinoa yr sartorial yuccie. Pug flexitarian
