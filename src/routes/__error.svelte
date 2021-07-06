@@ -16,4 +16,6 @@
 
 <h1>{status}</h1>
 <p>{error.message}</p>
-<p><a href="/contact">Tell me about this error</a></p>
+<p>
+  What’s next? <a href="/">Go back home</a> or <a href="/contact">tell me about this error</a>.
+</p>
