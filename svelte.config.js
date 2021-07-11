@@ -20,6 +20,7 @@ const config = {
       resolve: {
         alias: {
           '@': path.resolve('./src'),
+          '$markdown': path.resolve('./src/markdown')
         }
       },
     },

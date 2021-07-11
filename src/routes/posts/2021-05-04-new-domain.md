@@ -1,9 +1,10 @@
 ---
-layout: post
-title: "New Domain"
+title: New Domain
 date: 2021-05-19 00:00:00 -0400
 categories: blog
 ---
+
+# {title}
 
 I am excited to report that my new domain, [fsj.xyz](https://fsj.xyz) is live. In the endless quest to have a short domain name, I elected for the gTLD **.xyz** and just my initials. It was remarkably difficult to secure a domain name that I felt excited about, but I am very happy with this one. My old domain (finnjames.dev) redirects to this site, now.
 

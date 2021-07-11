@@ -90,7 +90,7 @@ I led activities with campers at Carolina Friends School Summer Programs to enco
 
 ### Computer Science
 
-**Proficient in:** Python, C, Java, TypeScript, Vue, JavaScript, SystemVerilog, <span title="source for this site on GitHub (radiolevity/fsj.ai)">HTML/CSS</span>
+**Proficient in:** Python, C, Java, TypeScript, Vue, JavaScript, SystemVerilog, <span title="source for this site on GitHub (finnsjames/fsj.xyz)">HTML/CSS</span>
 
 **Courses Completed by Summer 2021:** Digital Logic & Computer Design, Models of Language & Computation, Data Structures, Computer Architecture, Digital Photography, Modern Web Development, UX Design & Usability
 

@@ -1,8 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,MONO@-15..0,300..800,0..1,0..1&display=swap");
 
 :root {
+  // sizing
+  --break-width: 768px;
+  // colors
   --bg: white;
-  --fg: black;
+  --fg: #1a101f;
+  // --fg-hover: rgba(var(--fg), 0.8);
+  // --fg-active: rgba(var(--fg), 0.4);
   --light-gray: #ccc;
   --med-light-gray: #aaa;
   --med-gray: #999;
@@ -20,6 +25,19 @@
 html {
   font-family: "Recursive", sans-serif;
   overflow-x: hidden;
+  background: var(--bg);
+  color: var(--fg);
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
 }
 
 content a {

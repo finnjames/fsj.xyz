@@ -28,6 +28,12 @@
 			"$lib/*": [
 				"src/lib/*"
 			],
+			"@/*": [
+				"src/*"
+			],
+			"$markdown": [
+				"src/markdown/*"
+			]
 		}
 	},
 	"include": [
