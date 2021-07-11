@@ -137,11 +137,11 @@
   .active .menu-icon {
     &:before {
       margin: 7px 0;
-      transform: translateY(15px) rotate(135deg);
+      transform: translateY(12px) rotate(135deg);
     }
     &:after {
       margin: 7px 0;
-      transform: translateY(-15px) rotate(-135deg);
+      transform: translateY(-18px) rotate(-135deg);
     }
   }
   #blur {
@@ -186,7 +186,7 @@
       }
       &.active {
         position: fixed;
-        right: 4%; // TODO: don't hard code this
+        right: calc(4% + 0.4rem); // TODO: don't hard code this
         .nav-item {
           transform: translateX(-0.5rem);
           visibility: visible;

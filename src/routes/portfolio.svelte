@@ -1,3 +1,5 @@
+<svelte:head><title>Portfolio - Finn James</title></svelte:head>
+
 <div id="portfolio">
   <h1 id="photography" class="no-hash">Photography</h1>
   <img alt="Eszter 1" src="/art/p-e2.jpeg" />

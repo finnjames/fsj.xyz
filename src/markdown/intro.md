@@ -9,7 +9,6 @@ I am a frontend developer and amateur illustrator based in Chapel Hill, NC. I al
 
 [GitHub](https://github.com/finnsjames) • [Twitter](https://twitter.com/finnsjames) • [Polywork](https://polywork.fsj.xyz)
 
-Email: "hey" at this domain
 
 <style lang="scss">
   h1 {

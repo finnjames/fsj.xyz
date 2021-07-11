@@ -16,6 +16,7 @@
   --light-purple: #e4d0ff;
   --purple: #a154ff;
   --dark-purple: #5417a0;
+  --darker-purple: #2c0957;
   --light-cyan: #a2eff1;
   --cyan: #2ddce2;
   --magenta: #ff68a5;
@@ -55,7 +56,7 @@ h6 {
     #{$hx}:not(.no-hash)::before {
       position: absolute;
       color: var(--med-light-gray);
-      font-variation-settings: "SLNT" -15, "wght" 800, "CASL" -15;
+      font-variation-settings: "SLNT" -15, "wght" 600, "CASL" -15;
       @if $hx == "h1" {
         content: "#";
         left: -1.9rem;

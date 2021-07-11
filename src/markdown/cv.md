@@ -2,6 +2,15 @@
 title: CV
 ---
 
+<style lang="scss">
+  .gray {
+    color: var(--med-gray);
+  }
+  .roman {
+    font-variation-settings: "wght" 400;
+  }
+</style>
+
 ## Education
 
 ### University of North Carolina at Chapel Hill
