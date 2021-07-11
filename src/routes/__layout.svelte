@@ -1,6 +1,7 @@
 <script lang="ts">
   import Footer from "$lib/Footer.svelte";
   import Header from "$lib/Header.svelte";
+  import { page } from "$app/stores";
 </script>
 
 <svelte:head>
@@ -13,7 +14,9 @@
     <content>
       <slot />
     </content>
-    <Footer />
+    {#if $page.path != "/"}
+      <Footer />
+    {/if}
   </main>
 </div>
 

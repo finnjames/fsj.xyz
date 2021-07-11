@@ -1,24 +1,24 @@
 <script context="module">
   const allPosts = import.meta.glob("./*.md");
 
+  // console.log(allPosts);
   let promisedPosts = [];
   for (let path in allPosts) {
     promisedPosts.push(
       allPosts[path]().then(({ metadata }) => {
+        // console.log(metadata);
         return { path, metadata };
       })
     );
   }
   export const load = async () => {
-    const posts = await Promise.all(promisedPosts);
-    console.log(posts);
+    let posts = await Promise.all(promisedPosts);
+    posts = posts.sort((a, b) => Date.parse(b.metadata.date) - Date.parse(a.metadata.date));
+    // console.log(posts);
 
     return {
       props: {
-        posts: posts.sort((a, b) => {
-          // d = new Date();
-          Date.parse(b.metadata.date) - Date.parse(a.metadata.date);
-        })
+        posts: posts
       }
     };
   };
@@ -34,14 +34,31 @@
 
 <h1>Posts</h1>
 
-<div class="posts">
-  {#each posts as { path, metadata: { title } }}
-    <div class="post">
-      <h3>
+<ul class="posts">
+  {#each posts.reverse() as { path, metadata: { title, date } }}
+    <li>
+      <p>
         <a sveltekit:prefetch href={`/posts/${path.replace(".md", "").replace(".svx", "")}`}
           >{title}</a
         >
-      </h3>
-    </div>
+      </p>
+      <!-- <p>{date}</p> -->
+    </li>
   {/each}
-</div>
+</ul>
+
+<style lang="scss">
+  .posts {
+    list-style: none;
+    padding: 0;
+    li {
+      padding: 1rem;
+      padding-left: 0;
+      p {
+        padding: 0;
+        margin-top: 0;
+        color: var(--med-gray);
+      }
+    }
+  }
+</style>

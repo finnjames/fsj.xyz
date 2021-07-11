@@ -19,7 +19,7 @@
     position: relative;
   }
   #splash {
-    background-image: url("images/flight-suit.png");
+    background-image: url("/images/flight-suit.png");
     background-size: auto 900px;
     background-repeat: no-repeat;
     position: fixed;
@@ -51,8 +51,5 @@
     .half {
       max-width: none !important;
     }
-  }
-  :global(footer) {
-    display: none !important;
   }
 </style>

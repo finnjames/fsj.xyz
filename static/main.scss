@@ -40,6 +40,45 @@ body {
   margin: 0;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  position: relative;
+  font-variation-settings: "wght" 800;
+}
+
+@media screen and (min-width: 900px) {
+  @each $hx in (h1, h2, h3, h4) {
+    #{$hx}:not(.no-hash)::before {
+      position: absolute;
+      color: var(--med-light-gray);
+      font-variation-settings: "SLNT" -15, "wght" 800, "CASL" -15;
+      @if $hx == "h1" {
+        content: "#";
+        left: -1.9rem;
+      }
+      @if $hx == "h2" {
+        content: "##";
+        left: -2.76rem;
+      }
+      @if $hx == "h3" {
+        content: "###";
+        left: -3.14rem;
+      }
+      @if $hx == "h4" {
+        content: "####";
+        left: -3.42rem;
+      }
+      @media (max-width: #{32rem + 4rem}) {
+        display: none;
+      }
+    }
+  }
+}
+
 content a {
   color: var(--purple);
   text-decoration-thickness: 2px;

@@ -1,7 +1,7 @@
 ---
 ---
 
-# Hey!
+<h1 class="no-hash">Hey!</h1>
 
 My name is <span class="bold hint--top hint--rounded" aria-label="he/him, please">Finn James</span>. How’s it going?
 
@@ -9,11 +9,14 @@ I am a frontend developer and amateur illustrator based in Chapel Hill, NC. I al
 
 [GitHub](https://github.com/finnsjames) • [Twitter](https://twitter.com/finnsjames) • [Polywork](https://polywork.fsj.xyz)
 
+Email: "hey" at this domain
+
 <style lang="scss">
   h1 {
     font-weight: bold;
     font-size: 3.2rem;
     margin-top: 1rem;
+    margin-bottom: 1.6rem;
     font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15;
   }
   p {

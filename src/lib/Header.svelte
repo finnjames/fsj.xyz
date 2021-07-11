@@ -3,8 +3,7 @@
   const nav = [
     { name: "CV", link: "/cv" },
     { name: "Posts", link: "/posts" },
-    { name: "Portfolio", link: "/portfolio" },
-    { name: "Contact", link: "/contact" }
+    { name: "Portfolio", link: "/portfolio" }
   ];
   let menuOpen = false;
 </script>
@@ -42,6 +41,8 @@
     display: flex;
     align-items: center;
     position: relative;
+    padding-top: 1rem;
+    // padding: 1rem 4% 0;
   }
   #logo {
     touch-action: manipulation;
@@ -136,11 +137,11 @@
   .active .menu-icon {
     &:before {
       margin: 7px 0;
-      transform: translateY(12px) rotate(135deg);
+      transform: translateY(15px) rotate(135deg);
     }
     &:after {
       margin: 7px 0;
-      transform: translateY(-18px) rotate(-135deg);
+      transform: translateY(-15px) rotate(-135deg);
     }
   }
   #blur {
@@ -160,7 +161,7 @@
     nav {
       z-index: 1;
       position: absolute;
-      right: 0;
+      right: 0.4rem;
       padding-right: 0.8rem;
       flex-direction: row-reverse;
       .nav-container {
@@ -184,6 +185,8 @@
           visibility 300ms cubic-bezier(0, 0.62, 0.34, 1);
       }
       &.active {
+        position: fixed;
+        right: 4%; // TODO: don't hard code this
         .nav-item {
           transform: translateX(-0.5rem);
           visibility: visible;
