@@ -181,6 +181,7 @@
     opacity: 0;
     transition: opacity 300ms cubic-bezier(0, 0.62, 0.34, 1);
     backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
   }
   @media screen and (max-width: 767px) {
     nav {

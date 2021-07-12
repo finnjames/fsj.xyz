@@ -39,14 +39,16 @@
   --dark-magenta: #f04288;
 }
 
-html {
+html,
+body {
   box-sizing: border-box;
+  font-family: "Recursive", sans-serif;
+  background-color: var(--bg);
+  overflow-x: hidden;
 }
 
 #svelte {
-  font-family: "Recursive", sans-serif;
-  overflow-x: hidden;
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--fg);
   transition: background-color 320ms;
 }
