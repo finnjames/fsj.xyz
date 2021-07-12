@@ -4,7 +4,7 @@ title: CV
 
 <style lang="scss">
   .gray {
-    color: var(--med-gray);
+    opacity: 0.5;
   }
   .roman {
     font-variation-settings: "wght" 400;
