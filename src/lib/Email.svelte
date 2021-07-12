@@ -1,8 +1,6 @@
 <script>
   const email = hex2a("6865794066736a2e78797a"); // hex email address
 
-  // const input = document.getElementById("email-address");
-
   const copy = () => {
     navigator.clipboard.writeText(email);
   };
@@ -38,16 +36,16 @@
     background-color: var(--dark-purple);
     background-image: linear-gradient(
       to right,
-      var(--darker-purple) 0%,
-      var(--dark-purple) 10%,
-      var(--dark-purple) 90%,
+      var(--darker-purple) 0,
+      var(--dark-purple) 1rem,
+      var(--dark-purple) calc(100% - 1rem),
       var(--darker-purple) 100%
     );
   }
   #email-front {
     padding: 0.6rem 1.2rem;
     border-radius: inherit;
-    color: var(--bg);
+    color: var(--white);
     height: inherit;
     background: var(--purple);
     display: flex;

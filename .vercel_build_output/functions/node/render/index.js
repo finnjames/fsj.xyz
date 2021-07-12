@@ -326,8 +326,8 @@ var Body = class {
     this.size = size;
     if (body instanceof import_stream.default) {
       body.on("error", (err) => {
-        const error3 = err instanceof FetchBaseError ? err : new FetchError(`Invalid response body while trying to fetch ${this.url}: ${err.message}`, "system", err);
-        this[INTERNALS$2].error = error3;
+        const error2 = err instanceof FetchBaseError ? err : new FetchError(`Invalid response body while trying to fetch ${this.url}: ${err.message}`, "system", err);
+        this[INTERNALS$2].error = error2;
       });
     }
   }
@@ -401,11 +401,11 @@ async function consumeBody(data) {
       accumBytes += chunk.length;
       accum.push(chunk);
     }
-  } catch (error3) {
-    if (error3 instanceof FetchBaseError) {
-      throw error3;
+  } catch (error2) {
+    if (error2 instanceof FetchBaseError) {
+      throw error2;
     } else {
-      throw new FetchError(`Invalid response body while trying to fetch ${data.url}: ${error3.message}`, "system", error3);
+      throw new FetchError(`Invalid response body while trying to fetch ${data.url}: ${error2.message}`, "system", error2);
     }
   }
   if (body.readableEnded === true || body._readableState.ended === true) {
@@ -414,8 +414,8 @@ async function consumeBody(data) {
         return Buffer.from(accum.join(""));
       }
       return Buffer.concat(accum, accumBytes);
-    } catch (error3) {
-      throw new FetchError(`Could not create Buffer from response body for ${data.url}: ${error3.message}`, "system", error3);
+    } catch (error2) {
+      throw new FetchError(`Could not create Buffer from response body for ${data.url}: ${error2.message}`, "system", error2);
     }
   } else {
     throw new FetchError(`Premature close of server response while trying to fetch ${data.url}`);
@@ -892,15 +892,15 @@ async function fetch2(url, options_) {
     const { signal } = request;
     let response = null;
     const abort = () => {
-      const error3 = new AbortError("The operation was aborted.");
-      reject(error3);
+      const error2 = new AbortError("The operation was aborted.");
+      reject(error2);
       if (request.body && request.body instanceof import_stream.default.Readable) {
-        request.body.destroy(error3);
+        request.body.destroy(error2);
       }
       if (!response || !response.body) {
         return;
       }
-      response.body.emit("error", error3);
+      response.body.emit("error", error2);
     };
     if (signal && signal.aborted) {
       abort();
@@ -939,8 +939,8 @@ async function fetch2(url, options_) {
             if (locationURL !== null) {
               try {
                 headers.set("Location", locationURL);
-              } catch (error3) {
-                reject(error3);
+              } catch (error2) {
+                reject(error2);
               }
             }
             break;
@@ -985,8 +985,8 @@ async function fetch2(url, options_) {
           signal.removeEventListener("abort", abortAndFinalize);
         }
       });
-      let body = (0, import_stream.pipeline)(response_, new import_stream.PassThrough(), (error3) => {
-        reject(error3);
+      let body = (0, import_stream.pipeline)(response_, new import_stream.PassThrough(), (error2) => {
+        reject(error2);
       });
       if (process.version < "v12.10") {
         response_.on("aborted", abortAndFinalize);
@@ -1011,25 +1011,25 @@ async function fetch2(url, options_) {
         finishFlush: import_zlib.default.Z_SYNC_FLUSH
       };
       if (codings === "gzip" || codings === "x-gzip") {
-        body = (0, import_stream.pipeline)(body, import_zlib.default.createGunzip(zlibOptions), (error3) => {
-          reject(error3);
+        body = (0, import_stream.pipeline)(body, import_zlib.default.createGunzip(zlibOptions), (error2) => {
+          reject(error2);
         });
         response = new Response2(body, responseOptions);
         resolve2(response);
         return;
       }
       if (codings === "deflate" || codings === "x-deflate") {
-        const raw = (0, import_stream.pipeline)(response_, new import_stream.PassThrough(), (error3) => {
-          reject(error3);
+        const raw = (0, import_stream.pipeline)(response_, new import_stream.PassThrough(), (error2) => {
+          reject(error2);
         });
         raw.once("data", (chunk) => {
           if ((chunk[0] & 15) === 8) {
-            body = (0, import_stream.pipeline)(body, import_zlib.default.createInflate(), (error3) => {
-              reject(error3);
+            body = (0, import_stream.pipeline)(body, import_zlib.default.createInflate(), (error2) => {
+              reject(error2);
             });
           } else {
-            body = (0, import_stream.pipeline)(body, import_zlib.default.createInflateRaw(), (error3) => {
-              reject(error3);
+            body = (0, import_stream.pipeline)(body, import_zlib.default.createInflateRaw(), (error2) => {
+              reject(error2);
             });
           }
           response = new Response2(body, responseOptions);
@@ -1038,8 +1038,8 @@ async function fetch2(url, options_) {
         return;
       }
       if (codings === "br") {
-        body = (0, import_stream.pipeline)(body, import_zlib.default.createBrotliDecompress(), (error3) => {
-          reject(error3);
+        body = (0, import_stream.pipeline)(body, import_zlib.default.createBrotliDecompress(), (error2) => {
+          reject(error2);
         });
         response = new Response2(body, responseOptions);
         resolve2(response);
@@ -1348,7 +1348,7 @@ async function render_response({
   $session,
   page_config,
   status,
-  error: error3,
+  error: error2,
   branch,
   page: page2
 }) {
@@ -1359,8 +1359,8 @@ async function render_response({
   let rendered;
   let is_private = false;
   let maxage;
-  if (error3) {
-    error3.stack = options2.get_stack(error3);
+  if (error2) {
+    error2.stack = options2.get_stack(error2);
   }
   if (branch) {
     branch.forEach(({ node, loaded, fetched, uses_credentials }) => {
@@ -1422,8 +1422,8 @@ async function render_response({
 			start({
 				target: ${options2.target ? `document.querySelector(${s$1(options2.target)})` : "document.body"},
 				paths: ${s$1(options2.paths)},
-				session: ${try_serialize($session, (error4) => {
-      throw new Error(`Failed to serialize session data: ${error4.message}`);
+				session: ${try_serialize($session, (error3) => {
+      throw new Error(`Failed to serialize session data: ${error3.message}`);
     })},
 				host: ${page2 && page2.host ? s$1(page2.host) : "location.host"},
 				route: ${!!page_config.router},
@@ -1431,7 +1431,7 @@ async function render_response({
 				trailing_slash: ${s$1(options2.trailing_slash)},
 				hydrate: ${page_config.ssr && page_config.hydrate ? `{
 					status: ${status},
-					error: ${serialize_error(error3)},
+					error: ${serialize_error(error2)},
 					nodes: [
 						${branch.map(({ node }) => `import(${s$1(node.entry)})`).join(",\n						")}
 					],
@@ -1481,12 +1481,12 @@ function try_serialize(data, fail) {
     return null;
   }
 }
-function serialize_error(error3) {
-  if (!error3)
+function serialize_error(error2) {
+  if (!error2)
     return null;
-  let serialized = try_serialize(error3);
+  let serialized = try_serialize(error2);
   if (!serialized) {
-    const { name, message, stack } = error3;
+    const { name, message, stack } = error2;
     serialized = try_serialize({ name, message, stack });
   }
   if (!serialized) {
@@ -1496,19 +1496,19 @@ function serialize_error(error3) {
 }
 function normalize(loaded) {
   if (loaded.error) {
-    const error3 = typeof loaded.error === "string" ? new Error(loaded.error) : loaded.error;
+    const error2 = typeof loaded.error === "string" ? new Error(loaded.error) : loaded.error;
     const status = loaded.status;
-    if (!(error3 instanceof Error)) {
+    if (!(error2 instanceof Error)) {
       return {
         status: 500,
-        error: new Error(`"error" property returned from load() must be a string or instance of Error, received type "${typeof error3}"`)
+        error: new Error(`"error" property returned from load() must be a string or instance of Error, received type "${typeof error2}"`)
       };
     }
     if (!status || status < 400 || status > 599) {
       console.warn('"error" returned from load() without a valid status code \u2014 defaulting to 500');
-      return { status: 500, error: error3 };
+      return { status: 500, error: error2 };
     }
-    return { status, error: error3 };
+    return { status, error: error2 };
   }
   if (loaded.redirect) {
     if (!loaded.status || Math.floor(loaded.status / 100) !== 3) {
@@ -1554,7 +1554,7 @@ async function load_node({
   is_leaf,
   is_error,
   status,
-  error: error3
+  error: error2
 }) {
   const { module: module2 } = node;
   let uses_credentials = false;
@@ -1687,7 +1687,7 @@ async function load_node({
     };
     if (is_error) {
       load_input.status = status;
-      load_input.error = error3;
+      load_input.error = error2;
     }
     loaded = await module2.load.call(null, load_input);
   } else {
@@ -1740,7 +1740,7 @@ function escape(str) {
   result += '"';
   return result;
 }
-async function respond_with_error({ request, options: options2, state, $session, status, error: error3 }) {
+async function respond_with_error({ request, options: options2, state, $session, status, error: error2 }) {
   const default_layout = await options2.load_component(options2.manifest.layout);
   const default_error = await options2.load_component(options2.manifest.error);
   const page2 = {
@@ -1775,7 +1775,7 @@ async function respond_with_error({ request, options: options2, state, $session,
       is_leaf: false,
       is_error: true,
       status,
-      error: error3
+      error: error2
     })
   ];
   try {
@@ -1788,16 +1788,16 @@ async function respond_with_error({ request, options: options2, state, $session,
         ssr: options2.ssr
       },
       status,
-      error: error3,
+      error: error2,
       branch,
       page: page2
     });
-  } catch (error4) {
-    options2.handle_error(error4);
+  } catch (error3) {
+    options2.handle_error(error3);
     return {
       status: 500,
       headers: {},
-      body: error4.stack
+      body: error3.stack
     };
   }
 }
@@ -1813,15 +1813,15 @@ async function respond$1({ request, options: options2, state, $session, route })
   let nodes;
   try {
     nodes = await Promise.all(route.a.map((id) => id && options2.load_component(id)));
-  } catch (error4) {
-    options2.handle_error(error4);
+  } catch (error3) {
+    options2.handle_error(error3);
     return await respond_with_error({
       request,
       options: options2,
       state,
       $session,
       status: 500,
-      error: error4
+      error: error3
     });
   }
   const leaf = nodes[nodes.length - 1].module;
@@ -1839,7 +1839,7 @@ async function respond$1({ request, options: options2, state, $session, route })
   }
   let branch;
   let status = 200;
-  let error3;
+  let error2;
   ssr:
     if (page_config.ssr) {
       let context = {};
@@ -1872,14 +1872,14 @@ async function respond$1({ request, options: options2, state, $session, route })
               };
             }
             if (loaded.loaded.error) {
-              ({ status, error: error3 } = loaded.loaded);
+              ({ status, error: error2 } = loaded.loaded);
             }
           } catch (e) {
             options2.handle_error(e);
             status = 500;
-            error3 = e;
+            error2 = e;
           }
-          if (error3) {
+          if (error2) {
             while (i--) {
               if (route.b[i]) {
                 const error_node = await options2.load_component(route.b[i]);
@@ -1902,7 +1902,7 @@ async function respond$1({ request, options: options2, state, $session, route })
                     is_leaf: false,
                     is_error: true,
                     status,
-                    error: error3
+                    error: error2
                   });
                   if (error_loaded.loaded.error) {
                     continue;
@@ -1921,7 +1921,7 @@ async function respond$1({ request, options: options2, state, $session, route })
               state,
               $session,
               status,
-              error: error3
+              error: error2
             });
           }
         }
@@ -1940,19 +1940,19 @@ async function respond$1({ request, options: options2, state, $session, route })
       $session,
       page_config,
       status,
-      error: error3,
+      error: error2,
       branch: branch && branch.filter(Boolean),
       page: page2
     });
-  } catch (error4) {
-    options2.handle_error(error4);
+  } catch (error3) {
+    options2.handle_error(error3);
     return await respond_with_error({
       request,
       options: options2,
       state,
       $session,
       status: 500,
-      error: error4
+      error: error3
     });
   }
 }
@@ -2253,6 +2253,9 @@ function run_all(fns) {
 function is_function(thing) {
   return typeof thing === "function";
 }
+function safe_not_equal2(a, b) {
+  return a != a ? b == b : a !== b || (a && typeof a === "object" || typeof a === "function");
+}
 function is_empty(obj) {
   return Object.keys(obj).length === 0;
 }
@@ -2436,8 +2439,56 @@ if (typeof HTMLElement === "function") {
   };
 }
 
+// node_modules/svelte/store/index.mjs
+var subscriber_queue2 = [];
+function writable2(value, start = noop2) {
+  let stop;
+  const subscribers = [];
+  function set(new_value) {
+    if (safe_not_equal2(value, new_value)) {
+      value = new_value;
+      if (stop) {
+        const run_queue = !subscriber_queue2.length;
+        for (let i = 0; i < subscribers.length; i += 1) {
+          const s2 = subscribers[i];
+          s2[1]();
+          subscriber_queue2.push(s2, value);
+        }
+        if (run_queue) {
+          for (let i = 0; i < subscriber_queue2.length; i += 2) {
+            subscriber_queue2[i][0](subscriber_queue2[i + 1]);
+          }
+          subscriber_queue2.length = 0;
+        }
+      }
+    }
+  }
+  function update(fn) {
+    set(fn(value));
+  }
+  function subscribe2(run2, invalidate = noop2) {
+    const subscriber = [run2, invalidate];
+    subscribers.push(subscriber);
+    if (subscribers.length === 1) {
+      stop = start(set) || noop2;
+    }
+    run2(value);
+    return () => {
+      const index2 = subscribers.indexOf(subscriber);
+      if (index2 !== -1) {
+        subscribers.splice(index2, 1);
+      }
+      if (subscribers.length === 0) {
+        stop();
+        stop = null;
+      }
+    };
+  }
+  return { set, update, subscribe: subscribe2 };
+}
+
 // .svelte-kit/output/server/app.js
-var css$3 = {
+var css$9 = {
   code: "#svelte-announcer.svelte-1j55zn5{position:absolute;left:0;top:0;clip:rect(0 0 0 0);clip-path:inset(50%);overflow:hidden;white-space:nowrap;width:1px;height:1px}",
   map: `{"version":3,"file":"root.svelte","sources":["root.svelte"],"sourcesContent":["<!-- This file is generated by @sveltejs/kit \u2014 do not edit it! -->\\n<script>\\n\\timport { setContext, afterUpdate, onMount } from 'svelte';\\n\\n\\t// stores\\n\\texport let stores;\\n\\texport let page;\\n\\n\\texport let components;\\n\\texport let props_0 = null;\\n\\texport let props_1 = null;\\n\\texport let props_2 = null;\\n\\n\\tsetContext('__svelte__', stores);\\n\\n\\t$: stores.page.set(page);\\n\\tafterUpdate(stores.page.notify);\\n\\n\\tlet mounted = false;\\n\\tlet navigated = false;\\n\\tlet title = null;\\n\\n\\tonMount(() => {\\n\\t\\tconst unsubscribe = stores.page.subscribe(() => {\\n\\t\\t\\tif (mounted) {\\n\\t\\t\\t\\tnavigated = true;\\n\\t\\t\\t\\ttitle = document.title || 'untitled page';\\n\\t\\t\\t}\\n\\t\\t});\\n\\n\\t\\tmounted = true;\\n\\t\\treturn unsubscribe;\\n\\t});\\n<\/script>\\n\\n<svelte:component this={components[0]} {...(props_0 || {})}>\\n\\t{#if components[1]}\\n\\t\\t<svelte:component this={components[1]} {...(props_1 || {})}>\\n\\t\\t\\t{#if components[2]}\\n\\t\\t\\t\\t<svelte:component this={components[2]} {...(props_2 || {})}/>\\n\\t\\t\\t{/if}\\n\\t\\t</svelte:component>\\n\\t{/if}\\n</svelte:component>\\n\\n{#if mounted}\\n\\t<div id=\\"svelte-announcer\\" aria-live=\\"assertive\\" aria-atomic=\\"true\\">\\n\\t\\t{#if navigated}\\n\\t\\t\\t{title}\\n\\t\\t{/if}\\n\\t</div>\\n{/if}\\n\\n<style>\\n\\t#svelte-announcer {\\n\\t\\tposition: absolute;\\n\\t\\tleft: 0;\\n\\t\\ttop: 0;\\n\\t\\tclip: rect(0 0 0 0);\\n\\t\\tclip-path: inset(50%);\\n\\t\\toverflow: hidden;\\n\\t\\twhite-space: nowrap;\\n\\t\\twidth: 1px;\\n\\t\\theight: 1px;\\n\\t}\\n</style>"],"names":[],"mappings":"AAsDC,iBAAiB,eAAC,CAAC,AAClB,QAAQ,CAAE,QAAQ,CAClB,IAAI,CAAE,CAAC,CACP,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CACnB,SAAS,CAAE,MAAM,GAAG,CAAC,CACrB,QAAQ,CAAE,MAAM,CAChB,WAAW,CAAE,MAAM,CACnB,KAAK,CAAE,GAAG,CACV,MAAM,CAAE,GAAG,AACZ,CAAC"}`
 };
@@ -2452,12 +2503,12 @@ var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   afterUpdate(stores.page.notify);
   let mounted = false;
   let navigated = false;
-  let title = null;
+  let title2 = null;
   onMount(() => {
     const unsubscribe = stores.page.subscribe(() => {
       if (mounted) {
         navigated = true;
-        title = document.title || "untitled page";
+        title2 = document.title || "untitled page";
       }
     });
     mounted = true;
@@ -2475,7 +2526,7 @@ var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     $$bindings.props_1(props_1);
   if ($$props.props_2 === void 0 && $$bindings.props_2 && props_2 !== void 0)
     $$bindings.props_2(props_2);
-  $$result.css.add(css$3);
+  $$result.css.add(css$9);
   {
     stores.page.set(page2);
   }
@@ -2488,7 +2539,7 @@ ${validate_component(components[0] || missing_component, "svelte:component").$$r
     })}` : ``}`
   })}
 
-${mounted ? `<div id="${"svelte-announcer"}" aria-live="${"assertive"}" aria-atomic="${"true"}" class="${"svelte-1j55zn5"}">${navigated ? `${escape2(title)}` : ``}</div>` : ``}`;
+${mounted ? `<div id="${"svelte-announcer"}" aria-live="${"assertive"}" aria-atomic="${"true"}" class="${"svelte-1j55zn5"}">${navigated ? `${escape2(title2)}` : ``}</div>` : ``}`;
 });
 function set_paths(paths) {
 }
@@ -2498,7 +2549,7 @@ var user_hooks = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module"
 });
-var template = ({ head, body }) => '<!DOCTYPE html>\n<html lang="en">\n\n<head>\n  <meta charset="utf-8" />\n  <link rel="icon" href="/favicon.svg" />\n  <meta name="viewport" content="width=device-width, initial-scale=1" />\n  ' + head + '\n</head>\n\n<body>\n  <div id="svelte">' + body + "</div>\n</body>\n\n</html>";
+var template = ({ head, body }) => '<!DOCTYPE html>\n<html lang="en">\n\n<head>\n  <meta charset="utf-8" />\n  <link rel="icon" href="/favicon.svg" />\n  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0" />\n  ' + head + '\n</head>\n\n<body>\n  <div id="svelte">' + body + "</div>\n</body>\n\n</html>";
 var options = null;
 function init(settings) {
   set_paths(settings.paths);
@@ -2507,17 +2558,17 @@ function init(settings) {
     amp: false,
     dev: false,
     entry: {
-      file: "/./_app/start-97cddce8.js",
+      file: "/./_app/start-0fa300f9.js",
       css: ["/./_app/assets/start-a8cd1609.css"],
-      js: ["/./_app/start-97cddce8.js", "/./_app/chunks/vendor-ce8f308f.js"]
+      js: ["/./_app/start-0fa300f9.js", "/./_app/chunks/vendor-601ef3b0.js", "/./_app/chunks/preload-helper-9f12a5fd.js"]
     },
     fetched: void 0,
     floc: false,
     get_component_path: (id) => "/./_app/" + entry_lookup[id],
-    get_stack: (error22) => String(error22),
-    handle_error: (error22) => {
-      console.error(error22.stack);
-      error22.stack = options.get_stack(error22);
+    get_stack: (error2) => String(error2),
+    handle_error: (error2) => {
+      console.error(error2.stack);
+      error2.stack = options.get_stack(error2);
     },
     hooks: get_hooks(user_hooks),
     hydrate: true,
@@ -2536,30 +2587,65 @@ function init(settings) {
 }
 var empty = () => ({});
 var manifest = {
-  assets: [{ "file": "favicon.svg", "size": 2183, "type": "image/svg+xml" }, { "file": "images/flight-suit.png", "size": 2718782, "type": "image/png" }, { "file": "images/fsj.png", "size": 30287, "type": "image/png" }, { "file": "main.scss", "size": 650, "type": "text/x-scss" }],
+  assets: [{ "file": "art/a-c1.jpeg", "size": 888549, "type": "image/jpeg" }, { "file": "art/a-c2.jpeg", "size": 752302, "type": "image/jpeg" }, { "file": "art/a-i1.jpeg", "size": 414163, "type": "image/jpeg" }, { "file": "art/p-e1.jpeg", "size": 772821, "type": "image/jpeg" }, { "file": "art/p-e2.jpeg", "size": 729817, "type": "image/jpeg" }, { "file": "art/p-h1.jpeg", "size": 4664057, "type": "image/jpeg" }, { "file": "art/p-t1.jpeg", "size": 1334606, "type": "image/jpeg" }, { "file": "favicon.svg", "size": 2183, "type": "image/svg+xml" }, { "file": "hint.min.css", "size": 9713, "type": "text/css" }, { "file": "images/flight-suit-full.png", "size": 3388091, "type": "image/png" }, { "file": "images/flight-suit.png", "size": 561439, "type": "image/png" }, { "file": "images/fsj.png", "size": 30287, "type": "image/png" }, { "file": "images/fsj.svg", "size": 2183, "type": "image/svg+xml" }, { "file": "main.scss", "size": 2144, "type": "text/x-scss" }],
   layout: "src/routes/__layout.svelte",
-  error: ".svelte-kit/build/components/error.svelte",
+  error: "src/routes/__error.svelte",
   routes: [
     {
       type: "page",
       pattern: /^\/$/,
       params: empty,
       a: ["src/routes/__layout.svelte", "src/routes/index.svelte"],
-      b: [".svelte-kit/build/components/error.svelte"]
+      b: ["src/routes/__error.svelte"]
     },
     {
       type: "page",
-      pattern: /^\/blog\/?$/,
+      pattern: /^\/portfolio\/?$/,
       params: empty,
-      a: ["src/routes/__layout.svelte", "src/routes/blog.svelte"],
-      b: [".svelte-kit/build/components/error.svelte"]
+      a: ["src/routes/__layout.svelte", "src/routes/portfolio.svelte"],
+      b: ["src/routes/__error.svelte"]
+    },
+    {
+      type: "page",
+      pattern: /^\/posts\/?$/,
+      params: empty,
+      a: ["src/routes/__layout.svelte", "src/routes/posts/index.svelte"],
+      b: ["src/routes/__error.svelte"]
+    },
+    {
+      type: "page",
+      pattern: /^\/posts\/2020-09-08-what-does-radiolevity-mean\/?$/,
+      params: empty,
+      a: ["src/routes/__layout.svelte", "src/routes/posts/2020-09-08-what-does-radiolevity-mean.md"],
+      b: ["src/routes/__error.svelte"]
+    },
+    {
+      type: "page",
+      pattern: /^\/posts\/2021-07-11-all-new-site\/?$/,
+      params: empty,
+      a: ["src/routes/__layout.svelte", "src/routes/posts/2021-07-11-all-new-site.md"],
+      b: ["src/routes/__error.svelte"]
+    },
+    {
+      type: "page",
+      pattern: /^\/posts\/2021-05-04-new-domain\/?$/,
+      params: empty,
+      a: ["src/routes/__layout.svelte", "src/routes/posts/2021-05-04-new-domain.md"],
+      b: ["src/routes/__error.svelte"]
+    },
+    {
+      type: "page",
+      pattern: /^\/posts\/2020-05-16-init\/?$/,
+      params: empty,
+      a: ["src/routes/__layout.svelte", "src/routes/posts/2020-05-16-init.md"],
+      b: ["src/routes/__error.svelte"]
     },
     {
       type: "page",
       pattern: /^\/cv\/?$/,
       params: empty,
       a: ["src/routes/__layout.svelte", "src/routes/cv.svelte"],
-      b: [".svelte-kit/build/components/error.svelte"]
+      b: ["src/routes/__error.svelte"]
     }
   ]
 };
@@ -2572,20 +2658,35 @@ var module_lookup = {
   "src/routes/__layout.svelte": () => Promise.resolve().then(function() {
     return __layout;
   }),
-  ".svelte-kit/build/components/error.svelte": () => Promise.resolve().then(function() {
-    return error2;
+  "src/routes/__error.svelte": () => Promise.resolve().then(function() {
+    return __error;
   }),
   "src/routes/index.svelte": () => Promise.resolve().then(function() {
+    return index$1;
+  }),
+  "src/routes/portfolio.svelte": () => Promise.resolve().then(function() {
+    return portfolio;
+  }),
+  "src/routes/posts/index.svelte": () => Promise.resolve().then(function() {
     return index;
   }),
-  "src/routes/blog.svelte": () => Promise.resolve().then(function() {
-    return blog;
+  "src/routes/posts/2020-09-08-what-does-radiolevity-mean.md": () => Promise.resolve().then(function() {
+    return _20200908WhatDoesRadiolevityMean;
+  }),
+  "src/routes/posts/2021-07-11-all-new-site.md": () => Promise.resolve().then(function() {
+    return _20210711AllNewSite;
+  }),
+  "src/routes/posts/2021-05-04-new-domain.md": () => Promise.resolve().then(function() {
+    return _20210504NewDomain;
+  }),
+  "src/routes/posts/2020-05-16-init.md": () => Promise.resolve().then(function() {
+    return _20200516Init;
   }),
   "src/routes/cv.svelte": () => Promise.resolve().then(function() {
     return cv;
   })
 };
-var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "/./_app/pages/__layout.svelte-2cfdc6db.js", "css": ["/./_app/assets/pages/__layout.svelte-140b86e5.css"], "js": ["/./_app/pages/__layout.svelte-2cfdc6db.js", "/./_app/chunks/vendor-ce8f308f.js"], "styles": null }, ".svelte-kit/build/components/error.svelte": { "entry": "/./_app/error.svelte-f6f066c8.js", "css": [], "js": ["/./_app/error.svelte-f6f066c8.js", "/./_app/chunks/vendor-ce8f308f.js"], "styles": null }, "src/routes/index.svelte": { "entry": "/./_app/pages/index.svelte-56d03148.js", "css": ["/./_app/assets/pages/index.svelte-26b8715a.css"], "js": ["/./_app/pages/index.svelte-56d03148.js", "/./_app/chunks/vendor-ce8f308f.js"], "styles": null }, "src/routes/blog.svelte": { "entry": "/./_app/pages/blog.svelte-eb0efdbf.js", "css": [], "js": ["/./_app/pages/blog.svelte-eb0efdbf.js", "/./_app/chunks/vendor-ce8f308f.js"], "styles": null }, "src/routes/cv.svelte": { "entry": "/./_app/pages/cv.svelte-f7466935.js", "css": [], "js": ["/./_app/pages/cv.svelte-f7466935.js", "/./_app/chunks/vendor-ce8f308f.js"], "styles": null } };
+var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "/./_app/pages/__layout.svelte-7c9fce54.js", "css": ["/./_app/assets/pages/__layout.svelte-1336c5c3.css"], "js": ["/./_app/pages/__layout.svelte-7c9fce54.js", "/./_app/chunks/vendor-601ef3b0.js"], "styles": null }, "src/routes/__error.svelte": { "entry": "/./_app/pages/__error.svelte-3a5e8c61.js", "css": [], "js": ["/./_app/pages/__error.svelte-3a5e8c61.js", "/./_app/chunks/vendor-601ef3b0.js"], "styles": null }, "src/routes/index.svelte": { "entry": "/./_app/pages/index.svelte-49f9498f.js", "css": ["/./_app/assets/pages/index.svelte-c5cd862f.css"], "js": ["/./_app/pages/index.svelte-49f9498f.js", "/./_app/chunks/vendor-601ef3b0.js"], "styles": null }, "src/routes/portfolio.svelte": { "entry": "/./_app/pages/portfolio.svelte-e82bb5b3.js", "css": ["/./_app/assets/pages/portfolio.svelte-d0024b74.css"], "js": ["/./_app/pages/portfolio.svelte-e82bb5b3.js", "/./_app/chunks/vendor-601ef3b0.js"], "styles": null }, "src/routes/posts/index.svelte": { "entry": "/./_app/pages/posts/index.svelte-65d325d4.js", "css": ["/./_app/assets/pages/posts/index.svelte-79ae5d49.css"], "js": ["/./_app/pages/posts/index.svelte-65d325d4.js", "/./_app/chunks/preload-helper-9f12a5fd.js", "/./_app/chunks/vendor-601ef3b0.js"], "styles": null }, "src/routes/posts/2020-09-08-what-does-radiolevity-mean.md": { "entry": "/./_app/pages/posts/2020-09-08-what-does-radiolevity-mean.md-174e7d67.js", "css": [], "js": ["/./_app/pages/posts/2020-09-08-what-does-radiolevity-mean.md-174e7d67.js", "/./_app/chunks/vendor-601ef3b0.js"], "styles": null }, "src/routes/posts/2021-07-11-all-new-site.md": { "entry": "/./_app/pages/posts/2021-07-11-all-new-site.md-ffd7fe1f.js", "css": [], "js": ["/./_app/pages/posts/2021-07-11-all-new-site.md-ffd7fe1f.js", "/./_app/chunks/vendor-601ef3b0.js"], "styles": null }, "src/routes/posts/2021-05-04-new-domain.md": { "entry": "/./_app/pages/posts/2021-05-04-new-domain.md-0e92f3f7.js", "css": [], "js": ["/./_app/pages/posts/2021-05-04-new-domain.md-0e92f3f7.js", "/./_app/chunks/vendor-601ef3b0.js"], "styles": null }, "src/routes/posts/2020-05-16-init.md": { "entry": "/./_app/pages/posts/2020-05-16-init.md-5d957c7a.js", "css": [], "js": ["/./_app/pages/posts/2020-05-16-init.md-5d957c7a.js", "/./_app/chunks/vendor-601ef3b0.js"], "styles": null }, "src/routes/cv.svelte": { "entry": "/./_app/pages/cv.svelte-646eaa73.js", "css": ["/./_app/assets/pages/cv.svelte-5661ba50.css"], "js": ["/./_app/pages/cv.svelte-646eaa73.js", "/./_app/chunks/vendor-601ef3b0.js"], "styles": null } };
 async function load_component(file) {
   return {
     module: await module_lookup[file](),
@@ -2599,6 +2700,16 @@ function render(request, {
   const host = request.headers["host"];
   return respond({ ...request, host }, options, { prerender });
 }
+var css$8 = {
+  code: "footer.svelte-dy6fjt.svelte-dy6fjt{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;color:var(--med-light-gray);padding-bottom:1rem;min-height:6rem}footer.svelte-dy6fjt a.svelte-dy6fjt{color:var(--med-gray)}footer.svelte-dy6fjt a.svelte-dy6fjt:hover{color:var(--med-dark-gray)}footer.svelte-dy6fjt a.svelte-dy6fjt:active{color:var(--dark-gray)}footer.svelte-dy6fjt div.svelte-dy6fjt{text-align:center;margin:0;position:relative;padding:0.1rem}",
+  map: '{"version":3,"file":"Footer.svelte","sources":["Footer.svelte"],"sourcesContent":["<footer>\\n  <div>\\n    This work licensed under\\n    <a href=\\"https://creativecommons.org/licenses/by-nc-sa/4.0\\">CC BY-NC-SA 4.0</a>\\n  </div>\\n</footer>\\n\\n<style lang=\\"scss\\">footer {\\n  display: flex;\\n  flex-direction: column;\\n  justify-content: flex-end;\\n  align-items: center;\\n  color: var(--med-light-gray);\\n  padding-bottom: 1rem;\\n  min-height: 6rem;\\n}\\nfooter a {\\n  color: var(--med-gray);\\n}\\nfooter a:hover {\\n  color: var(--med-dark-gray);\\n}\\nfooter a:active {\\n  color: var(--dark-gray);\\n}\\nfooter div {\\n  text-align: center;\\n  margin: 0;\\n  position: relative;\\n  padding: 0.1rem;\\n}</style>\\n"],"names":[],"mappings":"AAOmB,MAAM,4BAAC,CAAC,AACzB,OAAO,CAAE,IAAI,CACb,cAAc,CAAE,MAAM,CACtB,eAAe,CAAE,QAAQ,CACzB,WAAW,CAAE,MAAM,CACnB,KAAK,CAAE,IAAI,gBAAgB,CAAC,CAC5B,cAAc,CAAE,IAAI,CACpB,UAAU,CAAE,IAAI,AAClB,CAAC,AACD,oBAAM,CAAC,CAAC,cAAC,CAAC,AACR,KAAK,CAAE,IAAI,UAAU,CAAC,AACxB,CAAC,AACD,oBAAM,CAAC,eAAC,MAAM,AAAC,CAAC,AACd,KAAK,CAAE,IAAI,eAAe,CAAC,AAC7B,CAAC,AACD,oBAAM,CAAC,eAAC,OAAO,AAAC,CAAC,AACf,KAAK,CAAE,IAAI,WAAW,CAAC,AACzB,CAAC,AACD,oBAAM,CAAC,GAAG,cAAC,CAAC,AACV,UAAU,CAAE,MAAM,CAClB,MAAM,CAAE,CAAC,CACT,QAAQ,CAAE,QAAQ,CAClB,OAAO,CAAE,MAAM,AACjB,CAAC"}'
+};
+var Footer = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  $$result.css.add(css$8);
+  return `<footer class="${"svelte-dy6fjt"}"><div class="${"svelte-dy6fjt"}">This work licensed under
+    <a href="${"https://creativecommons.org/licenses/by-nc-sa/4.0"}" class="${"svelte-dy6fjt"}">CC BY-NC-SA 4.0</a></div>
+</footer>`;
+});
 var getStores = () => {
   const stores = getContext("__svelte__");
   return {
@@ -2623,39 +2734,89 @@ var page = {
     return store.subscribe(fn);
   }
 };
-var css$2 = {
-  code: "#header.svelte-1at6k0l.svelte-1at6k0l{display:flex;align-items:center}#logo.svelte-1at6k0l.svelte-1at6k0l:hover{animation:svelte-1at6k0l-jiggle 700ms 1 ease-in-out;opacity:1}@keyframes svelte-1at6k0l-jiggle{0%{transform:rotate(5deg)}30%{transform:rotate(-10deg)}60%{transform:rotate(5deg)}100%{transform:rotate(0deg)}}nav.svelte-1at6k0l.svelte-1at6k0l{display:flex;align-items:center}nav.svelte-1at6k0l a.svelte-1at6k0l{padding:1.2rem;text-transform:uppercase;text-decoration:none;font-size:larger;transform:translateY(-4px);color:var(--med-gray);transition:opacity 100ms}nav.svelte-1at6k0l a.svelte-1at6k0l:first-of-type{margin-left:1.4rem}nav.svelte-1at6k0l a.svelte-1at6k0l:hover{opacity:0.6}nav.svelte-1at6k0l a.svelte-1at6k0l:active{opacity:0.4}nav.svelte-1at6k0l a.active.svelte-1at6k0l{color:var(--dark-gray)}",
-  map: '{"version":3,"file":"Header.svelte","sources":["Header.svelte"],"sourcesContent":["<script lang=\\"ts\\">import { page } from \\"$app/stores\\";\\nconst nav = [\\n    { name: \\"cv\\", link: \\"/cv\\" },\\n    { name: \\"blog\\", link: \\"/blog\\" },\\n    { name: \\"portfolio\\", link: \\"/portfolio\\" },\\n    { name: \\"contact\\", link: \\"/contact\\" }\\n];\\n<\/script>\\n\\n<svelte:head>\\n  <title>Finn James</title>\\n</svelte:head>\\n\\n<div id=\\"header\\">\\n  <div id=\\"logo\\">\\n    <a href=\\"/\\">\\n      <img src=\\"/images/fsj.png\\" alt=\\"fsj logo\\" width=\\"100\\" />\\n    </a>\\n  </div>\\n  <nav>\\n    {#each nav as item, i}\\n      <a class:active={item.link === $page.path} href={item.link}>\\n        {item.name}\\n      </a>\\n    {/each}\\n  </nav>\\n</div>\\n\\n<style lang=\\"scss\\">#header {\\n  display: flex;\\n  align-items: center;\\n}\\n\\n#logo:hover {\\n  animation: jiggle 700ms 1 ease-in-out;\\n  opacity: 1;\\n}\\n\\n@keyframes jiggle {\\n  0% {\\n    transform: rotate(5deg);\\n  }\\n  30% {\\n    transform: rotate(-10deg);\\n  }\\n  60% {\\n    transform: rotate(5deg);\\n  }\\n  100% {\\n    transform: rotate(0deg);\\n  }\\n}\\nnav {\\n  display: flex;\\n  align-items: center;\\n}\\nnav a {\\n  padding: 1.2rem;\\n  text-transform: uppercase;\\n  text-decoration: none;\\n  font-size: larger;\\n  transform: translateY(-4px);\\n  color: var(--med-gray);\\n  transition: opacity 100ms;\\n}\\nnav a:first-of-type {\\n  margin-left: 1.4rem;\\n}\\nnav a:hover {\\n  opacity: 0.6;\\n}\\nnav a:active {\\n  opacity: 0.4;\\n}\\nnav a.active {\\n  color: var(--dark-gray);\\n}</style>\\n"],"names":[],"mappings":"AA4BmB,OAAO,8BAAC,CAAC,AAC1B,OAAO,CAAE,IAAI,CACb,WAAW,CAAE,MAAM,AACrB,CAAC,AAED,mCAAK,MAAM,AAAC,CAAC,AACX,SAAS,CAAE,qBAAM,CAAC,KAAK,CAAC,CAAC,CAAC,WAAW,CACrC,OAAO,CAAE,CAAC,AACZ,CAAC,AAED,WAAW,qBAAO,CAAC,AACjB,EAAE,AAAC,CAAC,AACF,SAAS,CAAE,OAAO,IAAI,CAAC,AACzB,CAAC,AACD,GAAG,AAAC,CAAC,AACH,SAAS,CAAE,OAAO,MAAM,CAAC,AAC3B,CAAC,AACD,GAAG,AAAC,CAAC,AACH,SAAS,CAAE,OAAO,IAAI,CAAC,AACzB,CAAC,AACD,IAAI,AAAC,CAAC,AACJ,SAAS,CAAE,OAAO,IAAI,CAAC,AACzB,CAAC,AACH,CAAC,AACD,GAAG,8BAAC,CAAC,AACH,OAAO,CAAE,IAAI,CACb,WAAW,CAAE,MAAM,AACrB,CAAC,AACD,kBAAG,CAAC,CAAC,eAAC,CAAC,AACL,OAAO,CAAE,MAAM,CACf,cAAc,CAAE,SAAS,CACzB,eAAe,CAAE,IAAI,CACrB,SAAS,CAAE,MAAM,CACjB,SAAS,CAAE,WAAW,IAAI,CAAC,CAC3B,KAAK,CAAE,IAAI,UAAU,CAAC,CACtB,UAAU,CAAE,OAAO,CAAC,KAAK,AAC3B,CAAC,AACD,kBAAG,CAAC,gBAAC,cAAc,AAAC,CAAC,AACnB,WAAW,CAAE,MAAM,AACrB,CAAC,AACD,kBAAG,CAAC,gBAAC,MAAM,AAAC,CAAC,AACX,OAAO,CAAE,GAAG,AACd,CAAC,AACD,kBAAG,CAAC,gBAAC,OAAO,AAAC,CAAC,AACZ,OAAO,CAAE,GAAG,AACd,CAAC,AACD,kBAAG,CAAC,CAAC,OAAO,eAAC,CAAC,AACZ,KAAK,CAAE,IAAI,WAAW,CAAC,AACzB,CAAC"}'
+function createColorMode() {
+  const { subscribe: subscribe2, set, update } = writable2("");
+  return {
+    subscribe: subscribe2,
+    toggle: () => update((a) => a === "light" || a === "" ? "dark" : "light"),
+    setLightMode: () => set("light"),
+    setDarkMode: () => set("dark"),
+    setMode: (mode) => set(mode),
+    reset: () => set("")
+  };
+}
+var colorMode = createColorMode();
+var css$7 = {
+  code: '#header.svelte-1xa6wjq.svelte-1xa6wjq{display:flex;align-items:center;position:relative;padding-top:1rem;z-index:1}#logo.svelte-1xa6wjq.svelte-1xa6wjq{touch-action:manipulation;transition:transform 100ms ease, filter 100ms ease;position:relative}#logo.svelte-1xa6wjq.svelte-1xa6wjq:hover{transition:transform 240ms cubic-bezier(0, 0.62, 0.34, 1);transform:scale(116%) rotate(-4deg)}#logo.svelte-1xa6wjq:hover #logo-shadow.svelte-1xa6wjq{top:0.2rem;opacity:0.2;transition:all 240ms cubic-bezier(0, 0.62, 0.34, 1)}#logo.svelte-1xa6wjq.svelte-1xa6wjq:active{transition:transform 100ms ease;transform:scale(112%) rotate(-3deg)}#logo.svelte-1xa6wjq:active #logo-shadow.svelte-1xa6wjq{transition:all 100ms ease;top:0.15rem;opacity:0.15}#logo.svelte-1xa6wjq #logo-shadow.svelte-1xa6wjq{left:0;top:0;position:absolute;z-index:-1;opacity:0;filter:brightness(0) blur(0.2rem);transition:all 100ms ease, filter 100ms ease}nav.svelte-1xa6wjq .nav-container.svelte-1xa6wjq{display:flex;align-items:center}nav.svelte-1xa6wjq button.svelte-1xa6wjq{display:none;background:none;border:none}nav.svelte-1xa6wjq .nav-item.svelte-1xa6wjq{touch-action:manipulation;padding:1.2rem;text-decoration:none;font-variation-settings:"wght" 400, "CASL" 1, "slnt" -15;font-size:larger;transform:translateY(-4px);color:var(--fg);transition:font-variation-settings 100ms}nav.svelte-1xa6wjq .nav-item.svelte-1xa6wjq:first-of-type{padding-left:2.4rem}nav.svelte-1xa6wjq .nav-item.svelte-1xa6wjq:hover{font-variation-settings:"wght" 800, "CASL" 1, "slnt" -15}nav.svelte-1xa6wjq .nav-item.svelte-1xa6wjq:active{font-variation-settings:"wght" 800, "CASL" 1, "slnt" -15}nav.svelte-1xa6wjq .nav-item.active.svelte-1xa6wjq{color:var(--purple);font-variation-settings:"wght" 800, "CASL" 1, "slnt" -15}.menu-icon.svelte-1xa6wjq.svelte-1xa6wjq{touch-action:manipulation;display:none;height:3rem;width:3rem;cursor:pointer}.menu-icon.svelte-1xa6wjq div.svelte-1xa6wjq{visibility:hidden}.menu-icon.svelte-1xa6wjq.svelte-1xa6wjq:before,.menu-icon.svelte-1xa6wjq.svelte-1xa6wjq:after,.menu-icon.svelte-1xa6wjq div.svelte-1xa6wjq{background:var(--fg);content:"";display:block;height:8px;border-radius:100px;margin:3px 0;transition:0.5s cubic-bezier(0, 0.62, 0.34, 1)}.active.svelte-1xa6wjq .menu-icon.svelte-1xa6wjq:before{margin:7px 0;transform:translateY(12px) rotate(135deg)}.active.svelte-1xa6wjq .menu-icon.svelte-1xa6wjq:after{margin:7px 0;transform:translateY(-18px) rotate(-135deg)}#blur.svelte-1xa6wjq.svelte-1xa6wjq{pointer-events:none;z-index:-1;position:fixed;top:0;left:0;right:0;bottom:0;opacity:0;transition:opacity 300ms cubic-bezier(0, 0.62, 0.34, 1);backdrop-filter:blur(16px)}@media screen and (max-width: 767px){nav.svelte-1xa6wjq.svelte-1xa6wjq{z-index:1;position:absolute;right:0.4rem;padding-right:0.8rem;flex-direction:row-reverse}nav.svelte-1xa6wjq .nav-container.svelte-1xa6wjq{flex-direction:column;align-items:flex-end;position:absolute;top:4rem;right:0;visibility:hidden}nav.svelte-1xa6wjq .menu-icon.svelte-1xa6wjq{display:block}nav.svelte-1xa6wjq .nav-item.svelte-1xa6wjq{font-size:x-large;font-variation-settings:"wght" 800, "CASL" 1, "slnt" -15;opacity:0;transform:translateX(6rem);transition:transform 300ms cubic-bezier(0, 0.62, 0.34, 1), opacity 300ms cubic-bezier(0, 0.62, 0.34, 1), visibility 300ms cubic-bezier(0, 0.62, 0.34, 1)}nav.active.svelte-1xa6wjq.svelte-1xa6wjq{position:fixed;right:calc(4% + 0.4rem)}nav.active.svelte-1xa6wjq .nav-item.svelte-1xa6wjq{transform:translateX(-0.5rem);visibility:visible;opacity:1;transition:transform 600ms cubic-bezier(0, 0.62, 0.34, 1), opacity 600ms cubic-bezier(0, 0.62, 0.34, 1), visibility 600ms cubic-bezier(0, 0.62, 0.34, 1)}nav.active.svelte-1xa6wjq #blur.svelte-1xa6wjq{opacity:1;pointer-events:auto}}',
+  map: '{"version":3,"file":"Header.svelte","sources":["Header.svelte"],"sourcesContent":["<script lang=\\"ts\\">import { page } from \\"$app/stores\\";\\nimport { colorMode } from \\"@/stores.ts\\";\\nconst nav = [\\n    { name: \\"CV\\", link: \\"/cv\\" },\\n    { name: \\"Posts\\", link: \\"/posts\\" },\\n    { name: \\"Portfolio\\", link: \\"/portfolio\\" }\\n];\\nlet menuOpen = false;\\n<\/script>\\n\\n<header id=\\"header\\">\\n  <div id=\\"logo\\">\\n    <a href=\\"/\\">\\n      <img id=\\"logo-svg\\" src=\\"/images/fsj.svg\\" alt=\\"fsj logo\\" width=\\"100\\" />\\n      <img id=\\"logo-shadow\\" src=\\"/images/fsj.svg\\" alt=\\"fsj logo\\" width=\\"100\\" />\\n    </a>\\n  </div>\\n  <nav class:active={menuOpen}>\\n    <div class=\\"nav-container\\">\\n      {$colorMode}\\n      {#each nav as item, i}\\n        <a\\n          class=\\"nav-item\\"\\n          style=\\"transition-delay: {i * 32}ms\\"\\n          class:active={item.link === $page.path}\\n          on:click={() => (menuOpen = false)}\\n          href={item.link}\\n        >\\n          {item.name}\\n        </a>\\n      {/each}\\n    </div>\\n    <button class=\\"menu-icon\\" on:click={() => (menuOpen = !menuOpen)}>\\n      <div />\\n    </button>\\n    <div id=\\"blur\\" />\\n  </nav>\\n</header>\\n\\n<style lang=\\"scss\\">#header {\\n  display: flex;\\n  align-items: center;\\n  position: relative;\\n  padding-top: 1rem;\\n  z-index: 1;\\n}\\n\\n#logo {\\n  touch-action: manipulation;\\n  transition: transform 100ms ease, filter 100ms ease;\\n  position: relative;\\n}\\n#logo:hover {\\n  transition: transform 240ms cubic-bezier(0, 0.62, 0.34, 1);\\n  transform: scale(116%) rotate(-4deg);\\n}\\n#logo:hover #logo-shadow {\\n  top: 0.2rem;\\n  opacity: 0.2;\\n  transition: all 240ms cubic-bezier(0, 0.62, 0.34, 1);\\n}\\n#logo:active {\\n  transition: transform 100ms ease;\\n  transform: scale(112%) rotate(-3deg);\\n}\\n#logo:active #logo-shadow {\\n  transition: all 100ms ease;\\n  top: 0.15rem;\\n  opacity: 0.15;\\n}\\n#logo #logo-shadow {\\n  left: 0;\\n  top: 0;\\n  position: absolute;\\n  z-index: -1;\\n  opacity: 0;\\n  filter: brightness(0) blur(0.2rem);\\n  transition: all 100ms ease, filter 100ms ease;\\n}\\n\\nnav .nav-container {\\n  display: flex;\\n  align-items: center;\\n}\\nnav button {\\n  display: none;\\n  background: none;\\n  border: none;\\n}\\nnav .nav-item {\\n  touch-action: manipulation;\\n  padding: 1.2rem;\\n  text-decoration: none;\\n  font-variation-settings: \\"wght\\" 400, \\"CASL\\" 1, \\"slnt\\" -15;\\n  font-size: larger;\\n  transform: translateY(-4px);\\n  color: var(--fg);\\n  transition: font-variation-settings 100ms;\\n}\\nnav .nav-item:first-of-type {\\n  padding-left: 2.4rem;\\n}\\nnav .nav-item:hover {\\n  font-variation-settings: \\"wght\\" 800, \\"CASL\\" 1, \\"slnt\\" -15;\\n}\\nnav .nav-item:active {\\n  font-variation-settings: \\"wght\\" 800, \\"CASL\\" 1, \\"slnt\\" -15;\\n}\\nnav .nav-item.active {\\n  color: var(--purple);\\n  font-variation-settings: \\"wght\\" 800, \\"CASL\\" 1, \\"slnt\\" -15;\\n}\\n\\n.menu-icon {\\n  touch-action: manipulation;\\n  display: none;\\n  height: 3rem;\\n  width: 3rem;\\n  cursor: pointer;\\n}\\n.menu-icon div {\\n  visibility: hidden;\\n}\\n.menu-icon:before, .menu-icon:after, .menu-icon div {\\n  background: var(--fg);\\n  content: \\"\\";\\n  display: block;\\n  height: 8px;\\n  border-radius: 100px;\\n  margin: 3px 0;\\n  transition: 0.5s cubic-bezier(0, 0.62, 0.34, 1);\\n}\\n\\n.active .menu-icon:before {\\n  margin: 7px 0;\\n  transform: translateY(12px) rotate(135deg);\\n}\\n.active .menu-icon:after {\\n  margin: 7px 0;\\n  transform: translateY(-18px) rotate(-135deg);\\n}\\n\\n#blur {\\n  pointer-events: none;\\n  z-index: -1;\\n  position: fixed;\\n  top: 0;\\n  left: 0;\\n  right: 0;\\n  bottom: 0;\\n  opacity: 0;\\n  transition: opacity 300ms cubic-bezier(0, 0.62, 0.34, 1);\\n  backdrop-filter: blur(16px);\\n}\\n\\n@media screen and (max-width: 767px) {\\n  nav {\\n    z-index: 1;\\n    position: absolute;\\n    right: 0.4rem;\\n    padding-right: 0.8rem;\\n    flex-direction: row-reverse;\\n  }\\n  nav .nav-container {\\n    flex-direction: column;\\n    align-items: flex-end;\\n    position: absolute;\\n    top: 4rem;\\n    right: 0;\\n    visibility: hidden;\\n  }\\n  nav .menu-icon {\\n    display: block;\\n  }\\n  nav .nav-item {\\n    font-size: x-large;\\n    font-variation-settings: \\"wght\\" 800, \\"CASL\\" 1, \\"slnt\\" -15;\\n    opacity: 0;\\n    transform: translateX(6rem);\\n    transition: transform 300ms cubic-bezier(0, 0.62, 0.34, 1), opacity 300ms cubic-bezier(0, 0.62, 0.34, 1), visibility 300ms cubic-bezier(0, 0.62, 0.34, 1);\\n  }\\n  nav.active {\\n    position: fixed;\\n    right: calc(4% + 0.4rem);\\n  }\\n  nav.active .nav-item {\\n    transform: translateX(-0.5rem);\\n    visibility: visible;\\n    opacity: 1;\\n    transition: transform 600ms cubic-bezier(0, 0.62, 0.34, 1), opacity 600ms cubic-bezier(0, 0.62, 0.34, 1), visibility 600ms cubic-bezier(0, 0.62, 0.34, 1);\\n  }\\n  nav.active #blur {\\n    opacity: 1;\\n    pointer-events: auto;\\n  }\\n}</style>\\n"],"names":[],"mappings":"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"}'
 };
 var Header = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let $colorMode, $$unsubscribe_colorMode;
   let $page, $$unsubscribe_page;
+  $$unsubscribe_colorMode = subscribe(colorMode, (value) => $colorMode = value);
   $$unsubscribe_page = subscribe(page, (value) => $page = value);
   const nav = [
-    { name: "cv", link: "/cv" },
-    { name: "blog", link: "/blog" },
-    { name: "portfolio", link: "/portfolio" },
-    { name: "contact", link: "/contact" }
+    { name: "CV", link: "/cv" },
+    { name: "Posts", link: "/posts" },
+    { name: "Portfolio", link: "/portfolio" }
   ];
-  $$result.css.add(css$2);
+  $$result.css.add(css$7);
+  $$unsubscribe_colorMode();
   $$unsubscribe_page();
-  return `${$$result.head += `${$$result.title = `<title>Finn James</title>`, ""}`, ""}
-
-<div id="${"header"}" class="${"svelte-1at6k0l"}"><div id="${"logo"}" class="${"svelte-1at6k0l"}"><a href="${"/"}"><img src="${"/images/fsj.png"}" alt="${"fsj logo"}" width="${"100"}"></a></div>
-  <nav class="${"svelte-1at6k0l"}">${each(nav, (item, i) => `<a${add_attribute("href", item.link, 0)} class="${["svelte-1at6k0l", item.link === $page.path ? "active" : ""].join(" ").trim()}">${escape2(item.name)}
-      </a>`)}</nav>
-</div>`;
+  return `<header id="${"header"}" class="${"svelte-1xa6wjq"}"><div id="${"logo"}" class="${"svelte-1xa6wjq"}"><a href="${"/"}"><img id="${"logo-svg"}" src="${"/images/fsj.svg"}" alt="${"fsj logo"}" width="${"100"}">
+      <img id="${"logo-shadow"}" src="${"/images/fsj.svg"}" alt="${"fsj logo"}" width="${"100"}" class="${"svelte-1xa6wjq"}"></a></div>
+  <nav class="${["svelte-1xa6wjq", ""].join(" ").trim()}"><div class="${"nav-container svelte-1xa6wjq"}">${escape2($colorMode)}
+      ${each(nav, (item, i) => `<a class="${["nav-item svelte-1xa6wjq", item.link === $page.path ? "active" : ""].join(" ").trim()}" style="${"transition-delay: " + escape2(i * 32) + "ms"}"${add_attribute("href", item.link, 0)}>${escape2(item.name)}
+        </a>`)}</div>
+    <button class="${"menu-icon svelte-1xa6wjq"}"><div class="${"svelte-1xa6wjq"}"></div></button>
+    <div id="${"blur"}" class="${"svelte-1xa6wjq"}"></div></nav>
+</header>`;
 });
-var css$1 = {
-  code: ".container.svelte-1vdy1j6.svelte-1vdy1j6{display:flex;flex-direction:column;align-items:center;width:100vw}.container.svelte-1vdy1j6 .constraint.svelte-1vdy1j6{width:96vw;max-width:100ch;padding:2rem 4rem}",
-  map: '{"version":3,"file":"__layout.svelte","sources":["__layout.svelte"],"sourcesContent":["<script lang=\\"ts\\">import Header from \\"$lib/Header.svelte\\";\\n<\/script>\\n\\n<svelte:head>\\n  <style>\\n    @import \\"/static/main.scss\\";\\n  </style>\\n</svelte:head>\\n\\n<div class=\\"container\\">\\n  <div class=\\"constraint\\">\\n    <Header />\\n    <content>\\n      <slot />\\n    </content>\\n  </div>\\n</div>\\n\\n<style lang=\\"scss\\">.container {\\n  display: flex;\\n  flex-direction: column;\\n  align-items: center;\\n  width: 100vw;\\n}\\n.container .constraint {\\n  width: 96vw;\\n  max-width: 100ch;\\n  padding: 2rem 4rem;\\n}</style>\\n"],"names":[],"mappings":"AAkBmB,UAAU,8BAAC,CAAC,AAC7B,OAAO,CAAE,IAAI,CACb,cAAc,CAAE,MAAM,CACtB,WAAW,CAAE,MAAM,CACnB,KAAK,CAAE,KAAK,AACd,CAAC,AACD,yBAAU,CAAC,WAAW,eAAC,CAAC,AACtB,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,KAAK,CAChB,OAAO,CAAE,IAAI,CAAC,IAAI,AACpB,CAAC"}'
+var css$6 = {
+  code: '@import url("https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,MONO@-15..0,300..800,0..1,0..1&display=swap");:root{--break-width:768px;--bg:white;--fg:#1a101f;--white:white;--light-gray:#ccc;--med-light-gray:#aaa;--med-gray:#999;--med-dark-gray:#777;--dark-gray:#333;--light-purple:#e4d0ff;--purple:#a154ff;--dark-purple:#6421b6;--darker-purple:#41107c;--light-cyan:#a2eff1;--cyan:#2ddce2;--magenta:#ff68a5;--dark-magenta:#f04288}[data-color-mode=dark]{--bg:#1a101f;--fg:white;--dark-gray:#ccc;--med-dark-gray:#aaa;--med-gray:#999;--med-light-gray:#777;--light-gray:#333;--light-cyan:#a2eff1;--cyan:#2ddce2;--magenta:#ff68a5;--dark-magenta:#f04288}html{box-sizing:border-box}#svelte{font-family:"Recursive", sans-serif;overflow-x:hidden;background:var(--bg);color:var(--fg)}*,*:before,*:after{box-sizing:inherit}body{margin:0}h1,h2,h3,h4,h5,h6{position:relative;font-variation-settings:"wght" 800}@media screen and (min-width: 992px){h1:not(.no-hash)::before{position:absolute;color:var(--fg);opacity:0.4;font-variation-settings:"SLNT" -15, "wght" 600, "CASL" -15;content:"#";left:-1.9rem}}@media screen and (min-width: 992px) and (max-width: 36rem){h1:not(.no-hash)::before{display:none}}@media screen and (min-width: 992px){h2:not(.no-hash)::before{position:absolute;color:var(--fg);opacity:0.4;font-variation-settings:"SLNT" -15, "wght" 600, "CASL" -15;content:"##";left:-2.76rem}}@media screen and (min-width: 992px) and (max-width: 36rem){h2:not(.no-hash)::before{display:none}}@media screen and (min-width: 992px){h3:not(.no-hash)::before{position:absolute;color:var(--fg);opacity:0.4;font-variation-settings:"SLNT" -15, "wght" 600, "CASL" -15;content:"###";left:-3.14rem}}@media screen and (min-width: 992px) and (max-width: 36rem){h3:not(.no-hash)::before{display:none}}@media screen and (min-width: 992px){h4:not(.no-hash)::before{position:absolute;color:var(--fg);opacity:0.4;font-variation-settings:"SLNT" -15, "wght" 600, "CASL" -15;content:"####";left:-3.42rem}}@media screen and (min-width: 992px) and (max-width: 36rem){h4:not(.no-hash)::before{display:none}}content a{color:var(--purple);text-decoration-thickness:2px;transition:color 100ms linear;text-decoration-color:var(--magenta);font-weight:500}content a:hover{color:var(--dark-magenta)}content a:active{opacity:0.6}#svelte{height:100vh;width:100vw;padding:0;margin:0}.container{display:grid;grid-template-columns:minmax(4%, auto) minmax(auto, 42rem) minmax(4%, auto);grid-template-rows:auto 1fr;gap:0px 0px;height:100%;grid-template-areas:". hd ." ". main ."}header{grid-area:hd}main{grid-area:main;display:flex;flex-direction:column}content{flex:1 0 auto}footer{flex-shrink:0}',
+  map: '{"version":3,"file":"__layout.svelte","sources":["__layout.svelte"],"sourcesContent":["<script lang=\\"ts\\">import Footer from \\"$lib/Footer.svelte\\";\\nimport Header from \\"$lib/Header.svelte\\";\\nimport { page } from \\"$app/stores\\";\\nimport { colorMode } from \\"@/stores.ts\\";\\nimport { onMount } from \\"svelte\\";\\nfunction getInitialColorMode() {\\n    const persistedColorMode = window.localStorage.getItem(\\"color-mode\\");\\n    const hasPersistedColorMode = typeof persistedColorMode === \\"string\\";\\n    if (hasPersistedColorMode) {\\n        console.log(`loaded color mode: ${persistedColorMode}`);\\n        return persistedColorMode;\\n    }\\n    const mql = window.matchMedia(\\"(prefers-color-scheme: dark)\\");\\n    const hasMediaQueryPreference = typeof mql.matches === \\"boolean\\";\\n    if (hasMediaQueryPreference) {\\n        return mql.matches ? \\"dark\\" : \\"light\\";\\n    }\\n    return \\"light\\";\\n}\\nonMount(() => {\\n    let foo = colorMode.setMode(getInitialColorMode());\\n    setColorMode($colorMode);\\n});\\nfunction setColorMode(newMode, localStorage = false) {\\n    if (newMode === \\"\\") {\\n        document.body.getAttribute(\\"data-color-mode\\") === \\"dark\\"\\n            ? (newMode = \\"light\\")\\n            : (newMode = \\"dark\\");\\n    }\\n    document.body.setAttribute(\\"data-color-mode\\", newMode);\\n    if (localStorage) {\\n        window.localStorage.setItem(\\"color-mode\\", newMode);\\n    }\\n}\\nfunction toggleMode() {\\n    colorMode.toggle();\\n    setColorMode($colorMode, false); // TODO: persist color mode?\\n}\\n<\/script>\\n\\n<svelte:head>\\n  <link href=\\"/hint.min.css\\" rel=\\"stylesheet\\" />\\n</svelte:head>\\n\\n<div class=\\"container\\">\\n  <Header />\\n  <main>\\n    <content>\\n      <button id=\\"dark-mode-toggle\\" on:click={toggleMode}>{$colorMode}</button>\\n      <slot />\\n    </content>\\n    {#if $page.path != \\"/\\"}\\n      <Footer />\\n    {/if}\\n  </main>\\n</div>\\n\\n<style lang=\\"scss\\" global>@import url(\\"https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,MONO@-15..0,300..800,0..1,0..1&display=swap\\");\\n:global(:root) {\\n  --break-width: 768px;\\n  --bg: white;\\n  --fg: #1a101f;\\n  --white: white;\\n  --light-gray: #ccc;\\n  --med-light-gray: #aaa;\\n  --med-gray: #999;\\n  --med-dark-gray: #777;\\n  --dark-gray: #333;\\n  --light-purple: #e4d0ff;\\n  --purple: #a154ff;\\n  --dark-purple: #6421b6;\\n  --darker-purple: #41107c;\\n  --light-cyan: #a2eff1;\\n  --cyan: #2ddce2;\\n  --magenta: #ff68a5;\\n  --dark-magenta: #f04288;\\n}\\n\\n:global([data-color-mode=dark]) {\\n  --bg: #1a101f;\\n  --fg: white;\\n  --dark-gray: #ccc;\\n  --med-dark-gray: #aaa;\\n  --med-gray: #999;\\n  --med-light-gray: #777;\\n  --light-gray: #333;\\n  --light-cyan: #a2eff1;\\n  --cyan: #2ddce2;\\n  --magenta: #ff68a5;\\n  --dark-magenta: #f04288;\\n}\\n\\n:global(html) {\\n  box-sizing: border-box;\\n}\\n\\n:global(#svelte) {\\n  font-family: \\"Recursive\\", sans-serif;\\n  overflow-x: hidden;\\n  background: var(--bg);\\n  color: var(--fg);\\n}\\n\\n:global(*),\\n:global(*:before),\\n:global(*:after) {\\n  box-sizing: inherit;\\n}\\n\\n:global(body) {\\n  margin: 0;\\n}\\n\\n:global(h1),\\n:global(h2),\\n:global(h3),\\n:global(h4),\\n:global(h5),\\n:global(h6) {\\n  position: relative;\\n  font-variation-settings: \\"wght\\" 800;\\n}\\n\\n@media screen and (min-width: 992px) {\\n  :global(h1:not(.no-hash)::before) {\\n    position: absolute;\\n    color: var(--fg);\\n    opacity: 0.4;\\n    font-variation-settings: \\"SLNT\\" -15, \\"wght\\" 600, \\"CASL\\" -15;\\n    content: \\"#\\";\\n    left: -1.9rem;\\n  }\\n}\\n@media screen and (min-width: 992px) and (max-width: 36rem) {\\n  :global(h1:not(.no-hash)::before) {\\n    display: none;\\n  }\\n}\\n@media screen and (min-width: 992px) {\\n  :global(h2:not(.no-hash)::before) {\\n    position: absolute;\\n    color: var(--fg);\\n    opacity: 0.4;\\n    font-variation-settings: \\"SLNT\\" -15, \\"wght\\" 600, \\"CASL\\" -15;\\n    content: \\"##\\";\\n    left: -2.76rem;\\n  }\\n}\\n@media screen and (min-width: 992px) and (max-width: 36rem) {\\n  :global(h2:not(.no-hash)::before) {\\n    display: none;\\n  }\\n}\\n@media screen and (min-width: 992px) {\\n  :global(h3:not(.no-hash)::before) {\\n    position: absolute;\\n    color: var(--fg);\\n    opacity: 0.4;\\n    font-variation-settings: \\"SLNT\\" -15, \\"wght\\" 600, \\"CASL\\" -15;\\n    content: \\"###\\";\\n    left: -3.14rem;\\n  }\\n}\\n@media screen and (min-width: 992px) and (max-width: 36rem) {\\n  :global(h3:not(.no-hash)::before) {\\n    display: none;\\n  }\\n}\\n@media screen and (min-width: 992px) {\\n  :global(h4:not(.no-hash)::before) {\\n    position: absolute;\\n    color: var(--fg);\\n    opacity: 0.4;\\n    font-variation-settings: \\"SLNT\\" -15, \\"wght\\" 600, \\"CASL\\" -15;\\n    content: \\"####\\";\\n    left: -3.42rem;\\n  }\\n}\\n@media screen and (min-width: 992px) and (max-width: 36rem) {\\n  :global(h4:not(.no-hash)::before) {\\n    display: none;\\n  }\\n}\\n:global(content) :global(a) {\\n  color: var(--purple);\\n  text-decoration-thickness: 2px;\\n  transition: color 100ms linear;\\n  text-decoration-color: var(--magenta);\\n  font-weight: 500;\\n}\\n:global(content) :global(a:hover) {\\n  color: var(--dark-magenta);\\n}\\n:global(content) :global(a:active) {\\n  opacity: 0.6;\\n}\\n\\n:global(#svelte) {\\n  height: 100vh;\\n  width: 100vw;\\n  padding: 0;\\n  margin: 0;\\n}\\n\\n:global(.container) {\\n  display: grid;\\n  grid-template-columns: minmax(4%, auto) minmax(auto, 42rem) minmax(4%, auto);\\n  grid-template-rows: auto 1fr;\\n  gap: 0px 0px;\\n  height: 100%;\\n  grid-template-areas: \\". hd .\\" \\". main .\\";\\n}\\n\\n:global(header) {\\n  grid-area: hd;\\n}\\n\\n:global(main) {\\n  grid-area: main;\\n  display: flex;\\n  flex-direction: column;\\n}\\n\\n:global(content) {\\n  flex: 1 0 auto;\\n}\\n\\n:global(footer) {\\n  flex-shrink: 0;\\n}</style>\\n"],"names":[],"mappings":"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"}'
 };
+function getInitialColorMode() {
+  const persistedColorMode = window.localStorage.getItem("color-mode");
+  const hasPersistedColorMode = typeof persistedColorMode === "string";
+  if (hasPersistedColorMode) {
+    console.log(`loaded color mode: ${persistedColorMode}`);
+    return persistedColorMode;
+  }
+  const mql = window.matchMedia("(prefers-color-scheme: dark)");
+  const hasMediaQueryPreference = typeof mql.matches === "boolean";
+  if (hasMediaQueryPreference) {
+    return mql.matches ? "dark" : "light";
+  }
+  return "light";
+}
+function setColorMode(newMode, localStorage = false) {
+  if (newMode === "") {
+    document.body.getAttribute("data-color-mode") === "dark" ? newMode = "light" : newMode = "dark";
+  }
+  document.body.setAttribute("data-color-mode", newMode);
+  if (localStorage) {
+    window.localStorage.setItem("color-mode", newMode);
+  }
+}
 var _layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  $$result.css.add(css$1);
-  return `${$$result.head += `<style data-svelte="svelte-1j96vou">@import "/static/main.scss";
-  </style>`, ""}
+  let $colorMode, $$unsubscribe_colorMode;
+  let $page, $$unsubscribe_page;
+  $$unsubscribe_colorMode = subscribe(colorMode, (value) => $colorMode = value);
+  $$unsubscribe_page = subscribe(page, (value) => $page = value);
+  onMount(() => {
+    colorMode.setMode(getInitialColorMode());
+    setColorMode($colorMode);
+  });
+  $$result.css.add(css$6);
+  $$unsubscribe_colorMode();
+  $$unsubscribe_page();
+  return `${$$result.head += `<link href="${"/hint.min.css"}" rel="${"stylesheet"}" data-svelte="svelte-e93vg6">`, ""}
 
-<div class="${"container svelte-1vdy1j6"}"><div class="${"constraint svelte-1vdy1j6"}">${validate_component(Header, "Header").$$render($$result, {}, {}, {})}
-    <content>${slots.default ? slots.default({}) : ``}</content></div>
+<div class="${"container"}">${validate_component(Header, "Header").$$render($$result, {}, {}, {})}
+  <main><content><button id="${"dark-mode-toggle"}">${escape2($colorMode)}</button>
+      ${slots.default ? slots.default({}) : ``}</content>
+    ${$page.path != "/" ? `${validate_component(Footer, "Footer").$$render($$result, {}, {}, {})}` : ``}</main>
 </div>`;
 });
 var __layout = /* @__PURE__ */ Object.freeze({
@@ -2663,126 +2824,323 @@ var __layout = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   "default": _layout
 });
-function load({ error: error22, status }) {
-  return { props: { error: error22, status } };
-}
-var Error2 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+var load$1 = ({ error: error2, status }) => {
+  return { props: { error: error2, status } };
+};
+var _error = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let { error: error2 } = $$props;
   let { status } = $$props;
-  let { error: error22 } = $$props;
+  if ($$props.error === void 0 && $$bindings.error && error2 !== void 0)
+    $$bindings.error(error2);
   if ($$props.status === void 0 && $$bindings.status && status !== void 0)
     $$bindings.status(status);
-  if ($$props.error === void 0 && $$bindings.error && error22 !== void 0)
-    $$bindings.error(error22);
   return `<h1>${escape2(status)}</h1>
-
-<p>${escape2(error22.message)}</p>
-
-
-${error22.stack ? `<pre>${escape2(error22.stack)}</pre>` : ``}`;
+<p>${escape2(error2.message)}</p>`;
 });
-var error2 = /* @__PURE__ */ Object.freeze({
+var __error = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": Error2,
-  load
+  "default": _error,
+  load: load$1
 });
-var css = {
-  code: '.relative.svelte-1g73w4s{position:relative}#splash.svelte-1g73w4s{height:92vh;min-height:40rem;position:absolute;left:28rem;top:-8rem;z-index:-10}#pride.svelte-1g73w4s{background-color:purple;border-radius:16rem;padding:0.4rem 0.8rem;transform:translateX(-20px);color:var(--bg);background-image:linear-gradient(60deg, #3d33ff 16.67%, #8f33ff 16.67%, #8f33ff 33.33%, #cc0092 33.33%, #cc0092 50%, #3d33ff 50%, #3d33ff 66.67%, #8f33ff 66.67%, #8f33ff 83.33%, #cc0092 83.33%, #cc0092 100%)}.half.svelte-1g73w4s{max-width:40ch}#hey.svelte-1g73w4s{font-weight:bold;font-size:3.2rem;font-variation-settings:"wght" 800, "CASL" 1, "slnt" -15}p.svelte-1g73w4s{font-size:large}.bold.svelte-1g73w4s{font-variation-settings:"wght" 800}',
-  map: '{"version":3,"file":"index.svelte","sources":["index.svelte"],"sourcesContent":["<script lang=\\"ts\\"><\/script>\\n\\n<div class=\\"relative\\">\\n  <img id=\\"splash\\" src=\\"/images/flight-suit.png\\" alt=\\"me in a flight suit\\" height=\\"800\\" />\\n  <div class=\\"half\\">\\n    <h1 id=\\"hey\\">Hey!</h1>\\n    <p>My name is <span class=\\"bold\\">Finn James</span>.</p>\\n    <p>\\n      I am a frontend developer and<br />\\n      amateur illustrator. I also<br />\\n      write <a href=\\"https://github.com/radiolevity/threepio\\">software</a> for\\n      <a href=\\"https://skynet.unc.edu\\">telescopes</a>.\\n    </p>\\n\\n    <p><a href=\\"https://github.com/radiolevity\\">github</a></p>\\n    <p><a href=\\"https://polywork.fsj.xyz\\">polywork</a></p>\\n\\n    <div style=\\"height: 2rem\\" />\\n    <span id=\\"pride\\">he/him</span>\\n  </div>\\n</div>\\n\\n<style lang=\\"scss\\">.relative {\\n  position: relative;\\n}\\n\\n#splash {\\n  height: 92vh;\\n  min-height: 40rem;\\n  position: absolute;\\n  left: 28rem;\\n  top: -8rem;\\n  z-index: -10;\\n}\\n\\n#pride {\\n  background-color: purple;\\n  border-radius: 16rem;\\n  padding: 0.4rem 0.8rem;\\n  transform: translateX(-20px);\\n  color: var(--bg);\\n  background-image: linear-gradient(60deg, #3d33ff 16.67%, #8f33ff 16.67%, #8f33ff 33.33%, #cc0092 33.33%, #cc0092 50%, #3d33ff 50%, #3d33ff 66.67%, #8f33ff 66.67%, #8f33ff 83.33%, #cc0092 83.33%, #cc0092 100%);\\n}\\n\\n.half {\\n  max-width: 40ch;\\n}\\n\\n#hey {\\n  font-weight: bold;\\n  font-size: 3.2rem;\\n  font-variation-settings: \\"wght\\" 800, \\"CASL\\" 1, \\"slnt\\" -15;\\n}\\n\\np {\\n  font-size: large;\\n}\\n\\n.bold {\\n  font-variation-settings: \\"wght\\" 800;\\n}</style>\\n"],"names":[],"mappings":"AAsBmB,SAAS,eAAC,CAAC,AAC5B,QAAQ,CAAE,QAAQ,AACpB,CAAC,AAED,OAAO,eAAC,CAAC,AACP,MAAM,CAAE,IAAI,CACZ,UAAU,CAAE,KAAK,CACjB,QAAQ,CAAE,QAAQ,CAClB,IAAI,CAAE,KAAK,CACX,GAAG,CAAE,KAAK,CACV,OAAO,CAAE,GAAG,AACd,CAAC,AAED,MAAM,eAAC,CAAC,AACN,gBAAgB,CAAE,MAAM,CACxB,aAAa,CAAE,KAAK,CACpB,OAAO,CAAE,MAAM,CAAC,MAAM,CACtB,SAAS,CAAE,WAAW,KAAK,CAAC,CAC5B,KAAK,CAAE,IAAI,IAAI,CAAC,CAChB,gBAAgB,CAAE,gBAAgB,KAAK,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,CAAC,OAAO,CAAC,GAAG,CAAC,CAAC,OAAO,CAAC,GAAG,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,CAAC,OAAO,CAAC,IAAI,CAAC,AAClN,CAAC,AAED,KAAK,eAAC,CAAC,AACL,SAAS,CAAE,IAAI,AACjB,CAAC,AAED,IAAI,eAAC,CAAC,AACJ,WAAW,CAAE,IAAI,CACjB,SAAS,CAAE,MAAM,CACjB,uBAAuB,CAAE,MAAM,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,GAAG,AAC3D,CAAC,AAED,CAAC,eAAC,CAAC,AACD,SAAS,CAAE,KAAK,AAClB,CAAC,AAED,KAAK,eAAC,CAAC,AACL,uBAAuB,CAAE,MAAM,CAAC,GAAG,AACrC,CAAC"}'
+var css$5 = {
+  code: "#email.svelte-1uzrjes.svelte-1uzrjes{border:none;border-radius:0.8rem;cursor:pointer;font-family:inherit;font-size:inherit;position:relative;padding:0;height:3rem;display:flex;align-items:center;background-color:var(--dark-purple);background-image:linear-gradient(to right, var(--darker-purple) 0, var(--dark-purple) 1rem, var(--dark-purple) calc(100% - 1rem), var(--darker-purple) 100%)}#email-front.svelte-1uzrjes.svelte-1uzrjes{padding:0.6rem 1.2rem;border-radius:inherit;color:var(--white);height:inherit;background:var(--purple);display:flex;align-items:center;will-change:transform, filter;transition:transform 420ms cubic-bezier(0.3, 0.7, 0.4, 1), filter 420ms cubic-bezier(0.3, 0.7, 0.4, 1);transform:translateY(-4px);filter:brightness(100%)}#email.svelte-1uzrjes:hover #email-front.svelte-1uzrjes{transform:translateY(-8px);transition:transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.6), filter 250ms cubic-bezier(0.3, 0.7, 0.4, 1);filter:brightness(110%)}#email.svelte-1uzrjes:active #email-front.svelte-1uzrjes{transform:translateY(-4px);transition:transform 42ms}",
+  map: '{"version":3,"file":"Email.svelte","sources":["Email.svelte"],"sourcesContent":["<script>\\n  const email = hex2a(\\"6865794066736a2e78797a\\"); // hex email address\\n\\n  const copy = () => {\\n    navigator.clipboard.writeText(email);\\n  };\\n\\n  function hex2a(hexx) {\\n    var hex = hexx.toString(); //force conversion\\n    var str = \\"\\";\\n    for (var i = 0; i < hex.length; i += 2) {\\n      str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));\\n    }\\n    return str;\\n  }\\n<\/script>\\n\\n<button id=\\"email\\" on:click={copy}>\\n  <div id=\\"email-front\\">\\n    email: {email}\\n  </div>\\n</button>\\n\\n<style lang=\\"scss\\">#email {\\n  border: none;\\n  border-radius: 0.8rem;\\n  cursor: pointer;\\n  font-family: inherit;\\n  font-size: inherit;\\n  position: relative;\\n  padding: 0;\\n  height: 3rem;\\n  display: flex;\\n  align-items: center;\\n  background-color: var(--dark-purple);\\n  background-image: linear-gradient(to right, var(--darker-purple) 0, var(--dark-purple) 1rem, var(--dark-purple) calc(100% - 1rem), var(--darker-purple) 100%);\\n}\\n\\n#email-front {\\n  padding: 0.6rem 1.2rem;\\n  border-radius: inherit;\\n  color: var(--white);\\n  height: inherit;\\n  background: var(--purple);\\n  display: flex;\\n  align-items: center;\\n  will-change: transform, filter;\\n  transition: transform 420ms cubic-bezier(0.3, 0.7, 0.4, 1), filter 420ms cubic-bezier(0.3, 0.7, 0.4, 1);\\n  transform: translateY(-4px);\\n  filter: brightness(100%);\\n}\\n\\n#email:hover #email-front {\\n  transform: translateY(-8px);\\n  transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.6), filter 250ms cubic-bezier(0.3, 0.7, 0.4, 1);\\n  filter: brightness(110%);\\n}\\n\\n#email:active #email-front {\\n  transform: translateY(-4px);\\n  transition: transform 42ms;\\n}</style>\\n"],"names":[],"mappings":"AAuBmB,MAAM,8BAAC,CAAC,AACzB,MAAM,CAAE,IAAI,CACZ,aAAa,CAAE,MAAM,CACrB,MAAM,CAAE,OAAO,CACf,WAAW,CAAE,OAAO,CACpB,SAAS,CAAE,OAAO,CAClB,QAAQ,CAAE,QAAQ,CAClB,OAAO,CAAE,CAAC,CACV,MAAM,CAAE,IAAI,CACZ,OAAO,CAAE,IAAI,CACb,WAAW,CAAE,MAAM,CACnB,gBAAgB,CAAE,IAAI,aAAa,CAAC,CACpC,gBAAgB,CAAE,gBAAgB,EAAE,CAAC,KAAK,CAAC,CAAC,IAAI,eAAe,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,aAAa,CAAC,CAAC,IAAI,CAAC,CAAC,IAAI,aAAa,CAAC,CAAC,KAAK,IAAI,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,eAAe,CAAC,CAAC,IAAI,CAAC,AAC/J,CAAC,AAED,YAAY,8BAAC,CAAC,AACZ,OAAO,CAAE,MAAM,CAAC,MAAM,CACtB,aAAa,CAAE,OAAO,CACtB,KAAK,CAAE,IAAI,OAAO,CAAC,CACnB,MAAM,CAAE,OAAO,CACf,UAAU,CAAE,IAAI,QAAQ,CAAC,CACzB,OAAO,CAAE,IAAI,CACb,WAAW,CAAE,MAAM,CACnB,WAAW,CAAE,SAAS,CAAC,CAAC,MAAM,CAC9B,UAAU,CAAE,SAAS,CAAC,KAAK,CAAC,aAAa,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,KAAK,CAAC,aAAa,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CACvG,SAAS,CAAE,WAAW,IAAI,CAAC,CAC3B,MAAM,CAAE,WAAW,IAAI,CAAC,AAC1B,CAAC,AAED,qBAAM,MAAM,CAAC,YAAY,eAAC,CAAC,AACzB,SAAS,CAAE,WAAW,IAAI,CAAC,CAC3B,UAAU,CAAE,SAAS,CAAC,KAAK,CAAC,aAAa,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,MAAM,CAAC,KAAK,CAAC,aAAa,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CACzG,MAAM,CAAE,WAAW,IAAI,CAAC,AAC1B,CAAC,AAED,qBAAM,OAAO,CAAC,YAAY,eAAC,CAAC,AAC1B,SAAS,CAAE,WAAW,IAAI,CAAC,CAC3B,UAAU,CAAE,SAAS,CAAC,IAAI,AAC5B,CAAC"}'
+};
+function hex2a(hexx) {
+  var hex = hexx.toString();
+  var str = "";
+  for (var i = 0; i < hex.length; i += 2) {
+    str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+  }
+  return str;
+}
+var Email = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  const email = hex2a("6865794066736a2e78797a");
+  $$result.css.add(css$5);
+  return `<button id="${"email"}" class="${"svelte-1uzrjes"}"><div id="${"email-front"}" class="${"svelte-1uzrjes"}">email: ${escape2(email)}</div>
+</button>`;
+});
+var css$4 = {
+  code: 'h1.svelte-wrm0rw{font-weight:bold;font-size:3.2rem;margin-top:1rem;margin-bottom:1.6rem;font-variation-settings:"wght" 800, "CASL" 1, "slnt" -15}p.svelte-wrm0rw{font-size:large;line-height:1.6rem;margin-bottom:1.6rem}.hint--top.svelte-wrm0rw::before{border-top-color:var(--fg)}.hint--top.svelte-wrm0rw::after{background-color:var(--fg);color:var(--bg);text-shadow:none !important}.bold.svelte-wrm0rw{font-variation-settings:"wght" 800}',
+  map: '{"version":3,"file":"intro.md","sources":["intro.md"],"sourcesContent":["<script lang=\\"ts\\">import Email from \\"$lib/Email.svelte\\";\\n<\/script>\\n\\n<h1 class=\\"no-hash\\">Hey!</h1>\\n<p>My name is <span class=\\"bold hint--top hint--rounded\\" aria-label=\\"he/him, please\\">Finn James</span>. How\u2019s it going?</p>\\n<p>I am a frontend developer and amateur illustrator based in Chapel Hill, NC. I also write <a href=\\"https://github.com/finnsjames/threepio\\">software</a> for <a href=\\"https://skynet.unc.edu\\">telescopes</a>.</p>\\n<p><a href=\\"https://github.com/finnsjames\\" rel=\\"nofollow\\">GitHub</a> \u2022 <a href=\\"https://twitter.com/finnsjames\\" rel=\\"nofollow\\">Twitter</a> \u2022 <a href=\\"https://polywork.fsj.xyz\\" rel=\\"nofollow\\">Polywork</a></p>\\n<p style=\\"padding-top: 0.8rem; transform: translateX(-1px)\\">\\n  <Email />\\n</p>\\n<style lang=\\"scss\\">h1 {\\n  font-weight: bold;\\n  font-size: 3.2rem;\\n  margin-top: 1rem;\\n  margin-bottom: 1.6rem;\\n  font-variation-settings: \\"wght\\" 800, \\"CASL\\" 1, \\"slnt\\" -15;\\n}\\n\\np {\\n  font-size: large;\\n  line-height: 1.6rem;\\n  margin-bottom: 1.6rem;\\n}\\n\\n.hint--top {\\n  /* color: var(--bg); */\\n}\\n.hint--top::before {\\n  border-top-color: var(--fg);\\n}\\n.hint--top::after {\\n  background-color: var(--fg);\\n  color: var(--bg);\\n  text-shadow: none !important;\\n}\\n\\n.bold {\\n  font-variation-settings: \\"wght\\" 800;\\n}</style>\\n"],"names":[],"mappings":"AAUmB,EAAE,cAAC,CAAC,AACrB,WAAW,CAAE,IAAI,CACjB,SAAS,CAAE,MAAM,CACjB,UAAU,CAAE,IAAI,CAChB,aAAa,CAAE,MAAM,CACrB,uBAAuB,CAAE,MAAM,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,GAAG,AAC3D,CAAC,AAED,CAAC,cAAC,CAAC,AACD,SAAS,CAAE,KAAK,CAChB,WAAW,CAAE,MAAM,CACnB,aAAa,CAAE,MAAM,AACvB,CAAC,AAKD,wBAAU,QAAQ,AAAC,CAAC,AAClB,gBAAgB,CAAE,IAAI,IAAI,CAAC,AAC7B,CAAC,AACD,wBAAU,OAAO,AAAC,CAAC,AACjB,gBAAgB,CAAE,IAAI,IAAI,CAAC,CAC3B,KAAK,CAAE,IAAI,IAAI,CAAC,CAChB,WAAW,CAAE,IAAI,CAAC,UAAU,AAC9B,CAAC,AAED,KAAK,cAAC,CAAC,AACL,uBAAuB,CAAE,MAAM,CAAC,GAAG,AACrC,CAAC"}'
+};
+var Intro = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  $$result.css.add(css$4);
+  return `<h1 class="${"no-hash svelte-wrm0rw"}">Hey!</h1>
+<p class="${"svelte-wrm0rw"}">My name is <span class="${"bold hint--top hint--rounded svelte-wrm0rw"}" aria-label="${"he/him, please"}">Finn James</span>. How\u2019s it going?</p>
+<p class="${"svelte-wrm0rw"}">I am a frontend developer and amateur illustrator based in Chapel Hill, NC. I also write <a href="${"https://github.com/finnsjames/threepio"}">software</a> for <a href="${"https://skynet.unc.edu"}">telescopes</a>.</p>
+<p class="${"svelte-wrm0rw"}"><a href="${"https://github.com/finnsjames"}" rel="${"nofollow"}">GitHub</a> \u2022 <a href="${"https://twitter.com/finnsjames"}" rel="${"nofollow"}">Twitter</a> \u2022 <a href="${"https://polywork.fsj.xyz"}" rel="${"nofollow"}">Polywork</a></p>
+<p style="${"padding-top: 0.8rem; transform: translateX(-1px)"}" class="${"svelte-wrm0rw"}">${validate_component(Email, "Email").$$render($$result, {}, {}, {})}
+</p>`;
+});
+var css$3 = {
+  code: '.relative.svelte-7qkasq{position:relative}#splash.svelte-7qkasq{background-image:url("/images/flight-suit.png");background-size:auto 900px;background-repeat:no-repeat;position:fixed;right:calc(-24rem + 40vw);top:2.2rem;min-height:50rem;height:calc(100vh - 2rem);width:600px;user-select:none;pointer-events:none}.half.svelte-7qkasq{max-width:22rem;height:auto}@media screen and (max-width: 767px){#splash.svelte-7qkasq{width:100vw;position:relative;top:0;left:50%;right:50%;min-height:900px;margin-left:-50vw;margin-right:-50vw;display:block;background-position:calc(-300px + 50vw) 0}.half.svelte-7qkasq{max-width:none !important}}',
+  map: '{"version":3,"file":"index.svelte","sources":["index.svelte"],"sourcesContent":["<script lang=\\"ts\\">import Intro from \\"/src/markdown/intro.md\\";\\nimport { colorMode } from \\"@/stores.ts\\";\\nimport { onMount } from \\"svelte\\";\\n<\/script>\\n\\n<svelte:head>\\n  <title>Finn James</title>\\n</svelte:head>\\n\\n<div class=\\"relative\\">\\n  <div class=\\"half\\">\\n    <Intro />\\n  </div>\\n  <div id=\\"splash\\" alt=\\"me in a flight suit\\" />\\n</div>\\n\\n<style lang=\\"scss\\">.relative {\\n  position: relative;\\n}\\n\\n#splash {\\n  background-image: url(\\"/images/flight-suit.png\\");\\n  background-size: auto 900px;\\n  background-repeat: no-repeat;\\n  position: fixed;\\n  right: calc(-24rem + 40vw);\\n  top: 2.2rem;\\n  min-height: 50rem;\\n  height: calc(100vh - 2rem);\\n  width: 600px;\\n  user-select: none;\\n  pointer-events: none;\\n}\\n\\n.half {\\n  max-width: 22rem;\\n  height: auto;\\n}\\n\\n@media screen and (max-width: 767px) {\\n  #splash {\\n    width: 100vw;\\n    position: relative;\\n    top: 0;\\n    left: 50%;\\n    right: 50%;\\n    min-height: 900px;\\n    margin-left: -50vw;\\n    margin-right: -50vw;\\n    display: block;\\n    background-position: calc(-300px + 50vw) 0;\\n  }\\n\\n  .half {\\n    max-width: none !important;\\n  }\\n}</style>\\n"],"names":[],"mappings":"AAgBmB,SAAS,cAAC,CAAC,AAC5B,QAAQ,CAAE,QAAQ,AACpB,CAAC,AAED,OAAO,cAAC,CAAC,AACP,gBAAgB,CAAE,IAAI,yBAAyB,CAAC,CAChD,eAAe,CAAE,IAAI,CAAC,KAAK,CAC3B,iBAAiB,CAAE,SAAS,CAC5B,QAAQ,CAAE,KAAK,CACf,KAAK,CAAE,KAAK,MAAM,CAAC,CAAC,CAAC,IAAI,CAAC,CAC1B,GAAG,CAAE,MAAM,CACX,UAAU,CAAE,KAAK,CACjB,MAAM,CAAE,KAAK,KAAK,CAAC,CAAC,CAAC,IAAI,CAAC,CAC1B,KAAK,CAAE,KAAK,CACZ,WAAW,CAAE,IAAI,CACjB,cAAc,CAAE,IAAI,AACtB,CAAC,AAED,KAAK,cAAC,CAAC,AACL,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,IAAI,AACd,CAAC,AAED,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACpC,OAAO,cAAC,CAAC,AACP,KAAK,CAAE,KAAK,CACZ,QAAQ,CAAE,QAAQ,CAClB,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,GAAG,CACT,KAAK,CAAE,GAAG,CACV,UAAU,CAAE,KAAK,CACjB,WAAW,CAAE,KAAK,CAClB,YAAY,CAAE,KAAK,CACnB,OAAO,CAAE,KAAK,CACd,mBAAmB,CAAE,KAAK,MAAM,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,AAC5C,CAAC,AAED,KAAK,cAAC,CAAC,AACL,SAAS,CAAE,IAAI,CAAC,UAAU,AAC5B,CAAC,AACH,CAAC"}'
 };
 var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  $$result.css.add(css);
-  return `<div class="${"relative svelte-1g73w4s"}"><img id="${"splash"}" src="${"/images/flight-suit.png"}" alt="${"me in a flight suit"}" height="${"800"}" class="${"svelte-1g73w4s"}">
-  <div class="${"half svelte-1g73w4s"}"><h1 id="${"hey"}" class="${"svelte-1g73w4s"}">Hey!</h1>
-    <p class="${"svelte-1g73w4s"}">My name is <span class="${"bold svelte-1g73w4s"}">Finn James</span>.</p>
-    <p class="${"svelte-1g73w4s"}">I am a frontend developer and<br>
-      amateur illustrator. I also<br>
-      write <a href="${"https://github.com/radiolevity/threepio"}">software</a> for
-      <a href="${"https://skynet.unc.edu"}">telescopes</a>.
-    </p>
+  $$result.css.add(css$3);
+  return `${$$result.head += `${$$result.title = `<title>Finn James</title>`, ""}`, ""}
 
-    <p class="${"svelte-1g73w4s"}"><a href="${"https://github.com/radiolevity"}">github</a></p>
-    <p class="${"svelte-1g73w4s"}"><a href="${"https://polywork.fsj.xyz"}">polywork</a></p>
-
-    <div style="${"height: 2rem"}"></div>
-    <span id="${"pride"}" class="${"svelte-1g73w4s"}">he/him</span></div>
+<div class="${"relative svelte-7qkasq"}"><div class="${"half svelte-7qkasq"}">${validate_component(Intro, "Intro").$$render($$result, {}, {}, {})}</div>
+  <div id="${"splash"}" alt="${"me in a flight suit"}" class="${"svelte-7qkasq"}"></div>
 </div>`;
 });
-var index = /* @__PURE__ */ Object.freeze({
+var index$1 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   "default": Routes
 });
-var Blog = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  return `<h1>Blog</h1>
-<p>Gotta test scrolling somehow right</p>
-<p>I&#39;m baby tumeric pabst sustainable leggings PBR&amp;B quinoa yr sartorial yuccie. Pug flexitarian
-  godard, yr skateboard selvage waistcoat PBR&amp;B +1. Jean shorts pabst occupy ennui, normcore
-  gentrify green juice retro man bun chicharrones kinfolk man braid kickstarter. Vexillologist
-  selfies cray dreamcatcher pok pok hot chicken heirloom chia, quinoa chicharrones. Ramps chambray
-  ugh, leggings before they sold out copper mug raw denim hell of slow-carb butcher whatever
-  taxidermy letterpress poutine green juice. Raclette hexagon pinterest normcore cornhole street
-  art. Hammock chia man bun cliche artisan lumbersexual shabby chic pitchfork.
-</p>
-<p>Food truck fixie jean shorts selvage celiac, cliche drinking vinegar kinfolk iPhone aesthetic
-  readymade thundercats pitchfork lo-fi meh. Schlitz blue bottle quinoa woke. Franzen artisan
-  gochujang keffiyeh direct trade. Adaptogen typewriter cornhole offal chillwave squid tacos
-  readymade DIY wayfarers salvia hexagon +1 banh mi. Small batch meggings aesthetic vice vaporware.
-  Gluten-free sartorial biodiesel plaid, kickstarter ennui quinoa drinking vinegar freegan hella
-  trust fund thundercats stumptown pickled. Offal pok pok viral kickstarter. 8-bit tofu ramps
-  freegan neutra. Schlitz fam synth, bitters ennui jean shorts leggings disrupt sriracha VHS.
-  Microdosing bushwick fingerstache vice organic. Portland distillery small batch, wolf butcher
-  bicycle rights four dollar toast.
-</p>
-<p>Irony man braid sustainable bitters hoodie typewriter gochujang banh mi. I&#39;m baby tumeric pabst
-  sustainable leggings PBR&amp;B quinoa yr sartorial yuccie. Pug flexitarian godard, yr skateboard
-  selvage waistcoat PBR&amp;B +1. Jean shorts pabst occupy ennui, normcore gentrify green juice retro
-  man bun chicharrones kinfolk man braid kickstarter. Vexillologist selfies cray dreamcatcher pok
-  pok hot chicken heirloom chia, quinoa chicharrones. Ramps chambray ugh, leggings before they sold
-  out copper mug raw denim hell of slow-carb butcher whatever taxidermy letterpress poutine green
-  juice. Raclette hexagon pinterest normcore cornhole street art. Hammock chia man bun cliche
-  artisan lumbersexual shabby chic pitchfork. Food truck fixie jean shorts selvage celiac, cliche
-  drinking vinegar kinfolk iPhone aesthetic readymade thundercats pitchfork lo-fi meh. Schlitz blue
-  bottle quinoa woke. Franzen artisan gochujang keffiyeh direct trade.
-</p>
-<p>I&#39;m baby tumeric pabst sustainable leggings PBR&amp;B quinoa yr sartorial yuccie. Pug flexitarian
-  godard, yr skateboard selvage waistcoat PBR&amp;B +1. Jean shorts pabst occupy ennui, normcore
-  gentrify green juice retro man bun chicharrones kinfolk man braid kickstarter. Vexillologist
-  selfies cray dreamcatcher pok pok hot chicken heirloom chia, quinoa chicharrones. Ramps chambray
-  ugh, leggings before they sold out copper mug raw denim hell of slow-carb butcher whatever
-  taxidermy letterpress poutine green juice. Raclette hexagon pinterest normcore cornhole street
-  art. Hammock chia man bun cliche artisan lumbersexual shabby chic pitchfork.
-</p>
-<p>Food truck fixie jean shorts selvage celiac, cliche drinking vinegar kinfolk iPhone aesthetic
-  readymade thundercats pitchfork lo-fi meh. Schlitz blue bottle quinoa woke. Franzen artisan
-  gochujang keffiyeh direct trade. Adaptogen typewriter cornhole offal chillwave squid tacos
-  readymade DIY wayfarers salvia hexagon +1 banh mi. Small batch meggings aesthetic vice vaporware.
-  Gluten-free sartorial biodiesel plaid, kickstarter ennui quinoa drinking vinegar freegan hella
-  trust fund thundercats stumptown pickled. Offal pok pok viral kickstarter. 8-bit tofu ramps
-  freegan neutra. Schlitz fam synth, bitters ennui jean shorts leggings disrupt sriracha VHS.
-  Microdosing bushwick fingerstache vice organic. Portland distillery small batch, wolf butcher
-  bicycle rights four dollar toast.
-</p>
-<p>Irony man braid sustainable bitters hoodie typewriter gochujang banh mi. I&#39;m baby tumeric pabst
-  sustainable leggings PBR&amp;B quinoa yr sartorial yuccie. Pug flexitarian godard, yr skateboard
-  selvage waistcoat PBR&amp;B +1. Jean shorts pabst occupy ennui, normcore gentrify green juice retro
-  man bun chicharrones kinfolk man braid kickstarter. Vexillologist selfies cray dreamcatcher pok
-  pok hot chicken heirloom chia, quinoa chicharrones. Ramps chambray ugh, leggings before they sold
-  out copper mug raw denim hell of slow-carb butcher whatever taxidermy letterpress poutine green
-  juice. Raclette hexagon pinterest normcore cornhole street art. Hammock chia man bun cliche
-  artisan lumbersexual shabby chic pitchfork. Food truck fixie jean shorts selvage celiac, cliche
-  drinking vinegar kinfolk iPhone aesthetic readymade thundercats pitchfork lo-fi meh. Schlitz blue
-  bottle quinoa woke. Franzen artisan gochujang keffiyeh direct trade.
-</p>`;
+var css$2 = {
+  code: "h1.svelte-wdp2xd{padding-top:2.4rem;margin-top:0rem}h1.svelte-wdp2xd:first-of-type{padding-top:1.4rem}img.svelte-wdp2xd{height:auto;max-height:90vh;max-width:100vw;margin-bottom:2.4rem}#portfolio.svelte-wdp2xd{display:flex;flex-direction:column;align-items:center;width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw}",
+  map: '{"version":3,"file":"portfolio.svelte","sources":["portfolio.svelte"],"sourcesContent":["<svelte:head><title>Portfolio - Finn James</title></svelte:head>\\n\\n<div id=\\"portfolio\\">\\n  <h1 id=\\"photography\\" class=\\"no-hash\\">Photography</h1>\\n  <img alt=\\"Eszter 1\\" src=\\"/art/p-e2.jpeg\\" />\\n  <img alt=\\"Thomas\\" src=\\"/art/p-t1.jpeg\\" />\\n  <img alt=\\"Hannah\\" src=\\"/art/p-h1.jpeg\\" />\\n  <img alt=\\"Eszter 2\\" src=\\"/art/p-e1.jpeg\\" />\\n  <h1 id=\\"drawing\\" class=\\"no-hash\\">Drawing</h1>\\n  <img alt=\\"Charcoal drawing of my desk\\" class=\\"image\\" src=\\"/art/a-c1.jpeg\\" />\\n  <img alt=\\"Ink drawing in the style of Mucha\\" class=\\"image\\" src=\\"/art/a-i1.jpeg\\" />\\n  <img alt=\\"Charcoal drawings with a backlight\\" class=\\"image\\" src=\\"/art/a-c2.jpeg\\" />\\n</div>\\n\\n<style lang=\\"scss\\">h1 {\\n  padding-top: 2.4rem;\\n  margin-top: 0rem;\\n}\\nh1:first-of-type {\\n  padding-top: 1.4rem;\\n}\\n\\nimg {\\n  height: auto;\\n  max-height: 90vh;\\n  max-width: 100vw;\\n  margin-bottom: 2.4rem;\\n}\\n\\n#portfolio {\\n  display: flex;\\n  flex-direction: column;\\n  align-items: center;\\n  width: 100vw;\\n  position: relative;\\n  left: 50%;\\n  right: 50%;\\n  margin-left: -50vw;\\n  margin-right: -50vw;\\n}</style>\\n"],"names":[],"mappings":"AAcmB,EAAE,cAAC,CAAC,AACrB,WAAW,CAAE,MAAM,CACnB,UAAU,CAAE,IAAI,AAClB,CAAC,AACD,gBAAE,cAAc,AAAC,CAAC,AAChB,WAAW,CAAE,MAAM,AACrB,CAAC,AAED,GAAG,cAAC,CAAC,AACH,MAAM,CAAE,IAAI,CACZ,UAAU,CAAE,IAAI,CAChB,SAAS,CAAE,KAAK,CAChB,aAAa,CAAE,MAAM,AACvB,CAAC,AAED,UAAU,cAAC,CAAC,AACV,OAAO,CAAE,IAAI,CACb,cAAc,CAAE,MAAM,CACtB,WAAW,CAAE,MAAM,CACnB,KAAK,CAAE,KAAK,CACZ,QAAQ,CAAE,QAAQ,CAClB,IAAI,CAAE,GAAG,CACT,KAAK,CAAE,GAAG,CACV,WAAW,CAAE,KAAK,CAClB,YAAY,CAAE,KAAK,AACrB,CAAC"}'
+};
+var Portfolio = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  $$result.css.add(css$2);
+  return `${$$result.head += `${$$result.title = `<title>Portfolio - Finn James</title>`, ""}`, ""}
+
+<div id="${"portfolio"}" class="${"svelte-wdp2xd"}"><h1 id="${"photography"}" class="${"no-hash svelte-wdp2xd"}">Photography</h1>
+  <img alt="${"Eszter 1"}" src="${"/art/p-e2.jpeg"}" class="${"svelte-wdp2xd"}">
+  <img alt="${"Thomas"}" src="${"/art/p-t1.jpeg"}" class="${"svelte-wdp2xd"}">
+  <img alt="${"Hannah"}" src="${"/art/p-h1.jpeg"}" class="${"svelte-wdp2xd"}">
+  <img alt="${"Eszter 2"}" src="${"/art/p-e1.jpeg"}" class="${"svelte-wdp2xd"}">
+  <h1 id="${"drawing"}" class="${"no-hash svelte-wdp2xd"}">Drawing</h1>
+  <img alt="${"Charcoal drawing of my desk"}" class="${"image svelte-wdp2xd"}" src="${"/art/a-c1.jpeg"}">
+  <img alt="${"Ink drawing in the style of Mucha"}" class="${"image svelte-wdp2xd"}" src="${"/art/a-i1.jpeg"}">
+  <img alt="${"Charcoal drawings with a backlight"}" class="${"image svelte-wdp2xd"}" src="${"/art/a-c2.jpeg"}">
+</div>`;
 });
-var blog = /* @__PURE__ */ Object.freeze({
+var portfolio = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": Blog
+  "default": Portfolio
+});
+var css$1 = {
+  code: ".posts.svelte-3bstvf.svelte-3bstvf{list-style:none;padding:0}.posts.svelte-3bstvf li.svelte-3bstvf{padding:1rem;padding-left:0}.posts.svelte-3bstvf li p.svelte-3bstvf{padding:0;margin-top:0;color:var(--med-gray)}",
+  map: '{"version":3,"file":"index.svelte","sources":["index.svelte"],"sourcesContent":["<script context=\\"module\\">\\n  const allPosts = import.meta.glob(\\"./*.md\\");\\n\\n  // console.log(allPosts);\\n  let promisedPosts = [];\\n  for (let path in allPosts) {\\n    promisedPosts.push(\\n      allPosts[path]().then(({ metadata }) => {\\n        // console.log(metadata);\\n        return { path, metadata };\\n      })\\n    );\\n  }\\n  export const load = async () => {\\n    let posts = await Promise.all(promisedPosts);\\n    posts = posts.sort((a, b) => Date.parse(b.metadata.date) - Date.parse(a.metadata.date));\\n    // console.log(posts);\\n\\n    return {\\n      props: {\\n        posts: posts\\n      }\\n    };\\n  };\\n<\/script>\\n\\n<script>\\n  export let posts;\\n<\/script>\\n\\n<svelte:head>\\n  <title>Posts - Finn James</title>\\n</svelte:head>\\n\\n<h1>Posts</h1>\\n\\n<ul class=\\"posts\\">\\n  {#each posts.reverse() as { path, metadata: { title, date } }}\\n    <li>\\n      <p>\\n        <a sveltekit:prefetch href={`/posts/${path.replace(\\".md\\", \\"\\").replace(\\".svx\\", \\"\\")}`}\\n          >{title}</a\\n        >\\n      </p>\\n      <!-- <p>{date}</p> -->\\n    </li>\\n  {/each}\\n</ul>\\n\\n<style lang=\\"scss\\">.posts {\\n  list-style: none;\\n  padding: 0;\\n}\\n.posts li {\\n  padding: 1rem;\\n  padding-left: 0;\\n}\\n.posts li p {\\n  padding: 0;\\n  margin-top: 0;\\n  color: var(--med-gray);\\n}</style>\\n"],"names":[],"mappings":"AAiDmB,MAAM,4BAAC,CAAC,AACzB,UAAU,CAAE,IAAI,CAChB,OAAO,CAAE,CAAC,AACZ,CAAC,AACD,oBAAM,CAAC,EAAE,cAAC,CAAC,AACT,OAAO,CAAE,IAAI,CACb,YAAY,CAAE,CAAC,AACjB,CAAC,AACD,oBAAM,CAAC,EAAE,CAAC,CAAC,cAAC,CAAC,AACX,OAAO,CAAE,CAAC,CACV,UAAU,CAAE,CAAC,CACb,KAAK,CAAE,IAAI,UAAU,CAAC,AACxB,CAAC"}'
+};
+var allPosts = { "./2020-05-16-init.md": () => Promise.resolve().then(function() {
+  return _20200516Init;
+}), "./2020-09-08-what-does-radiolevity-mean.md": () => Promise.resolve().then(function() {
+  return _20200908WhatDoesRadiolevityMean;
+}), "./2021-05-04-new-domain.md": () => Promise.resolve().then(function() {
+  return _20210504NewDomain;
+}), "./2021-07-11-all-new-site.md": () => Promise.resolve().then(function() {
+  return _20210711AllNewSite;
+}) };
+var promisedPosts = [];
+for (let path in allPosts) {
+  promisedPosts.push(allPosts[path]().then(({ metadata: metadata2 }) => {
+    return { path, metadata: metadata2 };
+  }));
+}
+var load = async () => {
+  let posts = await Promise.all(promisedPosts);
+  posts = posts.sort((a, b) => Date.parse(b.metadata.date) - Date.parse(a.metadata.date));
+  return { props: { posts } };
+};
+var Posts = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let { posts } = $$props;
+  if ($$props.posts === void 0 && $$bindings.posts && posts !== void 0)
+    $$bindings.posts(posts);
+  $$result.css.add(css$1);
+  return `${$$result.head += `${$$result.title = `<title>Posts - Finn James</title>`, ""}`, ""}
+
+<h1>Posts</h1>
+
+<ul class="${"posts svelte-3bstvf"}">${each(posts.reverse(), ({ path, metadata: { title: title2, date: date2 } }) => `<li class="${"svelte-3bstvf"}"><p class="${"svelte-3bstvf"}"><a sveltekit:prefetch${add_attribute("href", `/posts/${path.replace(".md", "").replace(".svx", "")}`, 0)}>${escape2(title2)}</a></p>
+      
+    </li>`)}
+</ul>`;
+});
+var index = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": Posts,
+  load
+});
+var metadata$3 = {
+  "title": "What Does Radiolevity Mean?",
+  "date": "2020-09-08 00:00:00 -0400",
+  "categories": "blog"
+};
+var { title: title$3, date: date$3, categories: categories$3 } = metadata$3;
+var _2020_09_08_what_does_radiolevity_mean = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  return `<h1>${escape2(title$3)}</h1>
+<p>My username everywhere online is <strong>radiolevity</strong>. It doesn\u2019t really mean anything in particular\u2014I was inspired by my radio-spectrum astronomy research, my love of radio and podcasts, and my general desire to keep things lighthearted. But at a certain point, I just wanted something that was easy to say, spell, and remember. I made my radio logo by those same principles.</p>
+<p>Another advantage is that my name is rather common, especially in Europe. This makes my username slightly more recognizable than if I just used my name. Furthermore, much to my chagrin, I cannot get \u201Cfinnjames\u201D as a username on most of the major platforms anymore.</p>
+<p>Lastly, I appreciate when someone has a consistent handle across many platforms, because it means you can appreciate their work and find their voice in a number of different contexts. This has the associated effect of degrading one\u2019s anonymity\u2014my real name is deliberately very easy to find if you have my username\u2014but this is not necessarily a bad thing. I appreciate that by linking my name to a specific username I can more easily take credit and pride in my work without worrying too much.</p>`;
+});
+var _20200908WhatDoesRadiolevityMean = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": _2020_09_08_what_does_radiolevity_mean,
+  metadata: metadata$3
+});
+var metadata$2 = {
+  "title": "All New Site",
+  "date": "2021-07-11 00:00:00 -0400",
+  "categories": "blog"
+};
+var { title: title$2, date: date$2, categories: categories$2 } = metadata$2;
+var _2021_07_11_all_new_site = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  return `<h1>${escape2(title$2)}</h1>
+<p>As much as Jekyll + GitHub Pages served me well for my old static site, I have decided to take the plunge into a modern framework-based version. This site is made in the excellent <a href="${"https://kit.svelte.dev/"}" rel="${"nofollow"}">SvelteKit</a>. It isn\u2019t done, yet. At time of this writing, the \u201CPosts\u201D and \u201CPortfolio\u201D pages still definitely need some work. With that said, I am very happy with how the new site is working out.</p>
+<p>I made a point with this rewrite to use as little code from the original version as possible. Indeed, I think there is very, very little holdover from the original\u2014the only thing that springs to mind is the code that generates the Markdown-esque header markers.</p>
+<p>The new version of this site is hosted on <a href="${"https://vercel.com/"}" rel="${"nofollow"}">Vercel</a>, using the shockingly simple-to-use Svelte adapter for it. I\u2019ve been really impressed with how simple and easy Vercel is to use.</p>
+<h2>Why SvelteKit?</h2>
+<p>I have been wanting to learn to use Svelte for a while now. I\u2019ve been using Vue for over a year now, and I liked Svelte\u2019s opinionated approach to organization and syntax. Furthermore, I wanted to try a static site generator framework and with SvelteKit nearing a 1.0 release, I figured now was as good a time as any.  </p>
+<p>I also want to try Next and Nuxt as both of them seem to have highly dedicated following.</p>
+<h2>What about Astro?</h2>
+<p><a href="${"https://astro.build"}" rel="${"nofollow"}">Astro</a> looks amazing. I have a version of this rewrite that uses Astro, actually. Since it is still so early in its lifecycle, I am hesitant to rely on it for my whole site just yet. Still, I am very excited to see what happens with it in the near future. The team seems to have made a lot of good decisions.</p>
+<h2>So what\u2019s left?</h2>
+<p>I am trying some new stuff with this site. I want to add a lot more details before I really consider it to be \u201Cdone.\u201D One big example is dark mode support. All of the colors are tokenized on the site already, but I haven\u2019t chosen a dark-mode color theme that I really love just yet. Another one (as I mentioned above) is that I want the blog section to get some more attention. It\u2019s pretty basic right now, which is fine, but I want to enable photos, code snippets, interactive elements, searching articles, etc. I also think it would be cool to have some sort of dashboard for editing my site. Right now the whole site is made by me, so I\u2019d either have to get a dashboard/CMS and connect it up or write my own. In the mean time, VSCode will be my editor for everything!</p>`;
+});
+var _20210711AllNewSite = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": _2021_07_11_all_new_site,
+  metadata: metadata$2
+});
+var metadata$1 = {
+  "title": "New Domain",
+  "date": "2021-05-19 00:00:00 -0400",
+  "categories": "blog"
+};
+var { title: title$1, date: date$1, categories: categories$1 } = metadata$1;
+var _2021_05_04_new_domain = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  return `<h1>${escape2(title$1)}</h1>
+<p>I am excited to report that my new domain, <a href="${"https://fsj.xyz"}" rel="${"nofollow"}">fsj.xyz</a> is live. In the endless quest to have a short domain name, I elected for the gTLD <strong>.xyz</strong> and just my initials. It was remarkably difficult to secure a domain name that I felt excited about, but I am very happy with this one. My old domain (finnjames.dev) redirects to this site, now.</p>
+<p>I do think it is easy to get obsessed with acquiring the perfect domain name. I went through a lot of different options before settling on this one. I can\u2019t say it was my very first choice, but as it turns out, fsj.com has been taken since the 90s. I appreciate that this one is short, easy to say and write, and is reasonably memorable.</p>
+<p>I have also set up an email account for this domain. Try it out by sending an email to \u201Chey\u201D at this domain!</p>`;
+});
+var _20210504NewDomain = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": _2021_05_04_new_domain,
+  metadata: metadata$1
+});
+var metadata = {
+  "layout": "post",
+  "title": "Hello World!",
+  "date": "2020-05-16 00:00:00 -0400",
+  "categories": "test"
+};
+var { layout, title, date, categories } = metadata;
+var _2020_05_16_init = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  return `<h1>${escape2(title)}</h1>
+<p>This is the first post on this site. It\u2019s here for testing purposes.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Viverra tellus in hac habitasse platea dictumst vestibulum rhoncus est. Odio ut enim blandit volutpat maecenas volutpat. Felis eget velit aliquet sagittis id consectetur purus ut. Ac turpis egestas integer eget aliquet nibh praesent tristique magna.</p>
+<p>Vestibulum mattis ullamcorper velit sed. Urna cursus eget nunc scelerisque viverra mauris. Quis imperdiet massa tincidunt nunc pulvinar sapien et ligula. Ac turpis egestas sed tempus. Nulla at volutpat diam ut venenatis. Nisl condimentum id venenatis a condimentum vitae sapien.</p>`;
+});
+var _20200516Init = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": _2020_05_16_init,
+  metadata
+});
+var css = {
+  code: '.gray.svelte-ra5e6d{color:var(--med-gray)}.roman.svelte-ra5e6d{font-variation-settings:"wght" 400}',
+  map: '{"version":3,"file":"cv.md","sources":["cv.md"],"sourcesContent":["<script context=\\"module\\">\\n\\texport const metadata = {\\"title\\":\\"CV\\"};\\n\\tconst { title } = metadata;\\n<\/script>\\n<style lang=\\"scss\\">.gray {\\n  color: var(--med-gray);\\n}\\n\\n.roman {\\n  font-variation-settings: \\"wght\\" 400;\\n}</style>\\n\\n\\n<h1>CV</h1>\\n<h2>Education</h2>\\n<h3>University of North Carolina at Chapel Hill</h3>\\n<p>Computer Science and Studio Art double major. GPA: 3.94. Expected graduation: May 2022.</p>\\n<h3>Honors Carolina</h3>\\n<p>I joined the UNC Honors Program in my first year.</p>\\n<h2>Grants & Honors</h2>\\n<h3>NC Space Grant for Undergraduate Research Fellowship</h3>\\n<span class=\\"gray\\">June 2020 - May 2021</span>\\n<p>My proposal for \u201CA New Test of General Relativity using Binary Supermassive Black Holes and Radio Telescopes\u201D was selected to receive funding so that I can develop and use sophisticated image processing systems for radio telescope observations of the OJ287 black hole system.</p>\\n<h3>Phi Beta Kappa</h3>\\n<span class=\\"gray\\">April 2021</span>\\n<p>I joined the Phi Beta Kappa honor society in April of 2021.</p>\\n<h3>UNC Nomination for Barry M. Goldwater Scholarship</h3>\\n<span class=\\"gray\\">January 2021</span>\\n<p>I was selected by my university for nomination for the Barry M. Goldwater Scholarship, a prestigious award for undergraduates to further their science and engineering research. The scholarship is particularly focused on supporting students in beginning their graduate school careers.</p>\\n<h3>ERIRA</h3>\\n<span class=\\"gray\\">August 2019</span>\\n<p>I was selected for the Educational Research In Radio Astronomy program. It is an intensive course at the Green Bank Observatory involving data collection, data analysis, deadline management, and teamwork.</p>\\n<h3>HackNC Second Place Winner</h3>\\n<span class=\\"gray\\">October 2019</span>\\n<p>I won second place for my hardware project at HackNC 2019. My team and I constructed a rig using Python and OpenCV to 3D track the position of objects in real time. As the team\u2019s software developer, I wrote the system that interpreted the dual input streams coming from the stereoscopic camera setup so that the depth of the objects could be calculated in real time. In this project, I led my team to each build a part of the project separately and combine them seamlessly.</p>\\n<h3>RYLA</h3>\\n<span class=\\"gray\\">April 2017</span>\\n<p>I was honored with the Rotary Youth Leadership Award for exhibiting leadership and initiative in my community service and schoolwork, and I attended the associated conference. The conference is an 18-hour-a-day high-energy event where the recipients work with each other to develop leadership and problem solving skills. I was sponsored by the East Chapel Hill Rotary Club.</p>\\n<h2>Work</h2>\\n<h3>SAS <span class=\\"roman\\">\u2014 UX Developer Intern</span></h3>\\n<span class=\\"gray\\">May 2021 \u2013 August 2021</span>\\n<p>I am creating a new internal application to improve interface accessibility and consistency.</p>\\n<h3>UNC Department of Physics & Astronomy <span class=\\"roman\\">\u2014 Research Assistant</span></h3>\\n<span class=\\"gray\\">August 2019 \u2013 Present</span>\\n<p>I do astrophysics research and software development with Dr. Dan Reichart in the Physics & Astronomy Department at UNC.</p>\\n<p>For my first project, I wrote <a\\n  href=\\"https://github.com/radiolevity/threepio\\"\\n  rel=\\"nofollow\\"\\n>an open source application</a> to interpret data coming from the 40\u2019 radio telescope at the Green Bank Observatory. I engineered the data logic to interface between sixty-year-old radio astronomy equipment and modern analysis programs. I designed the UI/UX to remain accessible to the students and scientists who use it for their research.</p>\\n<p>Now, I am building a new front-end application for the Skynet robotic telescope network, with a focus on the radio data interpretation and analysis tools.</p>\\n<h3>UNC Department of Computer Science <span class=\\"roman\\">\u2014 Learning Assistant</span></h3>\\n<span class=\\"gray\\">Spring 2021 \u2013 Present</span>\\n<p>I help teach undergraduate students in COMP541, an upper-level chip architecture course taught by Dr. Montek Singh.</p>\\n<h3>Radiolevity <span class=\\"roman\\">\u2014 Web Developer & Designer</span></h3>\\n<span class=\\"gray\\">June 2019 \u2013 Present</span>\\n<p>I am a freelance designer and full-stack web developer. I am a one-stop shop for local clients to create or overhaul their web presence. A portfolio example: the <a\\n  href=\\"https://chapelhillfriends.org\\"\\n  rel=\\"nofollow\\"\\n>Chapel Hill Friends Meeting website</a>.</p>\\n<h3>Carolina Friends School <span class=\\"roman\\">\u2014 Counselor</span></h3>\\n<span class=\\"gray\\">Summer 2016 \u2013 Summer 2019</span>\\n<p>I led activities with campers at Carolina Friends School Summer Programs to encourage teamwork, participation, and community.</p>\\n<h2>Skills</h2>\\n<h3>Computer Science</h3>\\n<p><strong>Proficient in:</strong> Python, C, Java, TypeScript, Vue, JavaScript, SystemVerilog, <span title=\\"source for this site on GitHub (finnsjames/fsj.xyz)\\">HTML/CSS</span></p>\\n<p><strong>Courses Completed by Summer 2021:</strong> Digital Logic & Computer Design, Models of Language & Computation, Data Structures, Computer Architecture, Digital Photography, Modern Web Development, UX Design & Usability</p>\\n<h3>Mathematics</h3>\\n<p><strong>Courses Completed by Summer 2021:</strong> Discrete Mathematics, Linear Algebra, Multivariable Calculus, Probability</p>\\n<p><strong>Familiarity with:</strong> Wolfram Mathematica, Microsoft Excel</p>\\n<h3>Astrophysics</h3>\\n<p><strong>Courses Completed by Summer 2021:</strong> Calculus-Based Mechanics & Relativity, Intro Astronomy & Lab, Intro Cosmology</p>\\n<p><strong>Familiarity with:</strong> Astropy, NumPy, Stellarium, Radio Cartographer, Afterglow</p>\\n<h3>Technology</h3>\\n<p><strong>IDEs & editors:</strong>\\nPyCharm, IntelliJ IDEA, Eclipse, VSCode, vim</p>\\n<p><strong>Tools:</strong>\\ngit, node, npm, zsh, bash</p>\\n<p><strong>Software:</strong>\\nPhotoshop, Illustrator, XD, InDesign, Premiere Pro, Audacity, Microsoft Office</p>\\n<p><strong>Operating Systems:</strong>\\nmacOS, Linux, Windows, iOS</p>\\n<h3>Foreign Language</h3>\\n<p><strong>Japanese:</strong>\\nI have completed three semesters of Japanese.</p>\\n<h2>Community Service</h2>\\n<h3>Cofounder, <span class=\\"roman\\">Project Recap</span></h3>\\n<span class=\\"gray\\">Spring 2018</span>\\n<p>I co-founded and managed a charitable program that continues today to collect, clean, and redistribute graduation paraphernalia to high school students.</p>\\n<h3>Creator & Instructor, <span class=\\"roman\\">CodeBuilders Programming Course</span></h3>\\n<span class=\\"gray\\">Spring 2017</span>\\n<p>I created and taught an intro programming class for middle-school-aged students. We covered Python and Web development. I designed the course to focus on fundamentals so that the students would feel more comfortable coding and working with computers.</p>\\n<h3>Instructor, <span class=\\"roman\\">Durham Public Library</span></h3>\\n<span class=\\"gray\\">Summer 2016</span>\\n<p>I volunteered with the Durham Public Library Techno Saturdays Program, where I taught programming and computer science to children who might otherwise not have had exposure to computers. </p>\\n<h2>Interests</h2>\\n<h4>Photography</h4>\\n<p>A few of my recent images may be found in my <a\\n  href=\\"/portfolio#photography\\"\\n>Portfolio</a>.</p>\\n<h4>Drawing & Painting</h4>\\n<p>Likewise, a few of my drawings <a\\n  href=\\"/portfolio#drawing\\"\\n>may also be found there</a>.</p>\\n<h4>Martial Arts</h4>\\n<p>I have practiced martial arts for years and have achieved a second degree black belt in the Japanese martial art <em>toshindo</em>.</p>\\n<h4>Reading</h4>\\n<p>My favorite books include <em>The Brief Wondrous Life of Oscar Wao</em> by Junot D\xEDaz, <em>Jane Eyre</em> by Charlotte Bront\xEB, and <em>Going Postal</em> by Terry Pratchett.</p>\\n<h4>Architecture</h4>\\n<p>I am a fan of modern architecture and minimalist spaces. I particularly appreciate the works of Ludwig Mies van der Rohe.</p>\\n<h4>Cooking</h4>\\n<p>I love to cook, especially Japanese and Italian cuisine. I also once threw a Latke\u2013Hamantash Debate event in the style of <a\\n  href=\\"https://en.wikipedia.org/wiki/Latke%E2%80%93Hamantash_Debate\\"\\n  rel=\\"nofollow\\"\\n>the original</a>, which involved both making and arguing about the relative metaphysical merits of both foods.</p>\\n<br />\\n<br />\\n<span class=\\"gray\\">Updated June 2021</span>\\n"],"names":[],"mappings":"AAImB,KAAK,cAAC,CAAC,AACxB,KAAK,CAAE,IAAI,UAAU,CAAC,AACxB,CAAC,AAED,MAAM,cAAC,CAAC,AACN,uBAAuB,CAAE,MAAM,CAAC,GAAG,AACrC,CAAC"}'
+};
+var Cv$1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  $$result.css.add(css);
+  return `<h1>CV</h1>
+<h2>Education</h2>
+<h3>University of North Carolina at Chapel Hill</h3>
+<p>Computer Science and Studio Art double major. GPA: 3.94. Expected graduation: May 2022.</p>
+<h3>Honors Carolina</h3>
+<p>I joined the UNC Honors Program in my first year.</p>
+<h2>Grants &amp; Honors</h2>
+<h3>NC Space Grant for Undergraduate Research Fellowship</h3>
+<span class="${"gray svelte-ra5e6d"}">June 2020 - May 2021</span>
+<p>My proposal for \u201CA New Test of General Relativity using Binary Supermassive Black Holes and Radio Telescopes\u201D was selected to receive funding so that I can develop and use sophisticated image processing systems for radio telescope observations of the OJ287 black hole system.</p>
+<h3>Phi Beta Kappa</h3>
+<span class="${"gray svelte-ra5e6d"}">April 2021</span>
+<p>I joined the Phi Beta Kappa honor society in April of 2021.</p>
+<h3>UNC Nomination for Barry M. Goldwater Scholarship</h3>
+<span class="${"gray svelte-ra5e6d"}">January 2021</span>
+<p>I was selected by my university for nomination for the Barry M. Goldwater Scholarship, a prestigious award for undergraduates to further their science and engineering research. The scholarship is particularly focused on supporting students in beginning their graduate school careers.</p>
+<h3>ERIRA</h3>
+<span class="${"gray svelte-ra5e6d"}">August 2019</span>
+<p>I was selected for the Educational Research In Radio Astronomy program. It is an intensive course at the Green Bank Observatory involving data collection, data analysis, deadline management, and teamwork.</p>
+<h3>HackNC Second Place Winner</h3>
+<span class="${"gray svelte-ra5e6d"}">October 2019</span>
+<p>I won second place for my hardware project at HackNC 2019. My team and I constructed a rig using Python and OpenCV to 3D track the position of objects in real time. As the team\u2019s software developer, I wrote the system that interpreted the dual input streams coming from the stereoscopic camera setup so that the depth of the objects could be calculated in real time. In this project, I led my team to each build a part of the project separately and combine them seamlessly.</p>
+<h3>RYLA</h3>
+<span class="${"gray svelte-ra5e6d"}">April 2017</span>
+<p>I was honored with the Rotary Youth Leadership Award for exhibiting leadership and initiative in my community service and schoolwork, and I attended the associated conference. The conference is an 18-hour-a-day high-energy event where the recipients work with each other to develop leadership and problem solving skills. I was sponsored by the East Chapel Hill Rotary Club.</p>
+<h2>Work</h2>
+<h3>SAS <span class="${"roman svelte-ra5e6d"}">\u2014 UX Developer Intern</span></h3>
+<span class="${"gray svelte-ra5e6d"}">May 2021 \u2013 August 2021</span>
+<p>I am creating a new internal application to improve interface accessibility and consistency.</p>
+<h3>UNC Department of Physics &amp; Astronomy <span class="${"roman svelte-ra5e6d"}">\u2014 Research Assistant</span></h3>
+<span class="${"gray svelte-ra5e6d"}">August 2019 \u2013 Present</span>
+<p>I do astrophysics research and software development with Dr. Dan Reichart in the Physics &amp; Astronomy Department at UNC.</p>
+<p>For my first project, I wrote <a href="${"https://github.com/radiolevity/threepio"}" rel="${"nofollow"}">an open source application</a> to interpret data coming from the 40\u2019 radio telescope at the Green Bank Observatory. I engineered the data logic to interface between sixty-year-old radio astronomy equipment and modern analysis programs. I designed the UI/UX to remain accessible to the students and scientists who use it for their research.</p>
+<p>Now, I am building a new front-end application for the Skynet robotic telescope network, with a focus on the radio data interpretation and analysis tools.</p>
+<h3>UNC Department of Computer Science <span class="${"roman svelte-ra5e6d"}">\u2014 Learning Assistant</span></h3>
+<span class="${"gray svelte-ra5e6d"}">Spring 2021 \u2013 Present</span>
+<p>I help teach undergraduate students in COMP541, an upper-level chip architecture course taught by Dr. Montek Singh.</p>
+<h3>Radiolevity <span class="${"roman svelte-ra5e6d"}">\u2014 Web Developer &amp; Designer</span></h3>
+<span class="${"gray svelte-ra5e6d"}">June 2019 \u2013 Present</span>
+<p>I am a freelance designer and full-stack web developer. I am a one-stop shop for local clients to create or overhaul their web presence. A portfolio example: the <a href="${"https://chapelhillfriends.org"}" rel="${"nofollow"}">Chapel Hill Friends Meeting website</a>.</p>
+<h3>Carolina Friends School <span class="${"roman svelte-ra5e6d"}">\u2014 Counselor</span></h3>
+<span class="${"gray svelte-ra5e6d"}">Summer 2016 \u2013 Summer 2019</span>
+<p>I led activities with campers at Carolina Friends School Summer Programs to encourage teamwork, participation, and community.</p>
+<h2>Skills</h2>
+<h3>Computer Science</h3>
+<p><strong>Proficient in:</strong> Python, C, Java, TypeScript, Vue, JavaScript, SystemVerilog, <span title="${"source for this site on GitHub (finnsjames/fsj.xyz)"}">HTML/CSS</span></p>
+<p><strong>Courses Completed by Summer 2021:</strong> Digital Logic &amp; Computer Design, Models of Language &amp; Computation, Data Structures, Computer Architecture, Digital Photography, Modern Web Development, UX Design &amp; Usability</p>
+<h3>Mathematics</h3>
+<p><strong>Courses Completed by Summer 2021:</strong> Discrete Mathematics, Linear Algebra, Multivariable Calculus, Probability</p>
+<p><strong>Familiarity with:</strong> Wolfram Mathematica, Microsoft Excel</p>
+<h3>Astrophysics</h3>
+<p><strong>Courses Completed by Summer 2021:</strong> Calculus-Based Mechanics &amp; Relativity, Intro Astronomy &amp; Lab, Intro Cosmology</p>
+<p><strong>Familiarity with:</strong> Astropy, NumPy, Stellarium, Radio Cartographer, Afterglow</p>
+<h3>Technology</h3>
+<p><strong>IDEs &amp; editors:</strong>
+PyCharm, IntelliJ IDEA, Eclipse, VSCode, vim</p>
+<p><strong>Tools:</strong>
+git, node, npm, zsh, bash</p>
+<p><strong>Software:</strong>
+Photoshop, Illustrator, XD, InDesign, Premiere Pro, Audacity, Microsoft Office</p>
+<p><strong>Operating Systems:</strong>
+macOS, Linux, Windows, iOS</p>
+<h3>Foreign Language</h3>
+<p><strong>Japanese:</strong>
+I have completed three semesters of Japanese.</p>
+<h2>Community Service</h2>
+<h3>Cofounder, <span class="${"roman svelte-ra5e6d"}">Project Recap</span></h3>
+<span class="${"gray svelte-ra5e6d"}">Spring 2018</span>
+<p>I co-founded and managed a charitable program that continues today to collect, clean, and redistribute graduation paraphernalia to high school students.</p>
+<h3>Creator &amp; Instructor, <span class="${"roman svelte-ra5e6d"}">CodeBuilders Programming Course</span></h3>
+<span class="${"gray svelte-ra5e6d"}">Spring 2017</span>
+<p>I created and taught an intro programming class for middle-school-aged students. We covered Python and Web development. I designed the course to focus on fundamentals so that the students would feel more comfortable coding and working with computers.</p>
+<h3>Instructor, <span class="${"roman svelte-ra5e6d"}">Durham Public Library</span></h3>
+<span class="${"gray svelte-ra5e6d"}">Summer 2016</span>
+<p>I volunteered with the Durham Public Library Techno Saturdays Program, where I taught programming and computer science to children who might otherwise not have had exposure to computers. </p>
+<h2>Interests</h2>
+<h4>Photography</h4>
+<p>A few of my recent images may be found in my <a href="${"/portfolio#photography"}">Portfolio</a>.</p>
+<h4>Drawing &amp; Painting</h4>
+<p>Likewise, a few of my drawings <a href="${"/portfolio#drawing"}">may also be found there</a>.</p>
+<h4>Martial Arts</h4>
+<p>I have practiced martial arts for years and have achieved a second degree black belt in the Japanese martial art <em>toshindo</em>.</p>
+<h4>Reading</h4>
+<p>My favorite books include <em>The Brief Wondrous Life of Oscar Wao</em> by Junot D\xEDaz, <em>Jane Eyre</em> by Charlotte Bront\xEB, and <em>Going Postal</em> by Terry Pratchett.</p>
+<h4>Architecture</h4>
+<p>I am a fan of modern architecture and minimalist spaces. I particularly appreciate the works of Ludwig Mies van der Rohe.</p>
+<h4>Cooking</h4>
+<p>I love to cook, especially Japanese and Italian cuisine. I also once threw a Latke\u2013Hamantash Debate event in the style of <a href="${"https://en.wikipedia.org/wiki/Latke%E2%80%93Hamantash_Debate"}" rel="${"nofollow"}">the original</a>, which involved both making and arguing about the relative metaphysical merits of both foods.</p>
+<br>
+<br>
+<span class="${"gray svelte-ra5e6d"}">Updated June 2021</span>`;
 });
 var Cv = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  return `<h1>CV</h1>
-<p>This is some CV text lol</p>`;
+  return `${$$result.head += `${$$result.title = `<title>CV - Finn James</title>`, ""}`, ""}
+
+${validate_component(Cv$1, "CV").$$render($$result, {}, {}, {})}`;
 });
 var cv = /* @__PURE__ */ Object.freeze({
   __proto__: null,

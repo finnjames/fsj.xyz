@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import { colorMode } from "@/stores.ts";
   const nav = [
     { name: "CV", link: "/cv" },
     { name: "Posts", link: "/posts" },
@@ -28,8 +29,16 @@
           {item.name}
         </a>
       {/each}
+      <button
+        class="nav-item"
+        id="color-mode-toggle"
+        on:click={colorMode.toggle}
+        style="transition-delay: {nav.length * 32}ms"
+      >
+        <img src="icons/{$colorMode === 'dark' ? 'sun' : 'moon'}.svg" alt="toggle dark mode" />
+      </button>
     </div>
-    <button class="menu-icon" on:click={() => (menuOpen = !menuOpen)}>
+    <button id="menu-icon" on:click={() => (menuOpen = !menuOpen)}>
       <div />
     </button>
     <div id="blur" />
@@ -42,7 +51,20 @@
     align-items: center;
     position: relative;
     padding-top: 1rem;
+    z-index: 1;
     // padding: 1rem 4% 0;
+  }
+  #color-mode-toggle {
+    touch-action: manipulation;
+    stroke: white;
+    fill: var(--fg);
+    display: inline-flex;
+    justify-content: center;
+    padding-left: 1rem;
+    cursor: pointer;
+    img {
+      width: 24px;
+    }
   }
   #logo {
     touch-action: manipulation;
@@ -83,9 +105,11 @@
       align-items: center;
     }
     button {
-      display: none;
       background: none;
       border: none;
+    }
+    #menu-icon {
+      display: none;
     }
     .nav-item {
       touch-action: manipulation;
@@ -113,7 +137,7 @@
       }
     }
   }
-  .menu-icon {
+  #menu-icon {
     touch-action: manipulation;
     display: none;
     height: 3rem;
@@ -134,7 +158,7 @@
       transition: 0.5s cubic-bezier(0, 0.62, 0.34, 1);
     }
   }
-  .active .menu-icon {
+  .active #menu-icon {
     &:before {
       margin: 7px 0;
       transform: translateY(12px) rotate(135deg);
@@ -146,7 +170,8 @@
   }
   #blur {
     pointer-events: none;
-    background-color: rgba(white, 0.6);
+    // background-color: rgba(white, 0.6);
+    // background-color: var(--bg);
     z-index: -1;
     position: fixed;
     top: 0;
@@ -155,7 +180,7 @@
     bottom: 0;
     opacity: 0;
     transition: opacity 300ms cubic-bezier(0, 0.62, 0.34, 1);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(16px);
   }
   @media screen and (max-width: 767px) {
     nav {
@@ -172,7 +197,7 @@
         right: 0;
         visibility: hidden;
       }
-      .menu-icon {
+      #menu-icon {
         display: block;
       }
       .nav-item {
@@ -183,6 +208,9 @@
         transition: transform 300ms cubic-bezier(0, 0.62, 0.34, 1),
           opacity 300ms cubic-bezier(0, 0.62, 0.34, 1),
           visibility 300ms cubic-bezier(0, 0.62, 0.34, 1);
+      }
+      #color-mode-toggle img {
+        width: 32px;
       }
       &.active {
         position: fixed;

@@ -1,7 +1,6 @@
 <script lang="ts">
-  import Email from "$lib/Email.svelte";
-  // TODO: why is this a problem?
-  import Intro from "/src/markdown/intro.md";
+  // @ts-ignore
+  import Intro from "$markdown/intro.md"; // TODO: why is this a problem?
 </script>
 
 <svelte:head>
@@ -11,9 +10,6 @@
 <div class="relative">
   <div class="half">
     <Intro />
-    <div style="padding-top: 0.8rem; transform: translateX(-1px)">
-      <Email />
-    </div>
   </div>
   <div id="splash" alt="me in a flight suit" />
 </div>
@@ -32,8 +28,8 @@
     min-height: 50rem;
     height: calc(100vh - 2rem);
     width: 600px;
-    z-index: -10;
     user-select: none;
+    pointer-events: none;
   }
   .half {
     max-width: 22rem;

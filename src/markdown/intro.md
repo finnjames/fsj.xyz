@@ -9,6 +9,13 @@ I am a frontend developer and amateur illustrator based in Chapel Hill, NC. I al
 
 [GitHub](https://github.com/finnsjames) • [Twitter](https://twitter.com/finnsjames) • [Polywork](https://polywork.fsj.xyz)
 
+<p style="padding-top: 0.8rem; transform: translateX(-1px)">
+  <Email />
+</p>
+
+<script lang="ts">
+  import Email from "$lib/Email.svelte"
+</script>
 
 <style lang="scss">
   h1 {

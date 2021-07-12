@@ -11,6 +11,8 @@ title: CV
   }
 </style>
 
+# CV
+
 ## Education
 
 ### University of North Carolina at Chapel Hill
