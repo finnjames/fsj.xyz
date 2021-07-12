@@ -75,7 +75,7 @@ I am creating a new internal application to improve interface accessibility and 
 
 I do astrophysics research and software development with Dr. Dan Reichart in the Physics & Astronomy Department at UNC.
 
-For my first project, I wrote [an open source application](https://github.com/radiolevity/threepio) to interpret data coming from the 40' radio telescope at the Green Bank Observatory. I engineered the data logic to interface between sixty-year-old radio astronomy equipment and modern analysis programs. I designed the UI/UX to remain accessible to the students and scientists who use it for their research.
+For my first project, I wrote [an open source application](https://github.com/finnsjames/threepio) to interpret data coming from the 40' radio telescope at the Green Bank Observatory. I engineered the data logic to interface between sixty-year-old radio astronomy equipment and modern analysis programs. I designed the UI/UX to remain accessible to the students and scientists who use it for their research.
 
 Now, I am building a new front-end application for the Skynet robotic telescope network, with a focus on the radio data interpretation and analysis tools.
 
