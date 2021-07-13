@@ -19,10 +19,7 @@
   let address;
 </script>
 
-<!-- href="mailto:{email}" -->
-
 <button id="email-container" href="#">
-  <!-- <div id="email"> -->
   <div id="email-label">email:</div>
   <div id="address-wrapper">
     <input
@@ -34,7 +31,6 @@
       readonly
     />
   </div>
-  <!-- </div> -->
 
   <div
     id="copy"

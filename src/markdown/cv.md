@@ -9,14 +9,17 @@ title: CV
   .roman {
     font-variation-settings: "wght" 400;
   }
+  h1, h2, h3, h4 {
+    line-height: 1;
+  }
   h1 {
-    padding-top: 1.2rem;
+    padding-top: 0.8rem;
   }
   h2 {
-    padding-top: 1.6rem;
+    padding-top: 1.2rem;
   }
   h3 {
-    padding-top: 1rem;
+    padding-top: 0.6rem;
   }
 </style>
 
@@ -94,7 +97,7 @@ Now, I am building a new front-end application for the Skynet robotic telescope 
 
 I help teach undergraduate students in COMP541, an upper-level chip architecture course taught by Dr. Montek Singh.
 
-### Radiolevity <span class="roman">— Web Developer & Designer</span>
+### Freelance <span class="roman">— Web Developer & Designer</span>
 
 <span class="gray">June 2019 – Present</span>
 
