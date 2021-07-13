@@ -128,7 +128,7 @@
     transform: translateY(-8px);
     transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.6),
       filter 250ms cubic-bezier(0.3, 0.7, 0.4, 1);
-    filter: brightness(120%) hue-rotate(10deg);
+    filter: brightness(120%);
   }
   #copy:active {
     #copy-front {
