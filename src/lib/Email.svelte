@@ -1,4 +1,6 @@
 <script>
+  import { select_multiple_value } from "svelte/internal";
+
   const email = hex2a("6865794066736a2e78797a"); // hex email address
 
   const copy = () => {
@@ -23,7 +25,14 @@
   <!-- <div id="email"> -->
   <div id="email-label">email:</div>
   <div id="address-wrapper">
-    <input id="email-address" bind:this={address} value={email} readonly />
+    <input
+      id="email-address"
+      type="email"
+      bind:this={address}
+      value={email}
+      on:focus={address.select()}
+      readonly
+    />
   </div>
   <!-- </div> -->
 
@@ -56,16 +65,19 @@
     align-items: center;
     color: var(--white);
     width: 100%;
+    max-width: 19rem;
   }
-
+  @media screen and(max-width: 767px) {
+    #email-container {
+      max-width: none;
+    }
+  }
   #email-label {
     background-color: var(--dark-magenta);
     border-radius: 0.8rem 0 0 0.8rem;
     padding: 0 1rem;
-    // position: absolute;
     display: flex;
     align-items: center;
-    // left: 0;
     height: 100%;
   }
   #address-wrapper {
@@ -78,19 +90,19 @@
   input {
     background: transparent;
     border: none;
-    width: 10.6ch;
+    width: 12ch;
     color: var(--white);
+    text-align: center;
   }
   #copy {
     border-radius: 0 0.8rem 0.8rem 0;
-    // padding: 0 1rem;
     height: 100%;
     width: 51px;
     cursor: pointer;
     background-color: var(--dark-purple);
     background-image: linear-gradient(
       to right,
-      var(--dark-magenta) calc(100% - 1rem),
+      var(--dark-magenta) calc(100% - 0.8rem),
       var(--darker-magenta) 100%
     );
   }

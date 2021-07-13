@@ -37,7 +37,7 @@
         on:click={colorMode.toggle}
         style="transition-delay: {nav.length * 32}ms"
       >
-        <img src="icons/{$colorMode === 'dark' ? 'sun' : 'moon'}.svg" alt="toggle dark mode" />
+        <img src="/icons/{$colorMode === 'dark' ? 'sun' : 'moon'}.svg" alt="toggle dark mode" />
       </button>
     </div>
     <button id="menu-icon" on:click={() => (menuOpen = !menuOpen)}>
@@ -131,7 +131,7 @@
         font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15;
       }
       &.active {
-        color: var(--cyan);
+        color: var(--magenta);
         font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15;
       }
     }
@@ -191,7 +191,7 @@
       right: 0;
       bottom: 0;
       background-color: var(--bg);
-      opacity: 0.6;
+      opacity: 0.7;
     }
   }
   @media screen and (max-width: 767px) {
