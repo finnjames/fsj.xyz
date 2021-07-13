@@ -20,12 +20,12 @@
 <!-- href="mailto:{email}" -->
 
 <button id="email-container" href="#">
-  <div id="email">
-    <div id="email-label">email:</div>
-    <div id="address-wrapper">
-      <input id="email-address" bind:this={address} value={email} readonly />
-    </div>
+  <!-- <div id="email"> -->
+  <div id="email-label">email:</div>
+  <div id="address-wrapper">
+    <input id="email-address" bind:this={address} value={email} readonly />
   </div>
+  <!-- </div> -->
 
   <div
     id="copy"
@@ -44,7 +44,7 @@
 <style lang="scss">
   #email-container {
     border: none;
-    background-color: var(--purple);
+    background-color: var(--magenta);
     border-radius: 0.8rem;
     font-family: inherit;
     font-size: inherit;
@@ -52,38 +52,34 @@
     padding: 0;
     height: 3.2rem;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     color: var(--white);
-    // padding: 0.6rem 1.2rem;
+    width: 100%;
   }
-  #email {
+
+  #email-label {
+    background-color: var(--dark-magenta);
+    border-radius: 0.8rem 0 0 0.8rem;
+    padding: 0 1rem;
+    // position: absolute;
     display: flex;
     align-items: center;
-    // position: relative;
+    // left: 0;
     height: 100%;
-    #email-label {
-      background-color: var(--dark-magenta);
-      border-radius: 0.8rem 0 0 0.8rem;
-      padding: 0 1rem;
-      // position: absolute;
-      display: flex;
-      align-items: center;
-      // left: 0;
-      height: 100%;
-    }
-    #address-wrapper {
-      background: var(--magenta);
-      padding: 0 1rem;
-      height: 100%;
-      display: flex;
-      align-items: center;
-    }
-    input {
-      background: transparent;
-      border: none;
-      width: 10.6ch;
-      color: var(--white);
-    }
+  }
+  #address-wrapper {
+    background: var(--magenta);
+    padding: 0 1rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  input {
+    background: transparent;
+    border: none;
+    width: 10.6ch;
+    color: var(--white);
   }
   #copy {
     border-radius: 0 0.8rem 0.8rem 0;

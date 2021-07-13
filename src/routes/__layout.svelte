@@ -97,7 +97,6 @@
   main {
     grid-area: main;
     display: flex;
-    // min-height: 100vh;
     flex-direction: column;
   }
   content {

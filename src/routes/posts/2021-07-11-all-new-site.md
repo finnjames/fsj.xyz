@@ -9,17 +9,16 @@ categories: blog
 As much as Jekyll + GitHub Pages served me well for my old static site, I have
 decided to take the plunge into a modern framework-based version. This site is
 made in the excellent [SvelteKit](https://kit.svelte.dev/). It isn't done, yet.
-At time of this writing, the "Posts" and "Portfolio" pages still definitely need
+At time of this writing, the "Posts" page still needs
 some work. With that said, I am very happy with how the new site is working out.
 
 I made a point with this rewrite to use as little code from the original version
-as possible. Indeed, I think there is very, very little holdover from the
-original—the only things that spring to mind are the CSS that generates the
+as possible. The only elements brought over are the SCSS that generates the
 Markdown-esque header markers and the click-to-copy email button on the home
 page.
 
 The new version of this site is hosted on [Vercel](https://vercel.com/), using
-the shockingly simple-to-use Svelte adapter for it. I've been really impressed
+the shockingly simple-to-use Svelte-Vercel adapter. I've been really impressed
 with how simple and easy Vercel is to use.
 
 ## Why SvelteKit?
@@ -42,5 +41,4 @@ get some more attention. It's pretty basic right now, which is fine, but I want
 to enable photos, code snippets, interactive elements, searching articles, etc.
 I also think it would be cool to have some sort of dashboard for editing my
 site. Right now the whole site is made by me, so I'd either have to find a
-dashboard/CMS to connect up or write my own. In the mean time, VSCode will be my
-CMS!
+dashboard/CMS to connect up or write my own. In the mean time I suppose I'll be using just VSCode.
