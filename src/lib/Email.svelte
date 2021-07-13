@@ -13,57 +13,119 @@
     }
     return str;
   }
+
+  let address;
 </script>
 
-<button id="email" on:click={copy}>
-  <div id="email-front">
-    email: {email}
+<!-- href="mailto:{email}" -->
+
+<button id="email-container" href="#">
+  <div id="email">
+    <div id="email-label">email:</div>
+    <div id="address-wrapper">
+      <input id="email-address" bind:this={address} value={email} readonly />
+    </div>
+  </div>
+
+  <div
+    id="copy"
+    on:click={() => {
+      address.select();
+      address.setSelectionRange(0, 99999); /* For mobile devices */
+      document.execCommand("copy");
+    }}
+  >
+    <div id="copy-front">
+      <img alt="copy email address" src="/icons/copy.svg" />
+    </div>
   </div>
 </button>
 
 <style lang="scss">
-  #email {
+  #email-container {
     border: none;
+    background-color: var(--purple);
     border-radius: 0.8rem;
-    cursor: pointer;
     font-family: inherit;
     font-size: inherit;
     position: relative;
     padding: 0;
-    height: 3rem;
+    height: 3.2rem;
     display: flex;
     align-items: center;
+    color: var(--white);
+    // padding: 0.6rem 1.2rem;
+  }
+  #email {
+    display: flex;
+    align-items: center;
+    // position: relative;
+    height: 100%;
+    #email-label {
+      background-color: var(--dark-magenta);
+      border-radius: 0.8rem 0 0 0.8rem;
+      padding: 0 1rem;
+      // position: absolute;
+      display: flex;
+      align-items: center;
+      // left: 0;
+      height: 100%;
+    }
+    #address-wrapper {
+      background: var(--magenta);
+      padding: 0 1rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+    input {
+      background: transparent;
+      border: none;
+      width: 10.6ch;
+      color: var(--white);
+    }
+  }
+  #copy {
+    border-radius: 0 0.8rem 0.8rem 0;
+    // padding: 0 1rem;
+    height: 100%;
+    width: 51px;
+    cursor: pointer;
     background-color: var(--dark-purple);
     background-image: linear-gradient(
       to right,
-      var(--darker-purple) 0,
-      var(--dark-purple) 1rem,
-      var(--dark-purple) calc(100% - 1rem),
-      var(--darker-purple) 100%
+      var(--dark-magenta) calc(100% - 1rem),
+      var(--darker-magenta) 100%
     );
   }
-  #email-front {
-    padding: 0.6rem 1.2rem;
+  #copy-front {
     border-radius: inherit;
-    color: var(--white);
+    padding: inherit;
     height: inherit;
-    background: var(--purple);
+    background: var(--magenta);
     display: flex;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: inherit;
     align-items: center;
     will-change: transform, filter;
     transition: transform 420ms cubic-bezier(0.3, 0.7, 0.4, 1),
       filter 420ms cubic-bezier(0.3, 0.7, 0.4, 1);
-    transform: translateY(-4px);
+    transform: translateY(0px);
     filter: brightness(100%);
   }
-  #email:hover #email-front {
+  #copy:hover #copy-front {
     transform: translateY(-8px);
     transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.6),
       filter 250ms cubic-bezier(0.3, 0.7, 0.4, 1);
-    filter: brightness(110%);
+    filter: brightness(120%) hue-rotate(10deg);
   }
-  #email:active #email-front {
-    transform: translateY(-4px);
-    transition: transform 42ms;
+  #copy:active {
+    #copy-front {
+      transform: translateY(-4px);
+      transition: transform 42ms;
+    }
   }
 </style>

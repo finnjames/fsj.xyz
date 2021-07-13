@@ -131,7 +131,7 @@
         font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15;
       }
       &.active {
-        color: var(--purple);
+        color: var(--cyan);
         font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15;
       }
     }
