@@ -9,6 +9,15 @@ title: CV
   .roman {
     font-variation-settings: "wght" 400;
   }
+  h1 {
+    padding-top: 1.2rem;
+  }
+  h2 {
+    padding-top: 1.6rem;
+  }
+  h3 {
+    padding-top: 1rem;
+  }
 </style>
 
 # CV

@@ -22,7 +22,7 @@
   }
 
   onMount(() => {
-    let foo = colorMode.setMode(getInitialColorMode());
+    colorMode.setMode(getInitialColorMode());
     setColorMode($colorMode);
   });
 
@@ -56,6 +56,7 @@
 </script>
 
 <svelte:head>
+  <link href="/normalize.css" rel="stylesheet" />
   <link href="/hint.min.css" rel="stylesheet" />
 </svelte:head>
 

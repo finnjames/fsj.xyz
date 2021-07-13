@@ -2,6 +2,7 @@
   import { page } from "$app/stores";
   import { colorMode } from "@/stores.ts";
   const nav = [
+    // { name: "Home", link: "/" },
     { name: "CV", link: "/cv" },
     { name: "Posts", link: "/posts" },
     { name: "Portfolio", link: "/portfolio" }
@@ -24,9 +25,10 @@
           style="transition-delay: {i * 32}ms"
           class:active={item.link === $page.path}
           on:click={() => (menuOpen = false)}
+          sveltekit:prefetch
           href={item.link}
         >
-          {item.name}
+          {@html item.name}
         </a>
       {/each}
       <button
@@ -108,9 +110,6 @@
       background: none;
       border: none;
     }
-    #menu-icon {
-      display: none;
-    }
     .nav-item {
       touch-action: manipulation;
       padding: 1.2rem;
@@ -140,14 +139,16 @@
   #menu-icon {
     touch-action: manipulation;
     display: none;
-    height: 3rem;
-    width: 3rem;
+    height: 4rem;
+    width: 4rem;
+    padding: 0.8rem;
+    transform: translateY(-4px);
     cursor: pointer;
     div {
       visibility: hidden;
     }
-    &:before,
-    &:after,
+    &::before,
+    &::after,
     & div {
       background: var(--fg);
       content: "";
@@ -161,11 +162,11 @@
   .active #menu-icon {
     &:before {
       margin: 7px 0;
-      transform: translateY(12px) rotate(135deg);
+      transform: translateY(8px) rotate(135deg);
     }
     &:after {
       margin: 7px 0;
-      transform: translateY(-18px) rotate(-135deg);
+      transform: translateY(-22px) rotate(-135deg);
     }
   }
   #blur {
@@ -180,13 +181,23 @@
     bottom: 0;
     opacity: 0;
     transition: opacity 300ms cubic-bezier(0, 0.62, 0.34, 1);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--bg);
+      opacity: 0.6;
+    }
   }
   @media screen and (max-width: 767px) {
     nav {
       z-index: 1;
-      position: absolute;
+      position: fixed;
       right: 0.4rem;
       padding-right: 0.8rem;
       flex-direction: row-reverse;
@@ -215,7 +226,7 @@
       }
       &.active {
         position: fixed;
-        right: calc(4% + 0.4rem); // TODO: don't hard code this
+        // right: calc(4% + 0.4rem); // TODO: don't hard code this
         .nav-item {
           transform: translateX(-0.5rem);
           visibility: visible;
