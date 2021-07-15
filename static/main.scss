@@ -1,0 +1,111 @@
+@import url("https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,MONO@-15..0,300..800,0..1,0..1&display=swap");
+
+:root {
+  // sizing
+  --break-width: 768px;
+  // colors
+  --bg: white;
+  --fg: #1a101f;
+  --white: white;
+  --light-gray: #ccc;
+  --med-light-gray: #aaa;
+  --med-gray: #999;
+  --med-dark-gray: #777;
+  --dark-gray: #333;
+  --light-purple: #e4d0ff;
+  --purple: #a154ff;
+  --dark-purple: #6421b6;
+  --darker-purple: #41107c;
+  --magenta: #ff68a5;
+  --dark-magenta: #f04288;
+  --darker-magenta: #b42961;
+  --cyan: #1192ce;
+}
+[data-color-mode="dark"] {
+  --bg: #1a101f;
+  --fg: white;
+  --dark-gray: #ccc;
+  --med-dark-gray: #aaa;
+  --med-gray: #999;
+  --med-light-gray: #777;
+  --light-gray: #333;
+  --purple: #b67aff;
+  --dark-purple: #a154ff;
+  --darker-purple: #6421b6;
+  --cyan: #4bbcf0;
+}
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Recursive", sans-serif;
+  background-color: var(--bg);
+  line-height: 1.4;
+  // overflow-x: hidden;
+}
+
+#svelte {
+  background-color: var(--bg);
+  color: var(--fg);
+  transition: background-color 320ms;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  position: relative;
+  font-variation-settings: "wght" 800;
+}
+
+@media screen and (min-width: 992px) {
+  @each $hx in (h1, h2, h3, h4) {
+    #{$hx}:not(.no-hash)::before {
+      position: absolute;
+      color: var(--fg);
+      opacity: 0.4;
+      font-variation-settings: "SLNT" -15, "wght" 600, "CASL" -15;
+      @if $hx == "h1" {
+        content: "#";
+        left: -1.9rem;
+      }
+      @if $hx == "h2" {
+        content: "##";
+        left: -2.76rem;
+      }
+      @if $hx == "h3" {
+        content: "###";
+        left: -3.14rem;
+      }
+      @if $hx == "h4" {
+        content: "####";
+        left: -3.42rem;
+      }
+      @media (max-width: #{32rem + 4rem}) {
+        display: none;
+      }
+    }
+  }
+}
+
+content a {
+  color: var(--purple);
+  text-decoration-thickness: 2px;
+  transition: color 100ms linear;
+  text-decoration-color: var(--magenta);
+  font-weight: 500;
+  &:hover {
+    color: var(--dark-magenta);
+  }
+  &:active {
+    opacity: 0.6;
+  }
+}
