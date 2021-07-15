@@ -52,10 +52,15 @@
 </script>
 
 <svelte:head>
-  <!-- <link rel="preload" href="../static/main.scss" as="style" /> -->
-  <link href="/normalize.css" rel="stylesheet" />
-  <link href="/hint.min.css" rel="stylesheet" />
-  <!-- <link href="/fonts.css" rel="stylesheet" /> -->
+  <link rel="preload" href="/normalize.css" as="style" />
+  <link rel="preload" href="/hint.min.css" as="style" />
+  <link rel="preload" href="/fonts.css" as="style" />
+  <link rel="preload" href="/main.scss" as="style" />
+
+  <link rel="stylesheet" href="/normalize.css" />
+  <link rel="stylesheet" href="/hint.min.css" />
+  <link rel="stylesheet" href="/fonts.css" />
+  <link rel="stylesheet" href="/main.scss" />
   <script>
     function getInitialColorMode() {
       const persistedColorMode = window.localStorage.getItem("color-mode");
