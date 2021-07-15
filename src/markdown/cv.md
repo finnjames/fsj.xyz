@@ -9,11 +9,8 @@ title: CV
   .roman {
     font-variation-settings: "wght" 400;
   }
-  h1, h2, h3, h4 {
+  h2, h3, h4 {
     line-height: 1;
-  }
-  h1 {
-    padding-top: 0.8rem;
   }
   h2 {
     padding-top: 1.2rem;
