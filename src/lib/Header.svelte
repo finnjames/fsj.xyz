@@ -40,7 +40,7 @@
         <img src="/icons/{$colorMode === 'dark' ? 'sun' : 'moon'}.svg" alt="toggle dark mode" />
       </button>
     </div>
-    <button id="menu-icon" on:click={() => (menuOpen = !menuOpen)}>
+    <button id="menu-icon" aria-label="menu" on:click={() => (menuOpen = !menuOpen)}>
       <div />
     </button>
     <div id="blur" />

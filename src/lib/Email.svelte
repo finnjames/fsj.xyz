@@ -20,10 +20,11 @@
 </script>
 
 <button id="email-container" href="#">
-  <div id="email-label">email:</div>
+  <label id="email-label" for="email">email</label>
   <div id="address-wrapper">
     <input
-      id="email-address"
+      id="email"
+      name="email"
       type="email"
       bind:this={address}
       value={email}
