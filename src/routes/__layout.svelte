@@ -30,6 +30,7 @@
     try {
       setColorMode(colorMode);
     } catch (e) {
+      // on initial set, document hasn't loaded yet :/
       if (!(e instanceof ReferenceError)) {
         throw e;
       }
@@ -39,25 +40,44 @@
   onDestroy(unsubscribe);
 
   function setColorMode(newMode: string, localStorage = false) {
+    const root = document.documentElement;
     if (newMode === "") {
-      document.body.getAttribute("data-color-mode") === "dark"
-        ? (newMode = "light")
-        : (newMode = "dark");
+      root.getAttribute("data-color-mode") === "dark" ? (newMode = "light") : (newMode = "dark");
     }
-    document.body.setAttribute("data-color-mode", newMode);
+    root.setAttribute("data-color-mode", newMode);
     if (localStorage) {
       window.localStorage.setItem("color-mode", newMode);
     }
   }
-  function toggleMode() {
-    colorMode.toggle();
-    setColorMode($colorMode, false); // TODO: persist color mode?
-  }
 </script>
 
 <svelte:head>
+  <!-- <link rel="preload" href="../static/main.scss" as="style" /> -->
   <link href="/normalize.css" rel="stylesheet" />
   <link href="/hint.min.css" rel="stylesheet" />
+  <!-- <link href="/fonts.css" rel="stylesheet" /> -->
+  <script>
+    function getInitialColorMode() {
+      const persistedColorMode = window.localStorage.getItem("color-mode");
+      const hasPersistedColorMode = typeof persistedColorMode === "string";
+      if (hasPersistedColorMode) {
+        console.log(`loaded color mode: ${persistedColorMode}`);
+        return persistedColorMode;
+      }
+      const mql = window.matchMedia("(prefers-color-scheme: dark)");
+      const hasMediaQueryPreference = typeof mql.matches === "boolean";
+
+      if (hasMediaQueryPreference) {
+        return mql.matches ? "dark" : "light";
+      }
+      return "light";
+    }
+
+    const colorMode = getInitialColorMode();
+    const root = document.documentElement;
+
+    root.setAttribute("data-color-mode", colorMode);
+  </script>
 </svelte:head>
 
 <div class="container">

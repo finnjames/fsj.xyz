@@ -4,6 +4,7 @@
 </script>
 
 <svelte:head>
+  <link rel="preload" href="/images/flight-suit.png" as="image" />
   <title>Finn James</title>
 </svelte:head>
 
