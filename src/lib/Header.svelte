@@ -10,6 +10,12 @@
   let menuOpen = false;
 </script>
 
+<svelte:head>
+  <link rel="preload" href="/images/fsj.svg" as="image" />
+  <link rel="preload" href="/icons/sun.svg" as="image" />
+  <link rel="preload" href="/icons/moon.svg" as="image" />
+</svelte:head>
+
 <header id="header">
   <div id="logo">
     <a href="/">
