@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { select_multiple_value } from "svelte/internal";
 
   const email = hex2a("6865794066736a2e78797a"); // hex email address
@@ -16,7 +16,7 @@
     return str;
   }
 
-  let address;
+  let address: any;
 </script>
 
 <button id="email-container" href="#">
@@ -37,7 +37,6 @@
     id="copy"
     on:click={() => {
       address.select();
-      address.setSelectionRange(0, 99999); /* For mobile devices */
       document.execCommand("copy");
     }}
   >
