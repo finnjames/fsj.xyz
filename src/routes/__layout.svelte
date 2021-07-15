@@ -53,7 +53,6 @@
 
 <svelte:head>
   <link rel="preload" href="/normalize.css" as="style" />
-  <link rel="preload" href="/hint.min.css" as="style" />
   <link rel="preload" href="/fonts.css" as="style" />
   <link rel="preload" href="/main.scss" as="style" />
 
