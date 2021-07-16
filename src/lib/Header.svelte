@@ -19,8 +19,8 @@
 <header id="header">
   <div id="logo">
     <a href="/">
-      <img id="logo-svg" src="/images/fsj.svg" alt="fsj logo" width="100" />
-      <img id="logo-shadow" src="/images/fsj.svg" alt="fsj logo" width="100" />
+      <img id="logo-svg" src="/images/fsj.svg" alt="fsj logo" height="100" width="100" />
+      <img id="logo-shadow" src="/images/fsj.svg" alt="fsj logo" height="100" width="100" />
     </a>
   </div>
   <nav class:active={menuOpen}>
@@ -28,6 +28,7 @@
       {#each nav as item, i}
         <a
           class="nav-item"
+          tabindex="0"
           style="transition-delay: {i * 32}ms"
           class:active={item.link === $page.path}
           on:click={() => (menuOpen = false)}
@@ -43,7 +44,12 @@
         on:click={colorMode.toggle}
         style="transition-delay: {nav.length * 32}ms"
       >
-        <img src="/icons/{$colorMode === 'dark' ? 'sun' : 'moon'}.svg" alt="toggle dark mode" />
+        <img
+          src="/icons/{$colorMode === 'dark' ? 'sun' : 'moon'}.svg"
+          alt="toggle dark mode"
+          height="24"
+          width="24"
+        />
       </button>
     </div>
     <button id="menu-icon" aria-label="menu" on:click={() => (menuOpen = !menuOpen)}>
@@ -119,6 +125,7 @@
     .nav-item {
       touch-action: manipulation;
       padding: 1.2rem;
+      display: block;
       text-decoration: none;
       font-variation-settings: "wght" 400, "CASL" 1, "slnt" -15;
       font-size: larger;
@@ -129,11 +136,9 @@
         padding-left: 2.4rem;
       }
       &:hover {
-        // color: var(--fg-hover);
         font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15;
       }
       &:active {
-        // color: var(--fg-active);
         font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15;
       }
       &.active {

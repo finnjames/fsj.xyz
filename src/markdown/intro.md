@@ -9,7 +9,7 @@ I am a frontend developer and amateur illustrator based in Chapel Hill, NC. I al
 
 [GitHub](https://github.com/finnsjames) • [Twitter](https://twitter.com/finnsjames) • [Polywork](https://polywork.fsj.xyz)
 
-<p style="padding-top: 0.8rem">
+<p class="email-wrapper">
   <Email />
 </p>
 
@@ -31,13 +31,25 @@ I am a frontend developer and amateur illustrator based in Chapel Hill, NC. I al
     margin-bottom: 1.6rem;
   }
   .hint--top {
+    font-family: "RecVar" !important;
     &::before {
       border-top-color: var(--fg);
     }
     &::after {
+      font-family: "RecVar", sans-serif;
+      font-variation-settings: "wght" 550;
       background-color: var(--fg);
       color: var(--bg);
       text-shadow: none !important;
+    }
+  }
+  .email-wrapper {
+    padding-top: 0.8rem;
+      transform: translateX(-1px);
+  }
+  @media screen and (max-width: 767px) {
+    .email-wrapper {
+      transform: none;
     }
   }
 

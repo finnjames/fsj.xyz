@@ -1,12 +1,12 @@
 <script lang="ts">
-  // @ts-ignore
   import Intro from "$markdown/intro.md"; // TODO: why is this a problem?
 </script>
 
 <svelte:head>
   <title>Finn James</title>
   <meta
-    name="I’m Finn, a frontend developer & illustrator. I also write software for telescopes."
+    name="description"
+    content="I’m Finn, a frontend developer & illustrator. I also write software for telescopes."
   />
 </svelte:head>
 

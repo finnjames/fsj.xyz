@@ -1,6 +1,6 @@
 :root {
   // sizing
-  --break-width: 768px;
+  --breakpoint: 767px;
   // colors
   --bg: white;
   --fg: #1a101f;
@@ -14,19 +14,19 @@
   --purple: #a154ff;
   --dark-purple: #6421b6;
   --darker-purple: #41107c;
-  --magenta: #ff68a5;
-  --dark-magenta: #f04288;
-  --darker-magenta: #b42961;
+  --magenta: #f30b68;
+  --dark-magenta: #db0058;
+  --darker-magenta: #97013d;
   --cyan: #1192ce;
 }
 [data-color-mode="dark"] {
-  --bg: #1a101f;
+  --bg: #150e22;
   --fg: white;
-  --dark-gray: #ccc;
-  --med-dark-gray: #aaa;
-  --med-gray: #999;
-  --med-light-gray: #777;
-  --light-gray: #333;
+  --dark-gray: #b0a4c9;
+  --med-dark-gray: #9688b1;
+  --med-gray: #6d5c8d;
+  --med-light-gray: #5b497a;
+  --light-gray: #43345e;
   --purple: #b67aff;
   --dark-purple: #a154ff;
   --darker-purple: #6421b6;
@@ -67,8 +67,7 @@ h6 {
   @each $hx in (h1, h2, h3, h4) {
     #{$hx}:not(.no-hash)::before {
       position: absolute;
-      color: var(--fg);
-      opacity: 0.4;
+      color: var(--med-light-gray);
       font-variation-settings: "SLNT" -15, "wght" 600, "CASL" -15;
       @if $hx == "h1" {
         content: "#";

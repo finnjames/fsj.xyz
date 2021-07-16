@@ -19,7 +19,7 @@
   let address: any;
 </script>
 
-<button id="email-container" href="#">
+<div id="email-container" href="#">
   <label id="email-label" for="email">email</label>
   <div id="address-wrapper">
     <input
@@ -33,7 +33,7 @@
     />
   </div>
 
-  <div
+  <button
     id="copy"
     on:click={() => {
       address.select();
@@ -41,10 +41,10 @@
     }}
   >
     <div id="copy-front">
-      <img alt="copy email address" src="/icons/copy.svg" />
+      <img alt="copy email address" src="/icons/copy.svg" height="24" width="24" />
     </div>
-  </div>
-</button>
+  </button>
+</div>
 
 <style lang="scss">
   #email-container {
@@ -92,6 +92,7 @@
   }
   #copy {
     border-radius: 0 0.8rem 0.8rem 0;
+    border: none;
     height: 100%;
     width: 51px;
     cursor: pointer;
@@ -104,6 +105,7 @@
   }
   #copy-front {
     border-radius: inherit;
+    border: none;
     padding: inherit;
     height: inherit;
     background: var(--magenta);
