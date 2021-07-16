@@ -1,6 +1,12 @@
 {
 	"name": "fsj.xyz",
 	"version": "0.0.1",
+	"license": "MIT",
+	"author": "Finn James",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/finnsjames/fsj.xyz.git"
+	},
 	"scripts": {
 		"dev": "svelte-kit dev",
 		"build": "svelte-kit build",
