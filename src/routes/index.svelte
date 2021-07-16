@@ -5,6 +5,9 @@
 
 <svelte:head>
   <title>Finn James</title>
+  <meta
+    name="I’m Finn, a frontend developer & illustrator. I also write software for telescopes."
+  />
 </svelte:head>
 
 <div class="relative">

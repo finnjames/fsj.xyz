@@ -96,11 +96,12 @@ h6 {
 content a {
   color: var(--purple);
   text-decoration-thickness: 2px;
-  transition: color 100ms linear;
+  transition: color 150ms linear;
   text-decoration-color: var(--magenta);
   font-weight: 500;
   &:hover {
     color: var(--dark-magenta);
+    transition: color 100ms linear;
   }
   &:active {
     opacity: 0.6;
