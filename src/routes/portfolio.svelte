@@ -30,7 +30,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    // background: black;
     width: 100vw;
     position: relative;
     left: 50%;

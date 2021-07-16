@@ -38,13 +38,11 @@ body {
   box-sizing: border-box;
   font-family: "RecVar", sans-serif;
   background-color: var(--bg);
-  line-height: 1.4;
-}
-
-#svelte {
-  background-color: var(--bg);
   color: var(--fg);
   transition: background-color 320ms;
+  line-height: 1.4;
+  position: relative;
+  overflow-x: hidden;
 }
 
 *,

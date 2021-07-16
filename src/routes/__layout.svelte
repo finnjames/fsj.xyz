@@ -98,18 +98,13 @@
 
 <style lang="scss" global>
   @import "../static/main.scss";
-  #svelte {
-    height: 100vh;
-    width: 100vw;
-    padding: 0;
-    margin: 0;
-  }
   .container {
     display: grid;
     grid-template-columns: minmax(4%, auto) minmax(auto, 42rem) minmax(4%, auto);
     grid-template-rows: auto 1fr;
     gap: 0px 0px;
     height: 100%;
+    width: 100%;
     grid-template-areas:
       ". hd ."
       ". main .";

@@ -1,8 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,MONO@-15..0,300..800,0..1,0..1&display=swap");
-
 :root {
   // sizing
-  --break-width: 768px;
+  --breakpoint: 767px;
   // colors
   --bg: white;
   --fg: #1a101f;
@@ -16,51 +14,41 @@
   --purple: #a154ff;
   --dark-purple: #6421b6;
   --darker-purple: #41107c;
-  --light-cyan: #a2eff1;
-  --cyan: #2ddce2;
-  --magenta: #ff68a5;
-  --dark-magenta: #f04288;
+  --magenta: #f30b68;
+  --dark-magenta: #db0058;
+  --darker-magenta: #97013d;
+  --cyan: #1192ce;
 }
 [data-color-mode="dark"] {
-  --bg: #1a101f;
+  --bg: #150e22;
   --fg: white;
-  --dark-gray: #ccc;
-  --med-dark-gray: #aaa;
-  --med-gray: #999;
-  --med-light-gray: #777;
-  --light-gray: #333;
-  // --dark-purple: #e4d0ff;
-  // --purple: #a154ff;
-  // --light-purple: #6421b6;
-  // --darker-purple: #41107c;
-  --light-cyan: #a2eff1;
-  --cyan: #2ddce2;
-  --magenta: #ff68a5;
-  --dark-magenta: #f04288;
+  --dark-gray: #b0a4c9;
+  --med-dark-gray: #9688b1;
+  --med-gray: #6d5c8d;
+  --med-light-gray: #5b497a;
+  --light-gray: #43345e;
+  --purple: #b67aff;
+  --dark-purple: #a154ff;
+  --darker-purple: #6421b6;
+  --cyan: #4bbcf0;
 }
 
-html,
 body {
+  margin: 0;
   box-sizing: border-box;
-  font-family: "Recursive", sans-serif;
-  background-color: var(--bg);
-  overflow-x: hidden;
-}
-
-#svelte {
+  font-family: "RecVar", sans-serif;
   background-color: var(--bg);
   color: var(--fg);
   transition: background-color 320ms;
+  line-height: 1.4;
+  position: relative;
+  overflow-x: hidden;
 }
 
 *,
 *:before,
 *:after {
   box-sizing: inherit;
-}
-
-body {
-  margin: 0;
 }
 
 h1,
@@ -77,8 +65,7 @@ h6 {
   @each $hx in (h1, h2, h3, h4) {
     #{$hx}:not(.no-hash)::before {
       position: absolute;
-      color: var(--fg);
-      opacity: 0.4;
+      color: var(--med-light-gray);
       font-variation-settings: "SLNT" -15, "wght" 600, "CASL" -15;
       @if $hx == "h1" {
         content: "#";
@@ -106,11 +93,12 @@ h6 {
 content a {
   color: var(--purple);
   text-decoration-thickness: 2px;
-  transition: color 100ms linear;
+  transition: color 150ms linear;
   text-decoration-color: var(--magenta);
   font-weight: 500;
   &:hover {
     color: var(--dark-magenta);
+    transition: color 100ms linear;
   }
   &:active {
     opacity: 0.6;
