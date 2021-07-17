@@ -87,6 +87,7 @@
     background: transparent;
     border: none;
     width: 12ch;
+    min-width: 12ch;
     color: var(--white);
     text-align: center;
   }
