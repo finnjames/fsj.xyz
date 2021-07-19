@@ -69,7 +69,7 @@
     }
   }
   #email-label {
-    background-color: var(--dark-magenta);
+    background-color: var(--med-dark-magenta);
     border-radius: 0.8rem 0 0 0.8rem;
     padding: 0 1rem;
     display: flex;
@@ -86,8 +86,8 @@
   input {
     background: transparent;
     border: none;
-    width: 12ch;
-    min-width: 12ch;
+    width: 8rem;
+    min-width: 8rem;
     color: var(--white);
     text-align: center;
   }
@@ -96,6 +96,7 @@
     border: none;
     height: 100%;
     width: 51px;
+    position: relative;
     cursor: pointer;
     background-color: var(--dark-purple);
     background-image: linear-gradient(
@@ -103,6 +104,24 @@
       var(--dark-magenta) calc(100% - 0.8rem),
       var(--darker-magenta) 100%
     );
+    &::before {
+      content: "";
+      position: absolute;
+      border-radius: inherit;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      --shadow-color: 42, 12, 80;
+      // color: rgb(43, 13, 78);
+      box-shadow: 0 0 0.4rem rgba(var(--shadow-color), 0.1), 0 0 1rem rgba(var(--shadow-color), 0.2),
+        0 0 2rem rgba(var(--shadow-color), 0.1);
+      transition: opacity 250ms cubic-bezier(0.3, 0.7, 0.4, 1.6);
+      opacity: 0;
+    }
+    &:hover::before {
+      opacity: 1;
+    }
   }
   #copy-front {
     border-radius: inherit;
@@ -127,7 +146,7 @@
     transform: translateY(-8px);
     transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.6),
       filter 250ms cubic-bezier(0.3, 0.7, 0.4, 1);
-    filter: brightness(120%);
+    // filter: brightness(130%);
   }
   #copy:active {
     #copy-front {

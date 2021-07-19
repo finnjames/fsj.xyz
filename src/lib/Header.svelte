@@ -136,14 +136,14 @@
         padding-left: 2.4rem;
       }
       &:hover {
-        font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15;
+        font-variation-settings: "wght" 840, "CASL" 1, "slnt" -15;
       }
       &:active {
-        font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15;
+        font-variation-settings: "wght" 840, "CASL" 1, "slnt" -15;
       }
       &.active {
         color: var(--magenta);
-        font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15;
+        font-variation-settings: "wght" 840, "CASL" 1, "slnt" -15;
       }
     }
   }
@@ -182,8 +182,6 @@
   }
   #blur {
     pointer-events: none;
-    // background-color: rgba(white, 0.6);
-    // background-color: var(--bg);
     z-index: -1;
     position: fixed;
     top: 0;
@@ -225,7 +223,7 @@
       }
       .nav-item {
         font-size: x-large;
-        font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15;
+        font-variation-settings: "wght" 400, "CASL" 1, "slnt" -15;
         opacity: 0;
         transform: translateX(6rem);
         transition: transform 300ms cubic-bezier(0, 0.62, 0.34, 1),
@@ -237,7 +235,6 @@
       }
       &.active {
         position: fixed;
-        // right: calc(4% + 0.4rem); // TODO: don't hard code this
         .nav-item {
           transform: translateX(-0.5rem);
           visibility: visible;

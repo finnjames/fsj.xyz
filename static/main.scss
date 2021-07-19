@@ -14,9 +14,10 @@
   --purple: #a154ff;
   --dark-purple: #6421b6;
   --darker-purple: #41107c;
-  --magenta: #f30b68;
-  --dark-magenta: #db0058;
-  --darker-magenta: #97013d;
+  --magenta: #f30b6c;
+  --med-dark-magenta: #d4035a;
+  --dark-magenta: #b3004a;
+  --darker-magenta: #68002b;
   --cyan: #1192ce;
 }
 [data-color-mode="dark"] {
@@ -97,7 +98,7 @@ content a {
   text-decoration-color: var(--magenta);
   font-weight: 500;
   &:hover {
-    color: var(--dark-magenta);
+    color: var(--magenta);
     transition: color 100ms linear;
   }
   &:active {
