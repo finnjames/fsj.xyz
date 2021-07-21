@@ -21,10 +21,9 @@
     }
   }
   img {
-    height: auto;
     max-height: 90vh;
     max-width: 100vw;
-    margin-bottom: 2.4rem;
+    margin-bottom: 2.8rem;
   }
   #portfolio {
     display: flex;
