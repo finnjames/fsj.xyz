@@ -66,7 +66,6 @@
     position: relative;
     padding-top: 1rem;
     z-index: 1;
-    // padding: 1rem 4% 0;
   }
   #color-mode-toggle {
     touch-action: manipulation;

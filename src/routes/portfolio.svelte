@@ -1,8 +1,17 @@
-<svelte:head><title>Portfolio - Finn James</title></svelte:head>
+<svelte:head>
+  <title>Portfolio - Finn James</title>
+  <style>
+    :root {
+      --bg: black;
+      --fg: white;
+    }
+  </style>
+</svelte:head>
 
 <div id="portfolio">
   <h1 id="photography" class="no-hash">Photography</h1>
   <img loading="lazy" alt="Eszter 1" src="/art/p-e2.jpeg" />
+  <img loading="lazy" alt="Coulture" src="/art/p-c1.jpeg" />
   <img loading="lazy" alt="Thomas" src="/art/p-t1.jpeg" />
   <img loading="lazy" alt="Hannah" src="/art/p-h1.jpeg" />
   <img loading="lazy" alt="Eszter 2" src="/art/p-e1.jpeg" />
