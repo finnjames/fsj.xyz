@@ -1,6 +1,22 @@
 <script lang="ts">
   import Intro from "$markdown/intro.md"; // TODO: why is this a problem?
+
+  let bg, splash, splashHelmet;
+
+  const moveSplash = (event) => {
+    splash.style.transform = `translateX(${-event.clientX / 80}px) translateY(${
+      -event.clientY / 80
+    }px)`;
+    splashHelmet.style.transform = `translateX(${-event.clientX / 40}px) translateY(${
+      -event.clientY / 40
+    }px)`;
+    bg.style.transform = `translateX(${-event.clientX / 160}px) translateY(${
+      -event.clientY / 160
+    }px)`;
+  };
 </script>
+
+<svelte:window on:mousemove={moveSplash} />
 
 <svelte:head>
   <title>Finn James</title>
@@ -10,19 +26,43 @@
   />
 </svelte:head>
 
+<div id="bg" bind:this={bg} />
 <div class="relative">
   <div class="half">
     <Intro />
   </div>
-  <div id="splash" alt="me in a flight suit" />
+  <div bind:this={splash} id="splash" alt="me in a flight suit" />
+  <div bind:this={splashHelmet} id="splash-helmet" alt="floating helmet" />
 </div>
 
 <style lang="scss">
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    text-shadow: 0 0 3rem #fff;
+  }
+  #bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 102%;
+    height: 102%;
+    background: url("/images/iss.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 40%;
+    filter: contrast(80%);
+  }
   .relative {
     position: relative;
   }
   #splash {
-    background-image: url("/images/flight-suit.png");
+    background-image: url("/images/flight-suit-me.png");
     background-size: auto 900px;
     background-repeat: no-repeat;
     position: fixed;
@@ -33,6 +73,16 @@
     width: 600px;
     user-select: none;
     pointer-events: none;
+  }
+  #splash-helmet {
+    @extend #splash;
+    background-image: url("/images/flight-suit-helmet.png");
+  }
+  @media (prefers-reduced-motion) {
+    #bg #splash,
+    #splash-helmet {
+      transform: none !important;
+    }
   }
   .half {
     max-width: 22rem;
