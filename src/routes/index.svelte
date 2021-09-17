@@ -79,7 +79,8 @@
     background-image: url("/images/flight-suit-helmet.png");
   }
   @media (prefers-reduced-motion) {
-    #bg #splash,
+    #bg,
+    #splash,
     #splash-helmet {
       transform: none !important;
     }
