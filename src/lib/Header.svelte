@@ -38,19 +38,21 @@
           {@html item.name}
         </a>
       {/each}
-      <button
-        class="nav-item"
-        id="color-mode-toggle"
-        on:click={colorMode.toggle}
-        style="transition-delay: {nav.length * 32}ms"
-      >
-        <img
-          src="/icons/{$colorMode === 'dark' ? 'sun' : 'moon'}.svg"
-          alt="toggle dark mode"
-          height="24"
-          width="24"
-        />
-      </button>
+      {#if $page.path != "/portfolio"}
+        <button
+          class="nav-item"
+          id="color-mode-toggle"
+          on:click={colorMode.toggle}
+          style="transition-delay: {nav.length * 32}ms"
+        >
+          <img
+            src="/icons/{$colorMode === 'dark' ? 'sun' : 'moon'}.svg"
+            alt="toggle dark mode"
+            height="24"
+            width="24"
+          />
+        </button>
+      {/if}
     </div>
     <button id="menu-icon" aria-label="menu" on:click={() => (menuOpen = !menuOpen)}>
       <div />
