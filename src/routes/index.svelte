@@ -36,15 +36,6 @@
 </div>
 
 <style lang="scss">
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p {
-    text-shadow: 0 0 3rem #fff;
-  }
   #bg {
     position: fixed;
     top: 0;

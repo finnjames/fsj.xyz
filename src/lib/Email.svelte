@@ -49,7 +49,7 @@
 <style lang="scss">
   #email-container {
     border: none;
-    background-color: var(--magenta);
+    background-color: transparent;
     border-radius: 0.8rem;
     font-family: inherit;
     font-size: inherit;
@@ -81,6 +81,7 @@
     padding: 0 1rem;
     height: 100%;
     display: flex;
+    flex: auto;
     align-items: center;
   }
   input {
@@ -98,30 +99,8 @@
     width: 51px;
     position: relative;
     cursor: pointer;
-    background-color: var(--dark-purple);
-    background-image: linear-gradient(
-      to right,
-      var(--dark-magenta) calc(100% - 0.8rem),
-      var(--darker-magenta) 100%
-    );
-    &::before {
-      content: "";
-      position: absolute;
-      border-radius: inherit;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 100%;
-      --shadow-color: 42, 12, 80;
-      // color: rgb(43, 13, 78);
-      box-shadow: 0 0 0.4rem rgba(var(--shadow-color), 0.1), 0 0 1rem rgba(var(--shadow-color), 0.2),
-        0 0 2rem rgba(var(--shadow-color), 0.1);
-      transition: opacity 250ms cubic-bezier(0.3, 0.7, 0.4, 1.6);
-      opacity: 0;
-    }
-    &:hover::before {
-      opacity: 1;
-    }
+    background-color: transparent;
+    perspective: 100px;
   }
   #copy-front {
     border-radius: inherit;
@@ -137,21 +116,46 @@
     width: inherit;
     align-items: center;
     will-change: transform, filter;
-    transition: transform 420ms cubic-bezier(0.3, 0.7, 0.4, 1),
-      filter 420ms cubic-bezier(0.3, 0.7, 0.4, 1);
     transform: translateY(0px);
     filter: brightness(100%);
+    img {
+      transform-style: preserve-3d;
+    }
   }
   #copy:hover #copy-front {
-    transform: translateY(-8px);
-    transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.6),
-      filter 250ms cubic-bezier(0.3, 0.7, 0.4, 1);
-    // filter: brightness(130%);
+    transform-style: preserve-3d;
+    transform-origin: left;
+    animation: wobble 800ms cubic-bezier(0.3, 0.7, 0.4, 1.6);
+    filter: brightness(100%);
+    transition: transform 200ms cubic-bezier(0.3, 0.7, 0.4, 1.6),
+      filter 200ms cubic-bezier(0.3, 0.7, 0.4, 1.6);
+  }
+  @keyframes wobble {
+    0% {
+      transform: rotateY(0deg);
+      filter: brightness(100%);
+    }
+    25% {
+      transform: rotateY(32deg);
+      filter: brightness(108%);
+    }
+    50% {
+      transform: rotateY(-8deg);
+      filter: brightness(98%);
+    }
+    75% {
+      transform: rotateY(8deg);
+      filter: brightness(102%);
+    }
+    100% {
+      transform: rotateY(0deg);
+      filter: brightness(100%);
+    }
   }
   #copy:active {
     #copy-front {
-      transform: translateY(-4px);
-      transition: transform 42ms;
+      transform: rotateY(24deg);
+      filter: brightness(106%);
     }
   }
 </style>
