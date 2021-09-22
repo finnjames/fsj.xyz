@@ -7,7 +7,7 @@ My name is <span class="bold hint--top hint--rounded" aria-label="he/him, please
 
 I am a frontend developer and amateur illustrator based in Chapel Hill, NC. I also write <a href="https://github.com/finnsjames/threepio">software</a> for <a href="https://skynet.unc.edu">telescopes</a>.
 
-[GitHub](https://github.com/finnsjames) • [Twitter](https://twitter.com/finnsjames) • [Polywork](https://polywork.fsj.xyz)
+[GitHub](https://github.com/finnsjames) • [Twitter](https://twitter.com/finnsjames) 
 
 <p class="email-wrapper">
   <Email />
@@ -18,12 +18,18 @@ I am a frontend developer and amateur illustrator based in Chapel Hill, NC. I al
 </script>
 
 <style lang="scss">
+  p {
+    text-shadow: 0 0 2.2rem var(--bg);
+  }
   h1 {
     font-weight: bold;
     font-size: 3.2rem;
     margin-top: 1rem;
     margin-bottom: 1.6rem;
     font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15;
+  }
+  a {
+    color: var(--medium-purple);
   }
   p {
     font-size: large;

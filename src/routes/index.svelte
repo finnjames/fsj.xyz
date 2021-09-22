@@ -42,7 +42,7 @@
     left: 0;
     width: 102%;
     height: 102%;
-    background: url("/images/iss.png");
+    background: url("/images/iss.webp");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -93,8 +93,16 @@
       display: block;
       background-position: calc(-300px + 50vw) 0;
     }
+    #splash-helmet {
+      display: none;
+    }
     .half {
       max-width: none !important;
+    }
+    #bg,
+    #splash,
+    #splash-helmet {
+      transform: none !important;
     }
   }
 </style>
