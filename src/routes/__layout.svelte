@@ -82,6 +82,17 @@
 
     root.setAttribute("data-color-mode", colorMode);
   </script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XRLEG6433K"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-XRLEG6433K");
+  </script>
 </svelte:head>
 
 <div class="container">
