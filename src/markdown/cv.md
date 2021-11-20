@@ -194,4 +194,4 @@ I love to cook, especially Japanese and Italian cuisine. I also once threw a Lat
 <br />
 <br />
 
-<span class="gray">Updated June 2021</span>
+<span class="gray">Updated November 2021</span>
