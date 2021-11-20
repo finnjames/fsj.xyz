@@ -26,7 +26,7 @@ title: CV
 
 ### University of North Carolina at Chapel Hill
 
-Computer Science and Studio Art double major. GPA: 3.94. Expected graduation: May 2022.
+Computer Science B.S. with a Studio Art minor. GPA: 3.94. Expected graduation: May 2022.
 
 ### Honors Carolina
 
@@ -84,9 +84,9 @@ I am creating a new internal application to improve interface accessibility and 
 
 I do astrophysics research and software development with Dr. Dan Reichart in the Physics & Astronomy Department at UNC.
 
-For my first project, I wrote [an open source application](https://github.com/finnsjames/threepio) to interpret data coming from the 40' radio telescope at the Green Bank Observatory. I engineered the data logic to interface between sixty-year-old radio astronomy equipment and modern analysis programs. I designed the UI/UX to remain accessible to the students and scientists who use it for their research.
+For my first project, I wrote the logic and UI/UX for software to interpret data coming from the 40' radio telescope at the Green Bank Observatory. I engineered the system to interface between sixty-year-old radio astronomy equipment and modern analysis programs, all while remaining accessible to the scientists who use it for their research.
 
-Now, I am building a new front-end application for the Skynet robotic telescope network, with a focus on the radio data interpretation and analysis tools.
+Now, I am building a new front-end application for the Skynet robotic telescope network, with a focus on the radio data interpretation and analysis tools. This is funded by a new grant to increase accessibility of astrophysics research for students around the country.
 
 ### UNC Department of Computer Science <span class="roman">— Learning Assistant</span>
 
@@ -112,27 +112,27 @@ I led activities with campers at Carolina Friends School Summer Programs to enco
 
 **Proficient in:** Python, C, Java, TypeScript, Vue, JavaScript, SystemVerilog, <span title="source for this site on GitHub (finnsjames/fsj.xyz)">HTML/CSS</span>
 
-**Courses Completed by Summer 2021:** Digital Logic & Computer Design, Models of Language & Computation, Data Structures, Computer Architecture, Digital Photography, Modern Web Development, UX Design & Usability
+**Courses Completed by Summer 2022:** Cryptography, Digital Logic & Computer Design, Models of Language & Computation, Data Structures, Computer Architecture, Digital Photography, Modern Web Development, UX Design & Usability
 
 ### Mathematics
 
-**Courses Completed by Summer 2021:** Discrete Mathematics, Linear Algebra, Multivariable Calculus, Probability
+**Courses Completed by Summer 2022:** Discrete Mathematics, Linear Algebra, Multivariable Calculus, Probability
 
 **Familiarity with:** Wolfram Mathematica, Microsoft Excel
 
 ### Astrophysics
 
-**Courses Completed by Summer 2021:** Calculus-Based Mechanics & Relativity, Intro Astronomy & Lab, Intro Cosmology
+**Courses Completed by Summer 2022:** Calculus-Based Mechanics & Relativity, Intro Astronomy & Lab, Intro Cosmology
 
 **Familiarity with:** Astropy, NumPy, Stellarium, Radio Cartographer, Afterglow
 
 ### Technology
 
 **IDEs & editors:**
-PyCharm, IntelliJ IDEA, Eclipse, VSCode, vim
+VSCode, vim, PyCharm, IntelliJ IDEA, Eclipse, Vivado
 
 **Tools:**
-git, node, npm, zsh, bash
+git, node/npm, zsh, bash
 
 **Software:**
 Photoshop, Illustrator, XD, InDesign, Premiere Pro, Audacity, Microsoft Office
