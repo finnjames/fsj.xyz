@@ -1,22 +1,42 @@
 <script lang="ts">
   import Intro from "$markdown/intro.md"; // TODO: why is this a problem?
 
-  let bg, splash, splashHelmet;
+  let bg: HTMLElement, splash: HTMLElement, helmet: HTMLElement;
 
-  const moveSplash = (event) => {
-    splash.style.transform = `translateX(${-event.clientX / 80}px) translateY(${
-      -event.clientY / 80
-    }px)`;
-    splashHelmet.style.transform = `translateX(${-event.clientX / 40}px) translateY(${
-      -event.clientY / 40
-    }px)`;
-    bg.style.transform = `translateX(${-event.clientX / 160}px) translateY(${
-      -event.clientY / 160
-    }px)`;
+  class Position {
+    x: number;
+    y: number;
+    constructor(x: number, y: number) {
+      this.setBoth(x, y);
+    }
+    setBoth(x: number, y: number): void {
+      this.x = x;
+      this.y = y;
+    }
+  }
+
+  export let mousePos = new Position(0, 0),
+    pos = new Position(0, 0);
+
+  const mouseMove = (event) => {
+    mousePos.setBoth(event.clientX, event.clientY);
   };
+
+  setInterval(() => {
+    // console.log(mouseX, mouseY, pos);
+    pos.setBoth(pos.x + (mousePos.x - pos.x) * 0.05, pos.y + (mousePos.y - pos.y) * 0.05);
+    try {
+      splash.style.transform = `translateX(${-pos.x / 40}px) translateY(${-pos.y / 40}px)`;
+      helmet.style.transform = `translateX(${-pos.x / 20}px) translateY(${-pos.y / 20}px)`;
+      bg.style.transform = `translateX(${-pos.x / 80}px) translateY(${-pos.y / 80}px)`;
+    } catch (error) {
+      // console.log("error in transform");
+      pos.setBoth(0, 0);
+    }
+  }, 16); // 60Hz-ish
 </script>
 
-<svelte:window on:mousemove={moveSplash} />
+<svelte:window on:mousemove={mouseMove} />
 
 <svelte:head>
   <title>Finn James</title>
@@ -32,7 +52,7 @@
     <Intro />
   </div>
   <div bind:this={splash} id="splash" alt="me in a flight suit" />
-  <div bind:this={splashHelmet} id="splash-helmet" alt="floating helmet" />
+  <div bind:this={helmet} id="splash-helmet" alt="floating helmet" />
 </div>
 
 <style lang="scss">
