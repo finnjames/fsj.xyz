@@ -107,3 +107,11 @@ content a {
     opacity: 0.6;
   }
 }
+
+code {
+  font-family: "RecVar", monospace;
+  font-variation-settings: "MONO" 1;
+  background-color: var(--light-gray);
+  padding: 0.1rem 0.2rem;
+  border-radius: 0.2rem;
+}
