@@ -4,7 +4,7 @@
 
   let bg: HTMLElement, splash: HTMLElement, helmet: HTMLElement;
 
-  class Position {
+  class orderedPair {
     x: number;
     y: number;
     constructor(x: number, y: number) {
@@ -16,13 +16,9 @@
     }
   }
 
-  export let mousePos = new Position(0, 0),
-    pos = new Position(0, 0);
-
-  export let windowSize = {
-    x: 0,
-    y: 0
-  };
+  export let mousePos = new orderedPair(0, 0),
+    pos = new orderedPair(0, 0),
+    windowSize = new orderedPair(0, 0);
 
   onMount(async () => {
     onWindowResize();
@@ -37,10 +33,7 @@
   };
 
   const onWindowResize = () => {
-    windowSize = {
-      x: window.innerWidth,
-      y: window.innerHeight
-    };
+    windowSize.setBoth(window.innerWidth, window.innerHeight);
   };
 
   function float(): void {
