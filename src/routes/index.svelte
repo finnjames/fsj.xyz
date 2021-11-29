@@ -1,5 +1,6 @@
 <script lang="ts">
   import Intro from "$markdown/intro.md"; // TODO: why is this a problem?
+  import { onMount } from "svelte";
 
   let bg: HTMLElement, splash: HTMLElement, helmet: HTMLElement;
 
@@ -18,25 +19,45 @@
   export let mousePos = new Position(0, 0),
     pos = new Position(0, 0);
 
-  const mouseMove = (event) => {
+  export let windowSize = {
+    x: 0,
+    y: 0
+  };
+
+  onMount(async () => {
+    onWindowResize();
+  });
+
+  const onMouseMove = (event) => {
     mousePos.setBoth(event.clientX, event.clientY);
   };
 
+  const onWindowResize = () => {
+    windowSize = {
+      x: window.innerWidth,
+      y: window.innerHeight
+    };
+  };
+
   setInterval(() => {
-    // console.log(mouseX, mouseY, pos);
     pos.setBoth(pos.x + (mousePos.x - pos.x) * 0.05, pos.y + (mousePos.y - pos.y) * 0.05);
     try {
-      splash.style.transform = `translateX(${-pos.x / 40}px) translateY(${-pos.y / 40}px)`;
-      helmet.style.transform = `translateX(${-pos.x / 20}px) translateY(${-pos.y / 20}px)`;
-      bg.style.transform = `translateX(${-pos.x / 80}px) translateY(${-pos.y / 80}px)`;
+      splash.style.transform = `translateX(${(windowSize.x - pos.x) / 20}px) translateY(${
+        (windowSize.y - pos.y) / 40
+      }px)`;
+      helmet.style.transform = `translateX(${(windowSize.x - pos.x) / 10}px) translateY(${
+        (windowSize.y - pos.y) / 20
+      }px)`;
+      bg.style.transform = `translateX(${(windowSize.x - pos.x) / 40}px) translateY(${
+        (windowSize.y - pos.y) / 80
+      }px)`;
     } catch (error) {
-      // console.log("error in transform");
       pos.setBoth(0, 0);
     }
   }, 16); // 60Hz-ish
 </script>
 
-<svelte:window on:mousemove={mouseMove} />
+<svelte:window on:mousemove={onMouseMove} on:resize={onWindowResize} />
 
 <svelte:head>
   <title>Finn James</title>
@@ -58,10 +79,10 @@
 <style lang="scss">
   #bg {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 102%;
-    height: 102%;
+    top: -4%;
+    left: -4%;
+    width: 108%;
+    height: 108%;
     background: url("/images/iss.webp");
     background-size: cover;
     background-repeat: no-repeat;
