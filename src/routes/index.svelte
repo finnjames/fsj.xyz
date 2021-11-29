@@ -26,9 +26,13 @@
 
   onMount(async () => {
     onWindowResize();
+    (function animationLoop() {
+      window.requestAnimationFrame(animationLoop);
+      float();
+    })();
   });
 
-  const onMouseMove = (event) => {
+  const onMouseMove = (event: MouseEvent) => {
     mousePos.setBoth(event.clientX, event.clientY);
   };
 
@@ -39,7 +43,7 @@
     };
   };
 
-  setInterval(() => {
+  function float(): void {
     pos.setBoth(pos.x + (mousePos.x - pos.x) * 0.05, pos.y + (mousePos.y - pos.y) * 0.05);
     try {
       splash.style.transform = `translateX(${(windowSize.x - pos.x) / 20}px) translateY(${
@@ -54,7 +58,7 @@
     } catch (error) {
       pos.setBoth(0, 0);
     }
-  }, 16); // 60Hz-ish
+  }
 </script>
 
 <svelte:window on:mousemove={onMouseMove} on:resize={onWindowResize} />
