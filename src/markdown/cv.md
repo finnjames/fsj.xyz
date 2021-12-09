@@ -26,7 +26,7 @@ title: CV
 
 ### University of North Carolina at Chapel Hill
 
-Computer Science B.S. with a Studio Art minor. GPA: 3.94. Expected graduation: May 2022.
+Computer Science B.S. with a Studio Art minor. GPA: 3.93. Expected graduation: May 2022.
 
 ### Honors Carolina
 
@@ -194,4 +194,4 @@ I love to cook, especially Japanese and Italian cuisine. I also once threw a Lat
 <br />
 <br />
 
-<span class="gray">Updated November 2021</span>
+<span class="gray">Updated Decemeber 2021</span>
