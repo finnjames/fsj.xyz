@@ -39,15 +39,15 @@
   function float(): void {
     pos.setBoth(pos.x + (mousePos.x - pos.x) * 0.05, pos.y + (mousePos.y - pos.y) * 0.05);
     try {
-      splash.style.transform = `translateX(${(windowSize.x - pos.x) / 20}px) translateY(${
-        (windowSize.y - pos.y) / 40
-      }px)`;
-      helmet.style.transform = `translateX(${(windowSize.x - pos.x) / 10}px) translateY(${
-        (windowSize.y - pos.y) / 20
-      }px)`;
-      bg.style.transform = `translateX(${(windowSize.x - pos.x) / 40}px) translateY(${
-        (windowSize.y - pos.y) / 80
-      }px)`;
+      splash.style.transform = `
+        translateX(${(windowSize.x - pos.x) / 20}px) translateY(${(windowSize.y - pos.y) / 40}px)
+      `;
+      helmet.style.transform = `
+        translateX(${(windowSize.x - pos.x) / 10}px) translateY(${(windowSize.y - pos.y) / 20}px)
+      `;
+      bg.style.transform = `
+        translateX(${(windowSize.x - pos.x) / 40}px) translateY(${(windowSize.y - pos.y) / 80}px)
+      `;
     } catch (error) {
       pos.setBoth(0, 0);
     }
