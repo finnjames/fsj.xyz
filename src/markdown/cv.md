@@ -74,7 +74,7 @@ I was honored with the Rotary Youth Leadership Award for exhibiting leadership a
 
 ### SAS <span class="roman">— UX Developer Intern</span>
 
-<span class="gray">May 2021 – August 2021</span>
+<span class="gray">May 2021 – May 2022</span>
 
 I am creating a new internal application to improve interface accessibility and consistency.
 
@@ -112,19 +112,19 @@ I led activities with campers at Carolina Friends School Summer Programs to enco
 
 **Proficient in:** Python, C, Java, TypeScript, Vue, JavaScript, SystemVerilog, <span title="source for this site on GitHub (finnsjames/fsj.xyz)">HTML/CSS</span>
 
-**Courses Completed by Summer 2022:** Cryptography, Digital Logic & Computer Design, Models of Language & Computation, Data Structures, Computer Architecture, Digital Photography, Modern Web Development, UX Design & Usability
+**Courses Completed by Summer 2022:** Algorithms, Cryptography, Digital Logic & Computer Design, Models of Language & Computation, Data Structures, Computer Architecture, Digital Photography, Modern Web Development, UX Design & Usability
 
 ### Mathematics
 
 **Courses Completed by Summer 2022:** Discrete Mathematics, Linear Algebra, Multivariable Calculus, Probability
 
-**Familiarity with:** Wolfram Mathematica, Microsoft Excel
+**Familiarity with:** MATLAB, Wolfram Mathematica, Microsoft Excel
 
 ### Astrophysics
 
 **Courses Completed by Summer 2022:** Calculus-Based Mechanics & Relativity, Intro Astronomy & Lab, Intro Cosmology
 
-**Familiarity with:** Astropy, NumPy, Stellarium, Radio Cartographer, Afterglow
+**Familiarity with:** NumPy, Astropy, Stellarium, Radio Cartographer, Afterglow
 
 ### Technology
 
@@ -194,4 +194,4 @@ I love to cook, especially Japanese and Italian cuisine. I also once threw a Lat
 <br />
 <br />
 
-<span class="gray">Updated Decemeber 2021</span>
+<span class="gray">Updated March 2022</span>
