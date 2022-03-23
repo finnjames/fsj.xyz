@@ -5,9 +5,10 @@
 
 My name is <span class="bold hint--top hint--rounded" aria-label="he/him, please">Finn James</span>. How’s it going?
 
-I am a software developer and amateur illustrator based in Chapel Hill, NC. I also build <a href="https://github.com/finnsjames/threepio">systems</a> for <a href="https://skynet.unc.edu">telescopes</a>.
+I am a software engineer and amateur artist based in Chapel Hill, NC. I also build <a href="https://github.com/finnsjames/threepio">systems</a> for <a href="https://skynet.unc.edu">telescopes</a>.
 
-[GitHub](https://github.com/finnsjames) • [Twitter](https://twitter.com/finnsjames) 
+[GitHub](https://github.com/finnsjames) • [Twitter](https://twitter.com/finnsjames) • [Instagram](https://instagram.com/notafinnsta) 
+
 
 <p class="email-wrapper">
   <Email />
