@@ -1,7 +1,7 @@
 ---
 title: What Does Radiolevity Mean?
-date: 2020-09-08 00:00:00 -0400
-categories: blog
+date: 1599537600000
+snippet: I just made it up
 ---
 
 # {title}

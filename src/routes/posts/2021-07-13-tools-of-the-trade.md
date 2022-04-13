@@ -1,7 +1,7 @@
 ---
-title: Tools of the Trade
-date: 2021-07-13 00:00:00 -0400
-categories: blog
+title: Tools of the Trade 2021
+date: 1626148800000
+snippet: What do I use for software development in 2021?
 ---
 
 # {title}

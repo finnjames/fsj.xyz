@@ -6,15 +6,14 @@
   for (let path in allPosts) {
     promisedPosts.push(
       allPosts[path]().then(({ metadata }) => {
-        // console.log(metadata);
+        console.log(metadata);
         return { path, metadata };
       })
     );
   }
   export const load = async () => {
     let posts = await Promise.all(promisedPosts);
-    posts = posts.sort((a, b) => Date.parse(b.metadata.date) - Date.parse(a.metadata.date));
-    // console.log(posts);
+    posts = posts.sort((a, b) => a.metadata.date - b.metadata.date);
 
     return {
       props: {
@@ -22,6 +21,20 @@
       }
     };
   };
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
 </script>
 
 <script>
@@ -35,14 +48,22 @@
 <h1>Posts</h1>
 
 <ul class="posts">
-  {#each posts.reverse() as { path, metadata: { title, date } }}
+  {#each posts.reverse() as { path, metadata: { title, date, snippet } }}
     <li>
-      <p>
+      <h2>
         <a sveltekit:prefetch href={`/posts/${path.replace(".md", "").replace(".svx", "")}`}
           >{title}</a
         >
+      </h2>
+      <p>
+        {snippet}
       </p>
-      <!-- <p>{date}</p> -->
+      <p class="med-gray">
+        {(() => {
+          let d = new Date(date);
+          return ` ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+        })()}
+      </p>
     </li>
   {/each}
 </ul>
@@ -57,7 +78,10 @@
       p {
         padding: 0;
         margin-top: 0;
-        color: var(--med-gray);
+        color: var(--fg);
+        &.med-gray {
+          color: var(--med-gray);
+        }
       }
     }
   }

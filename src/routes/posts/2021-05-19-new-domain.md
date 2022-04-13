@@ -1,7 +1,7 @@
 ---
 title: New Domain
-date: 2021-05-19 00:00:00 -0400
-categories: blog
+date: 1621396800000
+snippet: I moved from finnjames.dev to fsj.xyz
 ---
 
 # {title}

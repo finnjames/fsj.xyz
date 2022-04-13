@@ -1,7 +1,7 @@
 ---
 title: All New Site
-date: 2021-07-11 00:00:00 -0400
-categories: blog
+date: 1625976000000
+snippet: Now it's all spacey, and has a dark mode
 ---
 
 # {title}

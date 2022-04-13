@@ -1,7 +1,7 @@
 ---
 title: Optimization
-date: 2022-04-12 00:00:00 -0400
-categories: blog
+date: 1649769896000
+snippet: A much-needed refactor
 ---
 
 # {title}
@@ -14,4 +14,6 @@ For example, there are a number of styles that create shifts of various elements
 
 Another issue is that the background used to shift on page load when the javascript that controls the floating effect loads. Now the background will not shift until the user moves their mouse, which triggers a smooth animation instead.
 
-Lastly, I mucked around with the "preload" tags to only try to preload the most essential assets (like the light/dark mode switch icon).
+I also mucked around with the "preload" tags to only try to preload the most essential assets (like the light/dark mode switch icon).
+
+Lastly, I tried to improve "real" performance as well by switching all of the images on my site to WebP files. The most notable improvement is in my [Portfolio](/portfolio).
