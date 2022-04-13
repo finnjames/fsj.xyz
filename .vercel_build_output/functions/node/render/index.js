@@ -1626,10 +1626,10 @@ var init_install_fetch = __esm({
           [PullSteps](readRequest) {
             const stream = this._controlledReadableByteStream;
             if (this._queueTotalSize > 0) {
-              const entry14 = this._queue.shift();
-              this._queueTotalSize -= entry14.byteLength;
+              const entry15 = this._queue.shift();
+              this._queueTotalSize -= entry15.byteLength;
               ReadableByteStreamControllerHandleQueueDrain(this);
-              const view = new Uint8Array(entry14.buffer, entry14.byteOffset, entry14.byteLength);
+              const view = new Uint8Array(entry15.buffer, entry15.byteOffset, entry15.byteLength);
               readRequest._chunkSteps(view);
               return;
             }
@@ -5407,7 +5407,7 @@ var init_install_fetch = __esm({
   }
 });
 
-// .svelte-kit/output/server/chunks/index-811e4c83.js
+// .svelte-kit/output/server/chunks/index-54c56a12.js
 function noop2() {
 }
 function run(fn) {
@@ -5492,7 +5492,7 @@ function create_ssr_component(fn) {
       return {
         html,
         css: {
-          code: Array.from(result.css).map((css19) => css19.code).join("\n"),
+          code: Array.from(result.css).map((css20) => css20.code).join("\n"),
           map: null
         },
         head: result.title + result.head
@@ -5508,8 +5508,8 @@ function add_attribute(name, value, boolean) {
   return ` ${name}${assignment}`;
 }
 var current_component, escaped, missing_component, on_destroy;
-var init_index_811e4c83 = __esm({
-  ".svelte-kit/output/server/chunks/index-811e4c83.js"() {
+var init_index_54c56a12 = __esm({
+  ".svelte-kit/output/server/chunks/index-54c56a12.js"() {
     Promise.resolve();
     escaped = {
       '"': "&quot;",
@@ -5589,11 +5589,11 @@ function createColorMode() {
   };
 }
 function setColorMode(newMode, localStorage = false) {
-  const root = document.documentElement;
+  const de = document.documentElement;
   if (newMode === "") {
-    root.getAttribute("data-color-mode") === "dark" ? newMode = "light" : newMode = "dark";
+    de.getAttribute("data-color-mode") === "dark" ? newMode = "light" : newMode = "dark";
   }
-  root.setAttribute("data-color-mode", newMode);
+  de.setAttribute("data-color-mode", newMode);
   if (localStorage) {
     window.localStorage.setItem("color-mode", newMode);
   }
@@ -5601,7 +5601,7 @@ function setColorMode(newMode, localStorage = false) {
 var css$2, Footer, getStores, page, subscriber_queue2, colorMode, css$1, Header, css, _layout;
 var init_layout_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/__layout.svelte.js"() {
-    init_index_811e4c83();
+    init_index_54c56a12();
     css$2 = {
       code: "footer.svelte-dy6fjt.svelte-dy6fjt{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;color:var(--med-light-gray);padding-bottom:1rem;min-height:6rem}footer.svelte-dy6fjt a.svelte-dy6fjt{color:var(--med-gray)}footer.svelte-dy6fjt a.svelte-dy6fjt:hover{color:var(--med-dark-gray)}footer.svelte-dy6fjt a.svelte-dy6fjt:active{color:var(--dark-gray)}footer.svelte-dy6fjt div.svelte-dy6fjt{text-align:center;margin:0;position:relative;padding:0.1rem}",
       map: null
@@ -5640,7 +5640,7 @@ var init_layout_svelte = __esm({
     subscriber_queue2 = [];
     colorMode = createColorMode();
     css$1 = {
-      code: '#header.svelte-6u1pow.svelte-6u1pow{display:flex;align-items:center;position:relative;padding-top:1rem;z-index:1}#color-mode-toggle.svelte-6u1pow.svelte-6u1pow{touch-action:manipulation;stroke:white;fill:var(--fg);display:inline-flex;justify-content:center;padding-left:1rem;cursor:pointer}#color-mode-toggle.svelte-6u1pow svg.svelte-6u1pow{fill:var(--fg);stroke:var(--fg)}#color-mode-toggle.portfolio.svelte-6u1pow.svelte-6u1pow{opacity:0.4}#logo.svelte-6u1pow.svelte-6u1pow{touch-action:manipulation;transition:transform 100ms ease, filter 100ms ease;position:relative}#logo.svelte-6u1pow.svelte-6u1pow:hover{transition:transform 240ms cubic-bezier(0, 0.62, 0.34, 1);transform:scale(116%) rotate(-4deg)}#logo.svelte-6u1pow:hover #logo-shadow.svelte-6u1pow{top:0.2rem;opacity:0.2;transition:all 240ms cubic-bezier(0, 0.62, 0.34, 1)}#logo.svelte-6u1pow.svelte-6u1pow:active{transition:transform 100ms ease;transform:scale(112%) rotate(-3deg)}#logo.svelte-6u1pow:active #logo-shadow.svelte-6u1pow{transition:all 100ms ease;top:0.15rem;opacity:0.15}#logo.svelte-6u1pow #logo-shadow.svelte-6u1pow{left:0;top:0;position:absolute;z-index:-1;opacity:0;filter:brightness(0) blur(0.2rem);transition:all 100ms ease, filter 100ms ease}nav.svelte-6u1pow .nav-container.svelte-6u1pow{display:flex;align-items:center}nav.svelte-6u1pow button.svelte-6u1pow{background:none;border:none}nav.svelte-6u1pow .nav-item.svelte-6u1pow{touch-action:manipulation;padding:1.2rem;display:block;text-decoration:none;font-variation-settings:"wght" 400, "CASL" 1, "slnt" -15;font-size:larger;transform:translateY(-4px);color:var(--fg);transition:font-variation-settings 100ms}nav.svelte-6u1pow .nav-item.svelte-6u1pow:first-of-type{padding-left:2.4rem}nav.svelte-6u1pow .nav-item.svelte-6u1pow:hover{font-variation-settings:"wght" 840, "CASL" 1, "slnt" -15}nav.svelte-6u1pow .nav-item.svelte-6u1pow:active{font-variation-settings:"wght" 840, "CASL" 1, "slnt" -15}nav.svelte-6u1pow .nav-item.active.svelte-6u1pow{color:var(--magenta);font-variation-settings:"wght" 840, "CASL" 1, "slnt" -15}#menu-icon.svelte-6u1pow.svelte-6u1pow{touch-action:manipulation;display:none;height:4rem;width:4rem;padding:0.8rem;transform:translateY(-4px);cursor:pointer}#menu-icon.svelte-6u1pow div.svelte-6u1pow{visibility:hidden}#menu-icon.svelte-6u1pow.svelte-6u1pow::before,#menu-icon.svelte-6u1pow.svelte-6u1pow::after,#menu-icon.svelte-6u1pow div.svelte-6u1pow{background:var(--fg);content:"";display:block;height:8px;border-radius:100px;margin:3px 0;transition:0.5s cubic-bezier(0, 0.62, 0.34, 1)}.active.svelte-6u1pow #menu-icon.svelte-6u1pow:before{margin:7px 0;transform:translateY(8px) rotate(135deg)}.active.svelte-6u1pow #menu-icon.svelte-6u1pow:after{margin:7px 0;transform:translateY(-22px) rotate(-135deg)}#blur.svelte-6u1pow.svelte-6u1pow{pointer-events:none;z-index:-1;position:fixed;top:0;left:0;right:0;bottom:0;opacity:0;transition:opacity 300ms cubic-bezier(0, 0.62, 0.34, 1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}#blur.svelte-6u1pow.svelte-6u1pow::after{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background-color:var(--bg);opacity:0.7}@media screen and (max-width: 767px){nav.svelte-6u1pow.svelte-6u1pow{z-index:1;position:fixed;right:0.4rem;padding-right:0.8rem;flex-direction:row-reverse}nav.svelte-6u1pow .nav-container.svelte-6u1pow{flex-direction:column;align-items:flex-end;position:absolute;top:4rem;right:0;visibility:hidden}nav.svelte-6u1pow #menu-icon.svelte-6u1pow{display:block}nav.svelte-6u1pow .nav-item.svelte-6u1pow{font-size:x-large;font-variation-settings:"wght" 400, "CASL" 1, "slnt" -15;opacity:0;transform:translateX(6rem);transition:transform 300ms cubic-bezier(0, 0.62, 0.34, 1), opacity 300ms cubic-bezier(0, 0.62, 0.34, 1), visibility 300ms cubic-bezier(0, 0.62, 0.34, 1)}nav.active.svelte-6u1pow.svelte-6u1pow{position:fixed}nav.active.svelte-6u1pow .nav-item.svelte-6u1pow{transform:translateX(-0.5rem);visibility:visible;opacity:1;transition:transform 600ms cubic-bezier(0, 0.62, 0.34, 1), opacity 600ms cubic-bezier(0, 0.62, 0.34, 1), visibility 600ms cubic-bezier(0, 0.62, 0.34, 1)}nav.active.svelte-6u1pow #blur.svelte-6u1pow{opacity:1;pointer-events:auto}}',
+      code: '#header.svelte-1rrdxj6.svelte-1rrdxj6{display:flex;align-items:center;position:relative;padding-top:1rem;z-index:1}#color-mode-toggle.svelte-1rrdxj6.svelte-1rrdxj6{touch-action:manipulation;stroke:white;fill:var(--fg);display:inline-flex;justify-content:center;padding-left:1rem;cursor:pointer}#color-mode-toggle.portfolio.svelte-1rrdxj6.svelte-1rrdxj6{opacity:0.4}#logo.svelte-1rrdxj6.svelte-1rrdxj6{touch-action:manipulation;transition:transform 100ms ease, filter 100ms ease;position:relative}#logo.svelte-1rrdxj6.svelte-1rrdxj6:hover{transition:transform 240ms cubic-bezier(0, 0.62, 0.34, 1);transform:scale(116%) rotate(-4deg)}#logo.svelte-1rrdxj6:hover #logo-shadow.svelte-1rrdxj6{top:0.2rem;opacity:0.2;transition:all 240ms cubic-bezier(0, 0.62, 0.34, 1)}#logo.svelte-1rrdxj6.svelte-1rrdxj6:active{transition:transform 100ms ease;transform:scale(112%) rotate(-3deg)}#logo.svelte-1rrdxj6:active #logo-shadow.svelte-1rrdxj6{transition:all 100ms ease;top:0.15rem;opacity:0.15}#logo.svelte-1rrdxj6 #logo-shadow.svelte-1rrdxj6{left:0;top:0;position:absolute;z-index:-1;opacity:0;filter:brightness(0) blur(0.2rem);transition:all 100ms ease, filter 100ms ease}nav.svelte-1rrdxj6 .nav-container.svelte-1rrdxj6{display:flex;align-items:center}nav.svelte-1rrdxj6 button.svelte-1rrdxj6{background:none;border:none}nav.svelte-1rrdxj6 .nav-item.svelte-1rrdxj6{touch-action:manipulation;padding:1.2rem;display:block;text-decoration:none;font-variation-settings:"wght" 400, "CASL" 1, "slnt" -15;font-size:larger;transform:translateY(-4px);color:var(--fg);transition:font-variation-settings 100ms}nav.svelte-1rrdxj6 .nav-item.mobile-only.svelte-1rrdxj6{display:none}nav.svelte-1rrdxj6 .nav-item.svelte-1rrdxj6:nth-of-type(2){padding-left:2.4rem}nav.svelte-1rrdxj6 .nav-item.svelte-1rrdxj6:hover{font-variation-settings:"wght" 840, "CASL" 1, "slnt" -15}nav.svelte-1rrdxj6 .nav-item.svelte-1rrdxj6:active{font-variation-settings:"wght" 840, "CASL" 1, "slnt" -15}nav.svelte-1rrdxj6 .nav-item.active.svelte-1rrdxj6{color:var(--magenta);font-variation-settings:"wght" 840, "CASL" 1, "slnt" -15}#menu-icon.svelte-1rrdxj6.svelte-1rrdxj6{touch-action:manipulation;display:none;height:4rem;width:4rem;padding:0.8rem;transform:translateY(-4px);cursor:pointer}#menu-icon.svelte-1rrdxj6 div.svelte-1rrdxj6{visibility:hidden}#menu-icon.svelte-1rrdxj6.svelte-1rrdxj6::before,#menu-icon.svelte-1rrdxj6.svelte-1rrdxj6::after,#menu-icon.svelte-1rrdxj6 div.svelte-1rrdxj6{background:var(--fg);content:"";display:block;height:8px;border-radius:100px;margin:3px 0;transition:0.5s cubic-bezier(0, 0.62, 0.34, 1)}.active.svelte-1rrdxj6 #menu-icon.svelte-1rrdxj6:before{margin:7px 0;transform:translateY(8px) rotate(135deg)}.active.svelte-1rrdxj6 #menu-icon.svelte-1rrdxj6:after{margin:7px 0;transform:translateY(-22px) rotate(-135deg)}#blur.svelte-1rrdxj6.svelte-1rrdxj6{pointer-events:none;z-index:-1;position:fixed;top:0;left:0;right:0;bottom:0;opacity:0;transition:opacity 300ms cubic-bezier(0, 0.62, 0.34, 1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}#blur.svelte-1rrdxj6.svelte-1rrdxj6::after{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background-color:var(--bg);opacity:0.7}@media screen and (max-width: 767px){nav.svelte-1rrdxj6.svelte-1rrdxj6{z-index:1;position:fixed;right:0.4rem;padding-right:0.8rem;flex-direction:row-reverse}nav.svelte-1rrdxj6 .nav-container.svelte-1rrdxj6{flex-direction:column;align-items:flex-end;position:absolute;top:4rem;right:0;visibility:hidden}nav.svelte-1rrdxj6 #menu-icon.svelte-1rrdxj6{display:block}nav.svelte-1rrdxj6 .nav-item.svelte-1rrdxj6{font-size:x-large;font-variation-settings:"wght" 400, "CASL" 1, "slnt" -15;opacity:0;transform:translateX(6rem);transition:transform 300ms cubic-bezier(0, 0.62, 0.34, 1), opacity 300ms cubic-bezier(0, 0.62, 0.34, 1), visibility 300ms cubic-bezier(0, 0.62, 0.34, 1)}nav.svelte-1rrdxj6 .nav-item.mobile-only.svelte-1rrdxj6{display:inline}nav.active.svelte-1rrdxj6.svelte-1rrdxj6{position:fixed}nav.active.svelte-1rrdxj6 .nav-item.svelte-1rrdxj6{transform:translateX(-0.5rem);visibility:visible;opacity:1;transition:transform 600ms cubic-bezier(0, 0.62, 0.34, 1), opacity 600ms cubic-bezier(0, 0.62, 0.34, 1), visibility 600ms cubic-bezier(0, 0.62, 0.34, 1)}nav.active.svelte-1rrdxj6 #blur.svelte-1rrdxj6{opacity:1;pointer-events:auto}}',
       map: null
     };
     Header = create_ssr_component(($$result, $$props, $$bindings, slots) => {
@@ -5654,26 +5654,32 @@ var init_layout_svelte = __esm({
         { name: "Portfolio", link: "/portfolio" }
       ];
       let icons = {
-        light: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`,
+        light: `<svg xmlns="http://www.w3.org/2000/svg" style="overflow: visible" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`,
         dark: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`
       };
       $$result.css.add(css$1);
       $$unsubscribe_page();
       $$unsubscribe_colorMode();
-      return `${$$result.head += `<link rel="${"preload"}" href="${"/icons/sun.svg"}" as="${"image"}" data-svelte="svelte-1y4vmbx"><link rel="${"preload"}" href="${"/icons/moon.svg"}" as="${"image"}" data-svelte="svelte-1y4vmbx">`, ""}
-
-<header id="${"header"}" class="${"svelte-6u1pow"}"><div id="${"logo"}" class="${"svelte-6u1pow"}"><a href="${"/"}"><img id="${"logo-svg"}" src="${"/images/fsj.svg"}" alt="${"fsj logo"}" height="${"100"}" width="${"100"}">
-      <img id="${"logo-shadow"}" src="${"/images/fsj.svg"}" alt="${"fsj logo"}" height="${"100"}" width="${"100"}" class="${"svelte-6u1pow"}"></a></div>
-  <nav class="${["svelte-6u1pow", ""].join(" ").trim()}"><div class="${"nav-container svelte-6u1pow"}">${each(nav, (item, i2) => {
-        return `<a class="${["nav-item svelte-6u1pow", item.link === $page.url.pathname ? "active" : ""].join(" ").trim()}" tabindex="${"0"}" style="${"transition-delay: " + escape(i2 * 32) + "ms"}" sveltekit:prefetch${add_attribute("href", item.link, 0)}><!-- HTML_TAG_START -->${item.name}<!-- HTML_TAG_END -->
+      return `<header id="${"header"}" class="${"svelte-1rrdxj6"}"><div id="${"logo"}" class="${"svelte-1rrdxj6"}"><a href="${"/"}"><img id="${"logo-svg"}" src="${"/images/fsj.svg"}" alt="${"fsj logo"}" height="${"100"}" width="${"100"}">
+      <img id="${"logo-shadow"}" src="${"/images/fsj.svg"}" alt="${"fsj logo"}" height="${"100"}" width="${"100"}" class="${"svelte-1rrdxj6"}"></a></div>
+  <nav class="${["svelte-1rrdxj6", ""].join(" ").trim()}"><div class="${"nav-container svelte-1rrdxj6"}"><a class="${[
+        "nav-item mobile-only svelte-1rrdxj6",
+        $page.url.pathname === "/" ? "active" : ""
+      ].join(" ").trim()}" tabindex="${"0"}" style="${"transition-delay: " + escape(0) + "ms"}" sveltekit:prefetch${add_attribute("href", "/", 0)}>Home
+      </a>
+      ${each(nav, (item, i2) => {
+        return `<a class="${[
+          "nav-item desktop svelte-1rrdxj6",
+          item.link === $page.url.pathname ? "active" : ""
+        ].join(" ").trim()}" tabindex="${"0"}" style="${"transition-delay: " + escape((i2 + 1) * 32) + "ms"}" sveltekit:prefetch${add_attribute("href", item.link, 0)}><!-- HTML_TAG_START -->${item.name}<!-- HTML_TAG_END -->
         </a>`;
       })}
       <button class="${[
-        "nav-item svelte-6u1pow",
+        "nav-item svelte-1rrdxj6",
         $page.url.pathname === "/portfolio" ? "portfolio" : ""
-      ].join(" ").trim()}" id="${"color-mode-toggle"}" style="${"transition-delay: " + escape(nav.length * 32) + "ms"}"><svg height="${"24"}" width="${"24"}" class="${"svelte-6u1pow"}"><!-- HTML_TAG_START -->${icons[$colorMode]}<!-- HTML_TAG_END --></svg></button></div>
-    <button id="${"menu-icon"}" aria-label="${"menu"}" class="${"svelte-6u1pow"}"><div class="${"svelte-6u1pow"}"></div></button>
-    <div id="${"blur"}" class="${"svelte-6u1pow"}"></div></nav>
+      ].join(" ").trim()}" id="${"color-mode-toggle"}" style="${"transition-delay: " + escape(nav.length * 32) + "ms"}"><!-- HTML_TAG_START -->${icons[$colorMode]}<!-- HTML_TAG_END --></button></div>
+    <button id="${"menu-icon"}" aria-label="${"menu"}" class="${"svelte-1rrdxj6"}"><div class="${"svelte-1rrdxj6"}"></div></button>
+    <div id="${"blur"}" class="${"svelte-1rrdxj6"}"></div></nav>
 </header>`;
     });
     css = {
@@ -5698,7 +5704,7 @@ var init_layout_svelte = __esm({
       $$result.css.add(css);
       $$unsubscribe_colorMode();
       $$unsubscribe_page();
-      return `${$$result.head += `<link rel="${"preload"}" href="${"/normalize.css"}" as="${"style"}" data-svelte="svelte-1hqfpcp"><link rel="${"preload"}" href="${"/fonts.css"}" as="${"style"}" data-svelte="svelte-1hqfpcp"><link rel="${"stylesheet"}" href="${"/normalize.css"}" data-svelte="svelte-1hqfpcp"><link rel="${"stylesheet"}" href="${"/hint.min.css"}" data-svelte="svelte-1hqfpcp"><link rel="${"stylesheet"}" href="${"/fonts.css"}" data-svelte="svelte-1hqfpcp"><script data-svelte="svelte-1hqfpcp">function getInitialColorMode() {
+      return `${$$result.head += `<link rel="${"preload"}" href="${"/normalize.css"}" as="${"style"}" data-svelte="svelte-zo264m"><link rel="${"preload"}" href="${"/fonts.css"}" as="${"style"}" data-svelte="svelte-zo264m"><link rel="${"stylesheet"}" href="${"/normalize.css"}" data-svelte="svelte-zo264m"><link rel="${"stylesheet"}" href="${"/hint.min.css"}" data-svelte="svelte-zo264m"><link rel="${"stylesheet"}" href="${"/fonts.css"}" data-svelte="svelte-zo264m"><script data-svelte="svelte-zo264m">function getInitialColorMode() {
       const persistedColorMode = window.localStorage.getItem("color-mode");
       const hasPersistedColorMode = typeof persistedColorMode === "string";
       if (hasPersistedColorMode) {
@@ -5714,11 +5720,11 @@ var init_layout_svelte = __esm({
       return "light";
     }
 
-    const colorMode = getInitialColorMode();
+    colorMode = getInitialColorMode();
     const root = document.documentElement;
 
     root.setAttribute("data-color-mode", colorMode);
-  <\/script><script async src="${"https://www.googletagmanager.com/gtag/js?id=G-XRLEG6433K"}" data-svelte="svelte-1hqfpcp"><\/script><script data-svelte="svelte-1hqfpcp">window.dataLayer = window.dataLayer || [];
+  <\/script><script async src="${"https://www.googletagmanager.com/gtag/js?id=G-XRLEG6433K"}" data-svelte="svelte-zo264m"><\/script><script data-svelte="svelte-zo264m">window.dataLayer = window.dataLayer || [];
     function gtag() {
       dataLayer.push(arguments);
     }
@@ -5747,9 +5753,9 @@ var entry, js, css2;
 var init__ = __esm({
   ".svelte-kit/output/server/nodes/0.js"() {
     init_layout_svelte();
-    entry = "pages/__layout.svelte-09066b7b.js";
-    js = ["pages/__layout.svelte-09066b7b.js", "chunks/index-ffd6fc2d.js", "chunks/index-b781177f.js"];
-    css2 = ["assets/pages/__layout.svelte-5be97449.css"];
+    entry = "pages/__layout.svelte-09b4896c.js";
+    js = ["pages/__layout.svelte-09b4896c.js", "chunks/index-9eb23fc9.js", "chunks/index-498ba06b.js"];
+    css2 = ["assets/pages/__layout.svelte-ace607d1.css"];
   }
 });
 
@@ -5762,7 +5768,7 @@ __export(error_svelte_exports, {
 var load, _error;
 var init_error_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/__error.svelte.js"() {
-    init_index_811e4c83();
+    init_index_54c56a12();
     load = ({ error: error2, status }) => {
       return { props: { error: error2, status } };
     };
@@ -5791,8 +5797,8 @@ var entry2, js2, css3;
 var init__2 = __esm({
   ".svelte-kit/output/server/nodes/1.js"() {
     init_error_svelte();
-    entry2 = "pages/__error.svelte-d577e1f9.js";
-    js2 = ["pages/__error.svelte-d577e1f9.js", "chunks/index-ffd6fc2d.js"];
+    entry2 = "pages/__error.svelte-4d16d2d0.js";
+    js2 = ["pages/__error.svelte-4d16d2d0.js", "chunks/index-9eb23fc9.js"];
     css3 = [];
   }
 });
@@ -5802,31 +5808,30 @@ var index_svelte_exports = {};
 __export(index_svelte_exports, {
   default: () => Routes
 });
-function hex2a(hexx) {
-  var hex = hexx.toString();
-  var str = "";
+function hex2a(hex) {
+  let str = "";
   for (var i2 = 0; i2 < hex.length; i2 += 2) {
-    str += String.fromCharCode(parseInt(hex.substr(i2, 2), 16));
+    str += String.fromCharCode(parseInt(hex.slice(i2, i2 + 2), 16));
   }
   return str;
 }
 var css$22, Email, css$12, Intro, css4, Routes;
 var init_index_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/index.svelte.js"() {
-    init_index_811e4c83();
+    init_index_54c56a12();
     css$22 = {
-      code: "#email-container.svelte-1gwlv4e.svelte-1gwlv4e{border:none;background-color:transparent;border-radius:0.8rem;font-family:inherit;font-size:inherit;position:relative;padding:0;height:3.2rem;display:flex;justify-content:space-between;align-items:center;color:var(--white);width:100%;max-width:19rem}@media screen and (max-width: 767px){#email-container.svelte-1gwlv4e.svelte-1gwlv4e{max-width:none}}#email-label.svelte-1gwlv4e.svelte-1gwlv4e{background-color:var(--med-dark-magenta);border-radius:0.8rem 0 0 0.8rem;padding:0 1rem;display:flex;align-items:center;height:100%}#address-wrapper.svelte-1gwlv4e.svelte-1gwlv4e{background:var(--magenta);padding:0 1rem;height:100%;display:flex;flex:auto;align-items:center}input.svelte-1gwlv4e.svelte-1gwlv4e{background:transparent;border:none;width:8rem;min-width:8rem;color:var(--white);text-align:center}#copy.svelte-1gwlv4e.svelte-1gwlv4e{border-radius:0 0.8rem 0.8rem 0;border:none;height:100%;width:51px;position:relative;cursor:pointer;background-color:transparent;perspective:100px;color:inherit}#copy-front.svelte-1gwlv4e.svelte-1gwlv4e{border-radius:inherit;border:none;padding:inherit;height:inherit;background:var(--magenta);display:flex;justify-content:center;position:absolute;right:0;top:0;width:inherit;align-items:center;will-change:transform, filter;transform:translateY(0px);filter:brightness(100%)}#copy.svelte-1gwlv4e:hover #copy-front.svelte-1gwlv4e{transform-style:preserve-3d;transform-origin:left;animation:svelte-1gwlv4e-wobble 800ms cubic-bezier(0.3, 0.7, 0.4, 1.6);filter:brightness(100%);transition:transform 200ms cubic-bezier(0.3, 0.7, 0.4, 1.6), filter 200ms cubic-bezier(0.3, 0.7, 0.4, 1.6)}@keyframes svelte-1gwlv4e-wobble{0%{transform:rotateY(0deg);filter:brightness(100%)}25%{transform:rotateY(32deg);filter:brightness(108%)}50%{transform:rotateY(-8deg);filter:brightness(98%)}75%{transform:rotateY(8deg);filter:brightness(102%)}100%{transform:rotateY(0deg);filter:brightness(100%)}}#copy.svelte-1gwlv4e:active #copy-front.svelte-1gwlv4e{transform:rotateY(24deg);filter:brightness(106%)}",
+      code: "#email-container.svelte-fxq9zg.svelte-fxq9zg{border:none;background-color:transparent;border-radius:0.8rem;font-family:inherit;font-size:inherit;position:relative;padding:0;height:3.2rem;display:flex;justify-content:space-between;align-items:center;color:var(--white);width:100%;max-width:19rem}@media screen and (max-width: 767px){#email-container.svelte-fxq9zg.svelte-fxq9zg{max-width:none}}#email-label.svelte-fxq9zg.svelte-fxq9zg{background-color:var(--med-dark-magenta);border-radius:0.8rem 0 0 0.8rem;padding:0 1rem;display:flex;align-items:center;height:100%}#address-wrapper.svelte-fxq9zg.svelte-fxq9zg{background:var(--magenta);padding:0 1rem;height:100%;display:flex;flex:auto;align-items:center}input.svelte-fxq9zg.svelte-fxq9zg{background:transparent;border:none;width:8rem;min-width:8rem;color:var(--white);text-align:center}#copy.svelte-fxq9zg.svelte-fxq9zg{border-radius:0 0.8rem 0.8rem 0;border:none;height:100%;width:51px;position:relative;cursor:pointer;background-color:transparent;perspective:100px;color:inherit}#copy-front.svelte-fxq9zg.svelte-fxq9zg{border-radius:inherit;border:none;padding:inherit;height:inherit;background:var(--magenta);display:flex;justify-content:center;position:absolute;right:0;top:0;width:inherit;align-items:center;will-change:transform, filter;transform:translateY(0px);filter:brightness(100%)}#copy.svelte-fxq9zg:hover #copy-front.svelte-fxq9zg{transform-style:preserve-3d;transform-origin:left;animation:svelte-fxq9zg-wobble 800ms cubic-bezier(0.3, 0.7, 0.4, 1.6);filter:brightness(100%);transition:transform 200ms cubic-bezier(0.3, 0.7, 0.4, 1.6), filter 200ms cubic-bezier(0.3, 0.7, 0.4, 1.6)}@keyframes svelte-fxq9zg-wobble{0%{transform:rotateY(0deg);filter:brightness(100%)}25%{transform:rotateY(32deg);filter:brightness(108%)}50%{transform:rotateY(-8deg);filter:brightness(98%)}75%{transform:rotateY(8deg);filter:brightness(102%)}100%{transform:rotateY(0deg);filter:brightness(100%)}}#copy.svelte-fxq9zg:active #copy-front.svelte-fxq9zg{transform:rotateY(24deg);filter:brightness(106%)}",
       map: null
     };
     Email = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       const email = hex2a("6865794066736a2e78797a");
       let address;
-      let copyIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+      let copyIcon = `<svg xmlns="http://www.w3.org/2000/svg" style="overflow: visible" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
       $$result.css.add(css$22);
-      return `<div id="${"email-container"}" href="${"#"}" class="${"svelte-1gwlv4e"}"><label id="${"email-label"}" for="${"email"}" class="${"svelte-1gwlv4e"}">email</label>
-  <div id="${"address-wrapper"}" class="${"svelte-1gwlv4e"}"><input id="${"email"}" name="${"email"}" type="${"email"}"${add_attribute("value", email, 0)} readonly class="${"svelte-1gwlv4e"}"${add_attribute("this", address, 0)}></div>
+      return `<div id="${"email-container"}" href="${"#"}" class="${"svelte-fxq9zg"}"><label id="${"email-label"}" for="${"email"}" class="${"svelte-fxq9zg"}">email</label>
+  <div id="${"address-wrapper"}" class="${"svelte-fxq9zg"}"><input id="${"email"}" name="${"email"}" type="${"email"}"${add_attribute("value", email, 0)} readonly class="${"svelte-fxq9zg"}"${add_attribute("this", address, 0)}></div>
 
-  <button id="${"copy"}" class="${"svelte-1gwlv4e"}"><div id="${"copy-front"}" class="${"svelte-1gwlv4e"}"><svg height="${"24"}" width="${"24"}"><!-- HTML_TAG_START -->${copyIcon}<!-- HTML_TAG_END --></svg></div></button>
+  <button id="${"copy"}" aria-label="${"copy email address"}" class="${"svelte-fxq9zg"}"><div id="${"copy-front"}" class="${"svelte-fxq9zg"}"><svg height="${"24"}" width="${"24"}"><!-- HTML_TAG_START -->${copyIcon}<!-- HTML_TAG_END --></svg></div></button>
 </div>`;
     });
     css$12 = {
@@ -5888,9 +5893,9 @@ var entry3, js3, css5;
 var init__3 = __esm({
   ".svelte-kit/output/server/nodes/3.js"() {
     init_index_svelte();
-    entry3 = "pages/index.svelte-f8c1d283.js";
-    js3 = ["pages/index.svelte-f8c1d283.js", "chunks/index-ffd6fc2d.js"];
-    css5 = ["assets/pages/index.svelte-f797b21e.css"];
+    entry3 = "pages/index.svelte-3cb9533a.js";
+    js3 = ["pages/index.svelte-3cb9533a.js", "chunks/index-9eb23fc9.js"];
+    css5 = ["assets/pages/index.svelte-66475299.css"];
   }
 });
 
@@ -5902,7 +5907,7 @@ __export(cv_svelte_exports, {
 var css6, Cv$1, Cv;
 var init_cv_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/cv.svelte.js"() {
-    init_index_811e4c83();
+    init_index_54c56a12();
     css6 = {
       code: '.gray.svelte-7prj8d{color:var(--med-dark-gray)}.roman.svelte-7prj8d{font-variation-settings:"wght" 400}h2.svelte-7prj8d,h3.svelte-7prj8d,h4.svelte-7prj8d{line-height:1}h2.svelte-7prj8d{padding-top:1.2rem}h3.svelte-7prj8d{padding-top:0.6rem}',
       map: null
@@ -6021,8 +6026,8 @@ var entry4, js4, css7;
 var init__4 = __esm({
   ".svelte-kit/output/server/nodes/2.js"() {
     init_cv_svelte();
-    entry4 = "pages/cv.svelte-e733f803.js";
-    js4 = ["pages/cv.svelte-e733f803.js", "chunks/index-ffd6fc2d.js"];
+    entry4 = "pages/cv.svelte-01cc4c6e.js";
+    js4 = ["pages/cv.svelte-01cc4c6e.js", "chunks/index-9eb23fc9.js"];
     css7 = ["assets/pages/cv.svelte-65d957cf.css"];
   }
 });
@@ -6035,7 +6040,7 @@ __export(portfolio_svelte_exports, {
 var css8, Portfolio;
 var init_portfolio_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/portfolio.svelte.js"() {
-    init_index_811e4c83();
+    init_index_54c56a12();
     css8 = {
       code: "h1.svelte-wxpvuo{padding-top:2.4rem;margin-top:0rem}h1.svelte-wxpvuo:first-of-type{padding-top:1.4rem}img.svelte-wxpvuo{max-height:90vh;max-width:100vw;margin-bottom:2.8rem}#portfolio.svelte-wxpvuo{display:flex;flex-direction:column;align-items:center;width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw}",
       map: null
@@ -6075,8 +6080,8 @@ var entry5, js5, css9;
 var init__5 = __esm({
   ".svelte-kit/output/server/nodes/4.js"() {
     init_portfolio_svelte();
-    entry5 = "pages/portfolio.svelte-e17148f3.js";
-    js5 = ["pages/portfolio.svelte-e17148f3.js", "chunks/index-ffd6fc2d.js"];
+    entry5 = "pages/portfolio.svelte-ee126233.js";
+    js5 = ["pages/portfolio.svelte-ee126233.js", "chunks/index-9eb23fc9.js"];
     css9 = ["assets/pages/portfolio.svelte-65b2eb18.css"];
   }
 });
@@ -6087,16 +6092,16 @@ __export(init_md_exports, {
   default: () => _2020_05_16_init,
   metadata: () => metadata
 });
-var metadata, title, date, categories, _2020_05_16_init;
+var metadata, title, date, snippet, _2020_05_16_init;
 var init_init_md = __esm({
   ".svelte-kit/output/server/entries/pages/posts/2020-05-16-init.md.js"() {
-    init_index_811e4c83();
+    init_index_54c56a12();
     metadata = {
       "title": "Hello World!",
-      "date": "2020-05-16 00:00:00 -0400",
-      "categories": "test"
+      "date": 15896016e5,
+      "snippet": "My first post!"
     };
-    ({ title, date, categories } = metadata);
+    ({ title, date, snippet } = metadata);
     _2020_05_16_init = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `<h1>${escape(title)}</h1>
 <p>This is the first post on this site. It\u2019s here for testing purposes.</p>
@@ -6119,16 +6124,16 @@ __export(what_does_radiolevity_mean_md_exports, {
   default: () => _2020_09_08_what_does_radiolevity_mean,
   metadata: () => metadata2
 });
-var metadata2, title2, date2, categories2, _2020_09_08_what_does_radiolevity_mean;
+var metadata2, title2, date2, snippet2, _2020_09_08_what_does_radiolevity_mean;
 var init_what_does_radiolevity_mean_md = __esm({
   ".svelte-kit/output/server/entries/pages/posts/2020-09-08-what-does-radiolevity-mean.md.js"() {
-    init_index_811e4c83();
+    init_index_54c56a12();
     metadata2 = {
       "title": "What Does Radiolevity Mean?",
-      "date": "2020-09-08 00:00:00 -0400",
-      "categories": "blog"
+      "date": 15995376e5,
+      "snippet": "I just made it up"
     };
-    ({ title: title2, date: date2, categories: categories2 } = metadata2);
+    ({ title: title2, date: date2, snippet: snippet2 } = metadata2);
     _2020_09_08_what_does_radiolevity_mean = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `<h1>${escape(title2)}</h1>
 <p>My username everywhere online is <strong>radiolevity</strong>. It doesn\u2019t really mean
@@ -6151,23 +6156,23 @@ work without worrying too much.</p>`;
   }
 });
 
-// .svelte-kit/output/server/entries/pages/posts/2021-05-04-new-domain.md.js
+// .svelte-kit/output/server/entries/pages/posts/2021-05-19-new-domain.md.js
 var new_domain_md_exports = {};
 __export(new_domain_md_exports, {
-  default: () => _2021_05_04_new_domain,
+  default: () => _2021_05_19_new_domain,
   metadata: () => metadata3
 });
-var metadata3, title3, date3, categories3, _2021_05_04_new_domain;
+var metadata3, title3, date3, snippet3, _2021_05_19_new_domain;
 var init_new_domain_md = __esm({
-  ".svelte-kit/output/server/entries/pages/posts/2021-05-04-new-domain.md.js"() {
-    init_index_811e4c83();
+  ".svelte-kit/output/server/entries/pages/posts/2021-05-19-new-domain.md.js"() {
+    init_index_54c56a12();
     metadata3 = {
       "title": "New Domain",
-      "date": "2021-05-19 00:00:00 -0400",
-      "categories": "blog"
+      "date": 16213968e5,
+      "snippet": "I moved from finnjames.dev to fsj.xyz"
     };
-    ({ title: title3, date: date3, categories: categories3 } = metadata3);
-    _2021_05_04_new_domain = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    ({ title: title3, date: date3, snippet: snippet3 } = metadata3);
+    _2021_05_19_new_domain = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `<h1>${escape(title3)}</h1>
 <p>I am excited to report that my new domain, <a href="${"https://fsj.xyz"}" rel="${"nofollow"}">fsj.xyz</a> is live.
 In the endless quest to have a short domain name, I elected for the gTLD
@@ -6191,16 +6196,16 @@ __export(all_new_site_md_exports, {
   default: () => _2021_07_11_all_new_site,
   metadata: () => metadata4
 });
-var metadata4, title4, date4, categories4, _2021_07_11_all_new_site;
+var metadata4, title4, date4, snippet4, _2021_07_11_all_new_site;
 var init_all_new_site_md = __esm({
   ".svelte-kit/output/server/entries/pages/posts/2021-07-11-all-new-site.md.js"() {
-    init_index_811e4c83();
+    init_index_54c56a12();
     metadata4 = {
       "title": "All New Site",
-      "date": "2021-07-11 00:00:00 -0400",
-      "categories": "blog"
+      "date": 1625976e6,
+      "snippet": "Now it's all spacey, and has a dark mode"
     };
-    ({ title: title4, date: date4, categories: categories4 } = metadata4);
+    ({ title: title4, date: date4, snippet: snippet4 } = metadata4);
     _2021_07_11_all_new_site = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `<h1>${escape(title4)}</h1>
 <p>As much as Jekyll + GitHub Pages served me well for my old static site, I have
@@ -6242,16 +6247,16 @@ __export(tools_of_the_trade_md_exports, {
   default: () => _2021_07_13_tools_of_the_trade,
   metadata: () => metadata5
 });
-var metadata5, title5, date5, categories5, _2021_07_13_tools_of_the_trade;
+var metadata5, title5, date5, snippet5, _2021_07_13_tools_of_the_trade;
 var init_tools_of_the_trade_md = __esm({
   ".svelte-kit/output/server/entries/pages/posts/2021-07-13-tools-of-the-trade.md.js"() {
-    init_index_811e4c83();
+    init_index_54c56a12();
     metadata5 = {
-      "title": "Tools of the Trade",
-      "date": "2021-07-13 00:00:00 -0400",
-      "categories": "blog"
+      "title": "Tools of the Trade 2021",
+      "date": 16261488e5,
+      "snippet": "What do I use for software development in 2021?"
     };
-    ({ title: title5, date: date5, categories: categories5 } = metadata5);
+    ({ title: title5, date: date5, snippet: snippet5 } = metadata5);
     _2021_07_13_tools_of_the_trade = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `<h1>${escape(title5)}</h1>
 <p>I feel like every programmer at some point catalogs all of their gadgets and software. Here are mine!</p>
@@ -6279,23 +6284,23 @@ var init_tools_of_the_trade_md = __esm({
   }
 });
 
-// .svelte-kit/output/server/entries/pages/posts/2021-09-22-floating.md.js
+// .svelte-kit/output/server/entries/pages/posts/2021-11-29-floating.md.js
 var floating_md_exports = {};
 __export(floating_md_exports, {
-  default: () => _2021_09_22_floating,
+  default: () => _2021_11_29_floating,
   metadata: () => metadata6
 });
-var metadata6, title6, date6, categories6, _2021_09_22_floating;
+var metadata6, title6, date6, snippet6, _2021_11_29_floating;
 var init_floating_md = __esm({
-  ".svelte-kit/output/server/entries/pages/posts/2021-09-22-floating.md.js"() {
-    init_index_811e4c83();
+  ".svelte-kit/output/server/entries/pages/posts/2021-11-29-floating.md.js"() {
+    init_index_54c56a12();
     metadata6 = {
       "title": "Floating",
-      "date": "2021-11-29 00:00:00 -0400",
-      "categories": "blog"
+      "date": 1638162e6,
+      "snippet": "A new homepage animation"
     };
-    ({ title: title6, date: date6, categories: categories6 } = metadata6);
-    _2021_09_22_floating = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    ({ title: title6, date: date6, snippet: snippet6 } = metadata6);
+    _2021_11_29_floating = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `<h1>${escape(title6)}</h1>
 <p>I spruced up my home page, again! This time I added a parallax effect to the illustration.</p>
 <p>I spent a fair amount of time retooling the effect to be organic, performant, and accessible. I find that having the images \u201Cdrift\u201D after moving the mouse does not add considerably to the performance cost of the animation (after optimizing), but dramatically improves the visual appeal of the home page. It also emphasizes the \u201Cfloating in space\u201D vibe I was going for.</p>
@@ -6307,29 +6312,74 @@ var init_floating_md = __esm({
   }
 });
 
-// .svelte-kit/output/server/entries/pages/posts/2022-04-12-floating copy.md.js
-var floating_copy_md_exports = {};
-__export(floating_copy_md_exports, {
-  default: () => _2022_04_12_floatingu20copy,
+// .svelte-kit/output/server/entries/pages/posts/2022-04-12-optimization.md.js
+var optimization_md_exports = {};
+__export(optimization_md_exports, {
+  default: () => _2022_04_12_optimization,
   metadata: () => metadata7
 });
-var metadata7, title7, date7, categories7, _2022_04_12_floatingu20copy;
-var init_floating_copy_md = __esm({
-  ".svelte-kit/output/server/entries/pages/posts/2022-04-12-floating copy.md.js"() {
-    init_index_811e4c83();
+var metadata7, title7, date7, snippet7, _2022_04_12_optimization;
+var init_optimization_md = __esm({
+  ".svelte-kit/output/server/entries/pages/posts/2022-04-12-optimization.md.js"() {
+    init_index_54c56a12();
     metadata7 = {
       "title": "Optimization",
-      "date": "2022-04-12 00:00:00 -0400",
-      "categories": "blog"
+      "date": 1649769896e3,
+      "snippet": "A much-needed refactor"
     };
-    ({ title: title7, date: date7, categories: categories7 } = metadata7);
-    _2022_04_12_floatingu20copy = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    ({ title: title7, date: date7, snippet: snippet7 } = metadata7);
+    _2022_04_12_optimization = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `<h1>${escape(title7)}</h1>
 <p>I am really enjoying using SvelteKit for this site. I usually use Vue for everything so it\u2019s fun to try new things sometimes.</p>
 <p>The latest update to this site includes a number of qualitative optimizations. What does that mean? In my view, \u201Creal\u201D optimizations are the ones that improve direct, measurable performance (i.e. and give you a better lighthouse score!). I am already getting pretty solid performance numbers for this site, but there were a number of idiosyncrasies that I wanted to iron out.</p>
 <p>For example, there are a number of styles that create shifts of various elements during page load, such as the email widget on the main page. Now, even when the fonts haven\u2019t loaded, the email widget is already in its permanent location, so no shift. I don\u2019t know why lighthouse didn\u2019t care about this, but now it\u2019s fixed!</p>
 <p>Another issue is that the background used to shift on page load when the javascript that controls the floating effect loads. Now the background will not shift until the user moves their mouse, which triggers a smooth animation instead.</p>
-<p>Lastly, I mucked around with the \u201Cpreload\u201D tags to only try to preload the most essential assets (like the light/dark mode switch icon).</p>`;
+<p>I also mucked around with the \u201Cpreload\u201D tags to only try to preload the most essential assets (like the light/dark mode switch icon).</p>
+<p>Lastly, I tried to improve \u201Creal\u201D performance as well by switching all of the images on my site to WebP files. The most notable improvement is in my <a href="${"/portfolio"}">Portfolio</a>.</p>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/posts/2022-04-13-tools-of-the-trade-2.md.js
+var tools_of_the_trade_2_md_exports = {};
+__export(tools_of_the_trade_2_md_exports, {
+  default: () => _2022_04_13_tools_of_the_trade_2,
+  metadata: () => metadata8
+});
+var metadata8, title8, date8, snippet8, _2022_04_13_tools_of_the_trade_2;
+var init_tools_of_the_trade_2_md = __esm({
+  ".svelte-kit/output/server/entries/pages/posts/2022-04-13-tools-of-the-trade-2.md.js"() {
+    init_index_54c56a12();
+    metadata8 = {
+      "title": "Tools of the Trade 2022",
+      "date": 1649865188e3,
+      "snippet": "What do I use for software development in 2022?"
+    };
+    ({ title: title8, date: date8, snippet: snippet8 } = metadata8);
+    _2022_04_13_tools_of_the_trade_2 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      return `<h1>${escape(title8)}</h1>
+<p>Last year, I catalogued the tools I use for software development. I have made numerous updates and changes so here is an updated list!</p>
+<h2>Hardware</h2>
+<h3>MacBook Pro 14-inch (2021)</h3>
+<p>I upgraded from my trusty 2015 MacBook Pro 13-inch to a 2021 MacBook Pro with an M1 Pro. I absolutely love this new device. It\u2019s super fast and the display is gorgeous. I like that I was able to skip every MacBook that didn\u2019t have an SD card slot.</p>
+<h3>iPad Pro</h3>
+<p>I started drawing with an iPad Pro + Apple Pencil in 2017 and haven\u2019t looked back. All of my digital art is done in Procreate. I was considering upgrading to a newer iPad, but I want to wait for an 11 inch Pro with some sort of local dimming (e.g. mini LED or OLED). I don\u2019t use my iPad for any other function besides drawing, so it is not a priority for me to upgrade.</p>
+<h3>Keyboard</h3>
+<p>I am no longer using an external keyboard with my laptop. It was fun to put together and looked great on my desk, but nothing beats the convenience of having your keyboard attached to your computer. Also my new MacBook\u2019s keyboard is quite good.</p>
+<h2>Software</h2>
+<h3>VSCode</h3>
+<p>Despite attempting to break free of the yoke of VSCode several more times, I\u2019m still using it.</p>
+<h4>VSCode Extensions</h4>
+<p>There are a few VSCode extensions I use all the time:</p>
+<ol><li><a href="${"https://marketplace.visualstudio.com/items?itemName=radiolevity.search-lights"}" rel="${"nofollow"}">Search Lights</a>: My VSCode theme! It\u2019s meant to be easy to look at for a long time. I spent a long time tooling the color relationships to be subtle and informative. I recently passed 10k downloads on it, which is exciting for me.</li>
+<li><a href="${"https://marketplace.visualstudio.com/items?itemName=vscodevim.vim"}" rel="${"nofollow"}">VSCode Vim</a>: I got used to Vim keybindings during a college CS class that required using vim for all of the quizzes and assignments, and ever since I can\u2019t function without it.</li>
+<li><a href="${"https://marketplace.visualstudio.com/items?itemName=GitHub.copilot"}" rel="${"nofollow"}">GitHub Copilot</a> I\u2019ve been using Copilot for a while now, and it\u2019s definitely useful. That said, I still don\u2019t trust it to write more than a line or two for me. I\u2019ve found that it\u2019s best use is as a super powered Intellisense.</li></ol>
+<h3><a href="${"https://neovim.io/"}" rel="${"nofollow"}">NeoVim</a></h3>
+<p>I love Vim as an editor, and NeoVim is even better. When it comes to command-line editors, look no further.</p>
+<h3><a href="${"https://sw.kovidgoyal.net/kitty/"}" rel="${"nofollow"}">kitty</a></h3>
+<p>A minimalist terminal emulator that does everything I need it to, no more, no less. Definitely the cutest option, also! kitty also has a lot of interesting techniques to keep it running quickly, but all I know is it\u2019s the only terminal emulator I\u2019ve used that renders text exactly the way I want it to.</p>
+<h3>zsh</h3>
+<p>I use zsh with <a href="${"https://starship.rs/"}" rel="${"nofollow"}">Starship</a> as my prompt. My favorite extensions are <a href="${"https://github.com/zdharma/fast-syntax-highlighting"}" rel="${"nofollow"}">fast-syntax-highlighting</a>, <a href="${"https://github.com/zsh-users/zsh-history-substring-search"}" rel="${"nofollow"}">history-substring-search</a>, and <a href="${"https://github.com/zsh-users/zsh-autosuggestions"}" rel="${"nofollow"}">zsh-autosuggestions</a>. In order to get load times to be as fast as possible, I spent a while tooling my <a href="${"https://github.com/zdharma-continuum/zinit"}" rel="${"nofollow"}">zinit</a> config\u2014now I get a usable prompt in about 20ms. That\u2019s not quite imperceptible, but it\u2019s close. Before, I was using PowerLevel10k\u2019s instant prompt, which is aptly named and blazingly fast. The issue was that P10k was a little too bulky for me and it kept causing small issues to the point where I gave up and switched to Starship which is very light and straightforward.</p>`;
     });
   }
 });
@@ -6340,26 +6390,41 @@ __export(index_svelte_exports2, {
   default: () => Posts,
   load: () => load2
 });
-var css10, allPosts, promisedPosts, load2, Posts;
+var css10, allPosts, promisedPosts, load2, months, Posts;
 var init_index_svelte2 = __esm({
   ".svelte-kit/output/server/entries/pages/posts/index.svelte.js"() {
-    init_index_811e4c83();
+    init_index_54c56a12();
     css10 = {
-      code: ".posts.svelte-3bstvf.svelte-3bstvf{list-style:none;padding:0}.posts.svelte-3bstvf li.svelte-3bstvf{padding:1rem;padding-left:0}.posts.svelte-3bstvf li p.svelte-3bstvf{padding:0;margin-top:0;color:var(--med-gray)}",
+      code: ".posts.svelte-d6bat0.svelte-d6bat0{list-style:none;padding:0}.posts.svelte-d6bat0 li.svelte-d6bat0{padding:1rem;padding-left:0}.posts.svelte-d6bat0 li p.svelte-d6bat0{padding:0;margin-top:0;color:var(--fg)}.posts.svelte-d6bat0 li p.med-gray.svelte-d6bat0{color:var(--med-gray)}",
       map: null
     };
-    allPosts = { "./2020-05-16-init.md": () => Promise.resolve().then(() => (init_init_md(), init_md_exports)), "./2020-09-08-what-does-radiolevity-mean.md": () => Promise.resolve().then(() => (init_what_does_radiolevity_mean_md(), what_does_radiolevity_mean_md_exports)), "./2021-05-04-new-domain.md": () => Promise.resolve().then(() => (init_new_domain_md(), new_domain_md_exports)), "./2021-07-11-all-new-site.md": () => Promise.resolve().then(() => (init_all_new_site_md(), all_new_site_md_exports)), "./2021-07-13-tools-of-the-trade.md": () => Promise.resolve().then(() => (init_tools_of_the_trade_md(), tools_of_the_trade_md_exports)), "./2021-09-22-floating.md": () => Promise.resolve().then(() => (init_floating_md(), floating_md_exports)), "./2022-04-12-floating copy.md": () => Promise.resolve().then(() => (init_floating_copy_md(), floating_copy_md_exports)) };
+    allPosts = { "./2020-05-16-init.md": () => Promise.resolve().then(() => (init_init_md(), init_md_exports)), "./2020-09-08-what-does-radiolevity-mean.md": () => Promise.resolve().then(() => (init_what_does_radiolevity_mean_md(), what_does_radiolevity_mean_md_exports)), "./2021-05-19-new-domain.md": () => Promise.resolve().then(() => (init_new_domain_md(), new_domain_md_exports)), "./2021-07-11-all-new-site.md": () => Promise.resolve().then(() => (init_all_new_site_md(), all_new_site_md_exports)), "./2021-07-13-tools-of-the-trade.md": () => Promise.resolve().then(() => (init_tools_of_the_trade_md(), tools_of_the_trade_md_exports)), "./2021-11-29-floating.md": () => Promise.resolve().then(() => (init_floating_md(), floating_md_exports)), "./2022-04-12-optimization.md": () => Promise.resolve().then(() => (init_optimization_md(), optimization_md_exports)), "./2022-04-13-tools-of-the-trade-2.md": () => Promise.resolve().then(() => (init_tools_of_the_trade_2_md(), tools_of_the_trade_2_md_exports)) };
     promisedPosts = [];
     for (let path in allPosts) {
-      promisedPosts.push(allPosts[path]().then(({ metadata: metadata8 }) => {
-        return { path, metadata: metadata8 };
+      promisedPosts.push(allPosts[path]().then(({ metadata: metadata9 }) => {
+        console.log(metadata9);
+        return { path, metadata: metadata9 };
       }));
     }
     load2 = async () => {
       let posts = await Promise.all(promisedPosts);
-      posts = posts.sort((a, b) => Date.parse(b.metadata.date) - Date.parse(a.metadata.date));
+      posts = posts.sort((a, b) => a.metadata.date - b.metadata.date);
       return { props: { posts } };
     };
+    months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
     Posts = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let { posts } = $$props;
       if ($$props.posts === void 0 && $$bindings.posts && posts !== void 0)
@@ -6369,9 +6434,13 @@ var init_index_svelte2 = __esm({
 
 <h1>Posts</h1>
 
-<ul class="${"posts svelte-3bstvf"}">${each(posts.reverse(), ({ path, metadata: { title: title8, date: date8 } }) => {
-        return `<li class="${"svelte-3bstvf"}"><p class="${"svelte-3bstvf"}"><a sveltekit:prefetch${add_attribute("href", `/posts/${path.replace(".md", "").replace(".svx", "")}`, 0)}>${escape(title8)}</a></p>
-      
+<ul class="${"posts svelte-d6bat0"}">${each(posts.reverse(), ({ path, metadata: { title: title9, date: date9, snippet: snippet9 } }) => {
+        return `<li class="${"svelte-d6bat0"}"><h2><a sveltekit:prefetch${add_attribute("href", `/posts/${path.replace(".md", "").replace(".svx", "")}`, 0)}>${escape(title9)}</a></h2>
+      <p class="${"svelte-d6bat0"}">${escape(snippet9)}</p>
+      <p class="${"med-gray svelte-d6bat0"}">${escape((() => {
+          let d = new Date(date9);
+          return ` ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+        })())}</p>
     </li>`;
       })}
 </ul>`;
@@ -6379,7 +6448,7 @@ var init_index_svelte2 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/12.js
+// .svelte-kit/output/server/nodes/13.js
 var __exports6 = {};
 __export(__exports6, {
   css: () => css11,
@@ -6389,11 +6458,11 @@ __export(__exports6, {
 });
 var entry6, js6, css11;
 var init__6 = __esm({
-  ".svelte-kit/output/server/nodes/12.js"() {
+  ".svelte-kit/output/server/nodes/13.js"() {
     init_index_svelte2();
-    entry6 = "pages/posts/index.svelte-abb1897b.js";
-    js6 = ["pages/posts/index.svelte-abb1897b.js", "chunks/preload-helper-e4860ae8.js", "chunks/index-ffd6fc2d.js"];
-    css11 = ["assets/pages/posts/index.svelte-ff7056fe.css"];
+    entry6 = "pages/posts/index.svelte-5d6a818f.js";
+    js6 = ["pages/posts/index.svelte-5d6a818f.js", "chunks/preload-helper-e4860ae8.js", "chunks/index-9eb23fc9.js"];
+    css11 = ["assets/pages/posts/index.svelte-a34a4513.css"];
   }
 });
 
@@ -6409,8 +6478,8 @@ var entry7, js7, css12;
 var init__7 = __esm({
   ".svelte-kit/output/server/nodes/5.js"() {
     init_init_md();
-    entry7 = "pages/posts/2020-05-16-init.md-37d044d5.js";
-    js7 = ["pages/posts/2020-05-16-init.md-37d044d5.js", "chunks/index-ffd6fc2d.js"];
+    entry7 = "pages/posts/2020-05-16-init.md-17627b54.js";
+    js7 = ["pages/posts/2020-05-16-init.md-17627b54.js", "chunks/index-9eb23fc9.js"];
     css12 = [];
   }
 });
@@ -6427,8 +6496,8 @@ var entry8, js8, css13;
 var init__8 = __esm({
   ".svelte-kit/output/server/nodes/6.js"() {
     init_what_does_radiolevity_mean_md();
-    entry8 = "pages/posts/2020-09-08-what-does-radiolevity-mean.md-6b9ac50c.js";
-    js8 = ["pages/posts/2020-09-08-what-does-radiolevity-mean.md-6b9ac50c.js", "chunks/index-ffd6fc2d.js"];
+    entry8 = "pages/posts/2020-09-08-what-does-radiolevity-mean.md-f224f619.js";
+    js8 = ["pages/posts/2020-09-08-what-does-radiolevity-mean.md-f224f619.js", "chunks/index-9eb23fc9.js"];
     css13 = [];
   }
 });
@@ -6445,8 +6514,8 @@ var entry9, js9, css14;
 var init__9 = __esm({
   ".svelte-kit/output/server/nodes/7.js"() {
     init_new_domain_md();
-    entry9 = "pages/posts/2021-05-04-new-domain.md-59ab9c74.js";
-    js9 = ["pages/posts/2021-05-04-new-domain.md-59ab9c74.js", "chunks/index-ffd6fc2d.js"];
+    entry9 = "pages/posts/2021-05-19-new-domain.md-84c0c038.js";
+    js9 = ["pages/posts/2021-05-19-new-domain.md-84c0c038.js", "chunks/index-9eb23fc9.js"];
     css14 = [];
   }
 });
@@ -6463,8 +6532,8 @@ var entry10, js10, css15;
 var init__10 = __esm({
   ".svelte-kit/output/server/nodes/8.js"() {
     init_all_new_site_md();
-    entry10 = "pages/posts/2021-07-11-all-new-site.md-08a7109d.js";
-    js10 = ["pages/posts/2021-07-11-all-new-site.md-08a7109d.js", "chunks/index-ffd6fc2d.js"];
+    entry10 = "pages/posts/2021-07-11-all-new-site.md-4b877e38.js";
+    js10 = ["pages/posts/2021-07-11-all-new-site.md-4b877e38.js", "chunks/index-9eb23fc9.js"];
     css15 = [];
   }
 });
@@ -6481,8 +6550,8 @@ var entry11, js11, css16;
 var init__11 = __esm({
   ".svelte-kit/output/server/nodes/9.js"() {
     init_tools_of_the_trade_md();
-    entry11 = "pages/posts/2021-07-13-tools-of-the-trade.md-0c115ed1.js";
-    js11 = ["pages/posts/2021-07-13-tools-of-the-trade.md-0c115ed1.js", "chunks/index-ffd6fc2d.js"];
+    entry11 = "pages/posts/2021-07-13-tools-of-the-trade.md-200c038a.js";
+    js11 = ["pages/posts/2021-07-13-tools-of-the-trade.md-200c038a.js", "chunks/index-9eb23fc9.js"];
     css16 = [];
   }
 });
@@ -6499,8 +6568,8 @@ var entry12, js12, css17;
 var init__12 = __esm({
   ".svelte-kit/output/server/nodes/10.js"() {
     init_floating_md();
-    entry12 = "pages/posts/2021-09-22-floating.md-1bdef811.js";
-    js12 = ["pages/posts/2021-09-22-floating.md-1bdef811.js", "chunks/index-ffd6fc2d.js"];
+    entry12 = "pages/posts/2021-11-29-floating.md-dd8b4b0a.js";
+    js12 = ["pages/posts/2021-11-29-floating.md-dd8b4b0a.js", "chunks/index-9eb23fc9.js"];
     css17 = [];
   }
 });
@@ -6511,15 +6580,33 @@ __export(__exports13, {
   css: () => css18,
   entry: () => entry13,
   js: () => js13,
-  module: () => floating_copy_md_exports
+  module: () => optimization_md_exports
 });
 var entry13, js13, css18;
 var init__13 = __esm({
   ".svelte-kit/output/server/nodes/11.js"() {
-    init_floating_copy_md();
-    entry13 = "pages/posts/2022-04-12-floating copy.md-fb39753d.js";
-    js13 = ["pages/posts/2022-04-12-floating copy.md-fb39753d.js", "chunks/index-ffd6fc2d.js"];
+    init_optimization_md();
+    entry13 = "pages/posts/2022-04-12-optimization.md-d72581ee.js";
+    js13 = ["pages/posts/2022-04-12-optimization.md-d72581ee.js", "chunks/index-9eb23fc9.js"];
     css18 = [];
+  }
+});
+
+// .svelte-kit/output/server/nodes/12.js
+var __exports14 = {};
+__export(__exports14, {
+  css: () => css19,
+  entry: () => entry14,
+  js: () => js14,
+  module: () => tools_of_the_trade_2_md_exports
+});
+var entry14, js14, css19;
+var init__14 = __esm({
+  ".svelte-kit/output/server/nodes/12.js"() {
+    init_tools_of_the_trade_2_md();
+    entry14 = "pages/posts/2022-04-13-tools-of-the-trade-2.md-2f81bd61.js";
+    js14 = ["pages/posts/2022-04-13-tools-of-the-trade-2.md-2f81bd61.js", "chunks/index-9eb23fc9.js"];
+    css19 = [];
   }
 });
 
@@ -6606,7 +6693,7 @@ async function setResponse(res, response) {
 }
 
 // .svelte-kit/output/server/index.js
-init_index_811e4c83();
+init_index_54c56a12();
 var __accessCheck2 = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
@@ -6859,12 +6946,12 @@ function devalue(value) {
   }
   walk(value);
   var names = /* @__PURE__ */ new Map();
-  Array.from(counts).filter(function(entry14) {
-    return entry14[1] > 1;
+  Array.from(counts).filter(function(entry15) {
+    return entry15[1] > 1;
   }).sort(function(a, b) {
     return b[1] - a[1];
-  }).forEach(function(entry14, i2) {
-    names.set(entry14[0], getName(i2));
+  }).forEach(function(entry15, i2) {
+    names.set(entry15[0], getName(i2));
   });
   function stringify(thing) {
     if (names.has(thing)) {
@@ -8600,10 +8687,10 @@ var Server = class {
 // .svelte-kit/vercel-tmp/manifest.js
 var manifest = {
   appDir: "_app",
-  assets: /* @__PURE__ */ new Set([".DS_Store", "art/a-c1.jpeg", "art/a-c1.webp", "art/a-c2.jpeg", "art/a-c2.webp", "art/a-i1.jpeg", "art/a-i1.webp", "art/p-c1.jpeg", "art/p-c1.webp", "art/p-e1.jpeg", "art/p-e1.webp", "art/p-e2.jpeg", "art/p-e2.webp", "art/p-h1.jpeg", "art/p-h1.webp", "art/p-t1.jpeg", "art/p-t1.webp", "favicon.svg", "fonts/Recursive_VF_1.077--subset_range_english_basic.woff2", "fonts/Recursive_VF_1.077--subset_range_latin_1.woff2", "fonts/Recursive_VF_1.077--subset_range_latin_1_punc.woff2", "fonts/Recursive_VF_1.077--subset_range_latin_ext.woff2", "fonts/Recursive_VF_1.077--subset_range_remaining.woff2", "fonts/Recursive_VF_1.077--subset_range_vietnamese.woff2", "fonts.css", "hint.min.css", "icons/copy.svg", "images/.DS_Store", "images/flight-suit-helmet-blur.png", "images/flight-suit-helmet-blur.webp", "images/flight-suit-helmet.png", "images/flight-suit-helmet.webp", "images/flight-suit-me.png", "images/flight-suit-me.webp", "images/flight-suit.png", "images/flight-suit.webp", "images/fsj-solid.svg", "images/fsj.png", "images/fsj.svg", "images/fsj.webp", "images/fsj.xyz_2022-04-12_23-47-35.report.html", "images/iss.png", "images/iss.webp", "main.scss", "normalize.css"]),
-  mimeTypes: { ".jpeg": "image/jpeg", ".webp": "image/webp", ".svg": "image/svg+xml", ".woff2": "font/woff2", ".css": "text/css", ".png": "image/png", ".html": "text/html", ".scss": "text/x-scss" },
+  assets: /* @__PURE__ */ new Set([".DS_Store", "art/a-c1.jpeg", "art/a-c1.webp", "art/a-c2.jpeg", "art/a-c2.webp", "art/a-i1.jpeg", "art/a-i1.webp", "art/p-c1.jpeg", "art/p-c1.webp", "art/p-e1.jpeg", "art/p-e1.webp", "art/p-e2.jpeg", "art/p-e2.webp", "art/p-h1.jpeg", "art/p-h1.webp", "art/p-t1.jpeg", "art/p-t1.webp", "favicon.svg", "fonts/Recursive_VF_1.077--subset_range_english_basic.woff2", "fonts/Recursive_VF_1.077--subset_range_latin_1.woff2", "fonts/Recursive_VF_1.077--subset_range_latin_1_punc.woff2", "fonts/Recursive_VF_1.077--subset_range_latin_ext.woff2", "fonts/Recursive_VF_1.077--subset_range_remaining.woff2", "fonts/Recursive_VF_1.077--subset_range_vietnamese.woff2", "fonts.css", "hint.min.css", "icons/copy.svg", "images/.DS_Store", "images/flight-suit-helmet-blur.png", "images/flight-suit-helmet-blur.webp", "images/flight-suit-helmet.png", "images/flight-suit-helmet.webp", "images/flight-suit-me.png", "images/flight-suit-me.webp", "images/flight-suit.png", "images/flight-suit.webp", "images/fsj-solid.svg", "images/fsj.png", "images/fsj.svg", "images/fsj.webp", "images/iss.png", "images/iss.webp", "main.scss", "normalize.css"]),
+  mimeTypes: { ".jpeg": "image/jpeg", ".webp": "image/webp", ".svg": "image/svg+xml", ".woff2": "font/woff2", ".css": "text/css", ".png": "image/png", ".scss": "text/x-scss" },
   _: {
-    entry: { "file": "start-b18d95df.js", "js": ["start-b18d95df.js", "chunks/index-ffd6fc2d.js", "chunks/index-b781177f.js", "chunks/preload-helper-e4860ae8.js"], "css": [] },
+    entry: { "file": "start-4e8cf0b2.js", "js": ["start-4e8cf0b2.js", "chunks/index-9eb23fc9.js", "chunks/index-498ba06b.js", "chunks/preload-helper-e4860ae8.js"], "css": [] },
     nodes: [
       () => Promise.resolve().then(() => (init__(), __exports)),
       () => Promise.resolve().then(() => (init__2(), __exports2)),
@@ -8617,7 +8704,8 @@ var manifest = {
       () => Promise.resolve().then(() => (init__10(), __exports10)),
       () => Promise.resolve().then(() => (init__11(), __exports11)),
       () => Promise.resolve().then(() => (init__12(), __exports12)),
-      () => Promise.resolve().then(() => (init__13(), __exports13))
+      () => Promise.resolve().then(() => (init__13(), __exports13)),
+      () => Promise.resolve().then(() => (init__14(), __exports14))
     ],
     routes: [
       {
@@ -8688,11 +8776,11 @@ var manifest = {
       },
       {
         type: "page",
-        id: "posts/2021-05-04-new-domain",
-        pattern: /^\/posts\/2021-05-04-new-domain\/?$/,
+        id: "posts/2021-05-19-new-domain",
+        pattern: /^\/posts\/2021-05-19-new-domain\/?$/,
         names: [],
         types: [],
-        path: "/posts/2021-05-04-new-domain",
+        path: "/posts/2021-05-19-new-domain",
         shadow: null,
         a: [0, 8],
         b: [1]
@@ -8721,24 +8809,35 @@ var manifest = {
       },
       {
         type: "page",
-        id: "posts/2021-09-22-floating",
-        pattern: /^\/posts\/2021-09-22-floating\/?$/,
+        id: "posts/2021-11-29-floating",
+        pattern: /^\/posts\/2021-11-29-floating\/?$/,
         names: [],
         types: [],
-        path: "/posts/2021-09-22-floating",
+        path: "/posts/2021-11-29-floating",
         shadow: null,
         a: [0, 11],
         b: [1]
       },
       {
         type: "page",
-        id: "posts/2022-04-12-floating copy",
-        pattern: /^\/posts\/2022-04-12-floating copy\/?$/,
+        id: "posts/2022-04-12-optimization",
+        pattern: /^\/posts\/2022-04-12-optimization\/?$/,
         names: [],
         types: [],
-        path: "/posts/2022-04-12-floating copy",
+        path: "/posts/2022-04-12-optimization",
         shadow: null,
         a: [0, 12],
+        b: [1]
+      },
+      {
+        type: "page",
+        id: "posts/2022-04-13-tools-of-the-trade-2",
+        pattern: /^\/posts\/2022-04-13-tools-of-the-trade-2\/?$/,
+        names: [],
+        types: [],
+        path: "/posts/2022-04-13-tools-of-the-trade-2",
+        shadow: null,
+        a: [0, 13],
         b: [1]
       }
     ],

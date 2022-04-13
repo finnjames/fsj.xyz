@@ -40,11 +40,11 @@
   onDestroy(unsubscribe);
 
   function setColorMode(newMode: string, localStorage = false) {
-    const root = document.documentElement;
+    const de = document.documentElement;
     if (newMode === "") {
-      root.getAttribute("data-color-mode") === "dark" ? (newMode = "light") : (newMode = "dark");
+      de.getAttribute("data-color-mode") === "dark" ? (newMode = "light") : (newMode = "dark");
     }
-    root.setAttribute("data-color-mode", newMode);
+    de.setAttribute("data-color-mode", newMode);
     if (localStorage) {
       window.localStorage.setItem("color-mode", newMode);
     }
@@ -76,7 +76,7 @@
       return "light";
     }
 
-    const colorMode = getInitialColorMode();
+    colorMode = getInitialColorMode();
     const root = document.documentElement;
 
     root.setAttribute("data-color-mode", colorMode);

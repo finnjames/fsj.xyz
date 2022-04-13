@@ -22,11 +22,22 @@
   </div>
   <nav class:active={menuOpen}>
     <div class="nav-container">
+      <a
+        class="nav-item mobile-only"
+        tabindex="0"
+        style="transition-delay: {0}ms"
+        class:active={"/" === $page.url.pathname}
+        on:click={() => (menuOpen = false)}
+        sveltekit:prefetch
+        href={"/"}
+      >
+        Home
+      </a>
       {#each nav as item, i}
         <a
-          class="nav-item"
+          class="nav-item desktop"
           tabindex="0"
-          style="transition-delay: {i * 32}ms"
+          style="transition-delay: {(i + 1) * 32}ms"
           class:active={item.link === $page.url.pathname}
           on:click={() => (menuOpen = false)}
           sveltekit:prefetch
@@ -128,7 +139,10 @@
       transform: translateY(-4px);
       color: var(--fg);
       transition: font-variation-settings 100ms;
-      &:first-of-type {
+      &.mobile-only {
+        display: none;
+      }
+      &:nth-of-type(2) {
         padding-left: 2.4rem;
       }
       &:hover {
@@ -225,6 +239,9 @@
         transition: transform 300ms cubic-bezier(0, 0.62, 0.34, 1),
           opacity 300ms cubic-bezier(0, 0.62, 0.34, 1),
           visibility 300ms cubic-bezier(0, 0.62, 0.34, 1);
+        &.mobile-only {
+          display: inline;
+        }
       }
       &.active {
         position: fixed;

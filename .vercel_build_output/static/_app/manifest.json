@@ -1,11 +1,11 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-b18d95df.js",
+    "file": "start-4e8cf0b2.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
-      "_index-ffd6fc2d.js",
-      "_index-b781177f.js",
+      "_index-9eb23fc9.js",
+      "_index-498ba06b.js",
       "_preload-helper-e4860ae8.js"
     ],
     "dynamicImports": [
@@ -16,164 +16,175 @@
       "src/routes/portfolio.svelte",
       "src/routes/posts/2020-05-16-init.md",
       "src/routes/posts/2020-09-08-what-does-radiolevity-mean.md",
-      "src/routes/posts/2021-05-04-new-domain.md",
+      "src/routes/posts/2021-05-19-new-domain.md",
       "src/routes/posts/2021-07-11-all-new-site.md",
       "src/routes/posts/2021-07-13-tools-of-the-trade.md",
-      "src/routes/posts/2021-09-22-floating.md",
-      "src/routes/posts/2022-04-12-floating copy.md",
+      "src/routes/posts/2021-11-29-floating.md",
+      "src/routes/posts/2022-04-12-optimization.md",
+      "src/routes/posts/2022-04-13-tools-of-the-trade-2.md",
       "src/routes/posts/index.svelte"
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "pages/__layout.svelte-09066b7b.js",
+    "file": "pages/__layout.svelte-09b4896c.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-ffd6fc2d.js",
-      "_index-b781177f.js"
+      "_index-9eb23fc9.js",
+      "_index-498ba06b.js"
     ],
     "css": [
-      "assets/pages/__layout.svelte-5be97449.css"
+      "assets/pages/__layout.svelte-ace607d1.css"
     ]
   },
   "src/routes/__error.svelte": {
-    "file": "pages/__error.svelte-d577e1f9.js",
+    "file": "pages/__error.svelte-4d16d2d0.js",
     "src": "src/routes/__error.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-ffd6fc2d.js"
+      "_index-9eb23fc9.js"
     ]
   },
   "src/routes/cv.svelte": {
-    "file": "pages/cv.svelte-e733f803.js",
+    "file": "pages/cv.svelte-01cc4c6e.js",
     "src": "src/routes/cv.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-ffd6fc2d.js"
+      "_index-9eb23fc9.js"
     ],
     "css": [
       "assets/pages/cv.svelte-65d957cf.css"
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-f8c1d283.js",
+    "file": "pages/index.svelte-3cb9533a.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-ffd6fc2d.js"
+      "_index-9eb23fc9.js"
     ],
     "css": [
-      "assets/pages/index.svelte-f797b21e.css"
+      "assets/pages/index.svelte-66475299.css"
     ]
   },
   "src/routes/portfolio.svelte": {
-    "file": "pages/portfolio.svelte-e17148f3.js",
+    "file": "pages/portfolio.svelte-ee126233.js",
     "src": "src/routes/portfolio.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-ffd6fc2d.js"
+      "_index-9eb23fc9.js"
     ],
     "css": [
       "assets/pages/portfolio.svelte-65b2eb18.css"
     ]
   },
   "src/routes/posts/2020-05-16-init.md": {
-    "file": "pages/posts/2020-05-16-init.md-37d044d5.js",
+    "file": "pages/posts/2020-05-16-init.md-17627b54.js",
     "src": "src/routes/posts/2020-05-16-init.md",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-ffd6fc2d.js"
+      "_index-9eb23fc9.js"
     ]
   },
   "src/routes/posts/2020-09-08-what-does-radiolevity-mean.md": {
-    "file": "pages/posts/2020-09-08-what-does-radiolevity-mean.md-6b9ac50c.js",
+    "file": "pages/posts/2020-09-08-what-does-radiolevity-mean.md-f224f619.js",
     "src": "src/routes/posts/2020-09-08-what-does-radiolevity-mean.md",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-ffd6fc2d.js"
+      "_index-9eb23fc9.js"
     ]
   },
-  "src/routes/posts/2021-05-04-new-domain.md": {
-    "file": "pages/posts/2021-05-04-new-domain.md-59ab9c74.js",
-    "src": "src/routes/posts/2021-05-04-new-domain.md",
+  "src/routes/posts/2021-05-19-new-domain.md": {
+    "file": "pages/posts/2021-05-19-new-domain.md-84c0c038.js",
+    "src": "src/routes/posts/2021-05-19-new-domain.md",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-ffd6fc2d.js"
+      "_index-9eb23fc9.js"
     ]
   },
   "src/routes/posts/2021-07-11-all-new-site.md": {
-    "file": "pages/posts/2021-07-11-all-new-site.md-08a7109d.js",
+    "file": "pages/posts/2021-07-11-all-new-site.md-4b877e38.js",
     "src": "src/routes/posts/2021-07-11-all-new-site.md",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-ffd6fc2d.js"
+      "_index-9eb23fc9.js"
     ]
   },
   "src/routes/posts/2021-07-13-tools-of-the-trade.md": {
-    "file": "pages/posts/2021-07-13-tools-of-the-trade.md-0c115ed1.js",
+    "file": "pages/posts/2021-07-13-tools-of-the-trade.md-200c038a.js",
     "src": "src/routes/posts/2021-07-13-tools-of-the-trade.md",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-ffd6fc2d.js"
+      "_index-9eb23fc9.js"
     ]
   },
-  "src/routes/posts/2021-09-22-floating.md": {
-    "file": "pages/posts/2021-09-22-floating.md-1bdef811.js",
-    "src": "src/routes/posts/2021-09-22-floating.md",
+  "src/routes/posts/2021-11-29-floating.md": {
+    "file": "pages/posts/2021-11-29-floating.md-dd8b4b0a.js",
+    "src": "src/routes/posts/2021-11-29-floating.md",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-ffd6fc2d.js"
+      "_index-9eb23fc9.js"
     ]
   },
-  "src/routes/posts/2022-04-12-floating copy.md": {
-    "file": "pages/posts/2022-04-12-floating copy.md-fb39753d.js",
-    "src": "src/routes/posts/2022-04-12-floating copy.md",
+  "src/routes/posts/2022-04-12-optimization.md": {
+    "file": "pages/posts/2022-04-12-optimization.md-d72581ee.js",
+    "src": "src/routes/posts/2022-04-12-optimization.md",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-ffd6fc2d.js"
+      "_index-9eb23fc9.js"
+    ]
+  },
+  "src/routes/posts/2022-04-13-tools-of-the-trade-2.md": {
+    "file": "pages/posts/2022-04-13-tools-of-the-trade-2.md-2f81bd61.js",
+    "src": "src/routes/posts/2022-04-13-tools-of-the-trade-2.md",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-9eb23fc9.js"
     ]
   },
   "src/routes/posts/index.svelte": {
-    "file": "pages/posts/index.svelte-abb1897b.js",
+    "file": "pages/posts/index.svelte-5d6a818f.js",
     "src": "src/routes/posts/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_preload-helper-e4860ae8.js",
-      "_index-ffd6fc2d.js"
+      "_index-9eb23fc9.js"
     ],
     "dynamicImports": [
       "src/routes/posts/2020-05-16-init.md",
       "src/routes/posts/2020-09-08-what-does-radiolevity-mean.md",
-      "src/routes/posts/2021-05-04-new-domain.md",
+      "src/routes/posts/2021-05-19-new-domain.md",
       "src/routes/posts/2021-07-11-all-new-site.md",
       "src/routes/posts/2021-07-13-tools-of-the-trade.md",
-      "src/routes/posts/2021-09-22-floating.md",
-      "src/routes/posts/2022-04-12-floating copy.md"
+      "src/routes/posts/2021-11-29-floating.md",
+      "src/routes/posts/2022-04-12-optimization.md",
+      "src/routes/posts/2022-04-13-tools-of-the-trade-2.md"
     ],
     "css": [
-      "assets/pages/posts/index.svelte-ff7056fe.css"
+      "assets/pages/posts/index.svelte-a34a4513.css"
     ]
   },
-  "_index-ffd6fc2d.js": {
-    "file": "chunks/index-ffd6fc2d.js"
+  "_index-9eb23fc9.js": {
+    "file": "chunks/index-9eb23fc9.js"
   },
-  "_index-b781177f.js": {
-    "file": "chunks/index-b781177f.js",
+  "_index-498ba06b.js": {
+    "file": "chunks/index-498ba06b.js",
     "imports": [
-      "_index-ffd6fc2d.js"
+      "_index-9eb23fc9.js"
     ]
   },
   "_preload-helper-e4860ae8.js": {
