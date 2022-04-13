@@ -1,17 +1,10 @@
 <script lang="ts">
-  import { select_multiple_value } from "svelte/internal";
-
   const email = hex2a("6865794066736a2e78797a"); // hex email address
 
-  const copy = () => {
-    navigator.clipboard.writeText(email);
-  };
-
-  function hex2a(hexx) {
-    var hex = hexx.toString(); // force conversion
-    var str = "";
+  function hex2a(hex: string): string {
+    let str = "";
     for (var i = 0; i < hex.length; i += 2) {
-      str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+      str += String.fromCharCode(parseInt(hex.slice(i, 2), 16));
     }
     return str;
   }
@@ -37,9 +30,10 @@
 
   <button
     id="copy"
+    aria-label="copy email address"
     on:click={() => {
       address.select();
-      document.execCommand("copy");
+      navigator.clipboard.writeText(email);
     }}
   >
     <div id="copy-front">
