@@ -12,11 +12,13 @@
   --dark-gray: #333;
   --light-purple: #e4d0ff;
   --purple: #a154ff;
+  --medium-purple: #8e40ee;
   --dark-purple: #6421b6;
   --darker-purple: #41107c;
-  --magenta: #f30b68;
-  --dark-magenta: #db0058;
-  --darker-magenta: #97013d;
+  --magenta: #f30b6c;
+  --med-dark-magenta: #d4035a;
+  --dark-magenta: #b3004a;
+  --darker-magenta: #68002b;
   --cyan: #1192ce;
 }
 [data-color-mode="dark"] {
@@ -28,6 +30,7 @@
   --med-light-gray: #5b497a;
   --light-gray: #43345e;
   --purple: #b67aff;
+  --medium-purple: #ab6cf8;
   --dark-purple: #a154ff;
   --darker-purple: #6421b6;
   --cyan: #4bbcf0;
@@ -69,7 +72,7 @@ h6 {
       font-variation-settings: "SLNT" -15, "wght" 600, "CASL" -15;
       @if $hx == "h1" {
         content: "#";
-        left: -1.9rem;
+        left: -1.90rem;
       }
       @if $hx == "h2" {
         content: "##";
@@ -97,10 +100,18 @@ content a {
   text-decoration-color: var(--magenta);
   font-weight: 500;
   &:hover {
-    color: var(--dark-magenta);
+    color: var(--magenta);
     transition: color 100ms linear;
   }
   &:active {
     opacity: 0.6;
   }
+}
+
+code {
+  font-family: "RecVar", monospace;
+  font-variation-settings: "MONO" 1;
+  background-color: var(--light-gray);
+  padding: 0.1rem 0.2rem;
+  border-radius: 0.2rem;
 }

@@ -1,42 +1,6542 @@
 var __create = Object.create;
 var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
 var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key2, value) => key2 in obj ? __defProp(obj, key2, { enumerable: true, configurable: true, writable: true, value }) : obj[key2] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
 var __export = (target, all) => {
-  __markAsModule(target);
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
-var __reExport = (target, module2, desc) => {
-  if (module2 && typeof module2 === "object" || typeof module2 === "function") {
-    for (let key of __getOwnPropNames(module2))
-      if (!__hasOwnProp.call(target, key) && key !== "default")
-        __defProp(target, key, { get: () => module2[key], enumerable: !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable });
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key2 of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key2) && key2 !== except)
+        __defProp(to, key2, { get: () => from[key2], enumerable: !(desc = __getOwnPropDesc(from, key2)) || desc.enumerable });
   }
-  return target;
+  return to;
 };
-var __toModule = (module2) => {
-  return __reExport(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", module2 && module2.__esModule && "default" in module2 ? { get: () => module2.default, enumerable: true } : { value: module2, enumerable: true })), module2);
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var __accessCheck = (obj, member, msg) => {
+  if (!member.has(obj))
+    throw TypeError("Cannot " + msg);
+};
+var __privateGet = (obj, member, getter) => {
+  __accessCheck(obj, member, "read from private field");
+  return getter ? getter.call(obj) : member.get(obj);
+};
+var __privateAdd = (obj, member, value) => {
+  if (member.has(obj))
+    throw TypeError("Cannot add the same private member more than once");
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+};
+var __privateSet = (obj, member, value, setter) => {
+  __accessCheck(obj, member, "write to private field");
+  setter ? setter.call(obj, value) : member.set(obj, value);
+  return value;
 };
 
-// .svelte-kit/vercel/entry.js
-__export(exports, {
-  default: () => entry_default
+// node_modules/@sveltejs/kit/dist/chunks/multipart-parser.js
+var multipart_parser_exports = {};
+__export(multipart_parser_exports, {
+  toFormData: () => toFormData
+});
+function _fileName(headerValue) {
+  const m2 = headerValue.match(/\bfilename=("(.*?)"|([^()<>@,;:\\"/[\]?={}\s\t]+))($|;\s)/i);
+  if (!m2) {
+    return;
+  }
+  const match = m2[2] || m2[3] || "";
+  let filename = match.slice(match.lastIndexOf("\\") + 1);
+  filename = filename.replace(/%22/g, '"');
+  filename = filename.replace(/&#(\d{4});/g, (m3, code) => {
+    return String.fromCharCode(code);
+  });
+  return filename;
+}
+async function toFormData(Body2, ct) {
+  if (!/multipart/i.test(ct)) {
+    throw new TypeError("Failed to fetch");
+  }
+  const m2 = ct.match(/boundary=(?:"([^"]+)"|([^;]+))/i);
+  if (!m2) {
+    throw new TypeError("no or bad content-type header, no multipart boundary");
+  }
+  const parser = new MultipartParser(m2[1] || m2[2]);
+  let headerField;
+  let headerValue;
+  let entryValue;
+  let entryName;
+  let contentType;
+  let filename;
+  const entryChunks = [];
+  const formData = new FormData();
+  const onPartData = (ui8a) => {
+    entryValue += decoder.decode(ui8a, { stream: true });
+  };
+  const appendToFile = (ui8a) => {
+    entryChunks.push(ui8a);
+  };
+  const appendFileToFormData = () => {
+    const file = new File(entryChunks, filename, { type: contentType });
+    formData.append(entryName, file);
+  };
+  const appendEntryToFormData = () => {
+    formData.append(entryName, entryValue);
+  };
+  const decoder = new TextDecoder("utf-8");
+  decoder.decode();
+  parser.onPartBegin = function() {
+    parser.onPartData = onPartData;
+    parser.onPartEnd = appendEntryToFormData;
+    headerField = "";
+    headerValue = "";
+    entryValue = "";
+    entryName = "";
+    contentType = "";
+    filename = null;
+    entryChunks.length = 0;
+  };
+  parser.onHeaderField = function(ui8a) {
+    headerField += decoder.decode(ui8a, { stream: true });
+  };
+  parser.onHeaderValue = function(ui8a) {
+    headerValue += decoder.decode(ui8a, { stream: true });
+  };
+  parser.onHeaderEnd = function() {
+    headerValue += decoder.decode();
+    headerField = headerField.toLowerCase();
+    if (headerField === "content-disposition") {
+      const m3 = headerValue.match(/\bname=("([^"]*)"|([^()<>@,;:\\"/[\]?={}\s\t]+))/i);
+      if (m3) {
+        entryName = m3[2] || m3[3] || "";
+      }
+      filename = _fileName(headerValue);
+      if (filename) {
+        parser.onPartData = appendToFile;
+        parser.onPartEnd = appendFileToFormData;
+      }
+    } else if (headerField === "content-type") {
+      contentType = headerValue;
+    }
+    headerValue = "";
+    headerField = "";
+  };
+  for await (const chunk of Body2) {
+    parser.write(chunk);
+  }
+  parser.end();
+  return formData;
+}
+var import_node_worker_threads, s, S, f, F, LF, CR, SPACE, HYPHEN, COLON, A, Z, lower, noop, MultipartParser;
+var init_multipart_parser = __esm({
+  "node_modules/@sveltejs/kit/dist/chunks/multipart-parser.js"() {
+    import_node_worker_threads = require("worker_threads");
+    init_install_fetch();
+    globalThis.DOMException || (() => {
+      const port = new import_node_worker_threads.MessageChannel().port1;
+      const ab = new ArrayBuffer(0);
+      try {
+        port.postMessage(ab, [ab, ab]);
+      } catch (err) {
+        return err.constructor;
+      }
+    })();
+    s = 0;
+    S = {
+      START_BOUNDARY: s++,
+      HEADER_FIELD_START: s++,
+      HEADER_FIELD: s++,
+      HEADER_VALUE_START: s++,
+      HEADER_VALUE: s++,
+      HEADER_VALUE_ALMOST_DONE: s++,
+      HEADERS_ALMOST_DONE: s++,
+      PART_DATA_START: s++,
+      PART_DATA: s++,
+      END: s++
+    };
+    f = 1;
+    F = {
+      PART_BOUNDARY: f,
+      LAST_BOUNDARY: f *= 2
+    };
+    LF = 10;
+    CR = 13;
+    SPACE = 32;
+    HYPHEN = 45;
+    COLON = 58;
+    A = 97;
+    Z = 122;
+    lower = (c) => c | 32;
+    noop = () => {
+    };
+    MultipartParser = class {
+      constructor(boundary) {
+        this.index = 0;
+        this.flags = 0;
+        this.onHeaderEnd = noop;
+        this.onHeaderField = noop;
+        this.onHeadersEnd = noop;
+        this.onHeaderValue = noop;
+        this.onPartBegin = noop;
+        this.onPartData = noop;
+        this.onPartEnd = noop;
+        this.boundaryChars = {};
+        boundary = "\r\n--" + boundary;
+        const ui8a = new Uint8Array(boundary.length);
+        for (let i2 = 0; i2 < boundary.length; i2++) {
+          ui8a[i2] = boundary.charCodeAt(i2);
+          this.boundaryChars[ui8a[i2]] = true;
+        }
+        this.boundary = ui8a;
+        this.lookbehind = new Uint8Array(this.boundary.length + 8);
+        this.state = S.START_BOUNDARY;
+      }
+      write(data) {
+        let i2 = 0;
+        const length_ = data.length;
+        let previousIndex = this.index;
+        let { lookbehind, boundary, boundaryChars, index, state, flags } = this;
+        const boundaryLength = this.boundary.length;
+        const boundaryEnd = boundaryLength - 1;
+        const bufferLength = data.length;
+        let c;
+        let cl;
+        const mark = (name) => {
+          this[name + "Mark"] = i2;
+        };
+        const clear = (name) => {
+          delete this[name + "Mark"];
+        };
+        const callback = (callbackSymbol, start, end, ui8a) => {
+          if (start === void 0 || start !== end) {
+            this[callbackSymbol](ui8a && ui8a.subarray(start, end));
+          }
+        };
+        const dataCallback = (name, clear2) => {
+          const markSymbol = name + "Mark";
+          if (!(markSymbol in this)) {
+            return;
+          }
+          if (clear2) {
+            callback(name, this[markSymbol], i2, data);
+            delete this[markSymbol];
+          } else {
+            callback(name, this[markSymbol], data.length, data);
+            this[markSymbol] = 0;
+          }
+        };
+        for (i2 = 0; i2 < length_; i2++) {
+          c = data[i2];
+          switch (state) {
+            case S.START_BOUNDARY:
+              if (index === boundary.length - 2) {
+                if (c === HYPHEN) {
+                  flags |= F.LAST_BOUNDARY;
+                } else if (c !== CR) {
+                  return;
+                }
+                index++;
+                break;
+              } else if (index - 1 === boundary.length - 2) {
+                if (flags & F.LAST_BOUNDARY && c === HYPHEN) {
+                  state = S.END;
+                  flags = 0;
+                } else if (!(flags & F.LAST_BOUNDARY) && c === LF) {
+                  index = 0;
+                  callback("onPartBegin");
+                  state = S.HEADER_FIELD_START;
+                } else {
+                  return;
+                }
+                break;
+              }
+              if (c !== boundary[index + 2]) {
+                index = -2;
+              }
+              if (c === boundary[index + 2]) {
+                index++;
+              }
+              break;
+            case S.HEADER_FIELD_START:
+              state = S.HEADER_FIELD;
+              mark("onHeaderField");
+              index = 0;
+            case S.HEADER_FIELD:
+              if (c === CR) {
+                clear("onHeaderField");
+                state = S.HEADERS_ALMOST_DONE;
+                break;
+              }
+              index++;
+              if (c === HYPHEN) {
+                break;
+              }
+              if (c === COLON) {
+                if (index === 1) {
+                  return;
+                }
+                dataCallback("onHeaderField", true);
+                state = S.HEADER_VALUE_START;
+                break;
+              }
+              cl = lower(c);
+              if (cl < A || cl > Z) {
+                return;
+              }
+              break;
+            case S.HEADER_VALUE_START:
+              if (c === SPACE) {
+                break;
+              }
+              mark("onHeaderValue");
+              state = S.HEADER_VALUE;
+            case S.HEADER_VALUE:
+              if (c === CR) {
+                dataCallback("onHeaderValue", true);
+                callback("onHeaderEnd");
+                state = S.HEADER_VALUE_ALMOST_DONE;
+              }
+              break;
+            case S.HEADER_VALUE_ALMOST_DONE:
+              if (c !== LF) {
+                return;
+              }
+              state = S.HEADER_FIELD_START;
+              break;
+            case S.HEADERS_ALMOST_DONE:
+              if (c !== LF) {
+                return;
+              }
+              callback("onHeadersEnd");
+              state = S.PART_DATA_START;
+              break;
+            case S.PART_DATA_START:
+              state = S.PART_DATA;
+              mark("onPartData");
+            case S.PART_DATA:
+              previousIndex = index;
+              if (index === 0) {
+                i2 += boundaryEnd;
+                while (i2 < bufferLength && !(data[i2] in boundaryChars)) {
+                  i2 += boundaryLength;
+                }
+                i2 -= boundaryEnd;
+                c = data[i2];
+              }
+              if (index < boundary.length) {
+                if (boundary[index] === c) {
+                  if (index === 0) {
+                    dataCallback("onPartData", true);
+                  }
+                  index++;
+                } else {
+                  index = 0;
+                }
+              } else if (index === boundary.length) {
+                index++;
+                if (c === CR) {
+                  flags |= F.PART_BOUNDARY;
+                } else if (c === HYPHEN) {
+                  flags |= F.LAST_BOUNDARY;
+                } else {
+                  index = 0;
+                }
+              } else if (index - 1 === boundary.length) {
+                if (flags & F.PART_BOUNDARY) {
+                  index = 0;
+                  if (c === LF) {
+                    flags &= ~F.PART_BOUNDARY;
+                    callback("onPartEnd");
+                    callback("onPartBegin");
+                    state = S.HEADER_FIELD_START;
+                    break;
+                  }
+                } else if (flags & F.LAST_BOUNDARY) {
+                  if (c === HYPHEN) {
+                    callback("onPartEnd");
+                    state = S.END;
+                    flags = 0;
+                  } else {
+                    index = 0;
+                  }
+                } else {
+                  index = 0;
+                }
+              }
+              if (index > 0) {
+                lookbehind[index - 1] = c;
+              } else if (previousIndex > 0) {
+                const _lookbehind = new Uint8Array(lookbehind.buffer, lookbehind.byteOffset, lookbehind.byteLength);
+                callback("onPartData", 0, previousIndex, _lookbehind);
+                previousIndex = 0;
+                mark("onPartData");
+                i2--;
+              }
+              break;
+            case S.END:
+              break;
+            default:
+              throw new Error(`Unexpected state entered: ${state}`);
+          }
+        }
+        dataCallback("onHeaderField");
+        dataCallback("onHeaderValue");
+        dataCallback("onPartData");
+        this.index = index;
+        this.state = state;
+        this.flags = flags;
+      }
+      end() {
+        if (this.state === S.HEADER_FIELD_START && this.index === 0 || this.state === S.PART_DATA && this.index === this.boundary.length) {
+          this.onPartEnd();
+        } else if (this.state !== S.END) {
+          throw new Error("MultipartParser.end(): stream ended unexpectedly");
+        }
+      }
+    };
+  }
 });
 
+// node_modules/@sveltejs/kit/dist/install-fetch.js
+function dataUriToBuffer(uri) {
+  if (!/^data:/i.test(uri)) {
+    throw new TypeError('`uri` does not appear to be a Data URI (must begin with "data:")');
+  }
+  uri = uri.replace(/\r?\n/g, "");
+  const firstComma = uri.indexOf(",");
+  if (firstComma === -1 || firstComma <= 4) {
+    throw new TypeError("malformed data: URI");
+  }
+  const meta = uri.substring(5, firstComma).split(";");
+  let charset = "";
+  let base642 = false;
+  const type = meta[0] || "text/plain";
+  let typeFull = type;
+  for (let i2 = 1; i2 < meta.length; i2++) {
+    if (meta[i2] === "base64") {
+      base642 = true;
+    } else {
+      typeFull += `;${meta[i2]}`;
+      if (meta[i2].indexOf("charset=") === 0) {
+        charset = meta[i2].substring(8);
+      }
+    }
+  }
+  if (!meta[0] && !charset.length) {
+    typeFull += ";charset=US-ASCII";
+    charset = "US-ASCII";
+  }
+  const encoding = base642 ? "base64" : "ascii";
+  const data = unescape(uri.substring(firstComma + 1));
+  const buffer = Buffer.from(data, encoding);
+  buffer.type = type;
+  buffer.typeFull = typeFull;
+  buffer.charset = charset;
+  return buffer;
+}
+async function* toIterator(parts, clone2 = true) {
+  for (const part of parts) {
+    if ("stream" in part) {
+      yield* part.stream();
+    } else if (ArrayBuffer.isView(part)) {
+      if (clone2) {
+        let position = part.byteOffset;
+        const end = part.byteOffset + part.byteLength;
+        while (position !== end) {
+          const size = Math.min(end - position, POOL_SIZE);
+          const chunk = part.buffer.slice(position, position + size);
+          position += chunk.byteLength;
+          yield new Uint8Array(chunk);
+        }
+      } else {
+        yield part;
+      }
+    } else {
+      let position = 0;
+      while (position !== part.size) {
+        const chunk = part.slice(position, Math.min(part.size, position + POOL_SIZE));
+        const buffer = await chunk.arrayBuffer();
+        position += buffer.byteLength;
+        yield new Uint8Array(buffer);
+      }
+    }
+  }
+}
+function formDataToBlob(F2, B = Blob$1) {
+  var b = `${r()}${r()}`.replace(/\./g, "").slice(-28).padStart(32, "-"), c = [], p = `--${b}\r
+Content-Disposition: form-data; name="`;
+  F2.forEach((v, n) => typeof v == "string" ? c.push(p + e(n) + `"\r
+\r
+${v.replace(/\r(?!\n)|(?<!\r)\n/g, "\r\n")}\r
+`) : c.push(p + e(n) + `"; filename="${e(v.name, 1)}"\r
+Content-Type: ${v.type || "application/octet-stream"}\r
+\r
+`, v, "\r\n"));
+  c.push(`--${b}--`);
+  return new B(c, { type: "multipart/form-data; boundary=" + b });
+}
+async function consumeBody(data) {
+  if (data[INTERNALS$2].disturbed) {
+    throw new TypeError(`body used already for: ${data.url}`);
+  }
+  data[INTERNALS$2].disturbed = true;
+  if (data[INTERNALS$2].error) {
+    throw data[INTERNALS$2].error;
+  }
+  const { body } = data;
+  if (body === null) {
+    return Buffer.alloc(0);
+  }
+  if (!(body instanceof import_node_stream.default)) {
+    return Buffer.alloc(0);
+  }
+  const accum = [];
+  let accumBytes = 0;
+  try {
+    for await (const chunk of body) {
+      if (data.size > 0 && accumBytes + chunk.length > data.size) {
+        const error2 = new FetchError(`content size at ${data.url} over limit: ${data.size}`, "max-size");
+        body.destroy(error2);
+        throw error2;
+      }
+      accumBytes += chunk.length;
+      accum.push(chunk);
+    }
+  } catch (error2) {
+    const error_ = error2 instanceof FetchBaseError ? error2 : new FetchError(`Invalid response body while trying to fetch ${data.url}: ${error2.message}`, "system", error2);
+    throw error_;
+  }
+  if (body.readableEnded === true || body._readableState.ended === true) {
+    try {
+      if (accum.every((c) => typeof c === "string")) {
+        return Buffer.from(accum.join(""));
+      }
+      return Buffer.concat(accum, accumBytes);
+    } catch (error2) {
+      throw new FetchError(`Could not create Buffer from response body for ${data.url}: ${error2.message}`, "system", error2);
+    }
+  } else {
+    throw new FetchError(`Premature close of server response while trying to fetch ${data.url}`);
+  }
+}
+function fromRawHeaders(headers = []) {
+  return new Headers2(headers.reduce((result, value, index, array) => {
+    if (index % 2 === 0) {
+      result.push(array.slice(index, index + 2));
+    }
+    return result;
+  }, []).filter(([name, value]) => {
+    try {
+      validateHeaderName(name);
+      validateHeaderValue(name, String(value));
+      return true;
+    } catch {
+      return false;
+    }
+  }));
+}
+function stripURLForUseAsAReferrer(url, originOnly = false) {
+  if (url == null) {
+    return "no-referrer";
+  }
+  url = new URL(url);
+  if (/^(about|blob|data):$/.test(url.protocol)) {
+    return "no-referrer";
+  }
+  url.username = "";
+  url.password = "";
+  url.hash = "";
+  if (originOnly) {
+    url.pathname = "";
+    url.search = "";
+  }
+  return url;
+}
+function validateReferrerPolicy(referrerPolicy) {
+  if (!ReferrerPolicy.has(referrerPolicy)) {
+    throw new TypeError(`Invalid referrerPolicy: ${referrerPolicy}`);
+  }
+  return referrerPolicy;
+}
+function isOriginPotentiallyTrustworthy(url) {
+  if (/^(http|ws)s:$/.test(url.protocol)) {
+    return true;
+  }
+  const hostIp = url.host.replace(/(^\[)|(]$)/g, "");
+  const hostIPVersion = (0, import_net.isIP)(hostIp);
+  if (hostIPVersion === 4 && /^127\./.test(hostIp)) {
+    return true;
+  }
+  if (hostIPVersion === 6 && /^(((0+:){7})|(::(0+:){0,6}))0*1$/.test(hostIp)) {
+    return true;
+  }
+  if (/^(.+\.)*localhost$/.test(url.host)) {
+    return false;
+  }
+  if (url.protocol === "file:") {
+    return true;
+  }
+  return false;
+}
+function isUrlPotentiallyTrustworthy(url) {
+  if (/^about:(blank|srcdoc)$/.test(url)) {
+    return true;
+  }
+  if (url.protocol === "data:") {
+    return true;
+  }
+  if (/^(blob|filesystem):$/.test(url.protocol)) {
+    return true;
+  }
+  return isOriginPotentiallyTrustworthy(url);
+}
+function determineRequestsReferrer(request, { referrerURLCallback, referrerOriginCallback } = {}) {
+  if (request.referrer === "no-referrer" || request.referrerPolicy === "") {
+    return null;
+  }
+  const policy = request.referrerPolicy;
+  if (request.referrer === "about:client") {
+    return "no-referrer";
+  }
+  const referrerSource = request.referrer;
+  let referrerURL = stripURLForUseAsAReferrer(referrerSource);
+  let referrerOrigin = stripURLForUseAsAReferrer(referrerSource, true);
+  if (referrerURL.toString().length > 4096) {
+    referrerURL = referrerOrigin;
+  }
+  if (referrerURLCallback) {
+    referrerURL = referrerURLCallback(referrerURL);
+  }
+  if (referrerOriginCallback) {
+    referrerOrigin = referrerOriginCallback(referrerOrigin);
+  }
+  const currentURL = new URL(request.url);
+  switch (policy) {
+    case "no-referrer":
+      return "no-referrer";
+    case "origin":
+      return referrerOrigin;
+    case "unsafe-url":
+      return referrerURL;
+    case "strict-origin":
+      if (isUrlPotentiallyTrustworthy(referrerURL) && !isUrlPotentiallyTrustworthy(currentURL)) {
+        return "no-referrer";
+      }
+      return referrerOrigin.toString();
+    case "strict-origin-when-cross-origin":
+      if (referrerURL.origin === currentURL.origin) {
+        return referrerURL;
+      }
+      if (isUrlPotentiallyTrustworthy(referrerURL) && !isUrlPotentiallyTrustworthy(currentURL)) {
+        return "no-referrer";
+      }
+      return referrerOrigin;
+    case "same-origin":
+      if (referrerURL.origin === currentURL.origin) {
+        return referrerURL;
+      }
+      return "no-referrer";
+    case "origin-when-cross-origin":
+      if (referrerURL.origin === currentURL.origin) {
+        return referrerURL;
+      }
+      return referrerOrigin;
+    case "no-referrer-when-downgrade":
+      if (isUrlPotentiallyTrustworthy(referrerURL) && !isUrlPotentiallyTrustworthy(currentURL)) {
+        return "no-referrer";
+      }
+      return referrerURL;
+    default:
+      throw new TypeError(`Invalid referrerPolicy: ${policy}`);
+  }
+}
+function parseReferrerPolicyFromHeader(headers) {
+  const policyTokens = (headers.get("referrer-policy") || "").split(/[,\s]+/);
+  let policy = "";
+  for (const token of policyTokens) {
+    if (token && ReferrerPolicy.has(token)) {
+      policy = token;
+    }
+  }
+  return policy;
+}
+async function fetch2(url, options_) {
+  return new Promise((resolve2, reject) => {
+    const request = new Request2(url, options_);
+    const { parsedURL, options } = getNodeRequestOptions(request);
+    if (!supportedSchemas.has(parsedURL.protocol)) {
+      throw new TypeError(`node-fetch cannot load ${url}. URL scheme "${parsedURL.protocol.replace(/:$/, "")}" is not supported.`);
+    }
+    if (parsedURL.protocol === "data:") {
+      const data = dataUriToBuffer(request.url);
+      const response2 = new Response2(data, { headers: { "Content-Type": data.typeFull } });
+      resolve2(response2);
+      return;
+    }
+    const send = (parsedURL.protocol === "https:" ? import_node_https.default : import_node_http.default).request;
+    const { signal } = request;
+    let response = null;
+    const abort = () => {
+      const error2 = new AbortError("The operation was aborted.");
+      reject(error2);
+      if (request.body && request.body instanceof import_node_stream.default.Readable) {
+        request.body.destroy(error2);
+      }
+      if (!response || !response.body) {
+        return;
+      }
+      response.body.emit("error", error2);
+    };
+    if (signal && signal.aborted) {
+      abort();
+      return;
+    }
+    const abortAndFinalize = () => {
+      abort();
+      finalize();
+    };
+    const request_ = send(parsedURL, options);
+    if (signal) {
+      signal.addEventListener("abort", abortAndFinalize);
+    }
+    const finalize = () => {
+      request_.abort();
+      if (signal) {
+        signal.removeEventListener("abort", abortAndFinalize);
+      }
+    };
+    request_.on("error", (error2) => {
+      reject(new FetchError(`request to ${request.url} failed, reason: ${error2.message}`, "system", error2));
+      finalize();
+    });
+    fixResponseChunkedTransferBadEnding(request_, (error2) => {
+      response.body.destroy(error2);
+    });
+    if (process.version < "v14") {
+      request_.on("socket", (s3) => {
+        let endedWithEventsCount;
+        s3.prependListener("end", () => {
+          endedWithEventsCount = s3._eventsCount;
+        });
+        s3.prependListener("close", (hadError) => {
+          if (response && endedWithEventsCount < s3._eventsCount && !hadError) {
+            const error2 = new Error("Premature close");
+            error2.code = "ERR_STREAM_PREMATURE_CLOSE";
+            response.body.emit("error", error2);
+          }
+        });
+      });
+    }
+    request_.on("response", (response_) => {
+      request_.setTimeout(0);
+      const headers = fromRawHeaders(response_.rawHeaders);
+      if (isRedirect(response_.statusCode)) {
+        const location = headers.get("Location");
+        const locationURL = location === null ? null : new URL(location, request.url);
+        switch (request.redirect) {
+          case "error":
+            reject(new FetchError(`uri requested responds with a redirect, redirect mode is set to error: ${request.url}`, "no-redirect"));
+            finalize();
+            return;
+          case "manual":
+            if (locationURL !== null) {
+              headers.set("Location", locationURL);
+            }
+            break;
+          case "follow": {
+            if (locationURL === null) {
+              break;
+            }
+            if (request.counter >= request.follow) {
+              reject(new FetchError(`maximum redirect reached at: ${request.url}`, "max-redirect"));
+              finalize();
+              return;
+            }
+            const requestOptions = {
+              headers: new Headers2(request.headers),
+              follow: request.follow,
+              counter: request.counter + 1,
+              agent: request.agent,
+              compress: request.compress,
+              method: request.method,
+              body: clone(request),
+              signal: request.signal,
+              size: request.size,
+              referrer: request.referrer,
+              referrerPolicy: request.referrerPolicy
+            };
+            if (response_.statusCode !== 303 && request.body && options_.body instanceof import_node_stream.default.Readable) {
+              reject(new FetchError("Cannot follow redirect with body being a readable stream", "unsupported-redirect"));
+              finalize();
+              return;
+            }
+            if (response_.statusCode === 303 || (response_.statusCode === 301 || response_.statusCode === 302) && request.method === "POST") {
+              requestOptions.method = "GET";
+              requestOptions.body = void 0;
+              requestOptions.headers.delete("content-length");
+            }
+            const responseReferrerPolicy = parseReferrerPolicyFromHeader(headers);
+            if (responseReferrerPolicy) {
+              requestOptions.referrerPolicy = responseReferrerPolicy;
+            }
+            resolve2(fetch2(new Request2(locationURL, requestOptions)));
+            finalize();
+            return;
+          }
+          default:
+            return reject(new TypeError(`Redirect option '${request.redirect}' is not a valid value of RequestRedirect`));
+        }
+      }
+      if (signal) {
+        response_.once("end", () => {
+          signal.removeEventListener("abort", abortAndFinalize);
+        });
+      }
+      let body = (0, import_node_stream.pipeline)(response_, new import_node_stream.PassThrough(), reject);
+      if (process.version < "v12.10") {
+        response_.on("aborted", abortAndFinalize);
+      }
+      const responseOptions = {
+        url: request.url,
+        status: response_.statusCode,
+        statusText: response_.statusMessage,
+        headers,
+        size: request.size,
+        counter: request.counter,
+        highWaterMark: request.highWaterMark
+      };
+      const codings = headers.get("Content-Encoding");
+      if (!request.compress || request.method === "HEAD" || codings === null || response_.statusCode === 204 || response_.statusCode === 304) {
+        response = new Response2(body, responseOptions);
+        resolve2(response);
+        return;
+      }
+      const zlibOptions = {
+        flush: import_node_zlib.default.Z_SYNC_FLUSH,
+        finishFlush: import_node_zlib.default.Z_SYNC_FLUSH
+      };
+      if (codings === "gzip" || codings === "x-gzip") {
+        body = (0, import_node_stream.pipeline)(body, import_node_zlib.default.createGunzip(zlibOptions), reject);
+        response = new Response2(body, responseOptions);
+        resolve2(response);
+        return;
+      }
+      if (codings === "deflate" || codings === "x-deflate") {
+        const raw = (0, import_node_stream.pipeline)(response_, new import_node_stream.PassThrough(), reject);
+        raw.once("data", (chunk) => {
+          body = (chunk[0] & 15) === 8 ? (0, import_node_stream.pipeline)(body, import_node_zlib.default.createInflate(), reject) : (0, import_node_stream.pipeline)(body, import_node_zlib.default.createInflateRaw(), reject);
+          response = new Response2(body, responseOptions);
+          resolve2(response);
+        });
+        return;
+      }
+      if (codings === "br") {
+        body = (0, import_node_stream.pipeline)(body, import_node_zlib.default.createBrotliDecompress(), reject);
+        response = new Response2(body, responseOptions);
+        resolve2(response);
+        return;
+      }
+      response = new Response2(body, responseOptions);
+      resolve2(response);
+    });
+    writeToStream(request_, request);
+  });
+}
+function fixResponseChunkedTransferBadEnding(request, errorCallback) {
+  const LAST_CHUNK = Buffer.from("0\r\n\r\n");
+  let isChunkedTransfer = false;
+  let properLastChunkReceived = false;
+  let previousChunk;
+  request.on("response", (response) => {
+    const { headers } = response;
+    isChunkedTransfer = headers["transfer-encoding"] === "chunked" && !headers["content-length"];
+  });
+  request.on("socket", (socket) => {
+    const onSocketClose = () => {
+      if (isChunkedTransfer && !properLastChunkReceived) {
+        const error2 = new Error("Premature close");
+        error2.code = "ERR_STREAM_PREMATURE_CLOSE";
+        errorCallback(error2);
+      }
+    };
+    socket.prependListener("close", onSocketClose);
+    request.on("abort", () => {
+      socket.removeListener("close", onSocketClose);
+    });
+    socket.on("data", (buf) => {
+      properLastChunkReceived = Buffer.compare(buf.slice(-5), LAST_CHUNK) === 0;
+      if (!properLastChunkReceived && previousChunk) {
+        properLastChunkReceived = Buffer.compare(previousChunk.slice(-3), LAST_CHUNK.slice(0, 3)) === 0 && Buffer.compare(buf.slice(-2), LAST_CHUNK.slice(3)) === 0;
+      }
+      previousChunk = buf;
+    });
+  });
+}
+function installFetch() {
+  Object.defineProperties(globalThis, {
+    fetch: {
+      enumerable: true,
+      configurable: true,
+      value: fetch2
+    },
+    Response: {
+      enumerable: true,
+      configurable: true,
+      value: Response2
+    },
+    Request: {
+      enumerable: true,
+      configurable: true,
+      value: Request2
+    },
+    Headers: {
+      enumerable: true,
+      configurable: true,
+      value: Headers2
+    }
+  });
+}
+var import_node_http, import_node_https, import_node_zlib, import_node_stream, import_node_util, import_node_url, import_net, commonjsGlobal, ponyfill_es2018, POOL_SIZE$1, POOL_SIZE, _parts, _type, _size, _a, _Blob, Blob, Blob$1, _lastModified, _name, _a2, _File, File, t, i, h, r, m, f2, e, x, _d, _a3, FormData, FetchBaseError, FetchError, NAME, isURLSearchParameters, isBlob, isAbortSignal, INTERNALS$2, Body, clone, getNonSpecFormDataBoundary, extractContentType, getTotalBytes, writeToStream, validateHeaderName, validateHeaderValue, Headers2, redirectStatus, isRedirect, INTERNALS$1, Response2, getSearch, ReferrerPolicy, DEFAULT_REFERRER_POLICY, INTERNALS, isRequest, Request2, getNodeRequestOptions, AbortError, supportedSchemas;
+var init_install_fetch = __esm({
+  "node_modules/@sveltejs/kit/dist/install-fetch.js"() {
+    import_node_http = __toESM(require("http"), 1);
+    import_node_https = __toESM(require("https"), 1);
+    import_node_zlib = __toESM(require("zlib"), 1);
+    import_node_stream = __toESM(require("stream"), 1);
+    import_node_util = require("util");
+    import_node_url = require("url");
+    import_net = require("net");
+    commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
+    ponyfill_es2018 = { exports: {} };
+    (function(module2, exports) {
+      (function(global2, factory) {
+        factory(exports);
+      })(commonjsGlobal, function(exports2) {
+        const SymbolPolyfill = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? Symbol : (description) => `Symbol(${description})`;
+        function noop4() {
+          return void 0;
+        }
+        function getGlobals() {
+          if (typeof self !== "undefined") {
+            return self;
+          } else if (typeof window !== "undefined") {
+            return window;
+          } else if (typeof commonjsGlobal !== "undefined") {
+            return commonjsGlobal;
+          }
+          return void 0;
+        }
+        const globals = getGlobals();
+        function typeIsObject(x2) {
+          return typeof x2 === "object" && x2 !== null || typeof x2 === "function";
+        }
+        const rethrowAssertionErrorRejection = noop4;
+        const originalPromise = Promise;
+        const originalPromiseThen = Promise.prototype.then;
+        const originalPromiseResolve = Promise.resolve.bind(originalPromise);
+        const originalPromiseReject = Promise.reject.bind(originalPromise);
+        function newPromise(executor) {
+          return new originalPromise(executor);
+        }
+        function promiseResolvedWith(value) {
+          return originalPromiseResolve(value);
+        }
+        function promiseRejectedWith(reason) {
+          return originalPromiseReject(reason);
+        }
+        function PerformPromiseThen(promise, onFulfilled, onRejected) {
+          return originalPromiseThen.call(promise, onFulfilled, onRejected);
+        }
+        function uponPromise(promise, onFulfilled, onRejected) {
+          PerformPromiseThen(PerformPromiseThen(promise, onFulfilled, onRejected), void 0, rethrowAssertionErrorRejection);
+        }
+        function uponFulfillment(promise, onFulfilled) {
+          uponPromise(promise, onFulfilled);
+        }
+        function uponRejection(promise, onRejected) {
+          uponPromise(promise, void 0, onRejected);
+        }
+        function transformPromiseWith(promise, fulfillmentHandler, rejectionHandler) {
+          return PerformPromiseThen(promise, fulfillmentHandler, rejectionHandler);
+        }
+        function setPromiseIsHandledToTrue(promise) {
+          PerformPromiseThen(promise, void 0, rethrowAssertionErrorRejection);
+        }
+        const queueMicrotask = (() => {
+          const globalQueueMicrotask = globals && globals.queueMicrotask;
+          if (typeof globalQueueMicrotask === "function") {
+            return globalQueueMicrotask;
+          }
+          const resolvedPromise = promiseResolvedWith(void 0);
+          return (fn) => PerformPromiseThen(resolvedPromise, fn);
+        })();
+        function reflectCall(F2, V, args) {
+          if (typeof F2 !== "function") {
+            throw new TypeError("Argument is not a function");
+          }
+          return Function.prototype.apply.call(F2, V, args);
+        }
+        function promiseCall(F2, V, args) {
+          try {
+            return promiseResolvedWith(reflectCall(F2, V, args));
+          } catch (value) {
+            return promiseRejectedWith(value);
+          }
+        }
+        const QUEUE_MAX_ARRAY_SIZE = 16384;
+        class SimpleQueue {
+          constructor() {
+            this._cursor = 0;
+            this._size = 0;
+            this._front = {
+              _elements: [],
+              _next: void 0
+            };
+            this._back = this._front;
+            this._cursor = 0;
+            this._size = 0;
+          }
+          get length() {
+            return this._size;
+          }
+          push(element) {
+            const oldBack = this._back;
+            let newBack = oldBack;
+            if (oldBack._elements.length === QUEUE_MAX_ARRAY_SIZE - 1) {
+              newBack = {
+                _elements: [],
+                _next: void 0
+              };
+            }
+            oldBack._elements.push(element);
+            if (newBack !== oldBack) {
+              this._back = newBack;
+              oldBack._next = newBack;
+            }
+            ++this._size;
+          }
+          shift() {
+            const oldFront = this._front;
+            let newFront = oldFront;
+            const oldCursor = this._cursor;
+            let newCursor = oldCursor + 1;
+            const elements = oldFront._elements;
+            const element = elements[oldCursor];
+            if (newCursor === QUEUE_MAX_ARRAY_SIZE) {
+              newFront = oldFront._next;
+              newCursor = 0;
+            }
+            --this._size;
+            this._cursor = newCursor;
+            if (oldFront !== newFront) {
+              this._front = newFront;
+            }
+            elements[oldCursor] = void 0;
+            return element;
+          }
+          forEach(callback) {
+            let i2 = this._cursor;
+            let node = this._front;
+            let elements = node._elements;
+            while (i2 !== elements.length || node._next !== void 0) {
+              if (i2 === elements.length) {
+                node = node._next;
+                elements = node._elements;
+                i2 = 0;
+                if (elements.length === 0) {
+                  break;
+                }
+              }
+              callback(elements[i2]);
+              ++i2;
+            }
+          }
+          peek() {
+            const front = this._front;
+            const cursor = this._cursor;
+            return front._elements[cursor];
+          }
+        }
+        function ReadableStreamReaderGenericInitialize(reader, stream) {
+          reader._ownerReadableStream = stream;
+          stream._reader = reader;
+          if (stream._state === "readable") {
+            defaultReaderClosedPromiseInitialize(reader);
+          } else if (stream._state === "closed") {
+            defaultReaderClosedPromiseInitializeAsResolved(reader);
+          } else {
+            defaultReaderClosedPromiseInitializeAsRejected(reader, stream._storedError);
+          }
+        }
+        function ReadableStreamReaderGenericCancel(reader, reason) {
+          const stream = reader._ownerReadableStream;
+          return ReadableStreamCancel(stream, reason);
+        }
+        function ReadableStreamReaderGenericRelease(reader) {
+          if (reader._ownerReadableStream._state === "readable") {
+            defaultReaderClosedPromiseReject(reader, new TypeError(`Reader was released and can no longer be used to monitor the stream's closedness`));
+          } else {
+            defaultReaderClosedPromiseResetToRejected(reader, new TypeError(`Reader was released and can no longer be used to monitor the stream's closedness`));
+          }
+          reader._ownerReadableStream._reader = void 0;
+          reader._ownerReadableStream = void 0;
+        }
+        function readerLockException(name) {
+          return new TypeError("Cannot " + name + " a stream using a released reader");
+        }
+        function defaultReaderClosedPromiseInitialize(reader) {
+          reader._closedPromise = newPromise((resolve2, reject) => {
+            reader._closedPromise_resolve = resolve2;
+            reader._closedPromise_reject = reject;
+          });
+        }
+        function defaultReaderClosedPromiseInitializeAsRejected(reader, reason) {
+          defaultReaderClosedPromiseInitialize(reader);
+          defaultReaderClosedPromiseReject(reader, reason);
+        }
+        function defaultReaderClosedPromiseInitializeAsResolved(reader) {
+          defaultReaderClosedPromiseInitialize(reader);
+          defaultReaderClosedPromiseResolve(reader);
+        }
+        function defaultReaderClosedPromiseReject(reader, reason) {
+          if (reader._closedPromise_reject === void 0) {
+            return;
+          }
+          setPromiseIsHandledToTrue(reader._closedPromise);
+          reader._closedPromise_reject(reason);
+          reader._closedPromise_resolve = void 0;
+          reader._closedPromise_reject = void 0;
+        }
+        function defaultReaderClosedPromiseResetToRejected(reader, reason) {
+          defaultReaderClosedPromiseInitializeAsRejected(reader, reason);
+        }
+        function defaultReaderClosedPromiseResolve(reader) {
+          if (reader._closedPromise_resolve === void 0) {
+            return;
+          }
+          reader._closedPromise_resolve(void 0);
+          reader._closedPromise_resolve = void 0;
+          reader._closedPromise_reject = void 0;
+        }
+        const AbortSteps = SymbolPolyfill("[[AbortSteps]]");
+        const ErrorSteps = SymbolPolyfill("[[ErrorSteps]]");
+        const CancelSteps = SymbolPolyfill("[[CancelSteps]]");
+        const PullSteps = SymbolPolyfill("[[PullSteps]]");
+        const NumberIsFinite = Number.isFinite || function(x2) {
+          return typeof x2 === "number" && isFinite(x2);
+        };
+        const MathTrunc = Math.trunc || function(v) {
+          return v < 0 ? Math.ceil(v) : Math.floor(v);
+        };
+        function isDictionary(x2) {
+          return typeof x2 === "object" || typeof x2 === "function";
+        }
+        function assertDictionary(obj, context) {
+          if (obj !== void 0 && !isDictionary(obj)) {
+            throw new TypeError(`${context} is not an object.`);
+          }
+        }
+        function assertFunction(x2, context) {
+          if (typeof x2 !== "function") {
+            throw new TypeError(`${context} is not a function.`);
+          }
+        }
+        function isObject(x2) {
+          return typeof x2 === "object" && x2 !== null || typeof x2 === "function";
+        }
+        function assertObject(x2, context) {
+          if (!isObject(x2)) {
+            throw new TypeError(`${context} is not an object.`);
+          }
+        }
+        function assertRequiredArgument(x2, position, context) {
+          if (x2 === void 0) {
+            throw new TypeError(`Parameter ${position} is required in '${context}'.`);
+          }
+        }
+        function assertRequiredField(x2, field, context) {
+          if (x2 === void 0) {
+            throw new TypeError(`${field} is required in '${context}'.`);
+          }
+        }
+        function convertUnrestrictedDouble(value) {
+          return Number(value);
+        }
+        function censorNegativeZero(x2) {
+          return x2 === 0 ? 0 : x2;
+        }
+        function integerPart(x2) {
+          return censorNegativeZero(MathTrunc(x2));
+        }
+        function convertUnsignedLongLongWithEnforceRange(value, context) {
+          const lowerBound = 0;
+          const upperBound = Number.MAX_SAFE_INTEGER;
+          let x2 = Number(value);
+          x2 = censorNegativeZero(x2);
+          if (!NumberIsFinite(x2)) {
+            throw new TypeError(`${context} is not a finite number`);
+          }
+          x2 = integerPart(x2);
+          if (x2 < lowerBound || x2 > upperBound) {
+            throw new TypeError(`${context} is outside the accepted range of ${lowerBound} to ${upperBound}, inclusive`);
+          }
+          if (!NumberIsFinite(x2) || x2 === 0) {
+            return 0;
+          }
+          return x2;
+        }
+        function assertReadableStream(x2, context) {
+          if (!IsReadableStream(x2)) {
+            throw new TypeError(`${context} is not a ReadableStream.`);
+          }
+        }
+        function AcquireReadableStreamDefaultReader(stream) {
+          return new ReadableStreamDefaultReader(stream);
+        }
+        function ReadableStreamAddReadRequest(stream, readRequest) {
+          stream._reader._readRequests.push(readRequest);
+        }
+        function ReadableStreamFulfillReadRequest(stream, chunk, done) {
+          const reader = stream._reader;
+          const readRequest = reader._readRequests.shift();
+          if (done) {
+            readRequest._closeSteps();
+          } else {
+            readRequest._chunkSteps(chunk);
+          }
+        }
+        function ReadableStreamGetNumReadRequests(stream) {
+          return stream._reader._readRequests.length;
+        }
+        function ReadableStreamHasDefaultReader(stream) {
+          const reader = stream._reader;
+          if (reader === void 0) {
+            return false;
+          }
+          if (!IsReadableStreamDefaultReader(reader)) {
+            return false;
+          }
+          return true;
+        }
+        class ReadableStreamDefaultReader {
+          constructor(stream) {
+            assertRequiredArgument(stream, 1, "ReadableStreamDefaultReader");
+            assertReadableStream(stream, "First parameter");
+            if (IsReadableStreamLocked(stream)) {
+              throw new TypeError("This stream has already been locked for exclusive reading by another reader");
+            }
+            ReadableStreamReaderGenericInitialize(this, stream);
+            this._readRequests = new SimpleQueue();
+          }
+          get closed() {
+            if (!IsReadableStreamDefaultReader(this)) {
+              return promiseRejectedWith(defaultReaderBrandCheckException("closed"));
+            }
+            return this._closedPromise;
+          }
+          cancel(reason = void 0) {
+            if (!IsReadableStreamDefaultReader(this)) {
+              return promiseRejectedWith(defaultReaderBrandCheckException("cancel"));
+            }
+            if (this._ownerReadableStream === void 0) {
+              return promiseRejectedWith(readerLockException("cancel"));
+            }
+            return ReadableStreamReaderGenericCancel(this, reason);
+          }
+          read() {
+            if (!IsReadableStreamDefaultReader(this)) {
+              return promiseRejectedWith(defaultReaderBrandCheckException("read"));
+            }
+            if (this._ownerReadableStream === void 0) {
+              return promiseRejectedWith(readerLockException("read from"));
+            }
+            let resolvePromise;
+            let rejectPromise;
+            const promise = newPromise((resolve2, reject) => {
+              resolvePromise = resolve2;
+              rejectPromise = reject;
+            });
+            const readRequest = {
+              _chunkSteps: (chunk) => resolvePromise({ value: chunk, done: false }),
+              _closeSteps: () => resolvePromise({ value: void 0, done: true }),
+              _errorSteps: (e2) => rejectPromise(e2)
+            };
+            ReadableStreamDefaultReaderRead(this, readRequest);
+            return promise;
+          }
+          releaseLock() {
+            if (!IsReadableStreamDefaultReader(this)) {
+              throw defaultReaderBrandCheckException("releaseLock");
+            }
+            if (this._ownerReadableStream === void 0) {
+              return;
+            }
+            if (this._readRequests.length > 0) {
+              throw new TypeError("Tried to release a reader lock when that reader has pending read() calls un-settled");
+            }
+            ReadableStreamReaderGenericRelease(this);
+          }
+        }
+        Object.defineProperties(ReadableStreamDefaultReader.prototype, {
+          cancel: { enumerable: true },
+          read: { enumerable: true },
+          releaseLock: { enumerable: true },
+          closed: { enumerable: true }
+        });
+        if (typeof SymbolPolyfill.toStringTag === "symbol") {
+          Object.defineProperty(ReadableStreamDefaultReader.prototype, SymbolPolyfill.toStringTag, {
+            value: "ReadableStreamDefaultReader",
+            configurable: true
+          });
+        }
+        function IsReadableStreamDefaultReader(x2) {
+          if (!typeIsObject(x2)) {
+            return false;
+          }
+          if (!Object.prototype.hasOwnProperty.call(x2, "_readRequests")) {
+            return false;
+          }
+          return x2 instanceof ReadableStreamDefaultReader;
+        }
+        function ReadableStreamDefaultReaderRead(reader, readRequest) {
+          const stream = reader._ownerReadableStream;
+          stream._disturbed = true;
+          if (stream._state === "closed") {
+            readRequest._closeSteps();
+          } else if (stream._state === "errored") {
+            readRequest._errorSteps(stream._storedError);
+          } else {
+            stream._readableStreamController[PullSteps](readRequest);
+          }
+        }
+        function defaultReaderBrandCheckException(name) {
+          return new TypeError(`ReadableStreamDefaultReader.prototype.${name} can only be used on a ReadableStreamDefaultReader`);
+        }
+        const AsyncIteratorPrototype = Object.getPrototypeOf(Object.getPrototypeOf(async function* () {
+        }).prototype);
+        class ReadableStreamAsyncIteratorImpl {
+          constructor(reader, preventCancel) {
+            this._ongoingPromise = void 0;
+            this._isFinished = false;
+            this._reader = reader;
+            this._preventCancel = preventCancel;
+          }
+          next() {
+            const nextSteps = () => this._nextSteps();
+            this._ongoingPromise = this._ongoingPromise ? transformPromiseWith(this._ongoingPromise, nextSteps, nextSteps) : nextSteps();
+            return this._ongoingPromise;
+          }
+          return(value) {
+            const returnSteps = () => this._returnSteps(value);
+            return this._ongoingPromise ? transformPromiseWith(this._ongoingPromise, returnSteps, returnSteps) : returnSteps();
+          }
+          _nextSteps() {
+            if (this._isFinished) {
+              return Promise.resolve({ value: void 0, done: true });
+            }
+            const reader = this._reader;
+            if (reader._ownerReadableStream === void 0) {
+              return promiseRejectedWith(readerLockException("iterate"));
+            }
+            let resolvePromise;
+            let rejectPromise;
+            const promise = newPromise((resolve2, reject) => {
+              resolvePromise = resolve2;
+              rejectPromise = reject;
+            });
+            const readRequest = {
+              _chunkSteps: (chunk) => {
+                this._ongoingPromise = void 0;
+                queueMicrotask(() => resolvePromise({ value: chunk, done: false }));
+              },
+              _closeSteps: () => {
+                this._ongoingPromise = void 0;
+                this._isFinished = true;
+                ReadableStreamReaderGenericRelease(reader);
+                resolvePromise({ value: void 0, done: true });
+              },
+              _errorSteps: (reason) => {
+                this._ongoingPromise = void 0;
+                this._isFinished = true;
+                ReadableStreamReaderGenericRelease(reader);
+                rejectPromise(reason);
+              }
+            };
+            ReadableStreamDefaultReaderRead(reader, readRequest);
+            return promise;
+          }
+          _returnSteps(value) {
+            if (this._isFinished) {
+              return Promise.resolve({ value, done: true });
+            }
+            this._isFinished = true;
+            const reader = this._reader;
+            if (reader._ownerReadableStream === void 0) {
+              return promiseRejectedWith(readerLockException("finish iterating"));
+            }
+            if (!this._preventCancel) {
+              const result = ReadableStreamReaderGenericCancel(reader, value);
+              ReadableStreamReaderGenericRelease(reader);
+              return transformPromiseWith(result, () => ({ value, done: true }));
+            }
+            ReadableStreamReaderGenericRelease(reader);
+            return promiseResolvedWith({ value, done: true });
+          }
+        }
+        const ReadableStreamAsyncIteratorPrototype = {
+          next() {
+            if (!IsReadableStreamAsyncIterator(this)) {
+              return promiseRejectedWith(streamAsyncIteratorBrandCheckException("next"));
+            }
+            return this._asyncIteratorImpl.next();
+          },
+          return(value) {
+            if (!IsReadableStreamAsyncIterator(this)) {
+              return promiseRejectedWith(streamAsyncIteratorBrandCheckException("return"));
+            }
+            return this._asyncIteratorImpl.return(value);
+          }
+        };
+        if (AsyncIteratorPrototype !== void 0) {
+          Object.setPrototypeOf(ReadableStreamAsyncIteratorPrototype, AsyncIteratorPrototype);
+        }
+        function AcquireReadableStreamAsyncIterator(stream, preventCancel) {
+          const reader = AcquireReadableStreamDefaultReader(stream);
+          const impl = new ReadableStreamAsyncIteratorImpl(reader, preventCancel);
+          const iterator = Object.create(ReadableStreamAsyncIteratorPrototype);
+          iterator._asyncIteratorImpl = impl;
+          return iterator;
+        }
+        function IsReadableStreamAsyncIterator(x2) {
+          if (!typeIsObject(x2)) {
+            return false;
+          }
+          if (!Object.prototype.hasOwnProperty.call(x2, "_asyncIteratorImpl")) {
+            return false;
+          }
+          try {
+            return x2._asyncIteratorImpl instanceof ReadableStreamAsyncIteratorImpl;
+          } catch (_a4) {
+            return false;
+          }
+        }
+        function streamAsyncIteratorBrandCheckException(name) {
+          return new TypeError(`ReadableStreamAsyncIterator.${name} can only be used on a ReadableSteamAsyncIterator`);
+        }
+        const NumberIsNaN = Number.isNaN || function(x2) {
+          return x2 !== x2;
+        };
+        function CreateArrayFromList(elements) {
+          return elements.slice();
+        }
+        function CopyDataBlockBytes(dest, destOffset, src, srcOffset, n) {
+          new Uint8Array(dest).set(new Uint8Array(src, srcOffset, n), destOffset);
+        }
+        function TransferArrayBuffer(O) {
+          return O;
+        }
+        function IsDetachedBuffer(O) {
+          return false;
+        }
+        function ArrayBufferSlice(buffer, begin, end) {
+          if (buffer.slice) {
+            return buffer.slice(begin, end);
+          }
+          const length = end - begin;
+          const slice = new ArrayBuffer(length);
+          CopyDataBlockBytes(slice, 0, buffer, begin, length);
+          return slice;
+        }
+        function IsNonNegativeNumber(v) {
+          if (typeof v !== "number") {
+            return false;
+          }
+          if (NumberIsNaN(v)) {
+            return false;
+          }
+          if (v < 0) {
+            return false;
+          }
+          return true;
+        }
+        function CloneAsUint8Array(O) {
+          const buffer = ArrayBufferSlice(O.buffer, O.byteOffset, O.byteOffset + O.byteLength);
+          return new Uint8Array(buffer);
+        }
+        function DequeueValue(container) {
+          const pair = container._queue.shift();
+          container._queueTotalSize -= pair.size;
+          if (container._queueTotalSize < 0) {
+            container._queueTotalSize = 0;
+          }
+          return pair.value;
+        }
+        function EnqueueValueWithSize(container, value, size) {
+          if (!IsNonNegativeNumber(size) || size === Infinity) {
+            throw new RangeError("Size must be a finite, non-NaN, non-negative number.");
+          }
+          container._queue.push({ value, size });
+          container._queueTotalSize += size;
+        }
+        function PeekQueueValue(container) {
+          const pair = container._queue.peek();
+          return pair.value;
+        }
+        function ResetQueue(container) {
+          container._queue = new SimpleQueue();
+          container._queueTotalSize = 0;
+        }
+        class ReadableStreamBYOBRequest {
+          constructor() {
+            throw new TypeError("Illegal constructor");
+          }
+          get view() {
+            if (!IsReadableStreamBYOBRequest(this)) {
+              throw byobRequestBrandCheckException("view");
+            }
+            return this._view;
+          }
+          respond(bytesWritten) {
+            if (!IsReadableStreamBYOBRequest(this)) {
+              throw byobRequestBrandCheckException("respond");
+            }
+            assertRequiredArgument(bytesWritten, 1, "respond");
+            bytesWritten = convertUnsignedLongLongWithEnforceRange(bytesWritten, "First parameter");
+            if (this._associatedReadableByteStreamController === void 0) {
+              throw new TypeError("This BYOB request has been invalidated");
+            }
+            if (IsDetachedBuffer(this._view.buffer))
+              ;
+            ReadableByteStreamControllerRespond(this._associatedReadableByteStreamController, bytesWritten);
+          }
+          respondWithNewView(view) {
+            if (!IsReadableStreamBYOBRequest(this)) {
+              throw byobRequestBrandCheckException("respondWithNewView");
+            }
+            assertRequiredArgument(view, 1, "respondWithNewView");
+            if (!ArrayBuffer.isView(view)) {
+              throw new TypeError("You can only respond with array buffer views");
+            }
+            if (this._associatedReadableByteStreamController === void 0) {
+              throw new TypeError("This BYOB request has been invalidated");
+            }
+            if (IsDetachedBuffer(view.buffer))
+              ;
+            ReadableByteStreamControllerRespondWithNewView(this._associatedReadableByteStreamController, view);
+          }
+        }
+        Object.defineProperties(ReadableStreamBYOBRequest.prototype, {
+          respond: { enumerable: true },
+          respondWithNewView: { enumerable: true },
+          view: { enumerable: true }
+        });
+        if (typeof SymbolPolyfill.toStringTag === "symbol") {
+          Object.defineProperty(ReadableStreamBYOBRequest.prototype, SymbolPolyfill.toStringTag, {
+            value: "ReadableStreamBYOBRequest",
+            configurable: true
+          });
+        }
+        class ReadableByteStreamController {
+          constructor() {
+            throw new TypeError("Illegal constructor");
+          }
+          get byobRequest() {
+            if (!IsReadableByteStreamController(this)) {
+              throw byteStreamControllerBrandCheckException("byobRequest");
+            }
+            return ReadableByteStreamControllerGetBYOBRequest(this);
+          }
+          get desiredSize() {
+            if (!IsReadableByteStreamController(this)) {
+              throw byteStreamControllerBrandCheckException("desiredSize");
+            }
+            return ReadableByteStreamControllerGetDesiredSize(this);
+          }
+          close() {
+            if (!IsReadableByteStreamController(this)) {
+              throw byteStreamControllerBrandCheckException("close");
+            }
+            if (this._closeRequested) {
+              throw new TypeError("The stream has already been closed; do not close it again!");
+            }
+            const state = this._controlledReadableByteStream._state;
+            if (state !== "readable") {
+              throw new TypeError(`The stream (in ${state} state) is not in the readable state and cannot be closed`);
+            }
+            ReadableByteStreamControllerClose(this);
+          }
+          enqueue(chunk) {
+            if (!IsReadableByteStreamController(this)) {
+              throw byteStreamControllerBrandCheckException("enqueue");
+            }
+            assertRequiredArgument(chunk, 1, "enqueue");
+            if (!ArrayBuffer.isView(chunk)) {
+              throw new TypeError("chunk must be an array buffer view");
+            }
+            if (chunk.byteLength === 0) {
+              throw new TypeError("chunk must have non-zero byteLength");
+            }
+            if (chunk.buffer.byteLength === 0) {
+              throw new TypeError(`chunk's buffer must have non-zero byteLength`);
+            }
+            if (this._closeRequested) {
+              throw new TypeError("stream is closed or draining");
+            }
+            const state = this._controlledReadableByteStream._state;
+            if (state !== "readable") {
+              throw new TypeError(`The stream (in ${state} state) is not in the readable state and cannot be enqueued to`);
+            }
+            ReadableByteStreamControllerEnqueue(this, chunk);
+          }
+          error(e2 = void 0) {
+            if (!IsReadableByteStreamController(this)) {
+              throw byteStreamControllerBrandCheckException("error");
+            }
+            ReadableByteStreamControllerError(this, e2);
+          }
+          [CancelSteps](reason) {
+            ReadableByteStreamControllerClearPendingPullIntos(this);
+            ResetQueue(this);
+            const result = this._cancelAlgorithm(reason);
+            ReadableByteStreamControllerClearAlgorithms(this);
+            return result;
+          }
+          [PullSteps](readRequest) {
+            const stream = this._controlledReadableByteStream;
+            if (this._queueTotalSize > 0) {
+              const entry14 = this._queue.shift();
+              this._queueTotalSize -= entry14.byteLength;
+              ReadableByteStreamControllerHandleQueueDrain(this);
+              const view = new Uint8Array(entry14.buffer, entry14.byteOffset, entry14.byteLength);
+              readRequest._chunkSteps(view);
+              return;
+            }
+            const autoAllocateChunkSize = this._autoAllocateChunkSize;
+            if (autoAllocateChunkSize !== void 0) {
+              let buffer;
+              try {
+                buffer = new ArrayBuffer(autoAllocateChunkSize);
+              } catch (bufferE) {
+                readRequest._errorSteps(bufferE);
+                return;
+              }
+              const pullIntoDescriptor = {
+                buffer,
+                bufferByteLength: autoAllocateChunkSize,
+                byteOffset: 0,
+                byteLength: autoAllocateChunkSize,
+                bytesFilled: 0,
+                elementSize: 1,
+                viewConstructor: Uint8Array,
+                readerType: "default"
+              };
+              this._pendingPullIntos.push(pullIntoDescriptor);
+            }
+            ReadableStreamAddReadRequest(stream, readRequest);
+            ReadableByteStreamControllerCallPullIfNeeded(this);
+          }
+        }
+        Object.defineProperties(ReadableByteStreamController.prototype, {
+          close: { enumerable: true },
+          enqueue: { enumerable: true },
+          error: { enumerable: true },
+          byobRequest: { enumerable: true },
+          desiredSize: { enumerable: true }
+        });
+        if (typeof SymbolPolyfill.toStringTag === "symbol") {
+          Object.defineProperty(ReadableByteStreamController.prototype, SymbolPolyfill.toStringTag, {
+            value: "ReadableByteStreamController",
+            configurable: true
+          });
+        }
+        function IsReadableByteStreamController(x2) {
+          if (!typeIsObject(x2)) {
+            return false;
+          }
+          if (!Object.prototype.hasOwnProperty.call(x2, "_controlledReadableByteStream")) {
+            return false;
+          }
+          return x2 instanceof ReadableByteStreamController;
+        }
+        function IsReadableStreamBYOBRequest(x2) {
+          if (!typeIsObject(x2)) {
+            return false;
+          }
+          if (!Object.prototype.hasOwnProperty.call(x2, "_associatedReadableByteStreamController")) {
+            return false;
+          }
+          return x2 instanceof ReadableStreamBYOBRequest;
+        }
+        function ReadableByteStreamControllerCallPullIfNeeded(controller) {
+          const shouldPull = ReadableByteStreamControllerShouldCallPull(controller);
+          if (!shouldPull) {
+            return;
+          }
+          if (controller._pulling) {
+            controller._pullAgain = true;
+            return;
+          }
+          controller._pulling = true;
+          const pullPromise = controller._pullAlgorithm();
+          uponPromise(pullPromise, () => {
+            controller._pulling = false;
+            if (controller._pullAgain) {
+              controller._pullAgain = false;
+              ReadableByteStreamControllerCallPullIfNeeded(controller);
+            }
+          }, (e2) => {
+            ReadableByteStreamControllerError(controller, e2);
+          });
+        }
+        function ReadableByteStreamControllerClearPendingPullIntos(controller) {
+          ReadableByteStreamControllerInvalidateBYOBRequest(controller);
+          controller._pendingPullIntos = new SimpleQueue();
+        }
+        function ReadableByteStreamControllerCommitPullIntoDescriptor(stream, pullIntoDescriptor) {
+          let done = false;
+          if (stream._state === "closed") {
+            done = true;
+          }
+          const filledView = ReadableByteStreamControllerConvertPullIntoDescriptor(pullIntoDescriptor);
+          if (pullIntoDescriptor.readerType === "default") {
+            ReadableStreamFulfillReadRequest(stream, filledView, done);
+          } else {
+            ReadableStreamFulfillReadIntoRequest(stream, filledView, done);
+          }
+        }
+        function ReadableByteStreamControllerConvertPullIntoDescriptor(pullIntoDescriptor) {
+          const bytesFilled = pullIntoDescriptor.bytesFilled;
+          const elementSize = pullIntoDescriptor.elementSize;
+          return new pullIntoDescriptor.viewConstructor(pullIntoDescriptor.buffer, pullIntoDescriptor.byteOffset, bytesFilled / elementSize);
+        }
+        function ReadableByteStreamControllerEnqueueChunkToQueue(controller, buffer, byteOffset, byteLength) {
+          controller._queue.push({ buffer, byteOffset, byteLength });
+          controller._queueTotalSize += byteLength;
+        }
+        function ReadableByteStreamControllerFillPullIntoDescriptorFromQueue(controller, pullIntoDescriptor) {
+          const elementSize = pullIntoDescriptor.elementSize;
+          const currentAlignedBytes = pullIntoDescriptor.bytesFilled - pullIntoDescriptor.bytesFilled % elementSize;
+          const maxBytesToCopy = Math.min(controller._queueTotalSize, pullIntoDescriptor.byteLength - pullIntoDescriptor.bytesFilled);
+          const maxBytesFilled = pullIntoDescriptor.bytesFilled + maxBytesToCopy;
+          const maxAlignedBytes = maxBytesFilled - maxBytesFilled % elementSize;
+          let totalBytesToCopyRemaining = maxBytesToCopy;
+          let ready = false;
+          if (maxAlignedBytes > currentAlignedBytes) {
+            totalBytesToCopyRemaining = maxAlignedBytes - pullIntoDescriptor.bytesFilled;
+            ready = true;
+          }
+          const queue = controller._queue;
+          while (totalBytesToCopyRemaining > 0) {
+            const headOfQueue = queue.peek();
+            const bytesToCopy = Math.min(totalBytesToCopyRemaining, headOfQueue.byteLength);
+            const destStart = pullIntoDescriptor.byteOffset + pullIntoDescriptor.bytesFilled;
+            CopyDataBlockBytes(pullIntoDescriptor.buffer, destStart, headOfQueue.buffer, headOfQueue.byteOffset, bytesToCopy);
+            if (headOfQueue.byteLength === bytesToCopy) {
+              queue.shift();
+            } else {
+              headOfQueue.byteOffset += bytesToCopy;
+              headOfQueue.byteLength -= bytesToCopy;
+            }
+            controller._queueTotalSize -= bytesToCopy;
+            ReadableByteStreamControllerFillHeadPullIntoDescriptor(controller, bytesToCopy, pullIntoDescriptor);
+            totalBytesToCopyRemaining -= bytesToCopy;
+          }
+          return ready;
+        }
+        function ReadableByteStreamControllerFillHeadPullIntoDescriptor(controller, size, pullIntoDescriptor) {
+          pullIntoDescriptor.bytesFilled += size;
+        }
+        function ReadableByteStreamControllerHandleQueueDrain(controller) {
+          if (controller._queueTotalSize === 0 && controller._closeRequested) {
+            ReadableByteStreamControllerClearAlgorithms(controller);
+            ReadableStreamClose(controller._controlledReadableByteStream);
+          } else {
+            ReadableByteStreamControllerCallPullIfNeeded(controller);
+          }
+        }
+        function ReadableByteStreamControllerInvalidateBYOBRequest(controller) {
+          if (controller._byobRequest === null) {
+            return;
+          }
+          controller._byobRequest._associatedReadableByteStreamController = void 0;
+          controller._byobRequest._view = null;
+          controller._byobRequest = null;
+        }
+        function ReadableByteStreamControllerProcessPullIntoDescriptorsUsingQueue(controller) {
+          while (controller._pendingPullIntos.length > 0) {
+            if (controller._queueTotalSize === 0) {
+              return;
+            }
+            const pullIntoDescriptor = controller._pendingPullIntos.peek();
+            if (ReadableByteStreamControllerFillPullIntoDescriptorFromQueue(controller, pullIntoDescriptor)) {
+              ReadableByteStreamControllerShiftPendingPullInto(controller);
+              ReadableByteStreamControllerCommitPullIntoDescriptor(controller._controlledReadableByteStream, pullIntoDescriptor);
+            }
+          }
+        }
+        function ReadableByteStreamControllerPullInto(controller, view, readIntoRequest) {
+          const stream = controller._controlledReadableByteStream;
+          let elementSize = 1;
+          if (view.constructor !== DataView) {
+            elementSize = view.constructor.BYTES_PER_ELEMENT;
+          }
+          const ctor = view.constructor;
+          const buffer = TransferArrayBuffer(view.buffer);
+          const pullIntoDescriptor = {
+            buffer,
+            bufferByteLength: buffer.byteLength,
+            byteOffset: view.byteOffset,
+            byteLength: view.byteLength,
+            bytesFilled: 0,
+            elementSize,
+            viewConstructor: ctor,
+            readerType: "byob"
+          };
+          if (controller._pendingPullIntos.length > 0) {
+            controller._pendingPullIntos.push(pullIntoDescriptor);
+            ReadableStreamAddReadIntoRequest(stream, readIntoRequest);
+            return;
+          }
+          if (stream._state === "closed") {
+            const emptyView = new ctor(pullIntoDescriptor.buffer, pullIntoDescriptor.byteOffset, 0);
+            readIntoRequest._closeSteps(emptyView);
+            return;
+          }
+          if (controller._queueTotalSize > 0) {
+            if (ReadableByteStreamControllerFillPullIntoDescriptorFromQueue(controller, pullIntoDescriptor)) {
+              const filledView = ReadableByteStreamControllerConvertPullIntoDescriptor(pullIntoDescriptor);
+              ReadableByteStreamControllerHandleQueueDrain(controller);
+              readIntoRequest._chunkSteps(filledView);
+              return;
+            }
+            if (controller._closeRequested) {
+              const e2 = new TypeError("Insufficient bytes to fill elements in the given buffer");
+              ReadableByteStreamControllerError(controller, e2);
+              readIntoRequest._errorSteps(e2);
+              return;
+            }
+          }
+          controller._pendingPullIntos.push(pullIntoDescriptor);
+          ReadableStreamAddReadIntoRequest(stream, readIntoRequest);
+          ReadableByteStreamControllerCallPullIfNeeded(controller);
+        }
+        function ReadableByteStreamControllerRespondInClosedState(controller, firstDescriptor) {
+          const stream = controller._controlledReadableByteStream;
+          if (ReadableStreamHasBYOBReader(stream)) {
+            while (ReadableStreamGetNumReadIntoRequests(stream) > 0) {
+              const pullIntoDescriptor = ReadableByteStreamControllerShiftPendingPullInto(controller);
+              ReadableByteStreamControllerCommitPullIntoDescriptor(stream, pullIntoDescriptor);
+            }
+          }
+        }
+        function ReadableByteStreamControllerRespondInReadableState(controller, bytesWritten, pullIntoDescriptor) {
+          ReadableByteStreamControllerFillHeadPullIntoDescriptor(controller, bytesWritten, pullIntoDescriptor);
+          if (pullIntoDescriptor.bytesFilled < pullIntoDescriptor.elementSize) {
+            return;
+          }
+          ReadableByteStreamControllerShiftPendingPullInto(controller);
+          const remainderSize = pullIntoDescriptor.bytesFilled % pullIntoDescriptor.elementSize;
+          if (remainderSize > 0) {
+            const end = pullIntoDescriptor.byteOffset + pullIntoDescriptor.bytesFilled;
+            const remainder = ArrayBufferSlice(pullIntoDescriptor.buffer, end - remainderSize, end);
+            ReadableByteStreamControllerEnqueueChunkToQueue(controller, remainder, 0, remainder.byteLength);
+          }
+          pullIntoDescriptor.bytesFilled -= remainderSize;
+          ReadableByteStreamControllerCommitPullIntoDescriptor(controller._controlledReadableByteStream, pullIntoDescriptor);
+          ReadableByteStreamControllerProcessPullIntoDescriptorsUsingQueue(controller);
+        }
+        function ReadableByteStreamControllerRespondInternal(controller, bytesWritten) {
+          const firstDescriptor = controller._pendingPullIntos.peek();
+          ReadableByteStreamControllerInvalidateBYOBRequest(controller);
+          const state = controller._controlledReadableByteStream._state;
+          if (state === "closed") {
+            ReadableByteStreamControllerRespondInClosedState(controller);
+          } else {
+            ReadableByteStreamControllerRespondInReadableState(controller, bytesWritten, firstDescriptor);
+          }
+          ReadableByteStreamControllerCallPullIfNeeded(controller);
+        }
+        function ReadableByteStreamControllerShiftPendingPullInto(controller) {
+          const descriptor = controller._pendingPullIntos.shift();
+          return descriptor;
+        }
+        function ReadableByteStreamControllerShouldCallPull(controller) {
+          const stream = controller._controlledReadableByteStream;
+          if (stream._state !== "readable") {
+            return false;
+          }
+          if (controller._closeRequested) {
+            return false;
+          }
+          if (!controller._started) {
+            return false;
+          }
+          if (ReadableStreamHasDefaultReader(stream) && ReadableStreamGetNumReadRequests(stream) > 0) {
+            return true;
+          }
+          if (ReadableStreamHasBYOBReader(stream) && ReadableStreamGetNumReadIntoRequests(stream) > 0) {
+            return true;
+          }
+          const desiredSize = ReadableByteStreamControllerGetDesiredSize(controller);
+          if (desiredSize > 0) {
+            return true;
+          }
+          return false;
+        }
+        function ReadableByteStreamControllerClearAlgorithms(controller) {
+          controller._pullAlgorithm = void 0;
+          controller._cancelAlgorithm = void 0;
+        }
+        function ReadableByteStreamControllerClose(controller) {
+          const stream = controller._controlledReadableByteStream;
+          if (controller._closeRequested || stream._state !== "readable") {
+            return;
+          }
+          if (controller._queueTotalSize > 0) {
+            controller._closeRequested = true;
+            return;
+          }
+          if (controller._pendingPullIntos.length > 0) {
+            const firstPendingPullInto = controller._pendingPullIntos.peek();
+            if (firstPendingPullInto.bytesFilled > 0) {
+              const e2 = new TypeError("Insufficient bytes to fill elements in the given buffer");
+              ReadableByteStreamControllerError(controller, e2);
+              throw e2;
+            }
+          }
+          ReadableByteStreamControllerClearAlgorithms(controller);
+          ReadableStreamClose(stream);
+        }
+        function ReadableByteStreamControllerEnqueue(controller, chunk) {
+          const stream = controller._controlledReadableByteStream;
+          if (controller._closeRequested || stream._state !== "readable") {
+            return;
+          }
+          const buffer = chunk.buffer;
+          const byteOffset = chunk.byteOffset;
+          const byteLength = chunk.byteLength;
+          const transferredBuffer = TransferArrayBuffer(buffer);
+          if (controller._pendingPullIntos.length > 0) {
+            const firstPendingPullInto = controller._pendingPullIntos.peek();
+            if (IsDetachedBuffer(firstPendingPullInto.buffer))
+              ;
+            firstPendingPullInto.buffer = TransferArrayBuffer(firstPendingPullInto.buffer);
+          }
+          ReadableByteStreamControllerInvalidateBYOBRequest(controller);
+          if (ReadableStreamHasDefaultReader(stream)) {
+            if (ReadableStreamGetNumReadRequests(stream) === 0) {
+              ReadableByteStreamControllerEnqueueChunkToQueue(controller, transferredBuffer, byteOffset, byteLength);
+            } else {
+              if (controller._pendingPullIntos.length > 0) {
+                ReadableByteStreamControllerShiftPendingPullInto(controller);
+              }
+              const transferredView = new Uint8Array(transferredBuffer, byteOffset, byteLength);
+              ReadableStreamFulfillReadRequest(stream, transferredView, false);
+            }
+          } else if (ReadableStreamHasBYOBReader(stream)) {
+            ReadableByteStreamControllerEnqueueChunkToQueue(controller, transferredBuffer, byteOffset, byteLength);
+            ReadableByteStreamControllerProcessPullIntoDescriptorsUsingQueue(controller);
+          } else {
+            ReadableByteStreamControllerEnqueueChunkToQueue(controller, transferredBuffer, byteOffset, byteLength);
+          }
+          ReadableByteStreamControllerCallPullIfNeeded(controller);
+        }
+        function ReadableByteStreamControllerError(controller, e2) {
+          const stream = controller._controlledReadableByteStream;
+          if (stream._state !== "readable") {
+            return;
+          }
+          ReadableByteStreamControllerClearPendingPullIntos(controller);
+          ResetQueue(controller);
+          ReadableByteStreamControllerClearAlgorithms(controller);
+          ReadableStreamError(stream, e2);
+        }
+        function ReadableByteStreamControllerGetBYOBRequest(controller) {
+          if (controller._byobRequest === null && controller._pendingPullIntos.length > 0) {
+            const firstDescriptor = controller._pendingPullIntos.peek();
+            const view = new Uint8Array(firstDescriptor.buffer, firstDescriptor.byteOffset + firstDescriptor.bytesFilled, firstDescriptor.byteLength - firstDescriptor.bytesFilled);
+            const byobRequest = Object.create(ReadableStreamBYOBRequest.prototype);
+            SetUpReadableStreamBYOBRequest(byobRequest, controller, view);
+            controller._byobRequest = byobRequest;
+          }
+          return controller._byobRequest;
+        }
+        function ReadableByteStreamControllerGetDesiredSize(controller) {
+          const state = controller._controlledReadableByteStream._state;
+          if (state === "errored") {
+            return null;
+          }
+          if (state === "closed") {
+            return 0;
+          }
+          return controller._strategyHWM - controller._queueTotalSize;
+        }
+        function ReadableByteStreamControllerRespond(controller, bytesWritten) {
+          const firstDescriptor = controller._pendingPullIntos.peek();
+          const state = controller._controlledReadableByteStream._state;
+          if (state === "closed") {
+            if (bytesWritten !== 0) {
+              throw new TypeError("bytesWritten must be 0 when calling respond() on a closed stream");
+            }
+          } else {
+            if (bytesWritten === 0) {
+              throw new TypeError("bytesWritten must be greater than 0 when calling respond() on a readable stream");
+            }
+            if (firstDescriptor.bytesFilled + bytesWritten > firstDescriptor.byteLength) {
+              throw new RangeError("bytesWritten out of range");
+            }
+          }
+          firstDescriptor.buffer = TransferArrayBuffer(firstDescriptor.buffer);
+          ReadableByteStreamControllerRespondInternal(controller, bytesWritten);
+        }
+        function ReadableByteStreamControllerRespondWithNewView(controller, view) {
+          const firstDescriptor = controller._pendingPullIntos.peek();
+          const state = controller._controlledReadableByteStream._state;
+          if (state === "closed") {
+            if (view.byteLength !== 0) {
+              throw new TypeError("The view's length must be 0 when calling respondWithNewView() on a closed stream");
+            }
+          } else {
+            if (view.byteLength === 0) {
+              throw new TypeError("The view's length must be greater than 0 when calling respondWithNewView() on a readable stream");
+            }
+          }
+          if (firstDescriptor.byteOffset + firstDescriptor.bytesFilled !== view.byteOffset) {
+            throw new RangeError("The region specified by view does not match byobRequest");
+          }
+          if (firstDescriptor.bufferByteLength !== view.buffer.byteLength) {
+            throw new RangeError("The buffer of view has different capacity than byobRequest");
+          }
+          if (firstDescriptor.bytesFilled + view.byteLength > firstDescriptor.byteLength) {
+            throw new RangeError("The region specified by view is larger than byobRequest");
+          }
+          const viewByteLength = view.byteLength;
+          firstDescriptor.buffer = TransferArrayBuffer(view.buffer);
+          ReadableByteStreamControllerRespondInternal(controller, viewByteLength);
+        }
+        function SetUpReadableByteStreamController(stream, controller, startAlgorithm, pullAlgorithm, cancelAlgorithm, highWaterMark, autoAllocateChunkSize) {
+          controller._controlledReadableByteStream = stream;
+          controller._pullAgain = false;
+          controller._pulling = false;
+          controller._byobRequest = null;
+          controller._queue = controller._queueTotalSize = void 0;
+          ResetQueue(controller);
+          controller._closeRequested = false;
+          controller._started = false;
+          controller._strategyHWM = highWaterMark;
+          controller._pullAlgorithm = pullAlgorithm;
+          controller._cancelAlgorithm = cancelAlgorithm;
+          controller._autoAllocateChunkSize = autoAllocateChunkSize;
+          controller._pendingPullIntos = new SimpleQueue();
+          stream._readableStreamController = controller;
+          const startResult = startAlgorithm();
+          uponPromise(promiseResolvedWith(startResult), () => {
+            controller._started = true;
+            ReadableByteStreamControllerCallPullIfNeeded(controller);
+          }, (r2) => {
+            ReadableByteStreamControllerError(controller, r2);
+          });
+        }
+        function SetUpReadableByteStreamControllerFromUnderlyingSource(stream, underlyingByteSource, highWaterMark) {
+          const controller = Object.create(ReadableByteStreamController.prototype);
+          let startAlgorithm = () => void 0;
+          let pullAlgorithm = () => promiseResolvedWith(void 0);
+          let cancelAlgorithm = () => promiseResolvedWith(void 0);
+          if (underlyingByteSource.start !== void 0) {
+            startAlgorithm = () => underlyingByteSource.start(controller);
+          }
+          if (underlyingByteSource.pull !== void 0) {
+            pullAlgorithm = () => underlyingByteSource.pull(controller);
+          }
+          if (underlyingByteSource.cancel !== void 0) {
+            cancelAlgorithm = (reason) => underlyingByteSource.cancel(reason);
+          }
+          const autoAllocateChunkSize = underlyingByteSource.autoAllocateChunkSize;
+          if (autoAllocateChunkSize === 0) {
+            throw new TypeError("autoAllocateChunkSize must be greater than 0");
+          }
+          SetUpReadableByteStreamController(stream, controller, startAlgorithm, pullAlgorithm, cancelAlgorithm, highWaterMark, autoAllocateChunkSize);
+        }
+        function SetUpReadableStreamBYOBRequest(request, controller, view) {
+          request._associatedReadableByteStreamController = controller;
+          request._view = view;
+        }
+        function byobRequestBrandCheckException(name) {
+          return new TypeError(`ReadableStreamBYOBRequest.prototype.${name} can only be used on a ReadableStreamBYOBRequest`);
+        }
+        function byteStreamControllerBrandCheckException(name) {
+          return new TypeError(`ReadableByteStreamController.prototype.${name} can only be used on a ReadableByteStreamController`);
+        }
+        function AcquireReadableStreamBYOBReader(stream) {
+          return new ReadableStreamBYOBReader(stream);
+        }
+        function ReadableStreamAddReadIntoRequest(stream, readIntoRequest) {
+          stream._reader._readIntoRequests.push(readIntoRequest);
+        }
+        function ReadableStreamFulfillReadIntoRequest(stream, chunk, done) {
+          const reader = stream._reader;
+          const readIntoRequest = reader._readIntoRequests.shift();
+          if (done) {
+            readIntoRequest._closeSteps(chunk);
+          } else {
+            readIntoRequest._chunkSteps(chunk);
+          }
+        }
+        function ReadableStreamGetNumReadIntoRequests(stream) {
+          return stream._reader._readIntoRequests.length;
+        }
+        function ReadableStreamHasBYOBReader(stream) {
+          const reader = stream._reader;
+          if (reader === void 0) {
+            return false;
+          }
+          if (!IsReadableStreamBYOBReader(reader)) {
+            return false;
+          }
+          return true;
+        }
+        class ReadableStreamBYOBReader {
+          constructor(stream) {
+            assertRequiredArgument(stream, 1, "ReadableStreamBYOBReader");
+            assertReadableStream(stream, "First parameter");
+            if (IsReadableStreamLocked(stream)) {
+              throw new TypeError("This stream has already been locked for exclusive reading by another reader");
+            }
+            if (!IsReadableByteStreamController(stream._readableStreamController)) {
+              throw new TypeError("Cannot construct a ReadableStreamBYOBReader for a stream not constructed with a byte source");
+            }
+            ReadableStreamReaderGenericInitialize(this, stream);
+            this._readIntoRequests = new SimpleQueue();
+          }
+          get closed() {
+            if (!IsReadableStreamBYOBReader(this)) {
+              return promiseRejectedWith(byobReaderBrandCheckException("closed"));
+            }
+            return this._closedPromise;
+          }
+          cancel(reason = void 0) {
+            if (!IsReadableStreamBYOBReader(this)) {
+              return promiseRejectedWith(byobReaderBrandCheckException("cancel"));
+            }
+            if (this._ownerReadableStream === void 0) {
+              return promiseRejectedWith(readerLockException("cancel"));
+            }
+            return ReadableStreamReaderGenericCancel(this, reason);
+          }
+          read(view) {
+            if (!IsReadableStreamBYOBReader(this)) {
+              return promiseRejectedWith(byobReaderBrandCheckException("read"));
+            }
+            if (!ArrayBuffer.isView(view)) {
+              return promiseRejectedWith(new TypeError("view must be an array buffer view"));
+            }
+            if (view.byteLength === 0) {
+              return promiseRejectedWith(new TypeError("view must have non-zero byteLength"));
+            }
+            if (view.buffer.byteLength === 0) {
+              return promiseRejectedWith(new TypeError(`view's buffer must have non-zero byteLength`));
+            }
+            if (IsDetachedBuffer(view.buffer))
+              ;
+            if (this._ownerReadableStream === void 0) {
+              return promiseRejectedWith(readerLockException("read from"));
+            }
+            let resolvePromise;
+            let rejectPromise;
+            const promise = newPromise((resolve2, reject) => {
+              resolvePromise = resolve2;
+              rejectPromise = reject;
+            });
+            const readIntoRequest = {
+              _chunkSteps: (chunk) => resolvePromise({ value: chunk, done: false }),
+              _closeSteps: (chunk) => resolvePromise({ value: chunk, done: true }),
+              _errorSteps: (e2) => rejectPromise(e2)
+            };
+            ReadableStreamBYOBReaderRead(this, view, readIntoRequest);
+            return promise;
+          }
+          releaseLock() {
+            if (!IsReadableStreamBYOBReader(this)) {
+              throw byobReaderBrandCheckException("releaseLock");
+            }
+            if (this._ownerReadableStream === void 0) {
+              return;
+            }
+            if (this._readIntoRequests.length > 0) {
+              throw new TypeError("Tried to release a reader lock when that reader has pending read() calls un-settled");
+            }
+            ReadableStreamReaderGenericRelease(this);
+          }
+        }
+        Object.defineProperties(ReadableStreamBYOBReader.prototype, {
+          cancel: { enumerable: true },
+          read: { enumerable: true },
+          releaseLock: { enumerable: true },
+          closed: { enumerable: true }
+        });
+        if (typeof SymbolPolyfill.toStringTag === "symbol") {
+          Object.defineProperty(ReadableStreamBYOBReader.prototype, SymbolPolyfill.toStringTag, {
+            value: "ReadableStreamBYOBReader",
+            configurable: true
+          });
+        }
+        function IsReadableStreamBYOBReader(x2) {
+          if (!typeIsObject(x2)) {
+            return false;
+          }
+          if (!Object.prototype.hasOwnProperty.call(x2, "_readIntoRequests")) {
+            return false;
+          }
+          return x2 instanceof ReadableStreamBYOBReader;
+        }
+        function ReadableStreamBYOBReaderRead(reader, view, readIntoRequest) {
+          const stream = reader._ownerReadableStream;
+          stream._disturbed = true;
+          if (stream._state === "errored") {
+            readIntoRequest._errorSteps(stream._storedError);
+          } else {
+            ReadableByteStreamControllerPullInto(stream._readableStreamController, view, readIntoRequest);
+          }
+        }
+        function byobReaderBrandCheckException(name) {
+          return new TypeError(`ReadableStreamBYOBReader.prototype.${name} can only be used on a ReadableStreamBYOBReader`);
+        }
+        function ExtractHighWaterMark(strategy, defaultHWM) {
+          const { highWaterMark } = strategy;
+          if (highWaterMark === void 0) {
+            return defaultHWM;
+          }
+          if (NumberIsNaN(highWaterMark) || highWaterMark < 0) {
+            throw new RangeError("Invalid highWaterMark");
+          }
+          return highWaterMark;
+        }
+        function ExtractSizeAlgorithm(strategy) {
+          const { size } = strategy;
+          if (!size) {
+            return () => 1;
+          }
+          return size;
+        }
+        function convertQueuingStrategy(init2, context) {
+          assertDictionary(init2, context);
+          const highWaterMark = init2 === null || init2 === void 0 ? void 0 : init2.highWaterMark;
+          const size = init2 === null || init2 === void 0 ? void 0 : init2.size;
+          return {
+            highWaterMark: highWaterMark === void 0 ? void 0 : convertUnrestrictedDouble(highWaterMark),
+            size: size === void 0 ? void 0 : convertQueuingStrategySize(size, `${context} has member 'size' that`)
+          };
+        }
+        function convertQueuingStrategySize(fn, context) {
+          assertFunction(fn, context);
+          return (chunk) => convertUnrestrictedDouble(fn(chunk));
+        }
+        function convertUnderlyingSink(original, context) {
+          assertDictionary(original, context);
+          const abort = original === null || original === void 0 ? void 0 : original.abort;
+          const close = original === null || original === void 0 ? void 0 : original.close;
+          const start = original === null || original === void 0 ? void 0 : original.start;
+          const type = original === null || original === void 0 ? void 0 : original.type;
+          const write = original === null || original === void 0 ? void 0 : original.write;
+          return {
+            abort: abort === void 0 ? void 0 : convertUnderlyingSinkAbortCallback(abort, original, `${context} has member 'abort' that`),
+            close: close === void 0 ? void 0 : convertUnderlyingSinkCloseCallback(close, original, `${context} has member 'close' that`),
+            start: start === void 0 ? void 0 : convertUnderlyingSinkStartCallback(start, original, `${context} has member 'start' that`),
+            write: write === void 0 ? void 0 : convertUnderlyingSinkWriteCallback(write, original, `${context} has member 'write' that`),
+            type
+          };
+        }
+        function convertUnderlyingSinkAbortCallback(fn, original, context) {
+          assertFunction(fn, context);
+          return (reason) => promiseCall(fn, original, [reason]);
+        }
+        function convertUnderlyingSinkCloseCallback(fn, original, context) {
+          assertFunction(fn, context);
+          return () => promiseCall(fn, original, []);
+        }
+        function convertUnderlyingSinkStartCallback(fn, original, context) {
+          assertFunction(fn, context);
+          return (controller) => reflectCall(fn, original, [controller]);
+        }
+        function convertUnderlyingSinkWriteCallback(fn, original, context) {
+          assertFunction(fn, context);
+          return (chunk, controller) => promiseCall(fn, original, [chunk, controller]);
+        }
+        function assertWritableStream(x2, context) {
+          if (!IsWritableStream(x2)) {
+            throw new TypeError(`${context} is not a WritableStream.`);
+          }
+        }
+        function isAbortSignal2(value) {
+          if (typeof value !== "object" || value === null) {
+            return false;
+          }
+          try {
+            return typeof value.aborted === "boolean";
+          } catch (_a4) {
+            return false;
+          }
+        }
+        const supportsAbortController = typeof AbortController === "function";
+        function createAbortController() {
+          if (supportsAbortController) {
+            return new AbortController();
+          }
+          return void 0;
+        }
+        class WritableStream {
+          constructor(rawUnderlyingSink = {}, rawStrategy = {}) {
+            if (rawUnderlyingSink === void 0) {
+              rawUnderlyingSink = null;
+            } else {
+              assertObject(rawUnderlyingSink, "First parameter");
+            }
+            const strategy = convertQueuingStrategy(rawStrategy, "Second parameter");
+            const underlyingSink = convertUnderlyingSink(rawUnderlyingSink, "First parameter");
+            InitializeWritableStream(this);
+            const type = underlyingSink.type;
+            if (type !== void 0) {
+              throw new RangeError("Invalid type is specified");
+            }
+            const sizeAlgorithm = ExtractSizeAlgorithm(strategy);
+            const highWaterMark = ExtractHighWaterMark(strategy, 1);
+            SetUpWritableStreamDefaultControllerFromUnderlyingSink(this, underlyingSink, highWaterMark, sizeAlgorithm);
+          }
+          get locked() {
+            if (!IsWritableStream(this)) {
+              throw streamBrandCheckException$2("locked");
+            }
+            return IsWritableStreamLocked(this);
+          }
+          abort(reason = void 0) {
+            if (!IsWritableStream(this)) {
+              return promiseRejectedWith(streamBrandCheckException$2("abort"));
+            }
+            if (IsWritableStreamLocked(this)) {
+              return promiseRejectedWith(new TypeError("Cannot abort a stream that already has a writer"));
+            }
+            return WritableStreamAbort(this, reason);
+          }
+          close() {
+            if (!IsWritableStream(this)) {
+              return promiseRejectedWith(streamBrandCheckException$2("close"));
+            }
+            if (IsWritableStreamLocked(this)) {
+              return promiseRejectedWith(new TypeError("Cannot close a stream that already has a writer"));
+            }
+            if (WritableStreamCloseQueuedOrInFlight(this)) {
+              return promiseRejectedWith(new TypeError("Cannot close an already-closing stream"));
+            }
+            return WritableStreamClose(this);
+          }
+          getWriter() {
+            if (!IsWritableStream(this)) {
+              throw streamBrandCheckException$2("getWriter");
+            }
+            return AcquireWritableStreamDefaultWriter(this);
+          }
+        }
+        Object.defineProperties(WritableStream.prototype, {
+          abort: { enumerable: true },
+          close: { enumerable: true },
+          getWriter: { enumerable: true },
+          locked: { enumerable: true }
+        });
+        if (typeof SymbolPolyfill.toStringTag === "symbol") {
+          Object.defineProperty(WritableStream.prototype, SymbolPolyfill.toStringTag, {
+            value: "WritableStream",
+            configurable: true
+          });
+        }
+        function AcquireWritableStreamDefaultWriter(stream) {
+          return new WritableStreamDefaultWriter(stream);
+        }
+        function CreateWritableStream(startAlgorithm, writeAlgorithm, closeAlgorithm, abortAlgorithm, highWaterMark = 1, sizeAlgorithm = () => 1) {
+          const stream = Object.create(WritableStream.prototype);
+          InitializeWritableStream(stream);
+          const controller = Object.create(WritableStreamDefaultController.prototype);
+          SetUpWritableStreamDefaultController(stream, controller, startAlgorithm, writeAlgorithm, closeAlgorithm, abortAlgorithm, highWaterMark, sizeAlgorithm);
+          return stream;
+        }
+        function InitializeWritableStream(stream) {
+          stream._state = "writable";
+          stream._storedError = void 0;
+          stream._writer = void 0;
+          stream._writableStreamController = void 0;
+          stream._writeRequests = new SimpleQueue();
+          stream._inFlightWriteRequest = void 0;
+          stream._closeRequest = void 0;
+          stream._inFlightCloseRequest = void 0;
+          stream._pendingAbortRequest = void 0;
+          stream._backpressure = false;
+        }
+        function IsWritableStream(x2) {
+          if (!typeIsObject(x2)) {
+            return false;
+          }
+          if (!Object.prototype.hasOwnProperty.call(x2, "_writableStreamController")) {
+            return false;
+          }
+          return x2 instanceof WritableStream;
+        }
+        function IsWritableStreamLocked(stream) {
+          if (stream._writer === void 0) {
+            return false;
+          }
+          return true;
+        }
+        function WritableStreamAbort(stream, reason) {
+          var _a4;
+          if (stream._state === "closed" || stream._state === "errored") {
+            return promiseResolvedWith(void 0);
+          }
+          stream._writableStreamController._abortReason = reason;
+          (_a4 = stream._writableStreamController._abortController) === null || _a4 === void 0 ? void 0 : _a4.abort();
+          const state = stream._state;
+          if (state === "closed" || state === "errored") {
+            return promiseResolvedWith(void 0);
+          }
+          if (stream._pendingAbortRequest !== void 0) {
+            return stream._pendingAbortRequest._promise;
+          }
+          let wasAlreadyErroring = false;
+          if (state === "erroring") {
+            wasAlreadyErroring = true;
+            reason = void 0;
+          }
+          const promise = newPromise((resolve2, reject) => {
+            stream._pendingAbortRequest = {
+              _promise: void 0,
+              _resolve: resolve2,
+              _reject: reject,
+              _reason: reason,
+              _wasAlreadyErroring: wasAlreadyErroring
+            };
+          });
+          stream._pendingAbortRequest._promise = promise;
+          if (!wasAlreadyErroring) {
+            WritableStreamStartErroring(stream, reason);
+          }
+          return promise;
+        }
+        function WritableStreamClose(stream) {
+          const state = stream._state;
+          if (state === "closed" || state === "errored") {
+            return promiseRejectedWith(new TypeError(`The stream (in ${state} state) is not in the writable state and cannot be closed`));
+          }
+          const promise = newPromise((resolve2, reject) => {
+            const closeRequest = {
+              _resolve: resolve2,
+              _reject: reject
+            };
+            stream._closeRequest = closeRequest;
+          });
+          const writer = stream._writer;
+          if (writer !== void 0 && stream._backpressure && state === "writable") {
+            defaultWriterReadyPromiseResolve(writer);
+          }
+          WritableStreamDefaultControllerClose(stream._writableStreamController);
+          return promise;
+        }
+        function WritableStreamAddWriteRequest(stream) {
+          const promise = newPromise((resolve2, reject) => {
+            const writeRequest = {
+              _resolve: resolve2,
+              _reject: reject
+            };
+            stream._writeRequests.push(writeRequest);
+          });
+          return promise;
+        }
+        function WritableStreamDealWithRejection(stream, error2) {
+          const state = stream._state;
+          if (state === "writable") {
+            WritableStreamStartErroring(stream, error2);
+            return;
+          }
+          WritableStreamFinishErroring(stream);
+        }
+        function WritableStreamStartErroring(stream, reason) {
+          const controller = stream._writableStreamController;
+          stream._state = "erroring";
+          stream._storedError = reason;
+          const writer = stream._writer;
+          if (writer !== void 0) {
+            WritableStreamDefaultWriterEnsureReadyPromiseRejected(writer, reason);
+          }
+          if (!WritableStreamHasOperationMarkedInFlight(stream) && controller._started) {
+            WritableStreamFinishErroring(stream);
+          }
+        }
+        function WritableStreamFinishErroring(stream) {
+          stream._state = "errored";
+          stream._writableStreamController[ErrorSteps]();
+          const storedError = stream._storedError;
+          stream._writeRequests.forEach((writeRequest) => {
+            writeRequest._reject(storedError);
+          });
+          stream._writeRequests = new SimpleQueue();
+          if (stream._pendingAbortRequest === void 0) {
+            WritableStreamRejectCloseAndClosedPromiseIfNeeded(stream);
+            return;
+          }
+          const abortRequest = stream._pendingAbortRequest;
+          stream._pendingAbortRequest = void 0;
+          if (abortRequest._wasAlreadyErroring) {
+            abortRequest._reject(storedError);
+            WritableStreamRejectCloseAndClosedPromiseIfNeeded(stream);
+            return;
+          }
+          const promise = stream._writableStreamController[AbortSteps](abortRequest._reason);
+          uponPromise(promise, () => {
+            abortRequest._resolve();
+            WritableStreamRejectCloseAndClosedPromiseIfNeeded(stream);
+          }, (reason) => {
+            abortRequest._reject(reason);
+            WritableStreamRejectCloseAndClosedPromiseIfNeeded(stream);
+          });
+        }
+        function WritableStreamFinishInFlightWrite(stream) {
+          stream._inFlightWriteRequest._resolve(void 0);
+          stream._inFlightWriteRequest = void 0;
+        }
+        function WritableStreamFinishInFlightWriteWithError(stream, error2) {
+          stream._inFlightWriteRequest._reject(error2);
+          stream._inFlightWriteRequest = void 0;
+          WritableStreamDealWithRejection(stream, error2);
+        }
+        function WritableStreamFinishInFlightClose(stream) {
+          stream._inFlightCloseRequest._resolve(void 0);
+          stream._inFlightCloseRequest = void 0;
+          const state = stream._state;
+          if (state === "erroring") {
+            stream._storedError = void 0;
+            if (stream._pendingAbortRequest !== void 0) {
+              stream._pendingAbortRequest._resolve();
+              stream._pendingAbortRequest = void 0;
+            }
+          }
+          stream._state = "closed";
+          const writer = stream._writer;
+          if (writer !== void 0) {
+            defaultWriterClosedPromiseResolve(writer);
+          }
+        }
+        function WritableStreamFinishInFlightCloseWithError(stream, error2) {
+          stream._inFlightCloseRequest._reject(error2);
+          stream._inFlightCloseRequest = void 0;
+          if (stream._pendingAbortRequest !== void 0) {
+            stream._pendingAbortRequest._reject(error2);
+            stream._pendingAbortRequest = void 0;
+          }
+          WritableStreamDealWithRejection(stream, error2);
+        }
+        function WritableStreamCloseQueuedOrInFlight(stream) {
+          if (stream._closeRequest === void 0 && stream._inFlightCloseRequest === void 0) {
+            return false;
+          }
+          return true;
+        }
+        function WritableStreamHasOperationMarkedInFlight(stream) {
+          if (stream._inFlightWriteRequest === void 0 && stream._inFlightCloseRequest === void 0) {
+            return false;
+          }
+          return true;
+        }
+        function WritableStreamMarkCloseRequestInFlight(stream) {
+          stream._inFlightCloseRequest = stream._closeRequest;
+          stream._closeRequest = void 0;
+        }
+        function WritableStreamMarkFirstWriteRequestInFlight(stream) {
+          stream._inFlightWriteRequest = stream._writeRequests.shift();
+        }
+        function WritableStreamRejectCloseAndClosedPromiseIfNeeded(stream) {
+          if (stream._closeRequest !== void 0) {
+            stream._closeRequest._reject(stream._storedError);
+            stream._closeRequest = void 0;
+          }
+          const writer = stream._writer;
+          if (writer !== void 0) {
+            defaultWriterClosedPromiseReject(writer, stream._storedError);
+          }
+        }
+        function WritableStreamUpdateBackpressure(stream, backpressure) {
+          const writer = stream._writer;
+          if (writer !== void 0 && backpressure !== stream._backpressure) {
+            if (backpressure) {
+              defaultWriterReadyPromiseReset(writer);
+            } else {
+              defaultWriterReadyPromiseResolve(writer);
+            }
+          }
+          stream._backpressure = backpressure;
+        }
+        class WritableStreamDefaultWriter {
+          constructor(stream) {
+            assertRequiredArgument(stream, 1, "WritableStreamDefaultWriter");
+            assertWritableStream(stream, "First parameter");
+            if (IsWritableStreamLocked(stream)) {
+              throw new TypeError("This stream has already been locked for exclusive writing by another writer");
+            }
+            this._ownerWritableStream = stream;
+            stream._writer = this;
+            const state = stream._state;
+            if (state === "writable") {
+              if (!WritableStreamCloseQueuedOrInFlight(stream) && stream._backpressure) {
+                defaultWriterReadyPromiseInitialize(this);
+              } else {
+                defaultWriterReadyPromiseInitializeAsResolved(this);
+              }
+              defaultWriterClosedPromiseInitialize(this);
+            } else if (state === "erroring") {
+              defaultWriterReadyPromiseInitializeAsRejected(this, stream._storedError);
+              defaultWriterClosedPromiseInitialize(this);
+            } else if (state === "closed") {
+              defaultWriterReadyPromiseInitializeAsResolved(this);
+              defaultWriterClosedPromiseInitializeAsResolved(this);
+            } else {
+              const storedError = stream._storedError;
+              defaultWriterReadyPromiseInitializeAsRejected(this, storedError);
+              defaultWriterClosedPromiseInitializeAsRejected(this, storedError);
+            }
+          }
+          get closed() {
+            if (!IsWritableStreamDefaultWriter(this)) {
+              return promiseRejectedWith(defaultWriterBrandCheckException("closed"));
+            }
+            return this._closedPromise;
+          }
+          get desiredSize() {
+            if (!IsWritableStreamDefaultWriter(this)) {
+              throw defaultWriterBrandCheckException("desiredSize");
+            }
+            if (this._ownerWritableStream === void 0) {
+              throw defaultWriterLockException("desiredSize");
+            }
+            return WritableStreamDefaultWriterGetDesiredSize(this);
+          }
+          get ready() {
+            if (!IsWritableStreamDefaultWriter(this)) {
+              return promiseRejectedWith(defaultWriterBrandCheckException("ready"));
+            }
+            return this._readyPromise;
+          }
+          abort(reason = void 0) {
+            if (!IsWritableStreamDefaultWriter(this)) {
+              return promiseRejectedWith(defaultWriterBrandCheckException("abort"));
+            }
+            if (this._ownerWritableStream === void 0) {
+              return promiseRejectedWith(defaultWriterLockException("abort"));
+            }
+            return WritableStreamDefaultWriterAbort(this, reason);
+          }
+          close() {
+            if (!IsWritableStreamDefaultWriter(this)) {
+              return promiseRejectedWith(defaultWriterBrandCheckException("close"));
+            }
+            const stream = this._ownerWritableStream;
+            if (stream === void 0) {
+              return promiseRejectedWith(defaultWriterLockException("close"));
+            }
+            if (WritableStreamCloseQueuedOrInFlight(stream)) {
+              return promiseRejectedWith(new TypeError("Cannot close an already-closing stream"));
+            }
+            return WritableStreamDefaultWriterClose(this);
+          }
+          releaseLock() {
+            if (!IsWritableStreamDefaultWriter(this)) {
+              throw defaultWriterBrandCheckException("releaseLock");
+            }
+            const stream = this._ownerWritableStream;
+            if (stream === void 0) {
+              return;
+            }
+            WritableStreamDefaultWriterRelease(this);
+          }
+          write(chunk = void 0) {
+            if (!IsWritableStreamDefaultWriter(this)) {
+              return promiseRejectedWith(defaultWriterBrandCheckException("write"));
+            }
+            if (this._ownerWritableStream === void 0) {
+              return promiseRejectedWith(defaultWriterLockException("write to"));
+            }
+            return WritableStreamDefaultWriterWrite(this, chunk);
+          }
+        }
+        Object.defineProperties(WritableStreamDefaultWriter.prototype, {
+          abort: { enumerable: true },
+          close: { enumerable: true },
+          releaseLock: { enumerable: true },
+          write: { enumerable: true },
+          closed: { enumerable: true },
+          desiredSize: { enumerable: true },
+          ready: { enumerable: true }
+        });
+        if (typeof SymbolPolyfill.toStringTag === "symbol") {
+          Object.defineProperty(WritableStreamDefaultWriter.prototype, SymbolPolyfill.toStringTag, {
+            value: "WritableStreamDefaultWriter",
+            configurable: true
+          });
+        }
+        function IsWritableStreamDefaultWriter(x2) {
+          if (!typeIsObject(x2)) {
+            return false;
+          }
+          if (!Object.prototype.hasOwnProperty.call(x2, "_ownerWritableStream")) {
+            return false;
+          }
+          return x2 instanceof WritableStreamDefaultWriter;
+        }
+        function WritableStreamDefaultWriterAbort(writer, reason) {
+          const stream = writer._ownerWritableStream;
+          return WritableStreamAbort(stream, reason);
+        }
+        function WritableStreamDefaultWriterClose(writer) {
+          const stream = writer._ownerWritableStream;
+          return WritableStreamClose(stream);
+        }
+        function WritableStreamDefaultWriterCloseWithErrorPropagation(writer) {
+          const stream = writer._ownerWritableStream;
+          const state = stream._state;
+          if (WritableStreamCloseQueuedOrInFlight(stream) || state === "closed") {
+            return promiseResolvedWith(void 0);
+          }
+          if (state === "errored") {
+            return promiseRejectedWith(stream._storedError);
+          }
+          return WritableStreamDefaultWriterClose(writer);
+        }
+        function WritableStreamDefaultWriterEnsureClosedPromiseRejected(writer, error2) {
+          if (writer._closedPromiseState === "pending") {
+            defaultWriterClosedPromiseReject(writer, error2);
+          } else {
+            defaultWriterClosedPromiseResetToRejected(writer, error2);
+          }
+        }
+        function WritableStreamDefaultWriterEnsureReadyPromiseRejected(writer, error2) {
+          if (writer._readyPromiseState === "pending") {
+            defaultWriterReadyPromiseReject(writer, error2);
+          } else {
+            defaultWriterReadyPromiseResetToRejected(writer, error2);
+          }
+        }
+        function WritableStreamDefaultWriterGetDesiredSize(writer) {
+          const stream = writer._ownerWritableStream;
+          const state = stream._state;
+          if (state === "errored" || state === "erroring") {
+            return null;
+          }
+          if (state === "closed") {
+            return 0;
+          }
+          return WritableStreamDefaultControllerGetDesiredSize(stream._writableStreamController);
+        }
+        function WritableStreamDefaultWriterRelease(writer) {
+          const stream = writer._ownerWritableStream;
+          const releasedError = new TypeError(`Writer was released and can no longer be used to monitor the stream's closedness`);
+          WritableStreamDefaultWriterEnsureReadyPromiseRejected(writer, releasedError);
+          WritableStreamDefaultWriterEnsureClosedPromiseRejected(writer, releasedError);
+          stream._writer = void 0;
+          writer._ownerWritableStream = void 0;
+        }
+        function WritableStreamDefaultWriterWrite(writer, chunk) {
+          const stream = writer._ownerWritableStream;
+          const controller = stream._writableStreamController;
+          const chunkSize = WritableStreamDefaultControllerGetChunkSize(controller, chunk);
+          if (stream !== writer._ownerWritableStream) {
+            return promiseRejectedWith(defaultWriterLockException("write to"));
+          }
+          const state = stream._state;
+          if (state === "errored") {
+            return promiseRejectedWith(stream._storedError);
+          }
+          if (WritableStreamCloseQueuedOrInFlight(stream) || state === "closed") {
+            return promiseRejectedWith(new TypeError("The stream is closing or closed and cannot be written to"));
+          }
+          if (state === "erroring") {
+            return promiseRejectedWith(stream._storedError);
+          }
+          const promise = WritableStreamAddWriteRequest(stream);
+          WritableStreamDefaultControllerWrite(controller, chunk, chunkSize);
+          return promise;
+        }
+        const closeSentinel = {};
+        class WritableStreamDefaultController {
+          constructor() {
+            throw new TypeError("Illegal constructor");
+          }
+          get abortReason() {
+            if (!IsWritableStreamDefaultController(this)) {
+              throw defaultControllerBrandCheckException$2("abortReason");
+            }
+            return this._abortReason;
+          }
+          get signal() {
+            if (!IsWritableStreamDefaultController(this)) {
+              throw defaultControllerBrandCheckException$2("signal");
+            }
+            if (this._abortController === void 0) {
+              throw new TypeError("WritableStreamDefaultController.prototype.signal is not supported");
+            }
+            return this._abortController.signal;
+          }
+          error(e2 = void 0) {
+            if (!IsWritableStreamDefaultController(this)) {
+              throw defaultControllerBrandCheckException$2("error");
+            }
+            const state = this._controlledWritableStream._state;
+            if (state !== "writable") {
+              return;
+            }
+            WritableStreamDefaultControllerError(this, e2);
+          }
+          [AbortSteps](reason) {
+            const result = this._abortAlgorithm(reason);
+            WritableStreamDefaultControllerClearAlgorithms(this);
+            return result;
+          }
+          [ErrorSteps]() {
+            ResetQueue(this);
+          }
+        }
+        Object.defineProperties(WritableStreamDefaultController.prototype, {
+          abortReason: { enumerable: true },
+          signal: { enumerable: true },
+          error: { enumerable: true }
+        });
+        if (typeof SymbolPolyfill.toStringTag === "symbol") {
+          Object.defineProperty(WritableStreamDefaultController.prototype, SymbolPolyfill.toStringTag, {
+            value: "WritableStreamDefaultController",
+            configurable: true
+          });
+        }
+        function IsWritableStreamDefaultController(x2) {
+          if (!typeIsObject(x2)) {
+            return false;
+          }
+          if (!Object.prototype.hasOwnProperty.call(x2, "_controlledWritableStream")) {
+            return false;
+          }
+          return x2 instanceof WritableStreamDefaultController;
+        }
+        function SetUpWritableStreamDefaultController(stream, controller, startAlgorithm, writeAlgorithm, closeAlgorithm, abortAlgorithm, highWaterMark, sizeAlgorithm) {
+          controller._controlledWritableStream = stream;
+          stream._writableStreamController = controller;
+          controller._queue = void 0;
+          controller._queueTotalSize = void 0;
+          ResetQueue(controller);
+          controller._abortReason = void 0;
+          controller._abortController = createAbortController();
+          controller._started = false;
+          controller._strategySizeAlgorithm = sizeAlgorithm;
+          controller._strategyHWM = highWaterMark;
+          controller._writeAlgorithm = writeAlgorithm;
+          controller._closeAlgorithm = closeAlgorithm;
+          controller._abortAlgorithm = abortAlgorithm;
+          const backpressure = WritableStreamDefaultControllerGetBackpressure(controller);
+          WritableStreamUpdateBackpressure(stream, backpressure);
+          const startResult = startAlgorithm();
+          const startPromise = promiseResolvedWith(startResult);
+          uponPromise(startPromise, () => {
+            controller._started = true;
+            WritableStreamDefaultControllerAdvanceQueueIfNeeded(controller);
+          }, (r2) => {
+            controller._started = true;
+            WritableStreamDealWithRejection(stream, r2);
+          });
+        }
+        function SetUpWritableStreamDefaultControllerFromUnderlyingSink(stream, underlyingSink, highWaterMark, sizeAlgorithm) {
+          const controller = Object.create(WritableStreamDefaultController.prototype);
+          let startAlgorithm = () => void 0;
+          let writeAlgorithm = () => promiseResolvedWith(void 0);
+          let closeAlgorithm = () => promiseResolvedWith(void 0);
+          let abortAlgorithm = () => promiseResolvedWith(void 0);
+          if (underlyingSink.start !== void 0) {
+            startAlgorithm = () => underlyingSink.start(controller);
+          }
+          if (underlyingSink.write !== void 0) {
+            writeAlgorithm = (chunk) => underlyingSink.write(chunk, controller);
+          }
+          if (underlyingSink.close !== void 0) {
+            closeAlgorithm = () => underlyingSink.close();
+          }
+          if (underlyingSink.abort !== void 0) {
+            abortAlgorithm = (reason) => underlyingSink.abort(reason);
+          }
+          SetUpWritableStreamDefaultController(stream, controller, startAlgorithm, writeAlgorithm, closeAlgorithm, abortAlgorithm, highWaterMark, sizeAlgorithm);
+        }
+        function WritableStreamDefaultControllerClearAlgorithms(controller) {
+          controller._writeAlgorithm = void 0;
+          controller._closeAlgorithm = void 0;
+          controller._abortAlgorithm = void 0;
+          controller._strategySizeAlgorithm = void 0;
+        }
+        function WritableStreamDefaultControllerClose(controller) {
+          EnqueueValueWithSize(controller, closeSentinel, 0);
+          WritableStreamDefaultControllerAdvanceQueueIfNeeded(controller);
+        }
+        function WritableStreamDefaultControllerGetChunkSize(controller, chunk) {
+          try {
+            return controller._strategySizeAlgorithm(chunk);
+          } catch (chunkSizeE) {
+            WritableStreamDefaultControllerErrorIfNeeded(controller, chunkSizeE);
+            return 1;
+          }
+        }
+        function WritableStreamDefaultControllerGetDesiredSize(controller) {
+          return controller._strategyHWM - controller._queueTotalSize;
+        }
+        function WritableStreamDefaultControllerWrite(controller, chunk, chunkSize) {
+          try {
+            EnqueueValueWithSize(controller, chunk, chunkSize);
+          } catch (enqueueE) {
+            WritableStreamDefaultControllerErrorIfNeeded(controller, enqueueE);
+            return;
+          }
+          const stream = controller._controlledWritableStream;
+          if (!WritableStreamCloseQueuedOrInFlight(stream) && stream._state === "writable") {
+            const backpressure = WritableStreamDefaultControllerGetBackpressure(controller);
+            WritableStreamUpdateBackpressure(stream, backpressure);
+          }
+          WritableStreamDefaultControllerAdvanceQueueIfNeeded(controller);
+        }
+        function WritableStreamDefaultControllerAdvanceQueueIfNeeded(controller) {
+          const stream = controller._controlledWritableStream;
+          if (!controller._started) {
+            return;
+          }
+          if (stream._inFlightWriteRequest !== void 0) {
+            return;
+          }
+          const state = stream._state;
+          if (state === "erroring") {
+            WritableStreamFinishErroring(stream);
+            return;
+          }
+          if (controller._queue.length === 0) {
+            return;
+          }
+          const value = PeekQueueValue(controller);
+          if (value === closeSentinel) {
+            WritableStreamDefaultControllerProcessClose(controller);
+          } else {
+            WritableStreamDefaultControllerProcessWrite(controller, value);
+          }
+        }
+        function WritableStreamDefaultControllerErrorIfNeeded(controller, error2) {
+          if (controller._controlledWritableStream._state === "writable") {
+            WritableStreamDefaultControllerError(controller, error2);
+          }
+        }
+        function WritableStreamDefaultControllerProcessClose(controller) {
+          const stream = controller._controlledWritableStream;
+          WritableStreamMarkCloseRequestInFlight(stream);
+          DequeueValue(controller);
+          const sinkClosePromise = controller._closeAlgorithm();
+          WritableStreamDefaultControllerClearAlgorithms(controller);
+          uponPromise(sinkClosePromise, () => {
+            WritableStreamFinishInFlightClose(stream);
+          }, (reason) => {
+            WritableStreamFinishInFlightCloseWithError(stream, reason);
+          });
+        }
+        function WritableStreamDefaultControllerProcessWrite(controller, chunk) {
+          const stream = controller._controlledWritableStream;
+          WritableStreamMarkFirstWriteRequestInFlight(stream);
+          const sinkWritePromise = controller._writeAlgorithm(chunk);
+          uponPromise(sinkWritePromise, () => {
+            WritableStreamFinishInFlightWrite(stream);
+            const state = stream._state;
+            DequeueValue(controller);
+            if (!WritableStreamCloseQueuedOrInFlight(stream) && state === "writable") {
+              const backpressure = WritableStreamDefaultControllerGetBackpressure(controller);
+              WritableStreamUpdateBackpressure(stream, backpressure);
+            }
+            WritableStreamDefaultControllerAdvanceQueueIfNeeded(controller);
+          }, (reason) => {
+            if (stream._state === "writable") {
+              WritableStreamDefaultControllerClearAlgorithms(controller);
+            }
+            WritableStreamFinishInFlightWriteWithError(stream, reason);
+          });
+        }
+        function WritableStreamDefaultControllerGetBackpressure(controller) {
+          const desiredSize = WritableStreamDefaultControllerGetDesiredSize(controller);
+          return desiredSize <= 0;
+        }
+        function WritableStreamDefaultControllerError(controller, error2) {
+          const stream = controller._controlledWritableStream;
+          WritableStreamDefaultControllerClearAlgorithms(controller);
+          WritableStreamStartErroring(stream, error2);
+        }
+        function streamBrandCheckException$2(name) {
+          return new TypeError(`WritableStream.prototype.${name} can only be used on a WritableStream`);
+        }
+        function defaultControllerBrandCheckException$2(name) {
+          return new TypeError(`WritableStreamDefaultController.prototype.${name} can only be used on a WritableStreamDefaultController`);
+        }
+        function defaultWriterBrandCheckException(name) {
+          return new TypeError(`WritableStreamDefaultWriter.prototype.${name} can only be used on a WritableStreamDefaultWriter`);
+        }
+        function defaultWriterLockException(name) {
+          return new TypeError("Cannot " + name + " a stream using a released writer");
+        }
+        function defaultWriterClosedPromiseInitialize(writer) {
+          writer._closedPromise = newPromise((resolve2, reject) => {
+            writer._closedPromise_resolve = resolve2;
+            writer._closedPromise_reject = reject;
+            writer._closedPromiseState = "pending";
+          });
+        }
+        function defaultWriterClosedPromiseInitializeAsRejected(writer, reason) {
+          defaultWriterClosedPromiseInitialize(writer);
+          defaultWriterClosedPromiseReject(writer, reason);
+        }
+        function defaultWriterClosedPromiseInitializeAsResolved(writer) {
+          defaultWriterClosedPromiseInitialize(writer);
+          defaultWriterClosedPromiseResolve(writer);
+        }
+        function defaultWriterClosedPromiseReject(writer, reason) {
+          if (writer._closedPromise_reject === void 0) {
+            return;
+          }
+          setPromiseIsHandledToTrue(writer._closedPromise);
+          writer._closedPromise_reject(reason);
+          writer._closedPromise_resolve = void 0;
+          writer._closedPromise_reject = void 0;
+          writer._closedPromiseState = "rejected";
+        }
+        function defaultWriterClosedPromiseResetToRejected(writer, reason) {
+          defaultWriterClosedPromiseInitializeAsRejected(writer, reason);
+        }
+        function defaultWriterClosedPromiseResolve(writer) {
+          if (writer._closedPromise_resolve === void 0) {
+            return;
+          }
+          writer._closedPromise_resolve(void 0);
+          writer._closedPromise_resolve = void 0;
+          writer._closedPromise_reject = void 0;
+          writer._closedPromiseState = "resolved";
+        }
+        function defaultWriterReadyPromiseInitialize(writer) {
+          writer._readyPromise = newPromise((resolve2, reject) => {
+            writer._readyPromise_resolve = resolve2;
+            writer._readyPromise_reject = reject;
+          });
+          writer._readyPromiseState = "pending";
+        }
+        function defaultWriterReadyPromiseInitializeAsRejected(writer, reason) {
+          defaultWriterReadyPromiseInitialize(writer);
+          defaultWriterReadyPromiseReject(writer, reason);
+        }
+        function defaultWriterReadyPromiseInitializeAsResolved(writer) {
+          defaultWriterReadyPromiseInitialize(writer);
+          defaultWriterReadyPromiseResolve(writer);
+        }
+        function defaultWriterReadyPromiseReject(writer, reason) {
+          if (writer._readyPromise_reject === void 0) {
+            return;
+          }
+          setPromiseIsHandledToTrue(writer._readyPromise);
+          writer._readyPromise_reject(reason);
+          writer._readyPromise_resolve = void 0;
+          writer._readyPromise_reject = void 0;
+          writer._readyPromiseState = "rejected";
+        }
+        function defaultWriterReadyPromiseReset(writer) {
+          defaultWriterReadyPromiseInitialize(writer);
+        }
+        function defaultWriterReadyPromiseResetToRejected(writer, reason) {
+          defaultWriterReadyPromiseInitializeAsRejected(writer, reason);
+        }
+        function defaultWriterReadyPromiseResolve(writer) {
+          if (writer._readyPromise_resolve === void 0) {
+            return;
+          }
+          writer._readyPromise_resolve(void 0);
+          writer._readyPromise_resolve = void 0;
+          writer._readyPromise_reject = void 0;
+          writer._readyPromiseState = "fulfilled";
+        }
+        const NativeDOMException = typeof DOMException !== "undefined" ? DOMException : void 0;
+        function isDOMExceptionConstructor(ctor) {
+          if (!(typeof ctor === "function" || typeof ctor === "object")) {
+            return false;
+          }
+          try {
+            new ctor();
+            return true;
+          } catch (_a4) {
+            return false;
+          }
+        }
+        function createDOMExceptionPolyfill() {
+          const ctor = function DOMException2(message, name) {
+            this.message = message || "";
+            this.name = name || "Error";
+            if (Error.captureStackTrace) {
+              Error.captureStackTrace(this, this.constructor);
+            }
+          };
+          ctor.prototype = Object.create(Error.prototype);
+          Object.defineProperty(ctor.prototype, "constructor", { value: ctor, writable: true, configurable: true });
+          return ctor;
+        }
+        const DOMException$1 = isDOMExceptionConstructor(NativeDOMException) ? NativeDOMException : createDOMExceptionPolyfill();
+        function ReadableStreamPipeTo(source, dest, preventClose, preventAbort, preventCancel, signal) {
+          const reader = AcquireReadableStreamDefaultReader(source);
+          const writer = AcquireWritableStreamDefaultWriter(dest);
+          source._disturbed = true;
+          let shuttingDown = false;
+          let currentWrite = promiseResolvedWith(void 0);
+          return newPromise((resolve2, reject) => {
+            let abortAlgorithm;
+            if (signal !== void 0) {
+              abortAlgorithm = () => {
+                const error2 = new DOMException$1("Aborted", "AbortError");
+                const actions = [];
+                if (!preventAbort) {
+                  actions.push(() => {
+                    if (dest._state === "writable") {
+                      return WritableStreamAbort(dest, error2);
+                    }
+                    return promiseResolvedWith(void 0);
+                  });
+                }
+                if (!preventCancel) {
+                  actions.push(() => {
+                    if (source._state === "readable") {
+                      return ReadableStreamCancel(source, error2);
+                    }
+                    return promiseResolvedWith(void 0);
+                  });
+                }
+                shutdownWithAction(() => Promise.all(actions.map((action) => action())), true, error2);
+              };
+              if (signal.aborted) {
+                abortAlgorithm();
+                return;
+              }
+              signal.addEventListener("abort", abortAlgorithm);
+            }
+            function pipeLoop() {
+              return newPromise((resolveLoop, rejectLoop) => {
+                function next(done) {
+                  if (done) {
+                    resolveLoop();
+                  } else {
+                    PerformPromiseThen(pipeStep(), next, rejectLoop);
+                  }
+                }
+                next(false);
+              });
+            }
+            function pipeStep() {
+              if (shuttingDown) {
+                return promiseResolvedWith(true);
+              }
+              return PerformPromiseThen(writer._readyPromise, () => {
+                return newPromise((resolveRead, rejectRead) => {
+                  ReadableStreamDefaultReaderRead(reader, {
+                    _chunkSteps: (chunk) => {
+                      currentWrite = PerformPromiseThen(WritableStreamDefaultWriterWrite(writer, chunk), void 0, noop4);
+                      resolveRead(false);
+                    },
+                    _closeSteps: () => resolveRead(true),
+                    _errorSteps: rejectRead
+                  });
+                });
+              });
+            }
+            isOrBecomesErrored(source, reader._closedPromise, (storedError) => {
+              if (!preventAbort) {
+                shutdownWithAction(() => WritableStreamAbort(dest, storedError), true, storedError);
+              } else {
+                shutdown(true, storedError);
+              }
+            });
+            isOrBecomesErrored(dest, writer._closedPromise, (storedError) => {
+              if (!preventCancel) {
+                shutdownWithAction(() => ReadableStreamCancel(source, storedError), true, storedError);
+              } else {
+                shutdown(true, storedError);
+              }
+            });
+            isOrBecomesClosed(source, reader._closedPromise, () => {
+              if (!preventClose) {
+                shutdownWithAction(() => WritableStreamDefaultWriterCloseWithErrorPropagation(writer));
+              } else {
+                shutdown();
+              }
+            });
+            if (WritableStreamCloseQueuedOrInFlight(dest) || dest._state === "closed") {
+              const destClosed = new TypeError("the destination writable stream closed before all data could be piped to it");
+              if (!preventCancel) {
+                shutdownWithAction(() => ReadableStreamCancel(source, destClosed), true, destClosed);
+              } else {
+                shutdown(true, destClosed);
+              }
+            }
+            setPromiseIsHandledToTrue(pipeLoop());
+            function waitForWritesToFinish() {
+              const oldCurrentWrite = currentWrite;
+              return PerformPromiseThen(currentWrite, () => oldCurrentWrite !== currentWrite ? waitForWritesToFinish() : void 0);
+            }
+            function isOrBecomesErrored(stream, promise, action) {
+              if (stream._state === "errored") {
+                action(stream._storedError);
+              } else {
+                uponRejection(promise, action);
+              }
+            }
+            function isOrBecomesClosed(stream, promise, action) {
+              if (stream._state === "closed") {
+                action();
+              } else {
+                uponFulfillment(promise, action);
+              }
+            }
+            function shutdownWithAction(action, originalIsError, originalError) {
+              if (shuttingDown) {
+                return;
+              }
+              shuttingDown = true;
+              if (dest._state === "writable" && !WritableStreamCloseQueuedOrInFlight(dest)) {
+                uponFulfillment(waitForWritesToFinish(), doTheRest);
+              } else {
+                doTheRest();
+              }
+              function doTheRest() {
+                uponPromise(action(), () => finalize(originalIsError, originalError), (newError) => finalize(true, newError));
+              }
+            }
+            function shutdown(isError, error2) {
+              if (shuttingDown) {
+                return;
+              }
+              shuttingDown = true;
+              if (dest._state === "writable" && !WritableStreamCloseQueuedOrInFlight(dest)) {
+                uponFulfillment(waitForWritesToFinish(), () => finalize(isError, error2));
+              } else {
+                finalize(isError, error2);
+              }
+            }
+            function finalize(isError, error2) {
+              WritableStreamDefaultWriterRelease(writer);
+              ReadableStreamReaderGenericRelease(reader);
+              if (signal !== void 0) {
+                signal.removeEventListener("abort", abortAlgorithm);
+              }
+              if (isError) {
+                reject(error2);
+              } else {
+                resolve2(void 0);
+              }
+            }
+          });
+        }
+        class ReadableStreamDefaultController {
+          constructor() {
+            throw new TypeError("Illegal constructor");
+          }
+          get desiredSize() {
+            if (!IsReadableStreamDefaultController(this)) {
+              throw defaultControllerBrandCheckException$1("desiredSize");
+            }
+            return ReadableStreamDefaultControllerGetDesiredSize(this);
+          }
+          close() {
+            if (!IsReadableStreamDefaultController(this)) {
+              throw defaultControllerBrandCheckException$1("close");
+            }
+            if (!ReadableStreamDefaultControllerCanCloseOrEnqueue(this)) {
+              throw new TypeError("The stream is not in a state that permits close");
+            }
+            ReadableStreamDefaultControllerClose(this);
+          }
+          enqueue(chunk = void 0) {
+            if (!IsReadableStreamDefaultController(this)) {
+              throw defaultControllerBrandCheckException$1("enqueue");
+            }
+            if (!ReadableStreamDefaultControllerCanCloseOrEnqueue(this)) {
+              throw new TypeError("The stream is not in a state that permits enqueue");
+            }
+            return ReadableStreamDefaultControllerEnqueue(this, chunk);
+          }
+          error(e2 = void 0) {
+            if (!IsReadableStreamDefaultController(this)) {
+              throw defaultControllerBrandCheckException$1("error");
+            }
+            ReadableStreamDefaultControllerError(this, e2);
+          }
+          [CancelSteps](reason) {
+            ResetQueue(this);
+            const result = this._cancelAlgorithm(reason);
+            ReadableStreamDefaultControllerClearAlgorithms(this);
+            return result;
+          }
+          [PullSteps](readRequest) {
+            const stream = this._controlledReadableStream;
+            if (this._queue.length > 0) {
+              const chunk = DequeueValue(this);
+              if (this._closeRequested && this._queue.length === 0) {
+                ReadableStreamDefaultControllerClearAlgorithms(this);
+                ReadableStreamClose(stream);
+              } else {
+                ReadableStreamDefaultControllerCallPullIfNeeded(this);
+              }
+              readRequest._chunkSteps(chunk);
+            } else {
+              ReadableStreamAddReadRequest(stream, readRequest);
+              ReadableStreamDefaultControllerCallPullIfNeeded(this);
+            }
+          }
+        }
+        Object.defineProperties(ReadableStreamDefaultController.prototype, {
+          close: { enumerable: true },
+          enqueue: { enumerable: true },
+          error: { enumerable: true },
+          desiredSize: { enumerable: true }
+        });
+        if (typeof SymbolPolyfill.toStringTag === "symbol") {
+          Object.defineProperty(ReadableStreamDefaultController.prototype, SymbolPolyfill.toStringTag, {
+            value: "ReadableStreamDefaultController",
+            configurable: true
+          });
+        }
+        function IsReadableStreamDefaultController(x2) {
+          if (!typeIsObject(x2)) {
+            return false;
+          }
+          if (!Object.prototype.hasOwnProperty.call(x2, "_controlledReadableStream")) {
+            return false;
+          }
+          return x2 instanceof ReadableStreamDefaultController;
+        }
+        function ReadableStreamDefaultControllerCallPullIfNeeded(controller) {
+          const shouldPull = ReadableStreamDefaultControllerShouldCallPull(controller);
+          if (!shouldPull) {
+            return;
+          }
+          if (controller._pulling) {
+            controller._pullAgain = true;
+            return;
+          }
+          controller._pulling = true;
+          const pullPromise = controller._pullAlgorithm();
+          uponPromise(pullPromise, () => {
+            controller._pulling = false;
+            if (controller._pullAgain) {
+              controller._pullAgain = false;
+              ReadableStreamDefaultControllerCallPullIfNeeded(controller);
+            }
+          }, (e2) => {
+            ReadableStreamDefaultControllerError(controller, e2);
+          });
+        }
+        function ReadableStreamDefaultControllerShouldCallPull(controller) {
+          const stream = controller._controlledReadableStream;
+          if (!ReadableStreamDefaultControllerCanCloseOrEnqueue(controller)) {
+            return false;
+          }
+          if (!controller._started) {
+            return false;
+          }
+          if (IsReadableStreamLocked(stream) && ReadableStreamGetNumReadRequests(stream) > 0) {
+            return true;
+          }
+          const desiredSize = ReadableStreamDefaultControllerGetDesiredSize(controller);
+          if (desiredSize > 0) {
+            return true;
+          }
+          return false;
+        }
+        function ReadableStreamDefaultControllerClearAlgorithms(controller) {
+          controller._pullAlgorithm = void 0;
+          controller._cancelAlgorithm = void 0;
+          controller._strategySizeAlgorithm = void 0;
+        }
+        function ReadableStreamDefaultControllerClose(controller) {
+          if (!ReadableStreamDefaultControllerCanCloseOrEnqueue(controller)) {
+            return;
+          }
+          const stream = controller._controlledReadableStream;
+          controller._closeRequested = true;
+          if (controller._queue.length === 0) {
+            ReadableStreamDefaultControllerClearAlgorithms(controller);
+            ReadableStreamClose(stream);
+          }
+        }
+        function ReadableStreamDefaultControllerEnqueue(controller, chunk) {
+          if (!ReadableStreamDefaultControllerCanCloseOrEnqueue(controller)) {
+            return;
+          }
+          const stream = controller._controlledReadableStream;
+          if (IsReadableStreamLocked(stream) && ReadableStreamGetNumReadRequests(stream) > 0) {
+            ReadableStreamFulfillReadRequest(stream, chunk, false);
+          } else {
+            let chunkSize;
+            try {
+              chunkSize = controller._strategySizeAlgorithm(chunk);
+            } catch (chunkSizeE) {
+              ReadableStreamDefaultControllerError(controller, chunkSizeE);
+              throw chunkSizeE;
+            }
+            try {
+              EnqueueValueWithSize(controller, chunk, chunkSize);
+            } catch (enqueueE) {
+              ReadableStreamDefaultControllerError(controller, enqueueE);
+              throw enqueueE;
+            }
+          }
+          ReadableStreamDefaultControllerCallPullIfNeeded(controller);
+        }
+        function ReadableStreamDefaultControllerError(controller, e2) {
+          const stream = controller._controlledReadableStream;
+          if (stream._state !== "readable") {
+            return;
+          }
+          ResetQueue(controller);
+          ReadableStreamDefaultControllerClearAlgorithms(controller);
+          ReadableStreamError(stream, e2);
+        }
+        function ReadableStreamDefaultControllerGetDesiredSize(controller) {
+          const state = controller._controlledReadableStream._state;
+          if (state === "errored") {
+            return null;
+          }
+          if (state === "closed") {
+            return 0;
+          }
+          return controller._strategyHWM - controller._queueTotalSize;
+        }
+        function ReadableStreamDefaultControllerHasBackpressure(controller) {
+          if (ReadableStreamDefaultControllerShouldCallPull(controller)) {
+            return false;
+          }
+          return true;
+        }
+        function ReadableStreamDefaultControllerCanCloseOrEnqueue(controller) {
+          const state = controller._controlledReadableStream._state;
+          if (!controller._closeRequested && state === "readable") {
+            return true;
+          }
+          return false;
+        }
+        function SetUpReadableStreamDefaultController(stream, controller, startAlgorithm, pullAlgorithm, cancelAlgorithm, highWaterMark, sizeAlgorithm) {
+          controller._controlledReadableStream = stream;
+          controller._queue = void 0;
+          controller._queueTotalSize = void 0;
+          ResetQueue(controller);
+          controller._started = false;
+          controller._closeRequested = false;
+          controller._pullAgain = false;
+          controller._pulling = false;
+          controller._strategySizeAlgorithm = sizeAlgorithm;
+          controller._strategyHWM = highWaterMark;
+          controller._pullAlgorithm = pullAlgorithm;
+          controller._cancelAlgorithm = cancelAlgorithm;
+          stream._readableStreamController = controller;
+          const startResult = startAlgorithm();
+          uponPromise(promiseResolvedWith(startResult), () => {
+            controller._started = true;
+            ReadableStreamDefaultControllerCallPullIfNeeded(controller);
+          }, (r2) => {
+            ReadableStreamDefaultControllerError(controller, r2);
+          });
+        }
+        function SetUpReadableStreamDefaultControllerFromUnderlyingSource(stream, underlyingSource, highWaterMark, sizeAlgorithm) {
+          const controller = Object.create(ReadableStreamDefaultController.prototype);
+          let startAlgorithm = () => void 0;
+          let pullAlgorithm = () => promiseResolvedWith(void 0);
+          let cancelAlgorithm = () => promiseResolvedWith(void 0);
+          if (underlyingSource.start !== void 0) {
+            startAlgorithm = () => underlyingSource.start(controller);
+          }
+          if (underlyingSource.pull !== void 0) {
+            pullAlgorithm = () => underlyingSource.pull(controller);
+          }
+          if (underlyingSource.cancel !== void 0) {
+            cancelAlgorithm = (reason) => underlyingSource.cancel(reason);
+          }
+          SetUpReadableStreamDefaultController(stream, controller, startAlgorithm, pullAlgorithm, cancelAlgorithm, highWaterMark, sizeAlgorithm);
+        }
+        function defaultControllerBrandCheckException$1(name) {
+          return new TypeError(`ReadableStreamDefaultController.prototype.${name} can only be used on a ReadableStreamDefaultController`);
+        }
+        function ReadableStreamTee(stream, cloneForBranch2) {
+          if (IsReadableByteStreamController(stream._readableStreamController)) {
+            return ReadableByteStreamTee(stream);
+          }
+          return ReadableStreamDefaultTee(stream);
+        }
+        function ReadableStreamDefaultTee(stream, cloneForBranch2) {
+          const reader = AcquireReadableStreamDefaultReader(stream);
+          let reading = false;
+          let readAgain = false;
+          let canceled1 = false;
+          let canceled2 = false;
+          let reason1;
+          let reason2;
+          let branch1;
+          let branch2;
+          let resolveCancelPromise;
+          const cancelPromise = newPromise((resolve2) => {
+            resolveCancelPromise = resolve2;
+          });
+          function pullAlgorithm() {
+            if (reading) {
+              readAgain = true;
+              return promiseResolvedWith(void 0);
+            }
+            reading = true;
+            const readRequest = {
+              _chunkSteps: (chunk) => {
+                queueMicrotask(() => {
+                  readAgain = false;
+                  const chunk1 = chunk;
+                  const chunk2 = chunk;
+                  if (!canceled1) {
+                    ReadableStreamDefaultControllerEnqueue(branch1._readableStreamController, chunk1);
+                  }
+                  if (!canceled2) {
+                    ReadableStreamDefaultControllerEnqueue(branch2._readableStreamController, chunk2);
+                  }
+                  reading = false;
+                  if (readAgain) {
+                    pullAlgorithm();
+                  }
+                });
+              },
+              _closeSteps: () => {
+                reading = false;
+                if (!canceled1) {
+                  ReadableStreamDefaultControllerClose(branch1._readableStreamController);
+                }
+                if (!canceled2) {
+                  ReadableStreamDefaultControllerClose(branch2._readableStreamController);
+                }
+                if (!canceled1 || !canceled2) {
+                  resolveCancelPromise(void 0);
+                }
+              },
+              _errorSteps: () => {
+                reading = false;
+              }
+            };
+            ReadableStreamDefaultReaderRead(reader, readRequest);
+            return promiseResolvedWith(void 0);
+          }
+          function cancel1Algorithm(reason) {
+            canceled1 = true;
+            reason1 = reason;
+            if (canceled2) {
+              const compositeReason = CreateArrayFromList([reason1, reason2]);
+              const cancelResult = ReadableStreamCancel(stream, compositeReason);
+              resolveCancelPromise(cancelResult);
+            }
+            return cancelPromise;
+          }
+          function cancel2Algorithm(reason) {
+            canceled2 = true;
+            reason2 = reason;
+            if (canceled1) {
+              const compositeReason = CreateArrayFromList([reason1, reason2]);
+              const cancelResult = ReadableStreamCancel(stream, compositeReason);
+              resolveCancelPromise(cancelResult);
+            }
+            return cancelPromise;
+          }
+          function startAlgorithm() {
+          }
+          branch1 = CreateReadableStream(startAlgorithm, pullAlgorithm, cancel1Algorithm);
+          branch2 = CreateReadableStream(startAlgorithm, pullAlgorithm, cancel2Algorithm);
+          uponRejection(reader._closedPromise, (r2) => {
+            ReadableStreamDefaultControllerError(branch1._readableStreamController, r2);
+            ReadableStreamDefaultControllerError(branch2._readableStreamController, r2);
+            if (!canceled1 || !canceled2) {
+              resolveCancelPromise(void 0);
+            }
+          });
+          return [branch1, branch2];
+        }
+        function ReadableByteStreamTee(stream) {
+          let reader = AcquireReadableStreamDefaultReader(stream);
+          let reading = false;
+          let readAgainForBranch1 = false;
+          let readAgainForBranch2 = false;
+          let canceled1 = false;
+          let canceled2 = false;
+          let reason1;
+          let reason2;
+          let branch1;
+          let branch2;
+          let resolveCancelPromise;
+          const cancelPromise = newPromise((resolve2) => {
+            resolveCancelPromise = resolve2;
+          });
+          function forwardReaderError(thisReader) {
+            uponRejection(thisReader._closedPromise, (r2) => {
+              if (thisReader !== reader) {
+                return;
+              }
+              ReadableByteStreamControllerError(branch1._readableStreamController, r2);
+              ReadableByteStreamControllerError(branch2._readableStreamController, r2);
+              if (!canceled1 || !canceled2) {
+                resolveCancelPromise(void 0);
+              }
+            });
+          }
+          function pullWithDefaultReader() {
+            if (IsReadableStreamBYOBReader(reader)) {
+              ReadableStreamReaderGenericRelease(reader);
+              reader = AcquireReadableStreamDefaultReader(stream);
+              forwardReaderError(reader);
+            }
+            const readRequest = {
+              _chunkSteps: (chunk) => {
+                queueMicrotask(() => {
+                  readAgainForBranch1 = false;
+                  readAgainForBranch2 = false;
+                  const chunk1 = chunk;
+                  let chunk2 = chunk;
+                  if (!canceled1 && !canceled2) {
+                    try {
+                      chunk2 = CloneAsUint8Array(chunk);
+                    } catch (cloneE) {
+                      ReadableByteStreamControllerError(branch1._readableStreamController, cloneE);
+                      ReadableByteStreamControllerError(branch2._readableStreamController, cloneE);
+                      resolveCancelPromise(ReadableStreamCancel(stream, cloneE));
+                      return;
+                    }
+                  }
+                  if (!canceled1) {
+                    ReadableByteStreamControllerEnqueue(branch1._readableStreamController, chunk1);
+                  }
+                  if (!canceled2) {
+                    ReadableByteStreamControllerEnqueue(branch2._readableStreamController, chunk2);
+                  }
+                  reading = false;
+                  if (readAgainForBranch1) {
+                    pull1Algorithm();
+                  } else if (readAgainForBranch2) {
+                    pull2Algorithm();
+                  }
+                });
+              },
+              _closeSteps: () => {
+                reading = false;
+                if (!canceled1) {
+                  ReadableByteStreamControllerClose(branch1._readableStreamController);
+                }
+                if (!canceled2) {
+                  ReadableByteStreamControllerClose(branch2._readableStreamController);
+                }
+                if (branch1._readableStreamController._pendingPullIntos.length > 0) {
+                  ReadableByteStreamControllerRespond(branch1._readableStreamController, 0);
+                }
+                if (branch2._readableStreamController._pendingPullIntos.length > 0) {
+                  ReadableByteStreamControllerRespond(branch2._readableStreamController, 0);
+                }
+                if (!canceled1 || !canceled2) {
+                  resolveCancelPromise(void 0);
+                }
+              },
+              _errorSteps: () => {
+                reading = false;
+              }
+            };
+            ReadableStreamDefaultReaderRead(reader, readRequest);
+          }
+          function pullWithBYOBReader(view, forBranch2) {
+            if (IsReadableStreamDefaultReader(reader)) {
+              ReadableStreamReaderGenericRelease(reader);
+              reader = AcquireReadableStreamBYOBReader(stream);
+              forwardReaderError(reader);
+            }
+            const byobBranch = forBranch2 ? branch2 : branch1;
+            const otherBranch = forBranch2 ? branch1 : branch2;
+            const readIntoRequest = {
+              _chunkSteps: (chunk) => {
+                queueMicrotask(() => {
+                  readAgainForBranch1 = false;
+                  readAgainForBranch2 = false;
+                  const byobCanceled = forBranch2 ? canceled2 : canceled1;
+                  const otherCanceled = forBranch2 ? canceled1 : canceled2;
+                  if (!otherCanceled) {
+                    let clonedChunk;
+                    try {
+                      clonedChunk = CloneAsUint8Array(chunk);
+                    } catch (cloneE) {
+                      ReadableByteStreamControllerError(byobBranch._readableStreamController, cloneE);
+                      ReadableByteStreamControllerError(otherBranch._readableStreamController, cloneE);
+                      resolveCancelPromise(ReadableStreamCancel(stream, cloneE));
+                      return;
+                    }
+                    if (!byobCanceled) {
+                      ReadableByteStreamControllerRespondWithNewView(byobBranch._readableStreamController, chunk);
+                    }
+                    ReadableByteStreamControllerEnqueue(otherBranch._readableStreamController, clonedChunk);
+                  } else if (!byobCanceled) {
+                    ReadableByteStreamControllerRespondWithNewView(byobBranch._readableStreamController, chunk);
+                  }
+                  reading = false;
+                  if (readAgainForBranch1) {
+                    pull1Algorithm();
+                  } else if (readAgainForBranch2) {
+                    pull2Algorithm();
+                  }
+                });
+              },
+              _closeSteps: (chunk) => {
+                reading = false;
+                const byobCanceled = forBranch2 ? canceled2 : canceled1;
+                const otherCanceled = forBranch2 ? canceled1 : canceled2;
+                if (!byobCanceled) {
+                  ReadableByteStreamControllerClose(byobBranch._readableStreamController);
+                }
+                if (!otherCanceled) {
+                  ReadableByteStreamControllerClose(otherBranch._readableStreamController);
+                }
+                if (chunk !== void 0) {
+                  if (!byobCanceled) {
+                    ReadableByteStreamControllerRespondWithNewView(byobBranch._readableStreamController, chunk);
+                  }
+                  if (!otherCanceled && otherBranch._readableStreamController._pendingPullIntos.length > 0) {
+                    ReadableByteStreamControllerRespond(otherBranch._readableStreamController, 0);
+                  }
+                }
+                if (!byobCanceled || !otherCanceled) {
+                  resolveCancelPromise(void 0);
+                }
+              },
+              _errorSteps: () => {
+                reading = false;
+              }
+            };
+            ReadableStreamBYOBReaderRead(reader, view, readIntoRequest);
+          }
+          function pull1Algorithm() {
+            if (reading) {
+              readAgainForBranch1 = true;
+              return promiseResolvedWith(void 0);
+            }
+            reading = true;
+            const byobRequest = ReadableByteStreamControllerGetBYOBRequest(branch1._readableStreamController);
+            if (byobRequest === null) {
+              pullWithDefaultReader();
+            } else {
+              pullWithBYOBReader(byobRequest._view, false);
+            }
+            return promiseResolvedWith(void 0);
+          }
+          function pull2Algorithm() {
+            if (reading) {
+              readAgainForBranch2 = true;
+              return promiseResolvedWith(void 0);
+            }
+            reading = true;
+            const byobRequest = ReadableByteStreamControllerGetBYOBRequest(branch2._readableStreamController);
+            if (byobRequest === null) {
+              pullWithDefaultReader();
+            } else {
+              pullWithBYOBReader(byobRequest._view, true);
+            }
+            return promiseResolvedWith(void 0);
+          }
+          function cancel1Algorithm(reason) {
+            canceled1 = true;
+            reason1 = reason;
+            if (canceled2) {
+              const compositeReason = CreateArrayFromList([reason1, reason2]);
+              const cancelResult = ReadableStreamCancel(stream, compositeReason);
+              resolveCancelPromise(cancelResult);
+            }
+            return cancelPromise;
+          }
+          function cancel2Algorithm(reason) {
+            canceled2 = true;
+            reason2 = reason;
+            if (canceled1) {
+              const compositeReason = CreateArrayFromList([reason1, reason2]);
+              const cancelResult = ReadableStreamCancel(stream, compositeReason);
+              resolveCancelPromise(cancelResult);
+            }
+            return cancelPromise;
+          }
+          function startAlgorithm() {
+            return;
+          }
+          branch1 = CreateReadableByteStream(startAlgorithm, pull1Algorithm, cancel1Algorithm);
+          branch2 = CreateReadableByteStream(startAlgorithm, pull2Algorithm, cancel2Algorithm);
+          forwardReaderError(reader);
+          return [branch1, branch2];
+        }
+        function convertUnderlyingDefaultOrByteSource(source, context) {
+          assertDictionary(source, context);
+          const original = source;
+          const autoAllocateChunkSize = original === null || original === void 0 ? void 0 : original.autoAllocateChunkSize;
+          const cancel = original === null || original === void 0 ? void 0 : original.cancel;
+          const pull = original === null || original === void 0 ? void 0 : original.pull;
+          const start = original === null || original === void 0 ? void 0 : original.start;
+          const type = original === null || original === void 0 ? void 0 : original.type;
+          return {
+            autoAllocateChunkSize: autoAllocateChunkSize === void 0 ? void 0 : convertUnsignedLongLongWithEnforceRange(autoAllocateChunkSize, `${context} has member 'autoAllocateChunkSize' that`),
+            cancel: cancel === void 0 ? void 0 : convertUnderlyingSourceCancelCallback(cancel, original, `${context} has member 'cancel' that`),
+            pull: pull === void 0 ? void 0 : convertUnderlyingSourcePullCallback(pull, original, `${context} has member 'pull' that`),
+            start: start === void 0 ? void 0 : convertUnderlyingSourceStartCallback(start, original, `${context} has member 'start' that`),
+            type: type === void 0 ? void 0 : convertReadableStreamType(type, `${context} has member 'type' that`)
+          };
+        }
+        function convertUnderlyingSourceCancelCallback(fn, original, context) {
+          assertFunction(fn, context);
+          return (reason) => promiseCall(fn, original, [reason]);
+        }
+        function convertUnderlyingSourcePullCallback(fn, original, context) {
+          assertFunction(fn, context);
+          return (controller) => promiseCall(fn, original, [controller]);
+        }
+        function convertUnderlyingSourceStartCallback(fn, original, context) {
+          assertFunction(fn, context);
+          return (controller) => reflectCall(fn, original, [controller]);
+        }
+        function convertReadableStreamType(type, context) {
+          type = `${type}`;
+          if (type !== "bytes") {
+            throw new TypeError(`${context} '${type}' is not a valid enumeration value for ReadableStreamType`);
+          }
+          return type;
+        }
+        function convertReaderOptions(options, context) {
+          assertDictionary(options, context);
+          const mode = options === null || options === void 0 ? void 0 : options.mode;
+          return {
+            mode: mode === void 0 ? void 0 : convertReadableStreamReaderMode(mode, `${context} has member 'mode' that`)
+          };
+        }
+        function convertReadableStreamReaderMode(mode, context) {
+          mode = `${mode}`;
+          if (mode !== "byob") {
+            throw new TypeError(`${context} '${mode}' is not a valid enumeration value for ReadableStreamReaderMode`);
+          }
+          return mode;
+        }
+        function convertIteratorOptions(options, context) {
+          assertDictionary(options, context);
+          const preventCancel = options === null || options === void 0 ? void 0 : options.preventCancel;
+          return { preventCancel: Boolean(preventCancel) };
+        }
+        function convertPipeOptions(options, context) {
+          assertDictionary(options, context);
+          const preventAbort = options === null || options === void 0 ? void 0 : options.preventAbort;
+          const preventCancel = options === null || options === void 0 ? void 0 : options.preventCancel;
+          const preventClose = options === null || options === void 0 ? void 0 : options.preventClose;
+          const signal = options === null || options === void 0 ? void 0 : options.signal;
+          if (signal !== void 0) {
+            assertAbortSignal(signal, `${context} has member 'signal' that`);
+          }
+          return {
+            preventAbort: Boolean(preventAbort),
+            preventCancel: Boolean(preventCancel),
+            preventClose: Boolean(preventClose),
+            signal
+          };
+        }
+        function assertAbortSignal(signal, context) {
+          if (!isAbortSignal2(signal)) {
+            throw new TypeError(`${context} is not an AbortSignal.`);
+          }
+        }
+        function convertReadableWritablePair(pair, context) {
+          assertDictionary(pair, context);
+          const readable2 = pair === null || pair === void 0 ? void 0 : pair.readable;
+          assertRequiredField(readable2, "readable", "ReadableWritablePair");
+          assertReadableStream(readable2, `${context} has member 'readable' that`);
+          const writable3 = pair === null || pair === void 0 ? void 0 : pair.writable;
+          assertRequiredField(writable3, "writable", "ReadableWritablePair");
+          assertWritableStream(writable3, `${context} has member 'writable' that`);
+          return { readable: readable2, writable: writable3 };
+        }
+        class ReadableStream2 {
+          constructor(rawUnderlyingSource = {}, rawStrategy = {}) {
+            if (rawUnderlyingSource === void 0) {
+              rawUnderlyingSource = null;
+            } else {
+              assertObject(rawUnderlyingSource, "First parameter");
+            }
+            const strategy = convertQueuingStrategy(rawStrategy, "Second parameter");
+            const underlyingSource = convertUnderlyingDefaultOrByteSource(rawUnderlyingSource, "First parameter");
+            InitializeReadableStream(this);
+            if (underlyingSource.type === "bytes") {
+              if (strategy.size !== void 0) {
+                throw new RangeError("The strategy for a byte stream cannot have a size function");
+              }
+              const highWaterMark = ExtractHighWaterMark(strategy, 0);
+              SetUpReadableByteStreamControllerFromUnderlyingSource(this, underlyingSource, highWaterMark);
+            } else {
+              const sizeAlgorithm = ExtractSizeAlgorithm(strategy);
+              const highWaterMark = ExtractHighWaterMark(strategy, 1);
+              SetUpReadableStreamDefaultControllerFromUnderlyingSource(this, underlyingSource, highWaterMark, sizeAlgorithm);
+            }
+          }
+          get locked() {
+            if (!IsReadableStream(this)) {
+              throw streamBrandCheckException$1("locked");
+            }
+            return IsReadableStreamLocked(this);
+          }
+          cancel(reason = void 0) {
+            if (!IsReadableStream(this)) {
+              return promiseRejectedWith(streamBrandCheckException$1("cancel"));
+            }
+            if (IsReadableStreamLocked(this)) {
+              return promiseRejectedWith(new TypeError("Cannot cancel a stream that already has a reader"));
+            }
+            return ReadableStreamCancel(this, reason);
+          }
+          getReader(rawOptions = void 0) {
+            if (!IsReadableStream(this)) {
+              throw streamBrandCheckException$1("getReader");
+            }
+            const options = convertReaderOptions(rawOptions, "First parameter");
+            if (options.mode === void 0) {
+              return AcquireReadableStreamDefaultReader(this);
+            }
+            return AcquireReadableStreamBYOBReader(this);
+          }
+          pipeThrough(rawTransform, rawOptions = {}) {
+            if (!IsReadableStream(this)) {
+              throw streamBrandCheckException$1("pipeThrough");
+            }
+            assertRequiredArgument(rawTransform, 1, "pipeThrough");
+            const transform = convertReadableWritablePair(rawTransform, "First parameter");
+            const options = convertPipeOptions(rawOptions, "Second parameter");
+            if (IsReadableStreamLocked(this)) {
+              throw new TypeError("ReadableStream.prototype.pipeThrough cannot be used on a locked ReadableStream");
+            }
+            if (IsWritableStreamLocked(transform.writable)) {
+              throw new TypeError("ReadableStream.prototype.pipeThrough cannot be used on a locked WritableStream");
+            }
+            const promise = ReadableStreamPipeTo(this, transform.writable, options.preventClose, options.preventAbort, options.preventCancel, options.signal);
+            setPromiseIsHandledToTrue(promise);
+            return transform.readable;
+          }
+          pipeTo(destination, rawOptions = {}) {
+            if (!IsReadableStream(this)) {
+              return promiseRejectedWith(streamBrandCheckException$1("pipeTo"));
+            }
+            if (destination === void 0) {
+              return promiseRejectedWith(`Parameter 1 is required in 'pipeTo'.`);
+            }
+            if (!IsWritableStream(destination)) {
+              return promiseRejectedWith(new TypeError(`ReadableStream.prototype.pipeTo's first argument must be a WritableStream`));
+            }
+            let options;
+            try {
+              options = convertPipeOptions(rawOptions, "Second parameter");
+            } catch (e2) {
+              return promiseRejectedWith(e2);
+            }
+            if (IsReadableStreamLocked(this)) {
+              return promiseRejectedWith(new TypeError("ReadableStream.prototype.pipeTo cannot be used on a locked ReadableStream"));
+            }
+            if (IsWritableStreamLocked(destination)) {
+              return promiseRejectedWith(new TypeError("ReadableStream.prototype.pipeTo cannot be used on a locked WritableStream"));
+            }
+            return ReadableStreamPipeTo(this, destination, options.preventClose, options.preventAbort, options.preventCancel, options.signal);
+          }
+          tee() {
+            if (!IsReadableStream(this)) {
+              throw streamBrandCheckException$1("tee");
+            }
+            const branches = ReadableStreamTee(this);
+            return CreateArrayFromList(branches);
+          }
+          values(rawOptions = void 0) {
+            if (!IsReadableStream(this)) {
+              throw streamBrandCheckException$1("values");
+            }
+            const options = convertIteratorOptions(rawOptions, "First parameter");
+            return AcquireReadableStreamAsyncIterator(this, options.preventCancel);
+          }
+        }
+        Object.defineProperties(ReadableStream2.prototype, {
+          cancel: { enumerable: true },
+          getReader: { enumerable: true },
+          pipeThrough: { enumerable: true },
+          pipeTo: { enumerable: true },
+          tee: { enumerable: true },
+          values: { enumerable: true },
+          locked: { enumerable: true }
+        });
+        if (typeof SymbolPolyfill.toStringTag === "symbol") {
+          Object.defineProperty(ReadableStream2.prototype, SymbolPolyfill.toStringTag, {
+            value: "ReadableStream",
+            configurable: true
+          });
+        }
+        if (typeof SymbolPolyfill.asyncIterator === "symbol") {
+          Object.defineProperty(ReadableStream2.prototype, SymbolPolyfill.asyncIterator, {
+            value: ReadableStream2.prototype.values,
+            writable: true,
+            configurable: true
+          });
+        }
+        function CreateReadableStream(startAlgorithm, pullAlgorithm, cancelAlgorithm, highWaterMark = 1, sizeAlgorithm = () => 1) {
+          const stream = Object.create(ReadableStream2.prototype);
+          InitializeReadableStream(stream);
+          const controller = Object.create(ReadableStreamDefaultController.prototype);
+          SetUpReadableStreamDefaultController(stream, controller, startAlgorithm, pullAlgorithm, cancelAlgorithm, highWaterMark, sizeAlgorithm);
+          return stream;
+        }
+        function CreateReadableByteStream(startAlgorithm, pullAlgorithm, cancelAlgorithm) {
+          const stream = Object.create(ReadableStream2.prototype);
+          InitializeReadableStream(stream);
+          const controller = Object.create(ReadableByteStreamController.prototype);
+          SetUpReadableByteStreamController(stream, controller, startAlgorithm, pullAlgorithm, cancelAlgorithm, 0, void 0);
+          return stream;
+        }
+        function InitializeReadableStream(stream) {
+          stream._state = "readable";
+          stream._reader = void 0;
+          stream._storedError = void 0;
+          stream._disturbed = false;
+        }
+        function IsReadableStream(x2) {
+          if (!typeIsObject(x2)) {
+            return false;
+          }
+          if (!Object.prototype.hasOwnProperty.call(x2, "_readableStreamController")) {
+            return false;
+          }
+          return x2 instanceof ReadableStream2;
+        }
+        function IsReadableStreamLocked(stream) {
+          if (stream._reader === void 0) {
+            return false;
+          }
+          return true;
+        }
+        function ReadableStreamCancel(stream, reason) {
+          stream._disturbed = true;
+          if (stream._state === "closed") {
+            return promiseResolvedWith(void 0);
+          }
+          if (stream._state === "errored") {
+            return promiseRejectedWith(stream._storedError);
+          }
+          ReadableStreamClose(stream);
+          const reader = stream._reader;
+          if (reader !== void 0 && IsReadableStreamBYOBReader(reader)) {
+            reader._readIntoRequests.forEach((readIntoRequest) => {
+              readIntoRequest._closeSteps(void 0);
+            });
+            reader._readIntoRequests = new SimpleQueue();
+          }
+          const sourceCancelPromise = stream._readableStreamController[CancelSteps](reason);
+          return transformPromiseWith(sourceCancelPromise, noop4);
+        }
+        function ReadableStreamClose(stream) {
+          stream._state = "closed";
+          const reader = stream._reader;
+          if (reader === void 0) {
+            return;
+          }
+          defaultReaderClosedPromiseResolve(reader);
+          if (IsReadableStreamDefaultReader(reader)) {
+            reader._readRequests.forEach((readRequest) => {
+              readRequest._closeSteps();
+            });
+            reader._readRequests = new SimpleQueue();
+          }
+        }
+        function ReadableStreamError(stream, e2) {
+          stream._state = "errored";
+          stream._storedError = e2;
+          const reader = stream._reader;
+          if (reader === void 0) {
+            return;
+          }
+          defaultReaderClosedPromiseReject(reader, e2);
+          if (IsReadableStreamDefaultReader(reader)) {
+            reader._readRequests.forEach((readRequest) => {
+              readRequest._errorSteps(e2);
+            });
+            reader._readRequests = new SimpleQueue();
+          } else {
+            reader._readIntoRequests.forEach((readIntoRequest) => {
+              readIntoRequest._errorSteps(e2);
+            });
+            reader._readIntoRequests = new SimpleQueue();
+          }
+        }
+        function streamBrandCheckException$1(name) {
+          return new TypeError(`ReadableStream.prototype.${name} can only be used on a ReadableStream`);
+        }
+        function convertQueuingStrategyInit(init2, context) {
+          assertDictionary(init2, context);
+          const highWaterMark = init2 === null || init2 === void 0 ? void 0 : init2.highWaterMark;
+          assertRequiredField(highWaterMark, "highWaterMark", "QueuingStrategyInit");
+          return {
+            highWaterMark: convertUnrestrictedDouble(highWaterMark)
+          };
+        }
+        const byteLengthSizeFunction = (chunk) => {
+          return chunk.byteLength;
+        };
+        Object.defineProperty(byteLengthSizeFunction, "name", {
+          value: "size",
+          configurable: true
+        });
+        class ByteLengthQueuingStrategy {
+          constructor(options) {
+            assertRequiredArgument(options, 1, "ByteLengthQueuingStrategy");
+            options = convertQueuingStrategyInit(options, "First parameter");
+            this._byteLengthQueuingStrategyHighWaterMark = options.highWaterMark;
+          }
+          get highWaterMark() {
+            if (!IsByteLengthQueuingStrategy(this)) {
+              throw byteLengthBrandCheckException("highWaterMark");
+            }
+            return this._byteLengthQueuingStrategyHighWaterMark;
+          }
+          get size() {
+            if (!IsByteLengthQueuingStrategy(this)) {
+              throw byteLengthBrandCheckException("size");
+            }
+            return byteLengthSizeFunction;
+          }
+        }
+        Object.defineProperties(ByteLengthQueuingStrategy.prototype, {
+          highWaterMark: { enumerable: true },
+          size: { enumerable: true }
+        });
+        if (typeof SymbolPolyfill.toStringTag === "symbol") {
+          Object.defineProperty(ByteLengthQueuingStrategy.prototype, SymbolPolyfill.toStringTag, {
+            value: "ByteLengthQueuingStrategy",
+            configurable: true
+          });
+        }
+        function byteLengthBrandCheckException(name) {
+          return new TypeError(`ByteLengthQueuingStrategy.prototype.${name} can only be used on a ByteLengthQueuingStrategy`);
+        }
+        function IsByteLengthQueuingStrategy(x2) {
+          if (!typeIsObject(x2)) {
+            return false;
+          }
+          if (!Object.prototype.hasOwnProperty.call(x2, "_byteLengthQueuingStrategyHighWaterMark")) {
+            return false;
+          }
+          return x2 instanceof ByteLengthQueuingStrategy;
+        }
+        const countSizeFunction = () => {
+          return 1;
+        };
+        Object.defineProperty(countSizeFunction, "name", {
+          value: "size",
+          configurable: true
+        });
+        class CountQueuingStrategy {
+          constructor(options) {
+            assertRequiredArgument(options, 1, "CountQueuingStrategy");
+            options = convertQueuingStrategyInit(options, "First parameter");
+            this._countQueuingStrategyHighWaterMark = options.highWaterMark;
+          }
+          get highWaterMark() {
+            if (!IsCountQueuingStrategy(this)) {
+              throw countBrandCheckException("highWaterMark");
+            }
+            return this._countQueuingStrategyHighWaterMark;
+          }
+          get size() {
+            if (!IsCountQueuingStrategy(this)) {
+              throw countBrandCheckException("size");
+            }
+            return countSizeFunction;
+          }
+        }
+        Object.defineProperties(CountQueuingStrategy.prototype, {
+          highWaterMark: { enumerable: true },
+          size: { enumerable: true }
+        });
+        if (typeof SymbolPolyfill.toStringTag === "symbol") {
+          Object.defineProperty(CountQueuingStrategy.prototype, SymbolPolyfill.toStringTag, {
+            value: "CountQueuingStrategy",
+            configurable: true
+          });
+        }
+        function countBrandCheckException(name) {
+          return new TypeError(`CountQueuingStrategy.prototype.${name} can only be used on a CountQueuingStrategy`);
+        }
+        function IsCountQueuingStrategy(x2) {
+          if (!typeIsObject(x2)) {
+            return false;
+          }
+          if (!Object.prototype.hasOwnProperty.call(x2, "_countQueuingStrategyHighWaterMark")) {
+            return false;
+          }
+          return x2 instanceof CountQueuingStrategy;
+        }
+        function convertTransformer(original, context) {
+          assertDictionary(original, context);
+          const flush = original === null || original === void 0 ? void 0 : original.flush;
+          const readableType = original === null || original === void 0 ? void 0 : original.readableType;
+          const start = original === null || original === void 0 ? void 0 : original.start;
+          const transform = original === null || original === void 0 ? void 0 : original.transform;
+          const writableType = original === null || original === void 0 ? void 0 : original.writableType;
+          return {
+            flush: flush === void 0 ? void 0 : convertTransformerFlushCallback(flush, original, `${context} has member 'flush' that`),
+            readableType,
+            start: start === void 0 ? void 0 : convertTransformerStartCallback(start, original, `${context} has member 'start' that`),
+            transform: transform === void 0 ? void 0 : convertTransformerTransformCallback(transform, original, `${context} has member 'transform' that`),
+            writableType
+          };
+        }
+        function convertTransformerFlushCallback(fn, original, context) {
+          assertFunction(fn, context);
+          return (controller) => promiseCall(fn, original, [controller]);
+        }
+        function convertTransformerStartCallback(fn, original, context) {
+          assertFunction(fn, context);
+          return (controller) => reflectCall(fn, original, [controller]);
+        }
+        function convertTransformerTransformCallback(fn, original, context) {
+          assertFunction(fn, context);
+          return (chunk, controller) => promiseCall(fn, original, [chunk, controller]);
+        }
+        class TransformStream {
+          constructor(rawTransformer = {}, rawWritableStrategy = {}, rawReadableStrategy = {}) {
+            if (rawTransformer === void 0) {
+              rawTransformer = null;
+            }
+            const writableStrategy = convertQueuingStrategy(rawWritableStrategy, "Second parameter");
+            const readableStrategy = convertQueuingStrategy(rawReadableStrategy, "Third parameter");
+            const transformer = convertTransformer(rawTransformer, "First parameter");
+            if (transformer.readableType !== void 0) {
+              throw new RangeError("Invalid readableType specified");
+            }
+            if (transformer.writableType !== void 0) {
+              throw new RangeError("Invalid writableType specified");
+            }
+            const readableHighWaterMark = ExtractHighWaterMark(readableStrategy, 0);
+            const readableSizeAlgorithm = ExtractSizeAlgorithm(readableStrategy);
+            const writableHighWaterMark = ExtractHighWaterMark(writableStrategy, 1);
+            const writableSizeAlgorithm = ExtractSizeAlgorithm(writableStrategy);
+            let startPromise_resolve;
+            const startPromise = newPromise((resolve2) => {
+              startPromise_resolve = resolve2;
+            });
+            InitializeTransformStream(this, startPromise, writableHighWaterMark, writableSizeAlgorithm, readableHighWaterMark, readableSizeAlgorithm);
+            SetUpTransformStreamDefaultControllerFromTransformer(this, transformer);
+            if (transformer.start !== void 0) {
+              startPromise_resolve(transformer.start(this._transformStreamController));
+            } else {
+              startPromise_resolve(void 0);
+            }
+          }
+          get readable() {
+            if (!IsTransformStream(this)) {
+              throw streamBrandCheckException("readable");
+            }
+            return this._readable;
+          }
+          get writable() {
+            if (!IsTransformStream(this)) {
+              throw streamBrandCheckException("writable");
+            }
+            return this._writable;
+          }
+        }
+        Object.defineProperties(TransformStream.prototype, {
+          readable: { enumerable: true },
+          writable: { enumerable: true }
+        });
+        if (typeof SymbolPolyfill.toStringTag === "symbol") {
+          Object.defineProperty(TransformStream.prototype, SymbolPolyfill.toStringTag, {
+            value: "TransformStream",
+            configurable: true
+          });
+        }
+        function InitializeTransformStream(stream, startPromise, writableHighWaterMark, writableSizeAlgorithm, readableHighWaterMark, readableSizeAlgorithm) {
+          function startAlgorithm() {
+            return startPromise;
+          }
+          function writeAlgorithm(chunk) {
+            return TransformStreamDefaultSinkWriteAlgorithm(stream, chunk);
+          }
+          function abortAlgorithm(reason) {
+            return TransformStreamDefaultSinkAbortAlgorithm(stream, reason);
+          }
+          function closeAlgorithm() {
+            return TransformStreamDefaultSinkCloseAlgorithm(stream);
+          }
+          stream._writable = CreateWritableStream(startAlgorithm, writeAlgorithm, closeAlgorithm, abortAlgorithm, writableHighWaterMark, writableSizeAlgorithm);
+          function pullAlgorithm() {
+            return TransformStreamDefaultSourcePullAlgorithm(stream);
+          }
+          function cancelAlgorithm(reason) {
+            TransformStreamErrorWritableAndUnblockWrite(stream, reason);
+            return promiseResolvedWith(void 0);
+          }
+          stream._readable = CreateReadableStream(startAlgorithm, pullAlgorithm, cancelAlgorithm, readableHighWaterMark, readableSizeAlgorithm);
+          stream._backpressure = void 0;
+          stream._backpressureChangePromise = void 0;
+          stream._backpressureChangePromise_resolve = void 0;
+          TransformStreamSetBackpressure(stream, true);
+          stream._transformStreamController = void 0;
+        }
+        function IsTransformStream(x2) {
+          if (!typeIsObject(x2)) {
+            return false;
+          }
+          if (!Object.prototype.hasOwnProperty.call(x2, "_transformStreamController")) {
+            return false;
+          }
+          return x2 instanceof TransformStream;
+        }
+        function TransformStreamError(stream, e2) {
+          ReadableStreamDefaultControllerError(stream._readable._readableStreamController, e2);
+          TransformStreamErrorWritableAndUnblockWrite(stream, e2);
+        }
+        function TransformStreamErrorWritableAndUnblockWrite(stream, e2) {
+          TransformStreamDefaultControllerClearAlgorithms(stream._transformStreamController);
+          WritableStreamDefaultControllerErrorIfNeeded(stream._writable._writableStreamController, e2);
+          if (stream._backpressure) {
+            TransformStreamSetBackpressure(stream, false);
+          }
+        }
+        function TransformStreamSetBackpressure(stream, backpressure) {
+          if (stream._backpressureChangePromise !== void 0) {
+            stream._backpressureChangePromise_resolve();
+          }
+          stream._backpressureChangePromise = newPromise((resolve2) => {
+            stream._backpressureChangePromise_resolve = resolve2;
+          });
+          stream._backpressure = backpressure;
+        }
+        class TransformStreamDefaultController {
+          constructor() {
+            throw new TypeError("Illegal constructor");
+          }
+          get desiredSize() {
+            if (!IsTransformStreamDefaultController(this)) {
+              throw defaultControllerBrandCheckException("desiredSize");
+            }
+            const readableController = this._controlledTransformStream._readable._readableStreamController;
+            return ReadableStreamDefaultControllerGetDesiredSize(readableController);
+          }
+          enqueue(chunk = void 0) {
+            if (!IsTransformStreamDefaultController(this)) {
+              throw defaultControllerBrandCheckException("enqueue");
+            }
+            TransformStreamDefaultControllerEnqueue(this, chunk);
+          }
+          error(reason = void 0) {
+            if (!IsTransformStreamDefaultController(this)) {
+              throw defaultControllerBrandCheckException("error");
+            }
+            TransformStreamDefaultControllerError(this, reason);
+          }
+          terminate() {
+            if (!IsTransformStreamDefaultController(this)) {
+              throw defaultControllerBrandCheckException("terminate");
+            }
+            TransformStreamDefaultControllerTerminate(this);
+          }
+        }
+        Object.defineProperties(TransformStreamDefaultController.prototype, {
+          enqueue: { enumerable: true },
+          error: { enumerable: true },
+          terminate: { enumerable: true },
+          desiredSize: { enumerable: true }
+        });
+        if (typeof SymbolPolyfill.toStringTag === "symbol") {
+          Object.defineProperty(TransformStreamDefaultController.prototype, SymbolPolyfill.toStringTag, {
+            value: "TransformStreamDefaultController",
+            configurable: true
+          });
+        }
+        function IsTransformStreamDefaultController(x2) {
+          if (!typeIsObject(x2)) {
+            return false;
+          }
+          if (!Object.prototype.hasOwnProperty.call(x2, "_controlledTransformStream")) {
+            return false;
+          }
+          return x2 instanceof TransformStreamDefaultController;
+        }
+        function SetUpTransformStreamDefaultController(stream, controller, transformAlgorithm, flushAlgorithm) {
+          controller._controlledTransformStream = stream;
+          stream._transformStreamController = controller;
+          controller._transformAlgorithm = transformAlgorithm;
+          controller._flushAlgorithm = flushAlgorithm;
+        }
+        function SetUpTransformStreamDefaultControllerFromTransformer(stream, transformer) {
+          const controller = Object.create(TransformStreamDefaultController.prototype);
+          let transformAlgorithm = (chunk) => {
+            try {
+              TransformStreamDefaultControllerEnqueue(controller, chunk);
+              return promiseResolvedWith(void 0);
+            } catch (transformResultE) {
+              return promiseRejectedWith(transformResultE);
+            }
+          };
+          let flushAlgorithm = () => promiseResolvedWith(void 0);
+          if (transformer.transform !== void 0) {
+            transformAlgorithm = (chunk) => transformer.transform(chunk, controller);
+          }
+          if (transformer.flush !== void 0) {
+            flushAlgorithm = () => transformer.flush(controller);
+          }
+          SetUpTransformStreamDefaultController(stream, controller, transformAlgorithm, flushAlgorithm);
+        }
+        function TransformStreamDefaultControllerClearAlgorithms(controller) {
+          controller._transformAlgorithm = void 0;
+          controller._flushAlgorithm = void 0;
+        }
+        function TransformStreamDefaultControllerEnqueue(controller, chunk) {
+          const stream = controller._controlledTransformStream;
+          const readableController = stream._readable._readableStreamController;
+          if (!ReadableStreamDefaultControllerCanCloseOrEnqueue(readableController)) {
+            throw new TypeError("Readable side is not in a state that permits enqueue");
+          }
+          try {
+            ReadableStreamDefaultControllerEnqueue(readableController, chunk);
+          } catch (e2) {
+            TransformStreamErrorWritableAndUnblockWrite(stream, e2);
+            throw stream._readable._storedError;
+          }
+          const backpressure = ReadableStreamDefaultControllerHasBackpressure(readableController);
+          if (backpressure !== stream._backpressure) {
+            TransformStreamSetBackpressure(stream, true);
+          }
+        }
+        function TransformStreamDefaultControllerError(controller, e2) {
+          TransformStreamError(controller._controlledTransformStream, e2);
+        }
+        function TransformStreamDefaultControllerPerformTransform(controller, chunk) {
+          const transformPromise = controller._transformAlgorithm(chunk);
+          return transformPromiseWith(transformPromise, void 0, (r2) => {
+            TransformStreamError(controller._controlledTransformStream, r2);
+            throw r2;
+          });
+        }
+        function TransformStreamDefaultControllerTerminate(controller) {
+          const stream = controller._controlledTransformStream;
+          const readableController = stream._readable._readableStreamController;
+          ReadableStreamDefaultControllerClose(readableController);
+          const error2 = new TypeError("TransformStream terminated");
+          TransformStreamErrorWritableAndUnblockWrite(stream, error2);
+        }
+        function TransformStreamDefaultSinkWriteAlgorithm(stream, chunk) {
+          const controller = stream._transformStreamController;
+          if (stream._backpressure) {
+            const backpressureChangePromise = stream._backpressureChangePromise;
+            return transformPromiseWith(backpressureChangePromise, () => {
+              const writable3 = stream._writable;
+              const state = writable3._state;
+              if (state === "erroring") {
+                throw writable3._storedError;
+              }
+              return TransformStreamDefaultControllerPerformTransform(controller, chunk);
+            });
+          }
+          return TransformStreamDefaultControllerPerformTransform(controller, chunk);
+        }
+        function TransformStreamDefaultSinkAbortAlgorithm(stream, reason) {
+          TransformStreamError(stream, reason);
+          return promiseResolvedWith(void 0);
+        }
+        function TransformStreamDefaultSinkCloseAlgorithm(stream) {
+          const readable2 = stream._readable;
+          const controller = stream._transformStreamController;
+          const flushPromise = controller._flushAlgorithm();
+          TransformStreamDefaultControllerClearAlgorithms(controller);
+          return transformPromiseWith(flushPromise, () => {
+            if (readable2._state === "errored") {
+              throw readable2._storedError;
+            }
+            ReadableStreamDefaultControllerClose(readable2._readableStreamController);
+          }, (r2) => {
+            TransformStreamError(stream, r2);
+            throw readable2._storedError;
+          });
+        }
+        function TransformStreamDefaultSourcePullAlgorithm(stream) {
+          TransformStreamSetBackpressure(stream, false);
+          return stream._backpressureChangePromise;
+        }
+        function defaultControllerBrandCheckException(name) {
+          return new TypeError(`TransformStreamDefaultController.prototype.${name} can only be used on a TransformStreamDefaultController`);
+        }
+        function streamBrandCheckException(name) {
+          return new TypeError(`TransformStream.prototype.${name} can only be used on a TransformStream`);
+        }
+        exports2.ByteLengthQueuingStrategy = ByteLengthQueuingStrategy;
+        exports2.CountQueuingStrategy = CountQueuingStrategy;
+        exports2.ReadableByteStreamController = ReadableByteStreamController;
+        exports2.ReadableStream = ReadableStream2;
+        exports2.ReadableStreamBYOBReader = ReadableStreamBYOBReader;
+        exports2.ReadableStreamBYOBRequest = ReadableStreamBYOBRequest;
+        exports2.ReadableStreamDefaultController = ReadableStreamDefaultController;
+        exports2.ReadableStreamDefaultReader = ReadableStreamDefaultReader;
+        exports2.TransformStream = TransformStream;
+        exports2.TransformStreamDefaultController = TransformStreamDefaultController;
+        exports2.WritableStream = WritableStream;
+        exports2.WritableStreamDefaultController = WritableStreamDefaultController;
+        exports2.WritableStreamDefaultWriter = WritableStreamDefaultWriter;
+        Object.defineProperty(exports2, "__esModule", { value: true });
+      });
+    })(ponyfill_es2018, ponyfill_es2018.exports);
+    POOL_SIZE$1 = 65536;
+    if (!globalThis.ReadableStream) {
+      try {
+        const process2 = require("process");
+        const { emitWarning } = process2;
+        try {
+          process2.emitWarning = () => {
+          };
+          Object.assign(globalThis, require("stream/web"));
+          process2.emitWarning = emitWarning;
+        } catch (error2) {
+          process2.emitWarning = emitWarning;
+          throw error2;
+        }
+      } catch (error2) {
+        Object.assign(globalThis, ponyfill_es2018.exports);
+      }
+    }
+    try {
+      const { Blob: Blob2 } = require("buffer");
+      if (Blob2 && !Blob2.prototype.stream) {
+        Blob2.prototype.stream = function name(params) {
+          let position = 0;
+          const blob = this;
+          return new ReadableStream({
+            type: "bytes",
+            async pull(ctrl) {
+              const chunk = blob.slice(position, Math.min(blob.size, position + POOL_SIZE$1));
+              const buffer = await chunk.arrayBuffer();
+              position += buffer.byteLength;
+              ctrl.enqueue(new Uint8Array(buffer));
+              if (position === blob.size) {
+                ctrl.close();
+              }
+            }
+          });
+        };
+      }
+    } catch (error2) {
+    }
+    POOL_SIZE = 65536;
+    _Blob = (_a = class {
+      constructor(blobParts = [], options = {}) {
+        __privateAdd(this, _parts, []);
+        __privateAdd(this, _type, "");
+        __privateAdd(this, _size, 0);
+        if (typeof blobParts !== "object" || blobParts === null) {
+          throw new TypeError("Failed to construct 'Blob': The provided value cannot be converted to a sequence.");
+        }
+        if (typeof blobParts[Symbol.iterator] !== "function") {
+          throw new TypeError("Failed to construct 'Blob': The object must have a callable @@iterator property.");
+        }
+        if (typeof options !== "object" && typeof options !== "function") {
+          throw new TypeError("Failed to construct 'Blob': parameter 2 cannot convert to dictionary.");
+        }
+        if (options === null)
+          options = {};
+        const encoder2 = new TextEncoder();
+        for (const element of blobParts) {
+          let part;
+          if (ArrayBuffer.isView(element)) {
+            part = new Uint8Array(element.buffer.slice(element.byteOffset, element.byteOffset + element.byteLength));
+          } else if (element instanceof ArrayBuffer) {
+            part = new Uint8Array(element.slice(0));
+          } else if (element instanceof _a) {
+            part = element;
+          } else {
+            part = encoder2.encode(element);
+          }
+          __privateSet(this, _size, __privateGet(this, _size) + (ArrayBuffer.isView(part) ? part.byteLength : part.size));
+          __privateGet(this, _parts).push(part);
+        }
+        const type = options.type === void 0 ? "" : String(options.type);
+        __privateSet(this, _type, /^[\x20-\x7E]*$/.test(type) ? type : "");
+      }
+      get size() {
+        return __privateGet(this, _size);
+      }
+      get type() {
+        return __privateGet(this, _type);
+      }
+      async text() {
+        const decoder = new TextDecoder();
+        let str = "";
+        for await (const part of toIterator(__privateGet(this, _parts), false)) {
+          str += decoder.decode(part, { stream: true });
+        }
+        str += decoder.decode();
+        return str;
+      }
+      async arrayBuffer() {
+        const data = new Uint8Array(this.size);
+        let offset = 0;
+        for await (const chunk of toIterator(__privateGet(this, _parts), false)) {
+          data.set(chunk, offset);
+          offset += chunk.length;
+        }
+        return data.buffer;
+      }
+      stream() {
+        const it = toIterator(__privateGet(this, _parts), true);
+        return new globalThis.ReadableStream({
+          type: "bytes",
+          async pull(ctrl) {
+            const chunk = await it.next();
+            chunk.done ? ctrl.close() : ctrl.enqueue(chunk.value);
+          },
+          async cancel() {
+            await it.return();
+          }
+        });
+      }
+      slice(start = 0, end = this.size, type = "") {
+        const { size } = this;
+        let relativeStart = start < 0 ? Math.max(size + start, 0) : Math.min(start, size);
+        let relativeEnd = end < 0 ? Math.max(size + end, 0) : Math.min(end, size);
+        const span = Math.max(relativeEnd - relativeStart, 0);
+        const parts = __privateGet(this, _parts);
+        const blobParts = [];
+        let added = 0;
+        for (const part of parts) {
+          if (added >= span) {
+            break;
+          }
+          const size2 = ArrayBuffer.isView(part) ? part.byteLength : part.size;
+          if (relativeStart && size2 <= relativeStart) {
+            relativeStart -= size2;
+            relativeEnd -= size2;
+          } else {
+            let chunk;
+            if (ArrayBuffer.isView(part)) {
+              chunk = part.subarray(relativeStart, Math.min(size2, relativeEnd));
+              added += chunk.byteLength;
+            } else {
+              chunk = part.slice(relativeStart, Math.min(size2, relativeEnd));
+              added += chunk.size;
+            }
+            relativeEnd -= size2;
+            blobParts.push(chunk);
+            relativeStart = 0;
+          }
+        }
+        const blob = new _a([], { type: String(type).toLowerCase() });
+        __privateSet(blob, _size, span);
+        __privateSet(blob, _parts, blobParts);
+        return blob;
+      }
+      get [Symbol.toStringTag]() {
+        return "Blob";
+      }
+      static [Symbol.hasInstance](object) {
+        return object && typeof object === "object" && typeof object.constructor === "function" && (typeof object.stream === "function" || typeof object.arrayBuffer === "function") && /^(Blob|File)$/.test(object[Symbol.toStringTag]);
+      }
+    }, _parts = new WeakMap(), _type = new WeakMap(), _size = new WeakMap(), _a);
+    Object.defineProperties(_Blob.prototype, {
+      size: { enumerable: true },
+      type: { enumerable: true },
+      slice: { enumerable: true }
+    });
+    Blob = _Blob;
+    Blob$1 = Blob;
+    _File = (_a2 = class extends Blob$1 {
+      constructor(fileBits, fileName, options = {}) {
+        if (arguments.length < 2) {
+          throw new TypeError(`Failed to construct 'File': 2 arguments required, but only ${arguments.length} present.`);
+        }
+        super(fileBits, options);
+        __privateAdd(this, _lastModified, 0);
+        __privateAdd(this, _name, "");
+        if (options === null)
+          options = {};
+        const lastModified = options.lastModified === void 0 ? Date.now() : Number(options.lastModified);
+        if (!Number.isNaN(lastModified)) {
+          __privateSet(this, _lastModified, lastModified);
+        }
+        __privateSet(this, _name, String(fileName));
+      }
+      get name() {
+        return __privateGet(this, _name);
+      }
+      get lastModified() {
+        return __privateGet(this, _lastModified);
+      }
+      get [Symbol.toStringTag]() {
+        return "File";
+      }
+    }, _lastModified = new WeakMap(), _name = new WeakMap(), _a2);
+    File = _File;
+    ({ toStringTag: t, iterator: i, hasInstance: h } = Symbol);
+    r = Math.random;
+    m = "append,set,get,getAll,delete,keys,values,entries,forEach,constructor".split(",");
+    f2 = (a, b, c) => (a += "", /^(Blob|File)$/.test(b && b[t]) ? [(c = c !== void 0 ? c + "" : b[t] == "File" ? b.name : "blob", a), b.name !== c || b[t] == "blob" ? new File([b], c, b) : b] : [a, b + ""]);
+    e = (c, f3) => (f3 ? c : c.replace(/\r?\n|\r/g, "\r\n")).replace(/\n/g, "%0A").replace(/\r/g, "%0D").replace(/"/g, "%22");
+    x = (n, a, e2) => {
+      if (a.length < e2) {
+        throw new TypeError(`Failed to execute '${n}' on 'FormData': ${e2} arguments required, but only ${a.length} present.`);
+      }
+    };
+    FormData = (_a3 = class {
+      constructor(...a) {
+        __privateAdd(this, _d, []);
+        if (a.length)
+          throw new TypeError(`Failed to construct 'FormData': parameter 1 is not of type 'HTMLFormElement'.`);
+      }
+      get [t]() {
+        return "FormData";
+      }
+      [i]() {
+        return this.entries();
+      }
+      static [h](o) {
+        return o && typeof o === "object" && o[t] === "FormData" && !m.some((m2) => typeof o[m2] != "function");
+      }
+      append(...a) {
+        x("append", arguments, 2);
+        __privateGet(this, _d).push(f2(...a));
+      }
+      delete(a) {
+        x("delete", arguments, 1);
+        a += "";
+        __privateSet(this, _d, __privateGet(this, _d).filter(([b]) => b !== a));
+      }
+      get(a) {
+        x("get", arguments, 1);
+        a += "";
+        for (var b = __privateGet(this, _d), l = b.length, c = 0; c < l; c++)
+          if (b[c][0] === a)
+            return b[c][1];
+        return null;
+      }
+      getAll(a, b) {
+        x("getAll", arguments, 1);
+        b = [];
+        a += "";
+        __privateGet(this, _d).forEach((c) => c[0] === a && b.push(c[1]));
+        return b;
+      }
+      has(a) {
+        x("has", arguments, 1);
+        a += "";
+        return __privateGet(this, _d).some((b) => b[0] === a);
+      }
+      forEach(a, b) {
+        x("forEach", arguments, 1);
+        for (var [c, d] of this)
+          a.call(b, d, c, this);
+      }
+      set(...a) {
+        x("set", arguments, 2);
+        var b = [], c = true;
+        a = f2(...a);
+        __privateGet(this, _d).forEach((d) => {
+          d[0] === a[0] ? c && (c = !b.push(a)) : b.push(d);
+        });
+        c && b.push(a);
+        __privateSet(this, _d, b);
+      }
+      *entries() {
+        yield* __privateGet(this, _d);
+      }
+      *keys() {
+        for (var [a] of this)
+          yield a;
+      }
+      *values() {
+        for (var [, a] of this)
+          yield a;
+      }
+    }, _d = new WeakMap(), _a3);
+    FetchBaseError = class extends Error {
+      constructor(message, type) {
+        super(message);
+        Error.captureStackTrace(this, this.constructor);
+        this.type = type;
+      }
+      get name() {
+        return this.constructor.name;
+      }
+      get [Symbol.toStringTag]() {
+        return this.constructor.name;
+      }
+    };
+    FetchError = class extends FetchBaseError {
+      constructor(message, type, systemError) {
+        super(message, type);
+        if (systemError) {
+          this.code = this.errno = systemError.code;
+          this.erroredSysCall = systemError.syscall;
+        }
+      }
+    };
+    NAME = Symbol.toStringTag;
+    isURLSearchParameters = (object) => {
+      return typeof object === "object" && typeof object.append === "function" && typeof object.delete === "function" && typeof object.get === "function" && typeof object.getAll === "function" && typeof object.has === "function" && typeof object.set === "function" && typeof object.sort === "function" && object[NAME] === "URLSearchParams";
+    };
+    isBlob = (object) => {
+      return object && typeof object === "object" && typeof object.arrayBuffer === "function" && typeof object.type === "string" && typeof object.stream === "function" && typeof object.constructor === "function" && /^(Blob|File)$/.test(object[NAME]);
+    };
+    isAbortSignal = (object) => {
+      return typeof object === "object" && (object[NAME] === "AbortSignal" || object[NAME] === "EventTarget");
+    };
+    INTERNALS$2 = Symbol("Body internals");
+    Body = class {
+      constructor(body, {
+        size = 0
+      } = {}) {
+        let boundary = null;
+        if (body === null) {
+          body = null;
+        } else if (isURLSearchParameters(body)) {
+          body = Buffer.from(body.toString());
+        } else if (isBlob(body))
+          ;
+        else if (Buffer.isBuffer(body))
+          ;
+        else if (import_node_util.types.isAnyArrayBuffer(body)) {
+          body = Buffer.from(body);
+        } else if (ArrayBuffer.isView(body)) {
+          body = Buffer.from(body.buffer, body.byteOffset, body.byteLength);
+        } else if (body instanceof import_node_stream.default)
+          ;
+        else if (body instanceof FormData) {
+          body = formDataToBlob(body);
+          boundary = body.type.split("=")[1];
+        } else {
+          body = Buffer.from(String(body));
+        }
+        let stream = body;
+        if (Buffer.isBuffer(body)) {
+          stream = import_node_stream.default.Readable.from(body);
+        } else if (isBlob(body)) {
+          stream = import_node_stream.default.Readable.from(body.stream());
+        }
+        this[INTERNALS$2] = {
+          body,
+          stream,
+          boundary,
+          disturbed: false,
+          error: null
+        };
+        this.size = size;
+        if (body instanceof import_node_stream.default) {
+          body.on("error", (error_) => {
+            const error2 = error_ instanceof FetchBaseError ? error_ : new FetchError(`Invalid response body while trying to fetch ${this.url}: ${error_.message}`, "system", error_);
+            this[INTERNALS$2].error = error2;
+          });
+        }
+      }
+      get body() {
+        return this[INTERNALS$2].stream;
+      }
+      get bodyUsed() {
+        return this[INTERNALS$2].disturbed;
+      }
+      async arrayBuffer() {
+        const { buffer, byteOffset, byteLength } = await consumeBody(this);
+        return buffer.slice(byteOffset, byteOffset + byteLength);
+      }
+      async formData() {
+        const ct = this.headers.get("content-type");
+        if (ct.startsWith("application/x-www-form-urlencoded")) {
+          const formData = new FormData();
+          const parameters = new URLSearchParams(await this.text());
+          for (const [name, value] of parameters) {
+            formData.append(name, value);
+          }
+          return formData;
+        }
+        const { toFormData: toFormData2 } = await Promise.resolve().then(() => (init_multipart_parser(), multipart_parser_exports));
+        return toFormData2(this.body, ct);
+      }
+      async blob() {
+        const ct = this.headers && this.headers.get("content-type") || this[INTERNALS$2].body && this[INTERNALS$2].body.type || "";
+        const buf = await this.buffer();
+        return new Blob$1([buf], {
+          type: ct
+        });
+      }
+      async json() {
+        const buffer = await consumeBody(this);
+        return JSON.parse(buffer.toString());
+      }
+      async text() {
+        const buffer = await consumeBody(this);
+        return buffer.toString();
+      }
+      buffer() {
+        return consumeBody(this);
+      }
+    };
+    Body.prototype.buffer = (0, import_node_util.deprecate)(Body.prototype.buffer, "Please use 'response.arrayBuffer()' instead of 'response.buffer()'", "node-fetch#buffer");
+    Object.defineProperties(Body.prototype, {
+      body: { enumerable: true },
+      bodyUsed: { enumerable: true },
+      arrayBuffer: { enumerable: true },
+      blob: { enumerable: true },
+      json: { enumerable: true },
+      text: { enumerable: true }
+    });
+    clone = (instance, highWaterMark) => {
+      let p1;
+      let p2;
+      let { body } = instance[INTERNALS$2];
+      if (instance.bodyUsed) {
+        throw new Error("cannot clone body after it is used");
+      }
+      if (body instanceof import_node_stream.default && typeof body.getBoundary !== "function") {
+        p1 = new import_node_stream.PassThrough({ highWaterMark });
+        p2 = new import_node_stream.PassThrough({ highWaterMark });
+        body.pipe(p1);
+        body.pipe(p2);
+        instance[INTERNALS$2].stream = p1;
+        body = p2;
+      }
+      return body;
+    };
+    getNonSpecFormDataBoundary = (0, import_node_util.deprecate)((body) => body.getBoundary(), "form-data doesn't follow the spec and requires special treatment. Use alternative package", "https://github.com/node-fetch/node-fetch/issues/1167");
+    extractContentType = (body, request) => {
+      if (body === null) {
+        return null;
+      }
+      if (typeof body === "string") {
+        return "text/plain;charset=UTF-8";
+      }
+      if (isURLSearchParameters(body)) {
+        return "application/x-www-form-urlencoded;charset=UTF-8";
+      }
+      if (isBlob(body)) {
+        return body.type || null;
+      }
+      if (Buffer.isBuffer(body) || import_node_util.types.isAnyArrayBuffer(body) || ArrayBuffer.isView(body)) {
+        return null;
+      }
+      if (body instanceof FormData) {
+        return `multipart/form-data; boundary=${request[INTERNALS$2].boundary}`;
+      }
+      if (body && typeof body.getBoundary === "function") {
+        return `multipart/form-data;boundary=${getNonSpecFormDataBoundary(body)}`;
+      }
+      if (body instanceof import_node_stream.default) {
+        return null;
+      }
+      return "text/plain;charset=UTF-8";
+    };
+    getTotalBytes = (request) => {
+      const { body } = request[INTERNALS$2];
+      if (body === null) {
+        return 0;
+      }
+      if (isBlob(body)) {
+        return body.size;
+      }
+      if (Buffer.isBuffer(body)) {
+        return body.length;
+      }
+      if (body && typeof body.getLengthSync === "function") {
+        return body.hasKnownLength && body.hasKnownLength() ? body.getLengthSync() : null;
+      }
+      return null;
+    };
+    writeToStream = (dest, { body }) => {
+      if (body === null) {
+        dest.end();
+      } else {
+        body.pipe(dest);
+      }
+    };
+    validateHeaderName = typeof import_node_http.default.validateHeaderName === "function" ? import_node_http.default.validateHeaderName : (name) => {
+      if (!/^[\^`\-\w!#$%&'*+.|~]+$/.test(name)) {
+        const error2 = new TypeError(`Header name must be a valid HTTP token [${name}]`);
+        Object.defineProperty(error2, "code", { value: "ERR_INVALID_HTTP_TOKEN" });
+        throw error2;
+      }
+    };
+    validateHeaderValue = typeof import_node_http.default.validateHeaderValue === "function" ? import_node_http.default.validateHeaderValue : (name, value) => {
+      if (/[^\t\u0020-\u007E\u0080-\u00FF]/.test(value)) {
+        const error2 = new TypeError(`Invalid character in header content ["${name}"]`);
+        Object.defineProperty(error2, "code", { value: "ERR_INVALID_CHAR" });
+        throw error2;
+      }
+    };
+    Headers2 = class extends URLSearchParams {
+      constructor(init2) {
+        let result = [];
+        if (init2 instanceof Headers2) {
+          const raw = init2.raw();
+          for (const [name, values] of Object.entries(raw)) {
+            result.push(...values.map((value) => [name, value]));
+          }
+        } else if (init2 == null)
+          ;
+        else if (typeof init2 === "object" && !import_node_util.types.isBoxedPrimitive(init2)) {
+          const method = init2[Symbol.iterator];
+          if (method == null) {
+            result.push(...Object.entries(init2));
+          } else {
+            if (typeof method !== "function") {
+              throw new TypeError("Header pairs must be iterable");
+            }
+            result = [...init2].map((pair) => {
+              if (typeof pair !== "object" || import_node_util.types.isBoxedPrimitive(pair)) {
+                throw new TypeError("Each header pair must be an iterable object");
+              }
+              return [...pair];
+            }).map((pair) => {
+              if (pair.length !== 2) {
+                throw new TypeError("Each header pair must be a name/value tuple");
+              }
+              return [...pair];
+            });
+          }
+        } else {
+          throw new TypeError("Failed to construct 'Headers': The provided value is not of type '(sequence<sequence<ByteString>> or record<ByteString, ByteString>)");
+        }
+        result = result.length > 0 ? result.map(([name, value]) => {
+          validateHeaderName(name);
+          validateHeaderValue(name, String(value));
+          return [String(name).toLowerCase(), String(value)];
+        }) : void 0;
+        super(result);
+        return new Proxy(this, {
+          get(target, p, receiver) {
+            switch (p) {
+              case "append":
+              case "set":
+                return (name, value) => {
+                  validateHeaderName(name);
+                  validateHeaderValue(name, String(value));
+                  return URLSearchParams.prototype[p].call(target, String(name).toLowerCase(), String(value));
+                };
+              case "delete":
+              case "has":
+              case "getAll":
+                return (name) => {
+                  validateHeaderName(name);
+                  return URLSearchParams.prototype[p].call(target, String(name).toLowerCase());
+                };
+              case "keys":
+                return () => {
+                  target.sort();
+                  return new Set(URLSearchParams.prototype.keys.call(target)).keys();
+                };
+              default:
+                return Reflect.get(target, p, receiver);
+            }
+          }
+        });
+      }
+      get [Symbol.toStringTag]() {
+        return this.constructor.name;
+      }
+      toString() {
+        return Object.prototype.toString.call(this);
+      }
+      get(name) {
+        const values = this.getAll(name);
+        if (values.length === 0) {
+          return null;
+        }
+        let value = values.join(", ");
+        if (/^content-encoding$/i.test(name)) {
+          value = value.toLowerCase();
+        }
+        return value;
+      }
+      forEach(callback, thisArg = void 0) {
+        for (const name of this.keys()) {
+          Reflect.apply(callback, thisArg, [this.get(name), name, this]);
+        }
+      }
+      *values() {
+        for (const name of this.keys()) {
+          yield this.get(name);
+        }
+      }
+      *entries() {
+        for (const name of this.keys()) {
+          yield [name, this.get(name)];
+        }
+      }
+      [Symbol.iterator]() {
+        return this.entries();
+      }
+      raw() {
+        return [...this.keys()].reduce((result, key2) => {
+          result[key2] = this.getAll(key2);
+          return result;
+        }, {});
+      }
+      [Symbol.for("nodejs.util.inspect.custom")]() {
+        return [...this.keys()].reduce((result, key2) => {
+          const values = this.getAll(key2);
+          if (key2 === "host") {
+            result[key2] = values[0];
+          } else {
+            result[key2] = values.length > 1 ? values : values[0];
+          }
+          return result;
+        }, {});
+      }
+    };
+    Object.defineProperties(Headers2.prototype, ["get", "entries", "forEach", "values"].reduce((result, property) => {
+      result[property] = { enumerable: true };
+      return result;
+    }, {}));
+    redirectStatus = /* @__PURE__ */ new Set([301, 302, 303, 307, 308]);
+    isRedirect = (code) => {
+      return redirectStatus.has(code);
+    };
+    INTERNALS$1 = Symbol("Response internals");
+    Response2 = class extends Body {
+      constructor(body = null, options = {}) {
+        super(body, options);
+        const status = options.status != null ? options.status : 200;
+        const headers = new Headers2(options.headers);
+        if (body !== null && !headers.has("Content-Type")) {
+          const contentType = extractContentType(body, this);
+          if (contentType) {
+            headers.append("Content-Type", contentType);
+          }
+        }
+        this[INTERNALS$1] = {
+          type: "default",
+          url: options.url,
+          status,
+          statusText: options.statusText || "",
+          headers,
+          counter: options.counter,
+          highWaterMark: options.highWaterMark
+        };
+      }
+      get type() {
+        return this[INTERNALS$1].type;
+      }
+      get url() {
+        return this[INTERNALS$1].url || "";
+      }
+      get status() {
+        return this[INTERNALS$1].status;
+      }
+      get ok() {
+        return this[INTERNALS$1].status >= 200 && this[INTERNALS$1].status < 300;
+      }
+      get redirected() {
+        return this[INTERNALS$1].counter > 0;
+      }
+      get statusText() {
+        return this[INTERNALS$1].statusText;
+      }
+      get headers() {
+        return this[INTERNALS$1].headers;
+      }
+      get highWaterMark() {
+        return this[INTERNALS$1].highWaterMark;
+      }
+      clone() {
+        return new Response2(clone(this, this.highWaterMark), {
+          type: this.type,
+          url: this.url,
+          status: this.status,
+          statusText: this.statusText,
+          headers: this.headers,
+          ok: this.ok,
+          redirected: this.redirected,
+          size: this.size,
+          highWaterMark: this.highWaterMark
+        });
+      }
+      static redirect(url, status = 302) {
+        if (!isRedirect(status)) {
+          throw new RangeError('Failed to execute "redirect" on "response": Invalid status code');
+        }
+        return new Response2(null, {
+          headers: {
+            location: new URL(url).toString()
+          },
+          status
+        });
+      }
+      static error() {
+        const response = new Response2(null, { status: 0, statusText: "" });
+        response[INTERNALS$1].type = "error";
+        return response;
+      }
+      get [Symbol.toStringTag]() {
+        return "Response";
+      }
+    };
+    Object.defineProperties(Response2.prototype, {
+      type: { enumerable: true },
+      url: { enumerable: true },
+      status: { enumerable: true },
+      ok: { enumerable: true },
+      redirected: { enumerable: true },
+      statusText: { enumerable: true },
+      headers: { enumerable: true },
+      clone: { enumerable: true }
+    });
+    getSearch = (parsedURL) => {
+      if (parsedURL.search) {
+        return parsedURL.search;
+      }
+      const lastOffset = parsedURL.href.length - 1;
+      const hash2 = parsedURL.hash || (parsedURL.href[lastOffset] === "#" ? "#" : "");
+      return parsedURL.href[lastOffset - hash2.length] === "?" ? "?" : "";
+    };
+    ReferrerPolicy = /* @__PURE__ */ new Set([
+      "",
+      "no-referrer",
+      "no-referrer-when-downgrade",
+      "same-origin",
+      "origin",
+      "strict-origin",
+      "origin-when-cross-origin",
+      "strict-origin-when-cross-origin",
+      "unsafe-url"
+    ]);
+    DEFAULT_REFERRER_POLICY = "strict-origin-when-cross-origin";
+    INTERNALS = Symbol("Request internals");
+    isRequest = (object) => {
+      return typeof object === "object" && typeof object[INTERNALS] === "object";
+    };
+    Request2 = class extends Body {
+      constructor(input, init2 = {}) {
+        let parsedURL;
+        if (isRequest(input)) {
+          parsedURL = new URL(input.url);
+        } else {
+          parsedURL = new URL(input);
+          input = {};
+        }
+        if (parsedURL.username !== "" || parsedURL.password !== "") {
+          throw new TypeError(`${parsedURL} is an url with embedded credentails.`);
+        }
+        let method = init2.method || input.method || "GET";
+        method = method.toUpperCase();
+        if ((init2.body != null || isRequest(input)) && input.body !== null && (method === "GET" || method === "HEAD")) {
+          throw new TypeError("Request with GET/HEAD method cannot have body");
+        }
+        const inputBody = init2.body ? init2.body : isRequest(input) && input.body !== null ? clone(input) : null;
+        super(inputBody, {
+          size: init2.size || input.size || 0
+        });
+        const headers = new Headers2(init2.headers || input.headers || {});
+        if (inputBody !== null && !headers.has("Content-Type")) {
+          const contentType = extractContentType(inputBody, this);
+          if (contentType) {
+            headers.set("Content-Type", contentType);
+          }
+        }
+        let signal = isRequest(input) ? input.signal : null;
+        if ("signal" in init2) {
+          signal = init2.signal;
+        }
+        if (signal != null && !isAbortSignal(signal)) {
+          throw new TypeError("Expected signal to be an instanceof AbortSignal or EventTarget");
+        }
+        let referrer = init2.referrer == null ? input.referrer : init2.referrer;
+        if (referrer === "") {
+          referrer = "no-referrer";
+        } else if (referrer) {
+          const parsedReferrer = new URL(referrer);
+          referrer = /^about:(\/\/)?client$/.test(parsedReferrer) ? "client" : parsedReferrer;
+        } else {
+          referrer = void 0;
+        }
+        this[INTERNALS] = {
+          method,
+          redirect: init2.redirect || input.redirect || "follow",
+          headers,
+          parsedURL,
+          signal,
+          referrer
+        };
+        this.follow = init2.follow === void 0 ? input.follow === void 0 ? 20 : input.follow : init2.follow;
+        this.compress = init2.compress === void 0 ? input.compress === void 0 ? true : input.compress : init2.compress;
+        this.counter = init2.counter || input.counter || 0;
+        this.agent = init2.agent || input.agent;
+        this.highWaterMark = init2.highWaterMark || input.highWaterMark || 16384;
+        this.insecureHTTPParser = init2.insecureHTTPParser || input.insecureHTTPParser || false;
+        this.referrerPolicy = init2.referrerPolicy || input.referrerPolicy || "";
+      }
+      get method() {
+        return this[INTERNALS].method;
+      }
+      get url() {
+        return (0, import_node_url.format)(this[INTERNALS].parsedURL);
+      }
+      get headers() {
+        return this[INTERNALS].headers;
+      }
+      get redirect() {
+        return this[INTERNALS].redirect;
+      }
+      get signal() {
+        return this[INTERNALS].signal;
+      }
+      get referrer() {
+        if (this[INTERNALS].referrer === "no-referrer") {
+          return "";
+        }
+        if (this[INTERNALS].referrer === "client") {
+          return "about:client";
+        }
+        if (this[INTERNALS].referrer) {
+          return this[INTERNALS].referrer.toString();
+        }
+        return void 0;
+      }
+      get referrerPolicy() {
+        return this[INTERNALS].referrerPolicy;
+      }
+      set referrerPolicy(referrerPolicy) {
+        this[INTERNALS].referrerPolicy = validateReferrerPolicy(referrerPolicy);
+      }
+      clone() {
+        return new Request2(this);
+      }
+      get [Symbol.toStringTag]() {
+        return "Request";
+      }
+    };
+    Object.defineProperties(Request2.prototype, {
+      method: { enumerable: true },
+      url: { enumerable: true },
+      headers: { enumerable: true },
+      redirect: { enumerable: true },
+      clone: { enumerable: true },
+      signal: { enumerable: true },
+      referrer: { enumerable: true },
+      referrerPolicy: { enumerable: true }
+    });
+    getNodeRequestOptions = (request) => {
+      const { parsedURL } = request[INTERNALS];
+      const headers = new Headers2(request[INTERNALS].headers);
+      if (!headers.has("Accept")) {
+        headers.set("Accept", "*/*");
+      }
+      let contentLengthValue = null;
+      if (request.body === null && /^(post|put)$/i.test(request.method)) {
+        contentLengthValue = "0";
+      }
+      if (request.body !== null) {
+        const totalBytes = getTotalBytes(request);
+        if (typeof totalBytes === "number" && !Number.isNaN(totalBytes)) {
+          contentLengthValue = String(totalBytes);
+        }
+      }
+      if (contentLengthValue) {
+        headers.set("Content-Length", contentLengthValue);
+      }
+      if (request.referrerPolicy === "") {
+        request.referrerPolicy = DEFAULT_REFERRER_POLICY;
+      }
+      if (request.referrer && request.referrer !== "no-referrer") {
+        request[INTERNALS].referrer = determineRequestsReferrer(request);
+      } else {
+        request[INTERNALS].referrer = "no-referrer";
+      }
+      if (request[INTERNALS].referrer instanceof URL) {
+        headers.set("Referer", request.referrer);
+      }
+      if (!headers.has("User-Agent")) {
+        headers.set("User-Agent", "node-fetch");
+      }
+      if (request.compress && !headers.has("Accept-Encoding")) {
+        headers.set("Accept-Encoding", "gzip,deflate,br");
+      }
+      let { agent } = request;
+      if (typeof agent === "function") {
+        agent = agent(parsedURL);
+      }
+      if (!headers.has("Connection") && !agent) {
+        headers.set("Connection", "close");
+      }
+      const search = getSearch(parsedURL);
+      const options = {
+        path: parsedURL.pathname + search,
+        method: request.method,
+        headers: headers[Symbol.for("nodejs.util.inspect.custom")](),
+        insecureHTTPParser: request.insecureHTTPParser,
+        agent
+      };
+      return {
+        parsedURL,
+        options
+      };
+    };
+    AbortError = class extends FetchBaseError {
+      constructor(message, type = "aborted") {
+        super(message, type);
+      }
+    };
+    supportedSchemas = /* @__PURE__ */ new Set(["data:", "http:", "https:"]);
+  }
+});
+
+// .svelte-kit/output/server/chunks/index-811e4c83.js
+function noop2() {
+}
+function run(fn) {
+  return fn();
+}
+function blank_object() {
+  return /* @__PURE__ */ Object.create(null);
+}
+function run_all(fns) {
+  fns.forEach(run);
+}
+function safe_not_equal(a, b) {
+  return a != a ? b == b : a !== b || (a && typeof a === "object" || typeof a === "function");
+}
+function subscribe(store, ...callbacks) {
+  if (store == null) {
+    return noop2;
+  }
+  const unsub = store.subscribe(...callbacks);
+  return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
+}
+function set_current_component(component) {
+  current_component = component;
+}
+function get_current_component() {
+  if (!current_component)
+    throw new Error("Function called outside component initialization");
+  return current_component;
+}
+function onDestroy(fn) {
+  get_current_component().$$.on_destroy.push(fn);
+}
+function setContext(key2, context) {
+  get_current_component().$$.context.set(key2, context);
+}
+function getContext(key2) {
+  return get_current_component().$$.context.get(key2);
+}
+function escape(html) {
+  return String(html).replace(/["'&<>]/g, (match) => escaped[match]);
+}
+function escape_attribute_value(value) {
+  return typeof value === "string" ? escape(value) : value;
+}
+function each(items, fn) {
+  let str = "";
+  for (let i2 = 0; i2 < items.length; i2 += 1) {
+    str += fn(items[i2], i2);
+  }
+  return str;
+}
+function validate_component(component, name) {
+  if (!component || !component.$$render) {
+    if (name === "svelte:component")
+      name += " this={...}";
+    throw new Error(`<${name}> is not a valid SSR component. You may need to review your build config to ensure that dependencies are compiled, rather than imported as pre-compiled modules`);
+  }
+  return component;
+}
+function create_ssr_component(fn) {
+  function $$render(result, props, bindings, slots, context) {
+    const parent_component = current_component;
+    const $$ = {
+      on_destroy,
+      context: new Map(context || (parent_component ? parent_component.$$.context : [])),
+      on_mount: [],
+      before_update: [],
+      after_update: [],
+      callbacks: blank_object()
+    };
+    set_current_component({ $$ });
+    const html = fn(result, props, bindings, slots);
+    set_current_component(parent_component);
+    return html;
+  }
+  return {
+    render: (props = {}, { $$slots = {}, context = /* @__PURE__ */ new Map() } = {}) => {
+      on_destroy = [];
+      const result = { title: "", head: "", css: /* @__PURE__ */ new Set() };
+      const html = $$render(result, props, {}, $$slots, context);
+      run_all(on_destroy);
+      return {
+        html,
+        css: {
+          code: Array.from(result.css).map((css19) => css19.code).join("\n"),
+          map: null
+        },
+        head: result.title + result.head
+      };
+    },
+    $$render
+  };
+}
+function add_attribute(name, value, boolean) {
+  if (value == null || boolean && !value)
+    return "";
+  const assignment = boolean && value === true ? "" : `="${escape_attribute_value(value.toString())}"`;
+  return ` ${name}${assignment}`;
+}
+var current_component, escaped, missing_component, on_destroy;
+var init_index_811e4c83 = __esm({
+  ".svelte-kit/output/server/chunks/index-811e4c83.js"() {
+    Promise.resolve();
+    escaped = {
+      '"': "&quot;",
+      "'": "&#39;",
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;"
+    };
+    missing_component = {
+      $$render: () => ""
+    };
+  }
+});
+
+// .svelte-kit/output/server/chunks/hooks-1c45ba0b.js
+var hooks_1c45ba0b_exports = {};
+var init_hooks_1c45ba0b = __esm({
+  ".svelte-kit/output/server/chunks/hooks-1c45ba0b.js"() {
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/__layout.svelte.js
+var layout_svelte_exports = {};
+__export(layout_svelte_exports, {
+  default: () => _layout
+});
+function writable2(value, start = noop2) {
+  let stop;
+  const subscribers = /* @__PURE__ */ new Set();
+  function set(new_value) {
+    if (safe_not_equal(value, new_value)) {
+      value = new_value;
+      if (stop) {
+        const run_queue = !subscriber_queue2.length;
+        for (const subscriber of subscribers) {
+          subscriber[1]();
+          subscriber_queue2.push(subscriber, value);
+        }
+        if (run_queue) {
+          for (let i2 = 0; i2 < subscriber_queue2.length; i2 += 2) {
+            subscriber_queue2[i2][0](subscriber_queue2[i2 + 1]);
+          }
+          subscriber_queue2.length = 0;
+        }
+      }
+    }
+  }
+  function update(fn) {
+    set(fn(value));
+  }
+  function subscribe2(run2, invalidate = noop2) {
+    const subscriber = [run2, invalidate];
+    subscribers.add(subscriber);
+    if (subscribers.size === 1) {
+      stop = start(set) || noop2;
+    }
+    run2(value);
+    return () => {
+      subscribers.delete(subscriber);
+      if (subscribers.size === 0) {
+        stop();
+        stop = null;
+      }
+    };
+  }
+  return { set, update, subscribe: subscribe2 };
+}
+function createColorMode() {
+  const { subscribe: subscribe2, set, update } = writable2("");
+  return {
+    subscribe: subscribe2,
+    toggle: () => update((a) => a === "light" || a === "" ? "dark" : "light"),
+    setLightMode: () => set("light"),
+    setDarkMode: () => set("dark"),
+    setMode: (mode) => set(mode),
+    reset: () => set("")
+  };
+}
+function setColorMode(newMode, localStorage = false) {
+  const root = document.documentElement;
+  if (newMode === "") {
+    root.getAttribute("data-color-mode") === "dark" ? newMode = "light" : newMode = "dark";
+  }
+  root.setAttribute("data-color-mode", newMode);
+  if (localStorage) {
+    window.localStorage.setItem("color-mode", newMode);
+  }
+}
+var css$2, Footer, getStores, page, subscriber_queue2, colorMode, css$1, Header, css, _layout;
+var init_layout_svelte = __esm({
+  ".svelte-kit/output/server/entries/pages/__layout.svelte.js"() {
+    init_index_811e4c83();
+    css$2 = {
+      code: "footer.svelte-dy6fjt.svelte-dy6fjt{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;color:var(--med-light-gray);padding-bottom:1rem;min-height:6rem}footer.svelte-dy6fjt a.svelte-dy6fjt{color:var(--med-gray)}footer.svelte-dy6fjt a.svelte-dy6fjt:hover{color:var(--med-dark-gray)}footer.svelte-dy6fjt a.svelte-dy6fjt:active{color:var(--dark-gray)}footer.svelte-dy6fjt div.svelte-dy6fjt{text-align:center;margin:0;position:relative;padding:0.1rem}",
+      map: null
+    };
+    Footer = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      $$result.css.add(css$2);
+      return `<footer class="${"svelte-dy6fjt"}"><div class="${"svelte-dy6fjt"}">This work licensed under
+    <a href="${"https://creativecommons.org/licenses/by-nc-sa/4.0"}" class="${"svelte-dy6fjt"}">CC BY-NC-SA 4.0</a></div>
+</footer>`;
+    });
+    getStores = () => {
+      const stores = getContext("__svelte__");
+      return {
+        page: {
+          subscribe: stores.page.subscribe
+        },
+        navigating: {
+          subscribe: stores.navigating.subscribe
+        },
+        get preloading() {
+          console.error("stores.preloading is deprecated; use stores.navigating instead");
+          return {
+            subscribe: stores.navigating.subscribe
+          };
+        },
+        session: stores.session,
+        updated: stores.updated
+      };
+    };
+    page = {
+      subscribe(fn) {
+        const store = getStores().page;
+        return store.subscribe(fn);
+      }
+    };
+    subscriber_queue2 = [];
+    colorMode = createColorMode();
+    css$1 = {
+      code: '#header.svelte-c1vu3p.svelte-c1vu3p{display:flex;align-items:center;position:relative;padding-top:1rem;z-index:1}#color-mode-toggle.svelte-c1vu3p.svelte-c1vu3p{touch-action:manipulation;stroke:white;fill:var(--fg);display:inline-flex;justify-content:center;padding-left:1rem;cursor:pointer}#color-mode-toggle.svelte-c1vu3p img.svelte-c1vu3p{width:24px}#logo.svelte-c1vu3p.svelte-c1vu3p{touch-action:manipulation;transition:transform 100ms ease, filter 100ms ease;position:relative}#logo.svelte-c1vu3p.svelte-c1vu3p:hover{transition:transform 240ms cubic-bezier(0, 0.62, 0.34, 1);transform:scale(116%) rotate(-4deg)}#logo.svelte-c1vu3p:hover #logo-shadow.svelte-c1vu3p{top:0.2rem;opacity:0.2;transition:all 240ms cubic-bezier(0, 0.62, 0.34, 1)}#logo.svelte-c1vu3p.svelte-c1vu3p:active{transition:transform 100ms ease;transform:scale(112%) rotate(-3deg)}#logo.svelte-c1vu3p:active #logo-shadow.svelte-c1vu3p{transition:all 100ms ease;top:0.15rem;opacity:0.15}#logo.svelte-c1vu3p #logo-shadow.svelte-c1vu3p{left:0;top:0;position:absolute;z-index:-1;opacity:0;filter:brightness(0) blur(0.2rem);transition:all 100ms ease, filter 100ms ease}nav.svelte-c1vu3p .nav-container.svelte-c1vu3p{display:flex;align-items:center}nav.svelte-c1vu3p button.svelte-c1vu3p{background:none;border:none}nav.svelte-c1vu3p .nav-item.svelte-c1vu3p{touch-action:manipulation;padding:1.2rem;display:block;text-decoration:none;font-variation-settings:"wght" 400, "CASL" 1, "slnt" -15;font-size:larger;transform:translateY(-4px);color:var(--fg);transition:font-variation-settings 100ms}nav.svelte-c1vu3p .nav-item.svelte-c1vu3p:first-of-type{padding-left:2.4rem}nav.svelte-c1vu3p .nav-item.svelte-c1vu3p:hover{font-variation-settings:"wght" 840, "CASL" 1, "slnt" -15}nav.svelte-c1vu3p .nav-item.svelte-c1vu3p:active{font-variation-settings:"wght" 840, "CASL" 1, "slnt" -15}nav.svelte-c1vu3p .nav-item.active.svelte-c1vu3p{color:var(--magenta);font-variation-settings:"wght" 840, "CASL" 1, "slnt" -15}#menu-icon.svelte-c1vu3p.svelte-c1vu3p{touch-action:manipulation;display:none;height:4rem;width:4rem;padding:0.8rem;transform:translateY(-4px);cursor:pointer}#menu-icon.svelte-c1vu3p div.svelte-c1vu3p{visibility:hidden}#menu-icon.svelte-c1vu3p.svelte-c1vu3p::before,#menu-icon.svelte-c1vu3p.svelte-c1vu3p::after,#menu-icon.svelte-c1vu3p div.svelte-c1vu3p{background:var(--fg);content:"";display:block;height:8px;border-radius:100px;margin:3px 0;transition:0.5s cubic-bezier(0, 0.62, 0.34, 1)}.active.svelte-c1vu3p #menu-icon.svelte-c1vu3p:before{margin:7px 0;transform:translateY(8px) rotate(135deg)}.active.svelte-c1vu3p #menu-icon.svelte-c1vu3p:after{margin:7px 0;transform:translateY(-22px) rotate(-135deg)}#blur.svelte-c1vu3p.svelte-c1vu3p{pointer-events:none;z-index:-1;position:fixed;top:0;left:0;right:0;bottom:0;opacity:0;transition:opacity 300ms cubic-bezier(0, 0.62, 0.34, 1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}#blur.svelte-c1vu3p.svelte-c1vu3p::after{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background-color:var(--bg);opacity:0.7}@media screen and (max-width: 767px){nav.svelte-c1vu3p.svelte-c1vu3p{z-index:1;position:fixed;right:0.4rem;padding-right:0.8rem;flex-direction:row-reverse}nav.svelte-c1vu3p .nav-container.svelte-c1vu3p{flex-direction:column;align-items:flex-end;position:absolute;top:4rem;right:0;visibility:hidden}nav.svelte-c1vu3p #menu-icon.svelte-c1vu3p{display:block}nav.svelte-c1vu3p .nav-item.svelte-c1vu3p{font-size:x-large;font-variation-settings:"wght" 400, "CASL" 1, "slnt" -15;opacity:0;transform:translateX(6rem);transition:transform 300ms cubic-bezier(0, 0.62, 0.34, 1), opacity 300ms cubic-bezier(0, 0.62, 0.34, 1), visibility 300ms cubic-bezier(0, 0.62, 0.34, 1)}nav.svelte-c1vu3p #color-mode-toggle img.svelte-c1vu3p{width:32px}nav.active.svelte-c1vu3p.svelte-c1vu3p{position:fixed}nav.active.svelte-c1vu3p .nav-item.svelte-c1vu3p{transform:translateX(-0.5rem);visibility:visible;opacity:1;transition:transform 600ms cubic-bezier(0, 0.62, 0.34, 1), opacity 600ms cubic-bezier(0, 0.62, 0.34, 1), visibility 600ms cubic-bezier(0, 0.62, 0.34, 1)}nav.active.svelte-c1vu3p #blur.svelte-c1vu3p{opacity:1;pointer-events:auto}}',
+      map: null
+    };
+    Header = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let $page, $$unsubscribe_page;
+      let $colorMode, $$unsubscribe_colorMode;
+      $$unsubscribe_page = subscribe(page, (value) => $page = value);
+      $$unsubscribe_colorMode = subscribe(colorMode, (value) => $colorMode = value);
+      const nav = [
+        { name: "CV", link: "/cv" },
+        { name: "Posts", link: "/posts" },
+        { name: "Portfolio", link: "/portfolio" }
+      ];
+      $$result.css.add(css$1);
+      $$unsubscribe_page();
+      $$unsubscribe_colorMode();
+      return `${$$result.head += `<link rel="${"preload"}" href="${"/icons/sun.svg"}" as="${"image"}" data-svelte="svelte-1y4vmbx"><link rel="${"preload"}" href="${"/icons/moon.svg"}" as="${"image"}" data-svelte="svelte-1y4vmbx">`, ""}
+
+<header id="${"header"}" class="${"svelte-c1vu3p"}"><div id="${"logo"}" class="${"svelte-c1vu3p"}"><a href="${"/"}"><img id="${"logo-svg"}" src="${"/images/fsj.svg"}" alt="${"fsj logo"}" height="${"100"}" width="${"100"}">
+      <img id="${"logo-shadow"}" src="${"/images/fsj.svg"}" alt="${"fsj logo"}" height="${"100"}" width="${"100"}" class="${"svelte-c1vu3p"}"></a></div>
+  <nav class="${["svelte-c1vu3p", ""].join(" ").trim()}"><div class="${"nav-container svelte-c1vu3p"}">${each(nav, (item, i2) => {
+        return `<a class="${["nav-item svelte-c1vu3p", item.link === $page.url.pathname ? "active" : ""].join(" ").trim()}" tabindex="${"0"}" style="${"transition-delay: " + escape(i2 * 32) + "ms"}" sveltekit:prefetch${add_attribute("href", item.link, 0)}><!-- HTML_TAG_START -->${item.name}<!-- HTML_TAG_END -->
+        </a>`;
+      })}
+      ${$page.url.pathname != "/portfolio" ? `<button class="${"nav-item svelte-c1vu3p"}" id="${"color-mode-toggle"}" style="${"transition-delay: " + escape(nav.length * 32) + "ms"}"><img src="${"/icons/" + escape($colorMode === "dark" ? "sun" : "moon") + ".svg"}" alt="${"toggle dark mode"}" height="${"24"}" width="${"24"}" class="${"svelte-c1vu3p"}"></button>` : ``}</div>
+    <button id="${"menu-icon"}" aria-label="${"menu"}" class="${"svelte-c1vu3p"}"><div class="${"svelte-c1vu3p"}"></div></button>
+    <div id="${"blur"}" class="${"svelte-c1vu3p"}"></div></nav>
+</header>`;
+    });
+    css = {
+      code: ':root{--breakpoint:767px;--bg:white;--fg:#1a101f;--white:white;--light-gray:#ccc;--med-light-gray:#aaa;--med-gray:#999;--med-dark-gray:#777;--dark-gray:#333;--light-purple:#e4d0ff;--purple:#a154ff;--medium-purple:#8e40ee;--dark-purple:#6421b6;--darker-purple:#41107c;--magenta:#f30b6c;--med-dark-magenta:#d4035a;--dark-magenta:#b3004a;--darker-magenta:#68002b;--cyan:#1192ce}[data-color-mode=dark]{--bg:#150e22;--fg:white;--dark-gray:#b0a4c9;--med-dark-gray:#9688b1;--med-gray:#6d5c8d;--med-light-gray:#5b497a;--light-gray:#43345e;--purple:#b67aff;--medium-purple:#ab6cf8;--dark-purple:#a154ff;--darker-purple:#6421b6;--cyan:#4bbcf0}body{margin:0;box-sizing:border-box;font-family:"RecVar", sans-serif;background-color:var(--bg);color:var(--fg);transition:background-color 320ms;line-height:1.4;position:relative;overflow-x:hidden}*,*:before,*:after{box-sizing:inherit}h1,h2,h3,h4,h5,h6{position:relative;font-variation-settings:"wght" 800}@media screen and (min-width: 992px){h1:not(.no-hash)::before{position:absolute;color:var(--med-light-gray);font-variation-settings:"SLNT" -15, "wght" 600, "CASL" -15;content:"#";left:-1.9rem}}@media screen and (min-width: 992px) and (max-width: 36rem){h1:not(.no-hash)::before{display:none}}@media screen and (min-width: 992px){h2:not(.no-hash)::before{position:absolute;color:var(--med-light-gray);font-variation-settings:"SLNT" -15, "wght" 600, "CASL" -15;content:"##";left:-2.76rem}}@media screen and (min-width: 992px) and (max-width: 36rem){h2:not(.no-hash)::before{display:none}}@media screen and (min-width: 992px){h3:not(.no-hash)::before{position:absolute;color:var(--med-light-gray);font-variation-settings:"SLNT" -15, "wght" 600, "CASL" -15;content:"###";left:-3.14rem}}@media screen and (min-width: 992px) and (max-width: 36rem){h3:not(.no-hash)::before{display:none}}@media screen and (min-width: 992px){h4:not(.no-hash)::before{position:absolute;color:var(--med-light-gray);font-variation-settings:"SLNT" -15, "wght" 600, "CASL" -15;content:"####";left:-3.42rem}}@media screen and (min-width: 992px) and (max-width: 36rem){h4:not(.no-hash)::before{display:none}}content a{color:var(--purple);text-decoration-thickness:2px;transition:color 150ms linear;text-decoration-color:var(--magenta);font-weight:500}content a:hover{color:var(--magenta);transition:color 100ms linear}content a:active{opacity:0.6}code{font-family:"RecVar", monospace;font-variation-settings:"MONO" 1;background-color:var(--light-gray);padding:0.1rem 0.2rem;border-radius:0.2rem}.container{display:grid;grid-template-columns:minmax(4%, auto) minmax(auto, 42rem) minmax(4%, auto);grid-template-rows:auto 1fr;gap:0px 0px;height:100%;width:100%;grid-template-areas:". hd ." ". main ."}header{grid-area:hd}main{grid-area:main;display:flex;flex-direction:column}content{flex:1 0 auto}footer{flex-shrink:0}',
+      map: null
+    };
+    _layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let $$unsubscribe_colorMode;
+      let $page, $$unsubscribe_page;
+      $$unsubscribe_colorMode = subscribe(colorMode, (value) => value);
+      $$unsubscribe_page = subscribe(page, (value) => $page = value);
+      let unsubscribe = colorMode.subscribe((colorMode2) => {
+        try {
+          setColorMode(colorMode2);
+        } catch (e2) {
+          if (!(e2 instanceof ReferenceError)) {
+            throw e2;
+          }
+        }
+      });
+      onDestroy(unsubscribe);
+      $$result.css.add(css);
+      $$unsubscribe_colorMode();
+      $$unsubscribe_page();
+      return `${$$result.head += `<link rel="${"preload"}" href="${"/normalize.css"}" as="${"style"}" data-svelte="svelte-1hqfpcp"><link rel="${"preload"}" href="${"/fonts.css"}" as="${"style"}" data-svelte="svelte-1hqfpcp"><link rel="${"stylesheet"}" href="${"/normalize.css"}" data-svelte="svelte-1hqfpcp"><link rel="${"stylesheet"}" href="${"/hint.min.css"}" data-svelte="svelte-1hqfpcp"><link rel="${"stylesheet"}" href="${"/fonts.css"}" data-svelte="svelte-1hqfpcp"><script data-svelte="svelte-1hqfpcp">function getInitialColorMode() {
+      const persistedColorMode = window.localStorage.getItem("color-mode");
+      const hasPersistedColorMode = typeof persistedColorMode === "string";
+      if (hasPersistedColorMode) {
+        console.log(\`loaded color mode: \${persistedColorMode}\`);
+        return persistedColorMode;
+      }
+      const mql = window.matchMedia("(prefers-color-scheme: dark)");
+      const hasMediaQueryPreference = typeof mql.matches === "boolean";
+
+      if (hasMediaQueryPreference) {
+        return mql.matches ? "dark" : "light";
+      }
+      return "light";
+    }
+
+    const colorMode = getInitialColorMode();
+    const root = document.documentElement;
+
+    root.setAttribute("data-color-mode", colorMode);
+  <\/script><script async src="${"https://www.googletagmanager.com/gtag/js?id=G-XRLEG6433K"}" data-svelte="svelte-1hqfpcp"><\/script><script data-svelte="svelte-1hqfpcp">window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-XRLEG6433K");
+  <\/script>`, ""}
+
+<div class="${"container"}">${validate_component(Header, "Header").$$render($$result, {}, {}, {})}
+  <main><content>${slots.default ? slots.default({}) : ``}</content>
+    ${$page.url.pathname != "/" ? `${validate_component(Footer, "Footer").$$render($$result, {}, {}, {})}` : ``}</main>
+</div>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/0.js
+var __exports = {};
+__export(__exports, {
+  css: () => css2,
+  entry: () => entry,
+  js: () => js,
+  module: () => layout_svelte_exports
+});
+var entry, js, css2;
+var init__ = __esm({
+  ".svelte-kit/output/server/nodes/0.js"() {
+    init_layout_svelte();
+    entry = "pages/__layout.svelte-8eb6afc4.js";
+    js = ["pages/__layout.svelte-8eb6afc4.js", "chunks/index-bbc8ee63.js", "chunks/index-b66b148c.js"];
+    css2 = ["assets/pages/__layout.svelte-7d5321c2.css"];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/__error.svelte.js
+var error_svelte_exports = {};
+__export(error_svelte_exports, {
+  default: () => _error,
+  load: () => load
+});
+var load, _error;
+var init_error_svelte = __esm({
+  ".svelte-kit/output/server/entries/pages/__error.svelte.js"() {
+    init_index_811e4c83();
+    load = ({ error: error2, status }) => {
+      return { props: { error: error2, status } };
+    };
+    _error = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let { error: error2 } = $$props;
+      let { status } = $$props;
+      if ($$props.error === void 0 && $$bindings.error && error2 !== void 0)
+        $$bindings.error(error2);
+      if ($$props.status === void 0 && $$bindings.status && status !== void 0)
+        $$bindings.status(status);
+      return `<h1>${escape(status)}</h1>
+<p>${escape(error2.message)}</p>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/1.js
+var __exports2 = {};
+__export(__exports2, {
+  css: () => css3,
+  entry: () => entry2,
+  js: () => js2,
+  module: () => error_svelte_exports
+});
+var entry2, js2, css3;
+var init__2 = __esm({
+  ".svelte-kit/output/server/nodes/1.js"() {
+    init_error_svelte();
+    entry2 = "pages/__error.svelte-2baa433d.js";
+    js2 = ["pages/__error.svelte-2baa433d.js", "chunks/index-bbc8ee63.js"];
+    css3 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/index.svelte.js
+var index_svelte_exports = {};
+__export(index_svelte_exports, {
+  default: () => Routes
+});
+function hex2a(hexx) {
+  var hex = hexx.toString();
+  var str = "";
+  for (var i2 = 0; i2 < hex.length; i2 += 2) {
+    str += String.fromCharCode(parseInt(hex.substr(i2, 2), 16));
+  }
+  return str;
+}
+var css$22, Email, css$12, Intro, css4, Routes;
+var init_index_svelte = __esm({
+  ".svelte-kit/output/server/entries/pages/index.svelte.js"() {
+    init_index_811e4c83();
+    css$22 = {
+      code: "#email-container.svelte-zix4nb.svelte-zix4nb{border:none;background-color:transparent;border-radius:0.8rem;font-family:inherit;font-size:inherit;position:relative;padding:0;height:3.2rem;display:flex;justify-content:space-between;align-items:center;color:var(--white);width:100%;max-width:19rem}@media screen and (max-width: 767px){#email-container.svelte-zix4nb.svelte-zix4nb{max-width:none}}#email-label.svelte-zix4nb.svelte-zix4nb{background-color:var(--med-dark-magenta);border-radius:0.8rem 0 0 0.8rem;padding:0 1rem;display:flex;align-items:center;height:100%}#address-wrapper.svelte-zix4nb.svelte-zix4nb{background:var(--magenta);padding:0 1rem;height:100%;display:flex;flex:auto;align-items:center}input.svelte-zix4nb.svelte-zix4nb{background:transparent;border:none;width:8rem;min-width:8rem;color:var(--white);text-align:center}#copy.svelte-zix4nb.svelte-zix4nb{border-radius:0 0.8rem 0.8rem 0;border:none;height:100%;width:51px;position:relative;cursor:pointer;background-color:transparent;perspective:100px}#copy-front.svelte-zix4nb.svelte-zix4nb{border-radius:inherit;border:none;padding:inherit;height:inherit;background:var(--magenta);display:flex;justify-content:center;position:absolute;right:0;top:0;width:inherit;align-items:center;will-change:transform, filter;transform:translateY(0px);filter:brightness(100%)}#copy-front.svelte-zix4nb img.svelte-zix4nb{transform-style:preserve-3d}#copy.svelte-zix4nb:hover #copy-front.svelte-zix4nb{transform-style:preserve-3d;transform-origin:left;animation:svelte-zix4nb-wobble 800ms cubic-bezier(0.3, 0.7, 0.4, 1.6);filter:brightness(100%);transition:transform 200ms cubic-bezier(0.3, 0.7, 0.4, 1.6), filter 200ms cubic-bezier(0.3, 0.7, 0.4, 1.6)}@keyframes svelte-zix4nb-wobble{0%{transform:rotateY(0deg);filter:brightness(100%)}25%{transform:rotateY(32deg);filter:brightness(108%)}50%{transform:rotateY(-8deg);filter:brightness(98%)}75%{transform:rotateY(8deg);filter:brightness(102%)}100%{transform:rotateY(0deg);filter:brightness(100%)}}#copy.svelte-zix4nb:active #copy-front.svelte-zix4nb{transform:rotateY(24deg);filter:brightness(106%)}",
+      map: null
+    };
+    Email = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      const email = hex2a("6865794066736a2e78797a");
+      let address;
+      $$result.css.add(css$22);
+      return `<div id="${"email-container"}" href="${"#"}" class="${"svelte-zix4nb"}"><label id="${"email-label"}" for="${"email"}" class="${"svelte-zix4nb"}">email</label>
+  <div id="${"address-wrapper"}" class="${"svelte-zix4nb"}"><input id="${"email"}" name="${"email"}" type="${"email"}"${add_attribute("value", email, 0)} readonly class="${"svelte-zix4nb"}"${add_attribute("this", address, 0)}></div>
+
+  <button id="${"copy"}" class="${"svelte-zix4nb"}"><div id="${"copy-front"}" class="${"svelte-zix4nb"}"><img alt="${"copy email address"}" src="${"/icons/copy.svg"}" height="${"24"}" width="${"24"}" class="${"svelte-zix4nb"}"></div></button>
+</div>`;
+    });
+    css$12 = {
+      code: 'p.svelte-pt91l7{text-shadow:0 0 2.2rem var(--bg)}h1.svelte-pt91l7{font-weight:bold;font-size:3.2rem;margin-top:1rem;margin-bottom:1.6rem;font-variation-settings:"wght" 800, "CASL" 1, "slnt" -15}a.svelte-pt91l7{color:var(--medium-purple)}p.svelte-pt91l7{font-size:large;line-height:1.6rem;margin-bottom:1.6rem}.hint--top.svelte-pt91l7{font-family:"RecVar" !important}.hint--top.svelte-pt91l7::before{border-top-color:var(--fg)}.hint--top.svelte-pt91l7::after{font-family:"RecVar", sans-serif;font-variation-settings:"wght" 550;background-color:var(--fg);color:var(--bg);text-shadow:none !important}.email-wrapper.svelte-pt91l7{margin-top:2.4rem;transform:translateX(-1px)}@media screen and (max-width: 767px){.email-wrapper.svelte-pt91l7{transform:none}}.bold.svelte-pt91l7{font-variation-settings:"wght" 800}',
+      map: null
+    };
+    Intro = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      $$result.css.add(css$12);
+      return `<h1 class="${"no-hash svelte-pt91l7"}">Hey!</h1>
+<p class="${"svelte-pt91l7"}">My name is <span class="${"bold hint--top hint--rounded svelte-pt91l7"}" aria-label="${"he/him, please"}">Finn James</span>. How\u2019s it going?</p>
+<p class="${"svelte-pt91l7"}">I am a software engineer and amateur artist based in Chapel Hill, NC. I also build <a href="${"https://github.com/finnsjames/threepio"}" class="${"svelte-pt91l7"}">systems</a> for <a href="${"https://skynet.unc.edu"}" class="${"svelte-pt91l7"}">telescopes</a>.</p>
+<p class="${"svelte-pt91l7"}"><a href="${"https://github.com/finnsjames"}" rel="${"nofollow"}" class="${"svelte-pt91l7"}">GitHub</a> \u2022 <a href="${"https://twitter.com/finnsjames"}" rel="${"nofollow"}" class="${"svelte-pt91l7"}">Twitter</a> \u2022 <a href="${"https://instagram.com/notafinnsta"}" rel="${"nofollow"}" class="${"svelte-pt91l7"}">Instagram</a></p>
+<p class="${"email-wrapper svelte-pt91l7"}">${validate_component(Email, "Email").$$render($$result, {}, {}, {})}
+</p>`;
+    });
+    css4 = {
+      code: '#bg.svelte-1elo435{position:fixed;top:-4%;left:-4%;width:108%;height:108%;background:url("/images/iss.webp");background-size:cover;background-repeat:no-repeat;background-position:center;opacity:40%;filter:contrast(80%)}.relative.svelte-1elo435{position:relative}#splash.svelte-1elo435,#splash-helmet.svelte-1elo435{background-image:url("/images/flight-suit-me.webp");background-size:auto 900px;background-repeat:no-repeat;position:fixed;right:calc(-28rem + 40vw);top:2.2rem;min-height:50rem;height:calc(100vh - 2rem);width:600px;user-select:none;pointer-events:none}#splash-helmet.svelte-1elo435{background-image:url("/images/flight-suit-helmet.webp")}@media(prefers-reduced-motion){#bg.svelte-1elo435,#splash.svelte-1elo435,#splash-helmet.svelte-1elo435{transform:none !important}}.half.svelte-1elo435{max-width:22rem;height:auto}@media screen and (max-width: 767px){#splash.svelte-1elo435,#splash-helmet.svelte-1elo435{width:100vw;position:relative;top:0;left:50%;right:50%;min-height:900px;margin-left:-50vw;margin-right:-50vw;display:block;background-position:calc(-300px + 50vw) 0}#splash-helmet.svelte-1elo435{display:none}.half.svelte-1elo435{max-width:none !important}#bg.svelte-1elo435,#splash.svelte-1elo435,#splash-helmet.svelte-1elo435{transform:none !important}}',
+      map: null
+    };
+    Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let bg, splash, helmet;
+      class orderedPair {
+        constructor(x2, y) {
+          this.setBoth(x2, y);
+        }
+        setBoth(x2, y) {
+          this.x = x2;
+          this.y = y;
+        }
+      }
+      let { mousePos = new orderedPair(0, 0), pos = new orderedPair(0, 0) } = $$props;
+      if ($$props.mousePos === void 0 && $$bindings.mousePos && mousePos !== void 0)
+        $$bindings.mousePos(mousePos);
+      if ($$props.pos === void 0 && $$bindings.pos && pos !== void 0)
+        $$bindings.pos(pos);
+      $$result.css.add(css4);
+      return `
+
+${$$result.head += `${$$result.title = `<title>Finn James</title>`, ""}<meta name="${"description"}" content="${"I\u2019m Finn, a software engineer & artist. I also write software for telescopes."}" data-svelte="svelte-591qxg">`, ""}
+
+<div id="${"bg"}" class="${"svelte-1elo435"}"${add_attribute("this", bg, 0)}></div>
+<div class="${"relative svelte-1elo435"}"><div class="${"half svelte-1elo435"}">${validate_component(Intro, "Intro").$$render($$result, {}, {}, {})}</div>
+  <div id="${"splash"}" alt="${"me in a flight suit"}" class="${"svelte-1elo435"}"${add_attribute("this", splash, 0)}></div>
+  <div id="${"splash-helmet"}" alt="${"floating helmet"}" class="${"svelte-1elo435"}"${add_attribute("this", helmet, 0)}></div>
+</div>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/3.js
+var __exports3 = {};
+__export(__exports3, {
+  css: () => css5,
+  entry: () => entry3,
+  js: () => js3,
+  module: () => index_svelte_exports
+});
+var entry3, js3, css5;
+var init__3 = __esm({
+  ".svelte-kit/output/server/nodes/3.js"() {
+    init_index_svelte();
+    entry3 = "pages/index.svelte-89473cd8.js";
+    js3 = ["pages/index.svelte-89473cd8.js", "chunks/index-bbc8ee63.js"];
+    css5 = ["assets/pages/index.svelte-550529f0.css"];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/cv.svelte.js
+var cv_svelte_exports = {};
+__export(cv_svelte_exports, {
+  default: () => Cv
+});
+var css6, Cv$1, Cv;
+var init_cv_svelte = __esm({
+  ".svelte-kit/output/server/entries/pages/cv.svelte.js"() {
+    init_index_811e4c83();
+    css6 = {
+      code: '.gray.svelte-7prj8d{color:var(--med-dark-gray)}.roman.svelte-7prj8d{font-variation-settings:"wght" 400}h2.svelte-7prj8d,h3.svelte-7prj8d,h4.svelte-7prj8d{line-height:1}h2.svelte-7prj8d{padding-top:1.2rem}h3.svelte-7prj8d{padding-top:0.6rem}',
+      map: null
+    };
+    Cv$1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      $$result.css.add(css6);
+      return `<h1>CV</h1>
+<h2 class="${"svelte-7prj8d"}">Education</h2>
+<h3 class="${"svelte-7prj8d"}">University of North Carolina at Chapel Hill</h3>
+<p>Computer Science B.S. with a Studio Art minor. GPA: 3.93. Expected graduation: May 2022.</p>
+<h3 class="${"svelte-7prj8d"}">Honors Carolina</h3>
+<p>I joined the UNC Honors Program in my first year.</p>
+<h2 class="${"svelte-7prj8d"}">Grants &amp; Honors</h2>
+<h3 class="${"svelte-7prj8d"}">NC Space Grant for Undergraduate Research Fellowship</h3>
+<span class="${"gray svelte-7prj8d"}">June 2020 - May 2021</span>
+<p>My proposal for \u201CA New Test of General Relativity using Binary Supermassive Black Holes and Radio Telescopes\u201D was selected to receive funding so that I can develop and use sophisticated image processing systems for radio telescope observations of the OJ287 black hole system.</p>
+<h3 class="${"svelte-7prj8d"}">Phi Beta Kappa</h3>
+<span class="${"gray svelte-7prj8d"}">April 2021</span>
+<p>I joined the Phi Beta Kappa honor society in April of 2021.</p>
+<h3 class="${"svelte-7prj8d"}">UNC Nomination for Barry M. Goldwater Scholarship</h3>
+<span class="${"gray svelte-7prj8d"}">January 2021</span>
+<p>I was selected by my university for nomination for the Barry M. Goldwater Scholarship, a prestigious award for undergraduates to further their science and engineering research. The scholarship is particularly focused on supporting students in beginning their graduate school careers.</p>
+<h3 class="${"svelte-7prj8d"}">ERIRA</h3>
+<span class="${"gray svelte-7prj8d"}">August 2019</span>
+<p>I was selected for the Educational Research In Radio Astronomy program. It is an intensive course at the Green Bank Observatory involving data collection, data analysis, deadline management, and teamwork.</p>
+<h3 class="${"svelte-7prj8d"}">HackNC Second Place Winner</h3>
+<span class="${"gray svelte-7prj8d"}">October 2019</span>
+<p>I won second place for my hardware project at HackNC 2019. My team and I constructed a rig using Python and OpenCV to 3D track the position of objects in real time. As the team\u2019s software developer, I wrote the system that interpreted the dual input streams coming from the stereoscopic camera setup so that the depth of the objects could be calculated in real time. In this project, I led my team to each build a part of the project separately and combine them seamlessly.</p>
+<h3 class="${"svelte-7prj8d"}">RYLA</h3>
+<span class="${"gray svelte-7prj8d"}">April 2017</span>
+<p>I was honored with the Rotary Youth Leadership Award for exhibiting leadership and initiative in my community service and schoolwork, and I attended the associated conference. The conference is an 18-hour-a-day high-energy event where the recipients work with each other to develop leadership and problem solving skills. I was sponsored by the East Chapel Hill Rotary Club.</p>
+<h2 class="${"svelte-7prj8d"}">Work</h2>
+<h3 class="${"svelte-7prj8d"}">SAS <span class="${"roman svelte-7prj8d"}">\u2014 UX Developer Intern</span></h3>
+<span class="${"gray svelte-7prj8d"}">May 2021 \u2013 May 2022</span>
+<p>I am creating a new internal application to improve interface accessibility and consistency.</p>
+<h3 class="${"svelte-7prj8d"}">UNC Department of Physics &amp; Astronomy <span class="${"roman svelte-7prj8d"}">\u2014 Research Assistant</span></h3>
+<span class="${"gray svelte-7prj8d"}">August 2019 \u2013 Present</span>
+<p>I do astrophysics research and software development with Dr. Dan Reichart in the Physics &amp; Astronomy Department at UNC.</p>
+<p>For my first project, I wrote the logic and UI/UX for software to interpret data coming from the 40\u2019 radio telescope at the Green Bank Observatory. I engineered the system to interface between sixty-year-old radio astronomy equipment and modern analysis programs, all while remaining accessible to the scientists who use it for their research.</p>
+<p>Now, I am building a new front-end application for the Skynet robotic telescope network, with a focus on the radio data interpretation and analysis tools. This is funded by a new grant to increase accessibility of astrophysics research for students around the country.</p>
+<h3 class="${"svelte-7prj8d"}">UNC Department of Computer Science <span class="${"roman svelte-7prj8d"}">\u2014 Learning Assistant</span></h3>
+<span class="${"gray svelte-7prj8d"}">Spring 2021 \u2013 Present</span>
+<p>I help teach undergraduate students in COMP541, an upper-level chip architecture course taught by Dr. Montek Singh.</p>
+<h3 class="${"svelte-7prj8d"}">Freelance <span class="${"roman svelte-7prj8d"}">\u2014 Web Developer &amp; Designer</span></h3>
+<span class="${"gray svelte-7prj8d"}">June 2019 \u2013 Present</span>
+<p>I am a freelance designer and full-stack web developer. I am a one-stop shop for local clients to create or overhaul their web presence. A portfolio example: the <a href="${"https://chapelhillfriends.org"}" rel="${"nofollow"}">Chapel Hill Friends Meeting website</a>.</p>
+<h3 class="${"svelte-7prj8d"}">Carolina Friends School <span class="${"roman svelte-7prj8d"}">\u2014 Counselor</span></h3>
+<span class="${"gray svelte-7prj8d"}">Summer 2016 \u2013 Summer 2019</span>
+<p>I led activities with campers at Carolina Friends School Summer Programs to encourage teamwork, participation, and community.</p>
+<h2 class="${"svelte-7prj8d"}">Skills</h2>
+<h3 class="${"svelte-7prj8d"}">Computer Science</h3>
+<p><strong>Proficient in:</strong> Python, C, Java, TypeScript, Vue, JavaScript, SystemVerilog, <span title="${"source for this site on GitHub (finnsjames/fsj.xyz)"}">HTML/CSS</span></p>
+<p><strong>Courses Completed by Summer 2022:</strong> Algorithms, Cryptography, Digital Logic &amp; Computer Design, Models of Language &amp; Computation, Data Structures, Computer Architecture, Digital Photography, Modern Web Development, UX Design &amp; Usability</p>
+<h3 class="${"svelte-7prj8d"}">Mathematics</h3>
+<p><strong>Courses Completed by Summer 2022:</strong> Discrete Mathematics, Linear Algebra, Multivariable Calculus, Probability</p>
+<p><strong>Familiarity with:</strong> MATLAB, Wolfram Mathematica, Microsoft Excel</p>
+<h3 class="${"svelte-7prj8d"}">Astrophysics</h3>
+<p><strong>Courses Completed by Summer 2022:</strong> Calculus-Based Mechanics &amp; Relativity, Intro Astronomy &amp; Lab, Intro Cosmology</p>
+<p><strong>Familiarity with:</strong> NumPy, Astropy, Stellarium, Radio Cartographer, Afterglow</p>
+<h3 class="${"svelte-7prj8d"}">Technology</h3>
+<p><strong>IDEs &amp; editors:</strong>
+VSCode, vim, PyCharm, IntelliJ IDEA, Eclipse, Vivado</p>
+<p><strong>Tools:</strong>
+git, node/npm, zsh, bash</p>
+<p><strong>Software:</strong>
+Photoshop, Illustrator, XD, InDesign, Premiere Pro, Audacity, Microsoft Office</p>
+<p><strong>Operating Systems:</strong>
+macOS, Linux, Windows, iOS</p>
+<h3 class="${"svelte-7prj8d"}">Foreign Language</h3>
+<p><strong>Japanese:</strong>
+I have completed three semesters of Japanese.</p>
+<h2 class="${"svelte-7prj8d"}">Community Service</h2>
+<h3 class="${"svelte-7prj8d"}">Cofounder, <span class="${"roman svelte-7prj8d"}">Project Recap</span></h3>
+<span class="${"gray svelte-7prj8d"}">Spring 2018</span>
+<p>I co-founded and managed a charitable program that continues today to collect, clean, and redistribute graduation paraphernalia to high school students.</p>
+<h3 class="${"svelte-7prj8d"}">Creator &amp; Instructor, <span class="${"roman svelte-7prj8d"}">CodeBuilders Programming Course</span></h3>
+<span class="${"gray svelte-7prj8d"}">Spring 2017</span>
+<p>I created and taught an intro programming class for middle-school-aged students. We covered Python and Web development. I designed the course to focus on fundamentals so that the students would feel more comfortable coding and working with computers.</p>
+<h3 class="${"svelte-7prj8d"}">Instructor, <span class="${"roman svelte-7prj8d"}">Durham Public Library</span></h3>
+<span class="${"gray svelte-7prj8d"}">Summer 2016</span>
+<p>I volunteered with the Durham Public Library Techno Saturdays Program, where I taught programming and computer science to children who might otherwise not have had exposure to computers.</p>
+<h2 class="${"svelte-7prj8d"}">Interests</h2>
+<h4 class="${"svelte-7prj8d"}">Photography</h4>
+<p>A few of my recent images may be found in my <a href="${"/portfolio#photography"}">Portfolio</a>.</p>
+<h4 class="${"svelte-7prj8d"}">Drawing &amp; Painting</h4>
+<p>Likewise, a few of my drawings <a href="${"/portfolio#drawing"}">may also be found there</a>.</p>
+<h4 class="${"svelte-7prj8d"}">Martial Arts</h4>
+<p>I have practiced martial arts for years and have achieved a second degree black belt in the Japanese martial art <em>toshindo</em>.</p>
+<h4 class="${"svelte-7prj8d"}">Reading</h4>
+<p>My favorite books include <em>The Brief Wondrous Life of Oscar Wao</em> by Junot D\xEDaz, <em>Jane Eyre</em> by Charlotte Bront\xEB, and <em>Going Postal</em> by Terry Pratchett.</p>
+<h4 class="${"svelte-7prj8d"}">Architecture</h4>
+<p>I am a fan of modern architecture and minimalist spaces. I particularly appreciate the works of Ludwig Mies van der Rohe.</p>
+<h4 class="${"svelte-7prj8d"}">Cooking</h4>
+<p>I love to cook, especially Japanese and Italian cuisine. I also once threw a Latke\u2013Hamantash Debate event in the style of <a href="${"https://en.wikipedia.org/wiki/Latke%E2%80%93Hamantash_Debate"}" rel="${"nofollow"}">the original</a>, which involved both making and arguing about the relative metaphysical merits of both foods.</p>
+<br>
+<br>
+<span class="${"gray svelte-7prj8d"}">Updated March 2022</span>`;
+    });
+    Cv = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      return `${$$result.head += `${$$result.title = `<title>CV - Finn James</title>`, ""}`, ""}
+
+${validate_component(Cv$1, "CV").$$render($$result, {}, {}, {})}`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/2.js
+var __exports4 = {};
+__export(__exports4, {
+  css: () => css7,
+  entry: () => entry4,
+  js: () => js4,
+  module: () => cv_svelte_exports
+});
+var entry4, js4, css7;
+var init__4 = __esm({
+  ".svelte-kit/output/server/nodes/2.js"() {
+    init_cv_svelte();
+    entry4 = "pages/cv.svelte-40d8c040.js";
+    js4 = ["pages/cv.svelte-40d8c040.js", "chunks/index-bbc8ee63.js"];
+    css7 = ["assets/pages/cv.svelte-65d957cf.css"];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/portfolio.svelte.js
+var portfolio_svelte_exports = {};
+__export(portfolio_svelte_exports, {
+  default: () => Portfolio
+});
+var css8, Portfolio;
+var init_portfolio_svelte = __esm({
+  ".svelte-kit/output/server/entries/pages/portfolio.svelte.js"() {
+    init_index_811e4c83();
+    css8 = {
+      code: "h1.svelte-wxpvuo{padding-top:2.4rem;margin-top:0rem}h1.svelte-wxpvuo:first-of-type{padding-top:1.4rem}img.svelte-wxpvuo{max-height:90vh;max-width:100vw;margin-bottom:2.8rem}#portfolio.svelte-wxpvuo{display:flex;flex-direction:column;align-items:center;width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw}",
+      map: null
+    };
+    Portfolio = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      $$result.css.add(css8);
+      return `${$$result.head += `${$$result.title = `<title>Portfolio - Finn James</title>`, ""}<style data-svelte="svelte-1hkwug0">:root {
+      --bg: black;
+      --fg: white;
+    }
+  </style>`, ""}
+
+<div id="${"portfolio"}" class="${"svelte-wxpvuo"}"><h1 id="${"photography"}" class="${"no-hash svelte-wxpvuo"}">Photography</h1>
+  <img loading="${"lazy"}" alt="${"Eszter 1"}" src="${"/art/p-e2.webp"}" class="${"svelte-wxpvuo"}">
+  <img loading="${"lazy"}" alt="${"Coulture"}" src="${"/art/p-c1.webp"}" class="${"svelte-wxpvuo"}">
+  <img loading="${"lazy"}" alt="${"Thomas"}" src="${"/art/p-t1.webp"}" class="${"svelte-wxpvuo"}">
+  <img loading="${"lazy"}" alt="${"Hannah"}" src="${"/art/p-h1.webp"}" class="${"svelte-wxpvuo"}">
+  <img loading="${"lazy"}" alt="${"Eszter 2"}" src="${"/art/p-e1.webp"}" class="${"svelte-wxpvuo"}">
+  <h1 id="${"drawing"}" class="${"no-hash svelte-wxpvuo"}">Drawing</h1>
+  <img loading="${"lazy"}" alt="${"Charcoal drawing of my desk"}" class="${"image svelte-wxpvuo"}" src="${"/art/a-c1.webp"}">
+  <img loading="${"lazy"}" alt="${"Ink drawing in the style of Mucha"}" class="${"image svelte-wxpvuo"}" src="${"/art/a-i1.webp"}">
+  <img loading="${"lazy"}" alt="${"Charcoal drawings with a backlight"}" class="${"image svelte-wxpvuo"}" src="${"/art/a-c2.webp"}">
+</div>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/4.js
+var __exports5 = {};
+__export(__exports5, {
+  css: () => css9,
+  entry: () => entry5,
+  js: () => js5,
+  module: () => portfolio_svelte_exports
+});
+var entry5, js5, css9;
+var init__5 = __esm({
+  ".svelte-kit/output/server/nodes/4.js"() {
+    init_portfolio_svelte();
+    entry5 = "pages/portfolio.svelte-6feeffa3.js";
+    js5 = ["pages/portfolio.svelte-6feeffa3.js", "chunks/index-bbc8ee63.js"];
+    css9 = ["assets/pages/portfolio.svelte-65b2eb18.css"];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/posts/2020-05-16-init.md.js
+var init_md_exports = {};
+__export(init_md_exports, {
+  default: () => _2020_05_16_init,
+  metadata: () => metadata
+});
+var metadata, title, date, categories, _2020_05_16_init;
+var init_init_md = __esm({
+  ".svelte-kit/output/server/entries/pages/posts/2020-05-16-init.md.js"() {
+    init_index_811e4c83();
+    metadata = {
+      "title": "Hello World!",
+      "date": "2020-05-16 00:00:00 -0400",
+      "categories": "test"
+    };
+    ({ title, date, categories } = metadata);
+    _2020_05_16_init = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      return `<h1>${escape(title)}</h1>
+<p>This is the first post on this site. It\u2019s here for testing purposes.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Viverra tellus in hac habitasse
+platea dictumst vestibulum rhoncus est. Odio ut enim blandit volutpat maecenas
+volutpat. Felis eget velit aliquet sagittis id consectetur purus ut. Ac turpis
+egestas integer eget aliquet nibh praesent tristique magna.</p>
+<p>Vestibulum mattis ullamcorper velit sed. Urna cursus eget nunc scelerisque
+viverra mauris. Quis imperdiet massa tincidunt nunc pulvinar sapien et ligula.
+Ac turpis egestas sed tempus. Nulla at volutpat diam ut venenatis. Nisl
+condimentum id venenatis a condimentum vitae sapien.</p>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/posts/2020-09-08-what-does-radiolevity-mean.md.js
+var what_does_radiolevity_mean_md_exports = {};
+__export(what_does_radiolevity_mean_md_exports, {
+  default: () => _2020_09_08_what_does_radiolevity_mean,
+  metadata: () => metadata2
+});
+var metadata2, title2, date2, categories2, _2020_09_08_what_does_radiolevity_mean;
+var init_what_does_radiolevity_mean_md = __esm({
+  ".svelte-kit/output/server/entries/pages/posts/2020-09-08-what-does-radiolevity-mean.md.js"() {
+    init_index_811e4c83();
+    metadata2 = {
+      "title": "What Does Radiolevity Mean?",
+      "date": "2020-09-08 00:00:00 -0400",
+      "categories": "blog"
+    };
+    ({ title: title2, date: date2, categories: categories2 } = metadata2);
+    _2020_09_08_what_does_radiolevity_mean = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      return `<h1>${escape(title2)}</h1>
+<p>My username everywhere online is <strong>radiolevity</strong>. It doesn\u2019t really mean
+anything in particular\u2014I was inspired by my radio-spectrum astronomy research,
+my love of radio and podcasts, and my general desire to keep things
+lighthearted. But at a certain point, I just wanted something that was easy to
+say, spell, and remember. I made my radio logo by those same principles.</p>
+<p>Another advantage is that my name is rather common, especially in Europe. This
+makes my username slightly more recognizable than if I just used my name.
+Furthermore, much to my chagrin, I cannot get \u201Cfinnjames\u201D as a username on most
+of the major platforms anymore.</p>
+<p>Lastly, I appreciate when someone has a consistent handle across many platforms,
+because it means you can appreciate their work and find their voice in a number
+of different contexts. This has the associated effect of degrading one\u2019s
+anonymity\u2014my real name is deliberately very easy to find if you have my
+username\u2014but this is not necessarily a bad thing. I appreciate that by linking
+my name to a specific username I can more easily take credit and pride in my
+work without worrying too much.</p>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/posts/2021-05-04-new-domain.md.js
+var new_domain_md_exports = {};
+__export(new_domain_md_exports, {
+  default: () => _2021_05_04_new_domain,
+  metadata: () => metadata3
+});
+var metadata3, title3, date3, categories3, _2021_05_04_new_domain;
+var init_new_domain_md = __esm({
+  ".svelte-kit/output/server/entries/pages/posts/2021-05-04-new-domain.md.js"() {
+    init_index_811e4c83();
+    metadata3 = {
+      "title": "New Domain",
+      "date": "2021-05-19 00:00:00 -0400",
+      "categories": "blog"
+    };
+    ({ title: title3, date: date3, categories: categories3 } = metadata3);
+    _2021_05_04_new_domain = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      return `<h1>${escape(title3)}</h1>
+<p>I am excited to report that my new domain, <a href="${"https://fsj.xyz"}" rel="${"nofollow"}">fsj.xyz</a> is live.
+In the endless quest to have a short domain name, I elected for the gTLD
+<strong>.xyz</strong> and just my initials. It was remarkably difficult to secure a domain
+name that I felt excited about, but I am very happy with this one. My old domain
+(finnjames.dev) redirects to this site, now.</p>
+<p>I do think it is easy to get obsessed with acquiring the perfect domain name. I
+went through a lot of different options before settling on this one. I can\u2019t say
+it was my very first choice, but as it turns out, fsj.com has been taken since
+the 90s. I appreciate that this one is short, easy to say and write, and is
+reasonably memorable.</p>
+<p>I have also set up an email account for this domain. Try it out by sending an
+email to \u201Chey\u201D at this domain!</p>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/posts/2021-07-11-all-new-site.md.js
+var all_new_site_md_exports = {};
+__export(all_new_site_md_exports, {
+  default: () => _2021_07_11_all_new_site,
+  metadata: () => metadata4
+});
+var metadata4, title4, date4, categories4, _2021_07_11_all_new_site;
+var init_all_new_site_md = __esm({
+  ".svelte-kit/output/server/entries/pages/posts/2021-07-11-all-new-site.md.js"() {
+    init_index_811e4c83();
+    metadata4 = {
+      "title": "All New Site",
+      "date": "2021-07-11 00:00:00 -0400",
+      "categories": "blog"
+    };
+    ({ title: title4, date: date4, categories: categories4 } = metadata4);
+    _2021_07_11_all_new_site = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      return `<h1>${escape(title4)}</h1>
+<p>As much as Jekyll + GitHub Pages served me well for my old static site, I have
+decided to take the plunge into a modern framework-based version. This site is
+made in the excellent <a href="${"https://kit.svelte.dev/"}" rel="${"nofollow"}">SvelteKit</a>. It isn\u2019t done, yet.
+At time of this writing, the \u201CPosts\u201D page still needs
+some work. With that said, I am very happy with how the new site is working out.</p>
+<p>I made a point with this rewrite to use as little code from the original version
+as possible. The only elements brought over are the SCSS that generates the
+Markdown-esque header markers and the click-to-copy email button on the home
+page.</p>
+<p>The new version of this site is hosted on <a href="${"https://vercel.com/"}" rel="${"nofollow"}">Vercel</a>, using
+the shockingly simple-to-use Svelte-Vercel adapter. I\u2019ve been really impressed
+with how simple and easy Vercel is to use.</p>
+<h2>Why SvelteKit?</h2>
+<p>I have been wanting to learn to use Svelte for a while now. I\u2019ve been using Vue
+for over a year now, and while I really like its functionality and wide support,
+I also like Svelte\u2019s opinionated approach to organization and syntax.
+Furthermore, I wanted to try a static site generator framework and with
+SvelteKit nearing a 1.0 release, I figured now was as good a time as any.  </p>
+<p>Next (lol) on the docket are Next.js and Astro.</p>
+<h2>So what\u2019s left?</h2>
+<p>I am trying some new stuff with this site. I want to add a lot more details
+before I really consider it to be \u201Cdone.\u201D One big example is dark mode support.
+I would like to be able to choose \u201CAuto\u201D in addition to the current Light/Dark
+toggle. Another one (as I mentioned above) is that I want the blog section to
+get some more attention. It\u2019s pretty basic right now, which is fine, but I want
+to enable photos, code snippets, interactive elements, searching articles, etc.
+I also think it would be cool to have some sort of dashboard for editing my
+site. Right now the whole site is made by me, so I\u2019d either have to find a
+dashboard/CMS to connect up or write my own. In the mean time I suppose I\u2019ll be using just VSCode.</p>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/posts/2021-07-13-tools-of-the-trade.md.js
+var tools_of_the_trade_md_exports = {};
+__export(tools_of_the_trade_md_exports, {
+  default: () => _2021_07_13_tools_of_the_trade,
+  metadata: () => metadata5
+});
+var metadata5, title5, date5, categories5, _2021_07_13_tools_of_the_trade;
+var init_tools_of_the_trade_md = __esm({
+  ".svelte-kit/output/server/entries/pages/posts/2021-07-13-tools-of-the-trade.md.js"() {
+    init_index_811e4c83();
+    metadata5 = {
+      "title": "Tools of the Trade",
+      "date": "2021-07-13 00:00:00 -0400",
+      "categories": "blog"
+    };
+    ({ title: title5, date: date5, categories: categories5 } = metadata5);
+    _2021_07_13_tools_of_the_trade = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      return `<h1>${escape(title5)}</h1>
+<p>I feel like every programmer at some point catalogs all of their gadgets and software. Here are mine!</p>
+<h2>Software</h2>
+<h3>VSCode</h3>
+<p>I\u2019ve tried every editor out there: WebStorm, Brackets, Komodo Edit, Nova, Sublime, TextWrangler, BBEdit, oh my. I keep coming back to VSCode because it\u2019s cross platform, has excellent extension support, and runs well on my 2015 MacBook Pro.</p>
+<h4>VSCode Extensions</h4>
+<p>The extensions I have installed are in constant flux, but there are a few I can\u2019t go without at this point:</p>
+<ol><li><a href="${"https://marketplace.visualstudio.com/items?itemName=radiolevity.search-lights"}" rel="${"nofollow"}">Search Lights</a>: I made a VSCode theme! It\u2019s meant to be easy to look at for a long time. I spent a long time tooling the color relationships to be subtle and informative. Please give it a try, and let me know what you think!</li>
+<li><a href="${"https://marketplace.visualstudio.com/items?itemName=vscodevim.vim"}" rel="${"nofollow"}">VSCode Vim</a>: I got used to vim keybindings during a college CS class that required using vim for all of the quizzes and assignments, and ever since I can\u2019t function without it.</li>
+<li><a href="${"https://marketplace.visualstudio.com/items?itemName=ms-python.python"}" rel="${"nofollow"}">Python Language Extension</a>: the various language plugins I have change over time, except this one. I use Python whenever I just need to write a quick script for something. I\u2019ve been experimenting with switching to Node for my day to day data-manipulation tasks, but for the time being nothing beats Python.</li></ol>
+<p>Bonus: I just started using <strong>GitHub Copilot</strong> a few weeks ago, and it\u2019s pretty cool. I love VSCode\u2019s autocomplete, and this extension is a super-powered version of it. I am hesitant to use it for anything serious, though, before questions of licensing are nailed down. Also, it can be a little weird to have to check autogenerated code for bugs\u2014but it\u2019s quickly become part of my workflow.</p>
+<h3><a href="${"https://neovim.io/"}" rel="${"nofollow"}">NeoVim</a></h3>
+<p>I love Vim as an editor, and NeoVim is even better. When it comes to command-line editors, look no further.</p>
+<h3><a href="${"https://sw.kovidgoyal.net/kitty/"}" rel="${"nofollow"}">kitty</a></h3>
+<p>A minimalist terminal emulator that does everything I need it to, no more, no less. Definitely the cutest option, as well. kitty also has a lot of interesting techniques to keep it running blazingly fast.</p>
+<h3>zsh</h3>
+<p>I use zsh with a few modifications as my terminal. <a href="${"https://github.com/romkatv/powerlevel10k"}" rel="${"nofollow"}">PowerLevel10k</a> and <a href="${"https://github.com/zsh-users/zsh-autosuggestions"}" rel="${"nofollow"}">zsh-autosuggestions</a> are the two I like the most.</p>
+<h2>Hardware</h2>
+<h3>Keyboard</h3>
+<p>I alternate between my MacBook\u2019s built-in keyboard and a custom mechanical keyboard I put together. (For the nerds: an olkb Preonic with a silver aluminum case, steel plate, 65g Zilents, and DSA Vilebloom keycaps.)</p>
+<h3>Drawing tablet</h3>
+<p>I switched to iPad Pro + Apple Pencil in 2017 and haven\u2019t looked back. All of my digital art is done in Procreate with \u{1F49C}.</p>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/posts/2021-09-22-floating.md.js
+var floating_md_exports = {};
+__export(floating_md_exports, {
+  default: () => _2021_09_22_floating,
+  metadata: () => metadata6
+});
+var metadata6, title6, date6, categories6, _2021_09_22_floating;
+var init_floating_md = __esm({
+  ".svelte-kit/output/server/entries/pages/posts/2021-09-22-floating.md.js"() {
+    init_index_811e4c83();
+    metadata6 = {
+      "title": "Floating",
+      "date": "2021-11-29 00:00:00 -0400",
+      "categories": "blog"
+    };
+    ({ title: title6, date: date6, categories: categories6 } = metadata6);
+    _2021_09_22_floating = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      return `<h1>${escape(title6)}</h1>
+<p>I spruced up my home page, again! This time I added a parallax effect to the illustration.</p>
+<p>I spent a fair amount of time retooling the effect to be organic, performant, and accessible. I find that having the images \u201Cdrift\u201D after moving the mouse does not add considerably to the performance cost of the animation (after optimizing), but dramatically improves the visual appeal of the home page. It also emphasizes the \u201Cfloating in space\u201D vibe I was going for.</p>
+<p>I also wanted to avoid using an animation library just for this effect, since all of the other animations on my site were made with CSS animations. The additional overhead of something like GreenSock felt like overkill.</p>
+<p>I tested the effect on as many platforms as I could, but please let me know if it\u2019s jittery or slow on your machine.</p>
+<p>As a result of the \u201Cfloating\u201D look, I also had to update the \u201Ccopy email\u201D button effect. Before, it appeared to rise out of a flat surface. Now, it makes more contextual sense since it is more plausibly floating in space. Unlike the last effect, which I heavily borrowed from <a href="${"https://www.joshwcomeau.com/animation/3d-button/"}" rel="${"nofollow"}">Josh Comeau</a>, this one is 100% original.</p>
+<p>In the interest of accessibility, the parallax effect is disabled if the <code>prefers reduced motion</code> media query is true.</p>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/posts/2022-04-12-floating copy.md.js
+var floating_copy_md_exports = {};
+__export(floating_copy_md_exports, {
+  default: () => _2022_04_12_floatingu20copy,
+  metadata: () => metadata7
+});
+var metadata7, title7, date7, categories7, _2022_04_12_floatingu20copy;
+var init_floating_copy_md = __esm({
+  ".svelte-kit/output/server/entries/pages/posts/2022-04-12-floating copy.md.js"() {
+    init_index_811e4c83();
+    metadata7 = {
+      "title": "Optimization",
+      "date": "2022-04-12 00:00:00 -0400",
+      "categories": "blog"
+    };
+    ({ title: title7, date: date7, categories: categories7 } = metadata7);
+    _2022_04_12_floatingu20copy = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      return `<h1>${escape(title7)}</h1>
+<p>I am really enjoying using SvelteKit for this site. I usually use Vue for everything so it\u2019s fun to try new things sometimes.</p>
+<p>The latest update to this site includes a number of qualitative optimizations. What does that mean? In my view, \u201Creal\u201D optimizations are the ones that improve direct, measurable performance (i.e. and give you a better lighthouse score!). I am already getting pretty solid performance numbers for this site, but there were a number of idiosyncrasies that I wanted to iron out.</p>
+<p>For example, there are a number of styles that create shifts of various elements during page load, such as the email widget on the main page. Now, even when the fonts haven\u2019t loaded, the email widget is already in its permanent location, so no shift. I don\u2019t know why lighthouse didn\u2019t care about this, but now it\u2019s fixed!</p>
+<p>Another issue is that the background used to shift on page load when the javascript that controls the floating effect loads. Now the background will not shift until the user moves their mouse, which triggers a smooth animation instead.</p>
+<p>Lastly, I mucked around with the \u201Cpreload\u201D tags to only try to preload the most essential assets (like the light/dark mode switch icon).</p>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/posts/index.svelte.js
+var index_svelte_exports2 = {};
+__export(index_svelte_exports2, {
+  default: () => Posts,
+  load: () => load2
+});
+var css10, allPosts, promisedPosts, load2, Posts;
+var init_index_svelte2 = __esm({
+  ".svelte-kit/output/server/entries/pages/posts/index.svelte.js"() {
+    init_index_811e4c83();
+    css10 = {
+      code: ".posts.svelte-3bstvf.svelte-3bstvf{list-style:none;padding:0}.posts.svelte-3bstvf li.svelte-3bstvf{padding:1rem;padding-left:0}.posts.svelte-3bstvf li p.svelte-3bstvf{padding:0;margin-top:0;color:var(--med-gray)}",
+      map: null
+    };
+    allPosts = { "./2020-05-16-init.md": () => Promise.resolve().then(() => (init_init_md(), init_md_exports)), "./2020-09-08-what-does-radiolevity-mean.md": () => Promise.resolve().then(() => (init_what_does_radiolevity_mean_md(), what_does_radiolevity_mean_md_exports)), "./2021-05-04-new-domain.md": () => Promise.resolve().then(() => (init_new_domain_md(), new_domain_md_exports)), "./2021-07-11-all-new-site.md": () => Promise.resolve().then(() => (init_all_new_site_md(), all_new_site_md_exports)), "./2021-07-13-tools-of-the-trade.md": () => Promise.resolve().then(() => (init_tools_of_the_trade_md(), tools_of_the_trade_md_exports)), "./2021-09-22-floating.md": () => Promise.resolve().then(() => (init_floating_md(), floating_md_exports)), "./2022-04-12-floating copy.md": () => Promise.resolve().then(() => (init_floating_copy_md(), floating_copy_md_exports)) };
+    promisedPosts = [];
+    for (let path in allPosts) {
+      promisedPosts.push(allPosts[path]().then(({ metadata: metadata8 }) => {
+        return { path, metadata: metadata8 };
+      }));
+    }
+    load2 = async () => {
+      let posts = await Promise.all(promisedPosts);
+      posts = posts.sort((a, b) => Date.parse(b.metadata.date) - Date.parse(a.metadata.date));
+      return { props: { posts } };
+    };
+    Posts = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let { posts } = $$props;
+      if ($$props.posts === void 0 && $$bindings.posts && posts !== void 0)
+        $$bindings.posts(posts);
+      $$result.css.add(css10);
+      return `${$$result.head += `${$$result.title = `<title>Posts - Finn James</title>`, ""}`, ""}
+
+<h1>Posts</h1>
+
+<ul class="${"posts svelte-3bstvf"}">${each(posts.reverse(), ({ path, metadata: { title: title8, date: date8 } }) => {
+        return `<li class="${"svelte-3bstvf"}"><p class="${"svelte-3bstvf"}"><a sveltekit:prefetch${add_attribute("href", `/posts/${path.replace(".md", "").replace(".svx", "")}`, 0)}>${escape(title8)}</a></p>
+      
+    </li>`;
+      })}
+</ul>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/12.js
+var __exports6 = {};
+__export(__exports6, {
+  css: () => css11,
+  entry: () => entry6,
+  js: () => js6,
+  module: () => index_svelte_exports2
+});
+var entry6, js6, css11;
+var init__6 = __esm({
+  ".svelte-kit/output/server/nodes/12.js"() {
+    init_index_svelte2();
+    entry6 = "pages/posts/index.svelte-b3db5ffe.js";
+    js6 = ["pages/posts/index.svelte-b3db5ffe.js", "chunks/preload-helper-e4860ae8.js", "chunks/index-bbc8ee63.js"];
+    css11 = ["assets/pages/posts/index.svelte-ff7056fe.css"];
+  }
+});
+
+// .svelte-kit/output/server/nodes/5.js
+var __exports7 = {};
+__export(__exports7, {
+  css: () => css12,
+  entry: () => entry7,
+  js: () => js7,
+  module: () => init_md_exports
+});
+var entry7, js7, css12;
+var init__7 = __esm({
+  ".svelte-kit/output/server/nodes/5.js"() {
+    init_init_md();
+    entry7 = "pages/posts/2020-05-16-init.md-57c009ee.js";
+    js7 = ["pages/posts/2020-05-16-init.md-57c009ee.js", "chunks/index-bbc8ee63.js"];
+    css12 = [];
+  }
+});
+
+// .svelte-kit/output/server/nodes/6.js
+var __exports8 = {};
+__export(__exports8, {
+  css: () => css13,
+  entry: () => entry8,
+  js: () => js8,
+  module: () => what_does_radiolevity_mean_md_exports
+});
+var entry8, js8, css13;
+var init__8 = __esm({
+  ".svelte-kit/output/server/nodes/6.js"() {
+    init_what_does_radiolevity_mean_md();
+    entry8 = "pages/posts/2020-09-08-what-does-radiolevity-mean.md-8ace3106.js";
+    js8 = ["pages/posts/2020-09-08-what-does-radiolevity-mean.md-8ace3106.js", "chunks/index-bbc8ee63.js"];
+    css13 = [];
+  }
+});
+
+// .svelte-kit/output/server/nodes/7.js
+var __exports9 = {};
+__export(__exports9, {
+  css: () => css14,
+  entry: () => entry9,
+  js: () => js9,
+  module: () => new_domain_md_exports
+});
+var entry9, js9, css14;
+var init__9 = __esm({
+  ".svelte-kit/output/server/nodes/7.js"() {
+    init_new_domain_md();
+    entry9 = "pages/posts/2021-05-04-new-domain.md-072e232d.js";
+    js9 = ["pages/posts/2021-05-04-new-domain.md-072e232d.js", "chunks/index-bbc8ee63.js"];
+    css14 = [];
+  }
+});
+
+// .svelte-kit/output/server/nodes/8.js
+var __exports10 = {};
+__export(__exports10, {
+  css: () => css15,
+  entry: () => entry10,
+  js: () => js10,
+  module: () => all_new_site_md_exports
+});
+var entry10, js10, css15;
+var init__10 = __esm({
+  ".svelte-kit/output/server/nodes/8.js"() {
+    init_all_new_site_md();
+    entry10 = "pages/posts/2021-07-11-all-new-site.md-7059d9a5.js";
+    js10 = ["pages/posts/2021-07-11-all-new-site.md-7059d9a5.js", "chunks/index-bbc8ee63.js"];
+    css15 = [];
+  }
+});
+
+// .svelte-kit/output/server/nodes/9.js
+var __exports11 = {};
+__export(__exports11, {
+  css: () => css16,
+  entry: () => entry11,
+  js: () => js11,
+  module: () => tools_of_the_trade_md_exports
+});
+var entry11, js11, css16;
+var init__11 = __esm({
+  ".svelte-kit/output/server/nodes/9.js"() {
+    init_tools_of_the_trade_md();
+    entry11 = "pages/posts/2021-07-13-tools-of-the-trade.md-1224a1cb.js";
+    js11 = ["pages/posts/2021-07-13-tools-of-the-trade.md-1224a1cb.js", "chunks/index-bbc8ee63.js"];
+    css16 = [];
+  }
+});
+
+// .svelte-kit/output/server/nodes/10.js
+var __exports12 = {};
+__export(__exports12, {
+  css: () => css17,
+  entry: () => entry12,
+  js: () => js12,
+  module: () => floating_md_exports
+});
+var entry12, js12, css17;
+var init__12 = __esm({
+  ".svelte-kit/output/server/nodes/10.js"() {
+    init_floating_md();
+    entry12 = "pages/posts/2021-09-22-floating.md-a4719cc0.js";
+    js12 = ["pages/posts/2021-09-22-floating.md-a4719cc0.js", "chunks/index-bbc8ee63.js"];
+    css17 = [];
+  }
+});
+
+// .svelte-kit/output/server/nodes/11.js
+var __exports13 = {};
+__export(__exports13, {
+  css: () => css18,
+  entry: () => entry13,
+  js: () => js13,
+  module: () => floating_copy_md_exports
+});
+var entry13, js13, css18;
+var init__13 = __esm({
+  ".svelte-kit/output/server/nodes/11.js"() {
+    init_floating_copy_md();
+    entry13 = "pages/posts/2022-04-12-floating copy.md-de36f953.js";
+    js13 = ["pages/posts/2022-04-12-floating copy.md-de36f953.js", "chunks/index-bbc8ee63.js"];
+    css18 = [];
+  }
+});
+
+// .svelte-kit/vercel-tmp/entry.js
+var entry_exports = {};
+__export(entry_exports, {
+  default: () => entry_default
+});
+module.exports = __toCommonJS(entry_exports);
+
+// .svelte-kit/vercel-tmp/shims.js
+init_install_fetch();
+installFetch();
+
 // node_modules/@sveltejs/kit/dist/node.js
-function getRawBody(req) {
+var import_stream = require("stream");
+function get_raw_body(req) {
   return new Promise((fulfil, reject) => {
-    const h = req.headers;
-    if (!h["content-type"]) {
+    const h2 = req.headers;
+    if (!h2["content-type"]) {
       return fulfil(null);
     }
     req.on("error", reject);
-    const length = Number(h["content-length"]);
-    if (isNaN(length) && h["transfer-encoding"] == null) {
+    const length = Number(h2["content-length"]);
+    if (isNaN(length) && h2["transfer-encoding"] == null) {
       return fulfil(null);
     }
     let data = new Uint8Array(length || 0);
@@ -62,1005 +6562,238 @@ function getRawBody(req) {
       });
     }
     req.on("end", () => {
-      const [type] = h["content-type"].split(/;\s*/);
-      if (type === "application/octet-stream") {
-        return fulfil(data);
-      }
-      const encoding = h["content-encoding"] || "utf-8";
-      fulfil(new TextDecoder(encoding).decode(data));
+      fulfil(data);
     });
   });
 }
+async function getRequest(base2, req) {
+  let headers = req.headers;
+  if (req.httpVersionMajor === 2) {
+    headers = Object.assign({}, headers);
+    delete headers[":method"];
+    delete headers[":path"];
+    delete headers[":authority"];
+    delete headers[":scheme"];
+  }
+  return new Request(base2 + req.url, {
+    method: req.method,
+    headers,
+    body: await get_raw_body(req)
+  });
+}
+async function setResponse(res, response) {
+  const headers = Object.fromEntries(response.headers);
+  if (response.headers.has("set-cookie")) {
+    headers["set-cookie"] = response.headers.raw()["set-cookie"];
+  }
+  res.writeHead(response.status, headers);
+  if (response.body instanceof import_stream.Readable) {
+    response.body.pipe(res);
+  } else {
+    if (response.body) {
+      res.write(await response.arrayBuffer());
+    }
+    res.end();
+  }
+}
 
-// node_modules/@sveltejs/kit/dist/install-fetch.js
-var import_http = __toModule(require("http"));
-var import_https = __toModule(require("https"));
-var import_zlib = __toModule(require("zlib"));
-var import_stream = __toModule(require("stream"));
-var import_util = __toModule(require("util"));
-var import_crypto = __toModule(require("crypto"));
-var import_url = __toModule(require("url"));
-function dataUriToBuffer(uri) {
-  if (!/^data:/i.test(uri)) {
-    throw new TypeError('`uri` does not appear to be a Data URI (must begin with "data:")');
-  }
-  uri = uri.replace(/\r?\n/g, "");
-  const firstComma = uri.indexOf(",");
-  if (firstComma === -1 || firstComma <= 4) {
-    throw new TypeError("malformed data: URI");
-  }
-  const meta = uri.substring(5, firstComma).split(";");
-  let charset = "";
-  let base64 = false;
-  const type = meta[0] || "text/plain";
-  let typeFull = type;
-  for (let i = 1; i < meta.length; i++) {
-    if (meta[i] === "base64") {
-      base64 = true;
-    } else {
-      typeFull += `;${meta[i]}`;
-      if (meta[i].indexOf("charset=") === 0) {
-        charset = meta[i].substring(8);
-      }
-    }
-  }
-  if (!meta[0] && !charset.length) {
-    typeFull += ";charset=US-ASCII";
-    charset = "US-ASCII";
-  }
-  const encoding = base64 ? "base64" : "ascii";
-  const data = unescape(uri.substring(firstComma + 1));
-  const buffer = Buffer.from(data, encoding);
-  buffer.type = type;
-  buffer.typeFull = typeFull;
-  buffer.charset = charset;
-  return buffer;
+// .svelte-kit/output/server/index.js
+init_index_811e4c83();
+var __accessCheck2 = (obj, member, msg) => {
+  if (!member.has(obj))
+    throw TypeError("Cannot " + msg);
+};
+var __privateGet2 = (obj, member, getter) => {
+  __accessCheck2(obj, member, "read from private field");
+  return getter ? getter.call(obj) : member.get(obj);
+};
+var __privateAdd2 = (obj, member, value) => {
+  if (member.has(obj))
+    throw TypeError("Cannot add the same private member more than once");
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+};
+var __privateSet2 = (obj, member, value, setter) => {
+  __accessCheck2(obj, member, "write to private field");
+  setter ? setter.call(obj, value) : member.set(obj, value);
+  return value;
+};
+var _use_hashes;
+var _dev;
+var _script_needs_csp;
+var _style_needs_csp;
+var _directives;
+var _script_src;
+var _style_src;
+function afterUpdate() {
 }
-var src = dataUriToBuffer;
-var { Readable } = import_stream.default;
-var wm = new WeakMap();
-async function* read(parts) {
-  for (const part of parts) {
-    if ("stream" in part) {
-      yield* part.stream();
-    } else {
-      yield part;
-    }
+var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let { stores } = $$props;
+  let { page: page2 } = $$props;
+  let { components } = $$props;
+  let { props_0 = null } = $$props;
+  let { props_1 = null } = $$props;
+  let { props_2 = null } = $$props;
+  setContext("__svelte__", stores);
+  afterUpdate(stores.page.notify);
+  if ($$props.stores === void 0 && $$bindings.stores && stores !== void 0)
+    $$bindings.stores(stores);
+  if ($$props.page === void 0 && $$bindings.page && page2 !== void 0)
+    $$bindings.page(page2);
+  if ($$props.components === void 0 && $$bindings.components && components !== void 0)
+    $$bindings.components(components);
+  if ($$props.props_0 === void 0 && $$bindings.props_0 && props_0 !== void 0)
+    $$bindings.props_0(props_0);
+  if ($$props.props_1 === void 0 && $$bindings.props_1 && props_1 !== void 0)
+    $$bindings.props_1(props_1);
+  if ($$props.props_2 === void 0 && $$bindings.props_2 && props_2 !== void 0)
+    $$bindings.props_2(props_2);
+  {
+    stores.page.set(page2);
   }
-}
-var Blob = class {
-  constructor(blobParts = [], options2 = {}) {
-    let size = 0;
-    const parts = blobParts.map((element) => {
-      let buffer;
-      if (element instanceof Buffer) {
-        buffer = element;
-      } else if (ArrayBuffer.isView(element)) {
-        buffer = Buffer.from(element.buffer, element.byteOffset, element.byteLength);
-      } else if (element instanceof ArrayBuffer) {
-        buffer = Buffer.from(element);
-      } else if (element instanceof Blob) {
-        buffer = element;
-      } else {
-        buffer = Buffer.from(typeof element === "string" ? element : String(element));
-      }
-      size += buffer.length || buffer.size || 0;
-      return buffer;
-    });
-    const type = options2.type === void 0 ? "" : String(options2.type).toLowerCase();
-    wm.set(this, {
-      type: /[^\u0020-\u007E]/.test(type) ? "" : type,
-      size,
-      parts
-    });
-  }
-  get size() {
-    return wm.get(this).size;
-  }
-  get type() {
-    return wm.get(this).type;
-  }
-  async text() {
-    return Buffer.from(await this.arrayBuffer()).toString();
-  }
-  async arrayBuffer() {
-    const data = new Uint8Array(this.size);
-    let offset = 0;
-    for await (const chunk of this.stream()) {
-      data.set(chunk, offset);
-      offset += chunk.length;
-    }
-    return data.buffer;
-  }
-  stream() {
-    return Readable.from(read(wm.get(this).parts));
-  }
-  slice(start = 0, end = this.size, type = "") {
-    const { size } = this;
-    let relativeStart = start < 0 ? Math.max(size + start, 0) : Math.min(start, size);
-    let relativeEnd = end < 0 ? Math.max(size + end, 0) : Math.min(end, size);
-    const span = Math.max(relativeEnd - relativeStart, 0);
-    const parts = wm.get(this).parts.values();
-    const blobParts = [];
-    let added = 0;
-    for (const part of parts) {
-      const size2 = ArrayBuffer.isView(part) ? part.byteLength : part.size;
-      if (relativeStart && size2 <= relativeStart) {
-        relativeStart -= size2;
-        relativeEnd -= size2;
-      } else {
-        const chunk = part.slice(relativeStart, Math.min(size2, relativeEnd));
-        blobParts.push(chunk);
-        added += ArrayBuffer.isView(chunk) ? chunk.byteLength : chunk.size;
-        relativeStart = 0;
-        if (added >= span) {
-          break;
+  return `
+
+
+${components[1] ? `${validate_component(components[0] || missing_component, "svelte:component").$$render($$result, Object.assign(props_0 || {}), {}, {
+    default: () => {
+      return `${components[2] ? `${validate_component(components[1] || missing_component, "svelte:component").$$render($$result, Object.assign(props_1 || {}), {}, {
+        default: () => {
+          return `${validate_component(components[2] || missing_component, "svelte:component").$$render($$result, Object.assign(props_2 || {}), {}, {})}`;
         }
-      }
+      })}` : `${validate_component(components[1] || missing_component, "svelte:component").$$render($$result, Object.assign(props_1 || {}), {}, {})}`}`;
     }
-    const blob = new Blob([], { type: String(type).toLowerCase() });
-    Object.assign(wm.get(blob), { size: span, parts: blobParts });
-    return blob;
-  }
-  get [Symbol.toStringTag]() {
-    return "Blob";
-  }
-  static [Symbol.hasInstance](object) {
-    return object && typeof object === "object" && typeof object.stream === "function" && object.stream.length === 0 && typeof object.constructor === "function" && /^(Blob|File)$/.test(object[Symbol.toStringTag]);
-  }
-};
-Object.defineProperties(Blob.prototype, {
-  size: { enumerable: true },
-  type: { enumerable: true },
-  slice: { enumerable: true }
+  })}` : `${validate_component(components[0] || missing_component, "svelte:component").$$render($$result, Object.assign(props_0 || {}), {}, {})}`}
+
+${``}`;
 });
-var fetchBlob = Blob;
-var FetchBaseError = class extends Error {
-  constructor(message, type) {
-    super(message);
-    Error.captureStackTrace(this, this.constructor);
-    this.type = type;
-  }
-  get name() {
-    return this.constructor.name;
-  }
-  get [Symbol.toStringTag]() {
-    return this.constructor.name;
-  }
-};
-var FetchError = class extends FetchBaseError {
-  constructor(message, type, systemError) {
-    super(message, type);
-    if (systemError) {
-      this.code = this.errno = systemError.code;
-      this.erroredSysCall = systemError.syscall;
-    }
-  }
-};
-var NAME = Symbol.toStringTag;
-var isURLSearchParameters = (object) => {
-  return typeof object === "object" && typeof object.append === "function" && typeof object.delete === "function" && typeof object.get === "function" && typeof object.getAll === "function" && typeof object.has === "function" && typeof object.set === "function" && typeof object.sort === "function" && object[NAME] === "URLSearchParams";
-};
-var isBlob = (object) => {
-  return typeof object === "object" && typeof object.arrayBuffer === "function" && typeof object.type === "string" && typeof object.stream === "function" && typeof object.constructor === "function" && /^(Blob|File)$/.test(object[NAME]);
-};
-function isFormData(object) {
-  return typeof object === "object" && typeof object.append === "function" && typeof object.set === "function" && typeof object.get === "function" && typeof object.getAll === "function" && typeof object.delete === "function" && typeof object.keys === "function" && typeof object.values === "function" && typeof object.entries === "function" && typeof object.constructor === "function" && object[NAME] === "FormData";
-}
-var isAbortSignal = (object) => {
-  return typeof object === "object" && object[NAME] === "AbortSignal";
-};
-var carriage = "\r\n";
-var dashes = "-".repeat(2);
-var carriageLength = Buffer.byteLength(carriage);
-var getFooter = (boundary) => `${dashes}${boundary}${dashes}${carriage.repeat(2)}`;
-function getHeader(boundary, name, field) {
-  let header = "";
-  header += `${dashes}${boundary}${carriage}`;
-  header += `Content-Disposition: form-data; name="${name}"`;
-  if (isBlob(field)) {
-    header += `; filename="${field.name}"${carriage}`;
-    header += `Content-Type: ${field.type || "application/octet-stream"}`;
-  }
-  return `${header}${carriage.repeat(2)}`;
-}
-var getBoundary = () => (0, import_crypto.randomBytes)(8).toString("hex");
-async function* formDataIterator(form, boundary) {
-  for (const [name, value] of form) {
-    yield getHeader(boundary, name, value);
-    if (isBlob(value)) {
-      yield* value.stream();
-    } else {
-      yield value;
-    }
-    yield carriage;
-  }
-  yield getFooter(boundary);
-}
-function getFormDataLength(form, boundary) {
-  let length = 0;
-  for (const [name, value] of form) {
-    length += Buffer.byteLength(getHeader(boundary, name, value));
-    if (isBlob(value)) {
-      length += value.size;
-    } else {
-      length += Buffer.byteLength(String(value));
-    }
-    length += carriageLength;
-  }
-  length += Buffer.byteLength(getFooter(boundary));
-  return length;
-}
-var INTERNALS$2 = Symbol("Body internals");
-var Body = class {
-  constructor(body, {
-    size = 0
-  } = {}) {
-    let boundary = null;
-    if (body === null) {
-      body = null;
-    } else if (isURLSearchParameters(body)) {
-      body = Buffer.from(body.toString());
-    } else if (isBlob(body))
-      ;
-    else if (Buffer.isBuffer(body))
-      ;
-    else if (import_util.types.isAnyArrayBuffer(body)) {
-      body = Buffer.from(body);
-    } else if (ArrayBuffer.isView(body)) {
-      body = Buffer.from(body.buffer, body.byteOffset, body.byteLength);
-    } else if (body instanceof import_stream.default)
-      ;
-    else if (isFormData(body)) {
-      boundary = `NodeFetchFormDataBoundary${getBoundary()}`;
-      body = import_stream.default.Readable.from(formDataIterator(body, boundary));
-    } else {
-      body = Buffer.from(String(body));
-    }
-    this[INTERNALS$2] = {
-      body,
-      boundary,
-      disturbed: false,
-      error: null
-    };
-    this.size = size;
-    if (body instanceof import_stream.default) {
-      body.on("error", (err) => {
-        const error2 = err instanceof FetchBaseError ? err : new FetchError(`Invalid response body while trying to fetch ${this.url}: ${err.message}`, "system", err);
-        this[INTERNALS$2].error = error2;
-      });
-    }
-  }
-  get body() {
-    return this[INTERNALS$2].body;
-  }
-  get bodyUsed() {
-    return this[INTERNALS$2].disturbed;
-  }
-  async arrayBuffer() {
-    const { buffer, byteOffset, byteLength } = await consumeBody(this);
-    return buffer.slice(byteOffset, byteOffset + byteLength);
-  }
-  async blob() {
-    const ct = this.headers && this.headers.get("content-type") || this[INTERNALS$2].body && this[INTERNALS$2].body.type || "";
-    const buf = await this.buffer();
-    return new fetchBlob([buf], {
-      type: ct
-    });
-  }
-  async json() {
-    const buffer = await consumeBody(this);
-    return JSON.parse(buffer.toString());
-  }
-  async text() {
-    const buffer = await consumeBody(this);
-    return buffer.toString();
-  }
-  buffer() {
-    return consumeBody(this);
-  }
-};
-Object.defineProperties(Body.prototype, {
-  body: { enumerable: true },
-  bodyUsed: { enumerable: true },
-  arrayBuffer: { enumerable: true },
-  blob: { enumerable: true },
-  json: { enumerable: true },
-  text: { enumerable: true }
-});
-async function consumeBody(data) {
-  if (data[INTERNALS$2].disturbed) {
-    throw new TypeError(`body used already for: ${data.url}`);
-  }
-  data[INTERNALS$2].disturbed = true;
-  if (data[INTERNALS$2].error) {
-    throw data[INTERNALS$2].error;
-  }
-  let { body } = data;
-  if (body === null) {
-    return Buffer.alloc(0);
-  }
-  if (isBlob(body)) {
-    body = body.stream();
-  }
-  if (Buffer.isBuffer(body)) {
-    return body;
-  }
-  if (!(body instanceof import_stream.default)) {
-    return Buffer.alloc(0);
-  }
-  const accum = [];
-  let accumBytes = 0;
-  try {
-    for await (const chunk of body) {
-      if (data.size > 0 && accumBytes + chunk.length > data.size) {
-        const err = new FetchError(`content size at ${data.url} over limit: ${data.size}`, "max-size");
-        body.destroy(err);
-        throw err;
-      }
-      accumBytes += chunk.length;
-      accum.push(chunk);
-    }
-  } catch (error2) {
-    if (error2 instanceof FetchBaseError) {
-      throw error2;
-    } else {
-      throw new FetchError(`Invalid response body while trying to fetch ${data.url}: ${error2.message}`, "system", error2);
-    }
-  }
-  if (body.readableEnded === true || body._readableState.ended === true) {
-    try {
-      if (accum.every((c) => typeof c === "string")) {
-        return Buffer.from(accum.join(""));
-      }
-      return Buffer.concat(accum, accumBytes);
-    } catch (error2) {
-      throw new FetchError(`Could not create Buffer from response body for ${data.url}: ${error2.message}`, "system", error2);
-    }
-  } else {
-    throw new FetchError(`Premature close of server response while trying to fetch ${data.url}`);
-  }
-}
-var clone = (instance, highWaterMark) => {
-  let p1;
-  let p2;
-  let { body } = instance;
-  if (instance.bodyUsed) {
-    throw new Error("cannot clone body after it is used");
-  }
-  if (body instanceof import_stream.default && typeof body.getBoundary !== "function") {
-    p1 = new import_stream.PassThrough({ highWaterMark });
-    p2 = new import_stream.PassThrough({ highWaterMark });
-    body.pipe(p1);
-    body.pipe(p2);
-    instance[INTERNALS$2].body = p1;
-    body = p2;
-  }
-  return body;
-};
-var extractContentType = (body, request) => {
-  if (body === null) {
-    return null;
-  }
-  if (typeof body === "string") {
-    return "text/plain;charset=UTF-8";
-  }
-  if (isURLSearchParameters(body)) {
-    return "application/x-www-form-urlencoded;charset=UTF-8";
-  }
-  if (isBlob(body)) {
-    return body.type || null;
-  }
-  if (Buffer.isBuffer(body) || import_util.types.isAnyArrayBuffer(body) || ArrayBuffer.isView(body)) {
-    return null;
-  }
-  if (body && typeof body.getBoundary === "function") {
-    return `multipart/form-data;boundary=${body.getBoundary()}`;
-  }
-  if (isFormData(body)) {
-    return `multipart/form-data; boundary=${request[INTERNALS$2].boundary}`;
-  }
-  if (body instanceof import_stream.default) {
-    return null;
-  }
-  return "text/plain;charset=UTF-8";
-};
-var getTotalBytes = (request) => {
-  const { body } = request;
-  if (body === null) {
-    return 0;
-  }
-  if (isBlob(body)) {
-    return body.size;
-  }
-  if (Buffer.isBuffer(body)) {
-    return body.length;
-  }
-  if (body && typeof body.getLengthSync === "function") {
-    return body.hasKnownLength && body.hasKnownLength() ? body.getLengthSync() : null;
-  }
-  if (isFormData(body)) {
-    return getFormDataLength(request[INTERNALS$2].boundary);
-  }
-  return null;
-};
-var writeToStream = (dest, { body }) => {
-  if (body === null) {
-    dest.end();
-  } else if (isBlob(body)) {
-    body.stream().pipe(dest);
-  } else if (Buffer.isBuffer(body)) {
-    dest.write(body);
-    dest.end();
-  } else {
-    body.pipe(dest);
-  }
-};
-var validateHeaderName = typeof import_http.default.validateHeaderName === "function" ? import_http.default.validateHeaderName : (name) => {
-  if (!/^[\^`\-\w!#$%&'*+.|~]+$/.test(name)) {
-    const err = new TypeError(`Header name must be a valid HTTP token [${name}]`);
-    Object.defineProperty(err, "code", { value: "ERR_INVALID_HTTP_TOKEN" });
-    throw err;
-  }
-};
-var validateHeaderValue = typeof import_http.default.validateHeaderValue === "function" ? import_http.default.validateHeaderValue : (name, value) => {
-  if (/[^\t\u0020-\u007E\u0080-\u00FF]/.test(value)) {
-    const err = new TypeError(`Invalid character in header content ["${name}"]`);
-    Object.defineProperty(err, "code", { value: "ERR_INVALID_CHAR" });
-    throw err;
-  }
-};
-var Headers = class extends URLSearchParams {
-  constructor(init2) {
-    let result = [];
-    if (init2 instanceof Headers) {
-      const raw = init2.raw();
-      for (const [name, values] of Object.entries(raw)) {
-        result.push(...values.map((value) => [name, value]));
-      }
-    } else if (init2 == null)
-      ;
-    else if (typeof init2 === "object" && !import_util.types.isBoxedPrimitive(init2)) {
-      const method = init2[Symbol.iterator];
-      if (method == null) {
-        result.push(...Object.entries(init2));
-      } else {
-        if (typeof method !== "function") {
-          throw new TypeError("Header pairs must be iterable");
-        }
-        result = [...init2].map((pair) => {
-          if (typeof pair !== "object" || import_util.types.isBoxedPrimitive(pair)) {
-            throw new TypeError("Each header pair must be an iterable object");
-          }
-          return [...pair];
-        }).map((pair) => {
-          if (pair.length !== 2) {
-            throw new TypeError("Each header pair must be a name/value tuple");
-          }
-          return [...pair];
+function to_headers(object) {
+  const headers = new Headers();
+  if (object) {
+    for (const key2 in object) {
+      const value = object[key2];
+      if (!value)
+        continue;
+      if (Array.isArray(value)) {
+        value.forEach((value2) => {
+          headers.append(key2, value2);
         });
-      }
-    } else {
-      throw new TypeError("Failed to construct 'Headers': The provided value is not of type '(sequence<sequence<ByteString>> or record<ByteString, ByteString>)");
-    }
-    result = result.length > 0 ? result.map(([name, value]) => {
-      validateHeaderName(name);
-      validateHeaderValue(name, String(value));
-      return [String(name).toLowerCase(), String(value)];
-    }) : void 0;
-    super(result);
-    return new Proxy(this, {
-      get(target, p, receiver) {
-        switch (p) {
-          case "append":
-          case "set":
-            return (name, value) => {
-              validateHeaderName(name);
-              validateHeaderValue(name, String(value));
-              return URLSearchParams.prototype[p].call(receiver, String(name).toLowerCase(), String(value));
-            };
-          case "delete":
-          case "has":
-          case "getAll":
-            return (name) => {
-              validateHeaderName(name);
-              return URLSearchParams.prototype[p].call(receiver, String(name).toLowerCase());
-            };
-          case "keys":
-            return () => {
-              target.sort();
-              return new Set(URLSearchParams.prototype.keys.call(target)).keys();
-            };
-          default:
-            return Reflect.get(target, p, receiver);
-        }
-      }
-    });
-  }
-  get [Symbol.toStringTag]() {
-    return this.constructor.name;
-  }
-  toString() {
-    return Object.prototype.toString.call(this);
-  }
-  get(name) {
-    const values = this.getAll(name);
-    if (values.length === 0) {
-      return null;
-    }
-    let value = values.join(", ");
-    if (/^content-encoding$/i.test(name)) {
-      value = value.toLowerCase();
-    }
-    return value;
-  }
-  forEach(callback) {
-    for (const name of this.keys()) {
-      callback(this.get(name), name);
-    }
-  }
-  *values() {
-    for (const name of this.keys()) {
-      yield this.get(name);
-    }
-  }
-  *entries() {
-    for (const name of this.keys()) {
-      yield [name, this.get(name)];
-    }
-  }
-  [Symbol.iterator]() {
-    return this.entries();
-  }
-  raw() {
-    return [...this.keys()].reduce((result, key) => {
-      result[key] = this.getAll(key);
-      return result;
-    }, {});
-  }
-  [Symbol.for("nodejs.util.inspect.custom")]() {
-    return [...this.keys()].reduce((result, key) => {
-      const values = this.getAll(key);
-      if (key === "host") {
-        result[key] = values[0];
       } else {
-        result[key] = values.length > 1 ? values : values[0];
+        headers.set(key2, value);
       }
-      return result;
-    }, {});
-  }
-};
-Object.defineProperties(Headers.prototype, ["get", "entries", "forEach", "values"].reduce((result, property) => {
-  result[property] = { enumerable: true };
-  return result;
-}, {}));
-function fromRawHeaders(headers = []) {
-  return new Headers(headers.reduce((result, value, index2, array) => {
-    if (index2 % 2 === 0) {
-      result.push(array.slice(index2, index2 + 2));
     }
-    return result;
-  }, []).filter(([name, value]) => {
-    try {
-      validateHeaderName(name);
-      validateHeaderValue(name, String(value));
-      return true;
-    } catch {
+  }
+  return headers;
+}
+function hash(value) {
+  let hash2 = 5381;
+  let i2 = value.length;
+  if (typeof value === "string") {
+    while (i2)
+      hash2 = hash2 * 33 ^ value.charCodeAt(--i2);
+  } else {
+    while (i2)
+      hash2 = hash2 * 33 ^ value[--i2];
+  }
+  return (hash2 >>> 0).toString(36);
+}
+function lowercase_keys(obj) {
+  const clone2 = {};
+  for (const key2 in obj) {
+    clone2[key2.toLowerCase()] = obj[key2];
+  }
+  return clone2;
+}
+function decode_params(params) {
+  for (const key2 in params) {
+    params[key2] = params[key2].replace(/%23/g, "#").replace(/%3[Bb]/g, ";").replace(/%2[Cc]/g, ",").replace(/%2[Ff]/g, "/").replace(/%3[Ff]/g, "?").replace(/%3[Aa]/g, ":").replace(/%40/g, "@").replace(/%26/g, "&").replace(/%3[Dd]/g, "=").replace(/%2[Bb]/g, "+").replace(/%24/g, "$");
+  }
+  return params;
+}
+function is_pojo(body) {
+  if (typeof body !== "object")
+    return false;
+  if (body) {
+    if (body instanceof Uint8Array)
       return false;
-    }
-  }));
+    if (body._readableState && typeof body.pipe === "function")
+      return false;
+    if (typeof ReadableStream !== "undefined" && body instanceof ReadableStream)
+      return false;
+  }
+  return true;
 }
-var redirectStatus = new Set([301, 302, 303, 307, 308]);
-var isRedirect = (code) => {
-  return redirectStatus.has(code);
-};
-var INTERNALS$1 = Symbol("Response internals");
-var Response2 = class extends Body {
-  constructor(body = null, options2 = {}) {
-    super(body, options2);
-    const status = options2.status || 200;
-    const headers = new Headers(options2.headers);
-    if (body !== null && !headers.has("Content-Type")) {
-      const contentType = extractContentType(body);
-      if (contentType) {
-        headers.append("Content-Type", contentType);
-      }
-    }
-    this[INTERNALS$1] = {
-      url: options2.url,
-      status,
-      statusText: options2.statusText || "",
-      headers,
-      counter: options2.counter,
-      highWaterMark: options2.highWaterMark
-    };
-  }
-  get url() {
-    return this[INTERNALS$1].url || "";
-  }
-  get status() {
-    return this[INTERNALS$1].status;
-  }
-  get ok() {
-    return this[INTERNALS$1].status >= 200 && this[INTERNALS$1].status < 300;
-  }
-  get redirected() {
-    return this[INTERNALS$1].counter > 0;
-  }
-  get statusText() {
-    return this[INTERNALS$1].statusText;
-  }
-  get headers() {
-    return this[INTERNALS$1].headers;
-  }
-  get highWaterMark() {
-    return this[INTERNALS$1].highWaterMark;
-  }
-  clone() {
-    return new Response2(clone(this, this.highWaterMark), {
-      url: this.url,
-      status: this.status,
-      statusText: this.statusText,
-      headers: this.headers,
-      ok: this.ok,
-      redirected: this.redirected,
-      size: this.size
-    });
-  }
-  static redirect(url, status = 302) {
-    if (!isRedirect(status)) {
-      throw new RangeError('Failed to execute "redirect" on "response": Invalid status code');
-    }
-    return new Response2(null, {
-      headers: {
-        location: new URL(url).toString()
-      },
-      status
-    });
-  }
-  get [Symbol.toStringTag]() {
-    return "Response";
-  }
-};
-Object.defineProperties(Response2.prototype, {
-  url: { enumerable: true },
-  status: { enumerable: true },
-  ok: { enumerable: true },
-  redirected: { enumerable: true },
-  statusText: { enumerable: true },
-  headers: { enumerable: true },
-  clone: { enumerable: true }
-});
-var getSearch = (parsedURL) => {
-  if (parsedURL.search) {
-    return parsedURL.search;
-  }
-  const lastOffset = parsedURL.href.length - 1;
-  const hash2 = parsedURL.hash || (parsedURL.href[lastOffset] === "#" ? "#" : "");
-  return parsedURL.href[lastOffset - hash2.length] === "?" ? "?" : "";
-};
-var INTERNALS = Symbol("Request internals");
-var isRequest = (object) => {
-  return typeof object === "object" && typeof object[INTERNALS] === "object";
-};
-var Request2 = class extends Body {
-  constructor(input, init2 = {}) {
-    let parsedURL;
-    if (isRequest(input)) {
-      parsedURL = new URL(input.url);
-    } else {
-      parsedURL = new URL(input);
-      input = {};
-    }
-    let method = init2.method || input.method || "GET";
-    method = method.toUpperCase();
-    if ((init2.body != null || isRequest(input)) && input.body !== null && (method === "GET" || method === "HEAD")) {
-      throw new TypeError("Request with GET/HEAD method cannot have body");
-    }
-    const inputBody = init2.body ? init2.body : isRequest(input) && input.body !== null ? clone(input) : null;
-    super(inputBody, {
-      size: init2.size || input.size || 0
-    });
-    const headers = new Headers(init2.headers || input.headers || {});
-    if (inputBody !== null && !headers.has("Content-Type")) {
-      const contentType = extractContentType(inputBody, this);
-      if (contentType) {
-        headers.append("Content-Type", contentType);
-      }
-    }
-    let signal = isRequest(input) ? input.signal : null;
-    if ("signal" in init2) {
-      signal = init2.signal;
-    }
-    if (signal !== null && !isAbortSignal(signal)) {
-      throw new TypeError("Expected signal to be an instanceof AbortSignal");
-    }
-    this[INTERNALS] = {
-      method,
-      redirect: init2.redirect || input.redirect || "follow",
-      headers,
-      parsedURL,
-      signal
-    };
-    this.follow = init2.follow === void 0 ? input.follow === void 0 ? 20 : input.follow : init2.follow;
-    this.compress = init2.compress === void 0 ? input.compress === void 0 ? true : input.compress : init2.compress;
-    this.counter = init2.counter || input.counter || 0;
-    this.agent = init2.agent || input.agent;
-    this.highWaterMark = init2.highWaterMark || input.highWaterMark || 16384;
-    this.insecureHTTPParser = init2.insecureHTTPParser || input.insecureHTTPParser || false;
-  }
-  get method() {
-    return this[INTERNALS].method;
-  }
-  get url() {
-    return (0, import_url.format)(this[INTERNALS].parsedURL);
-  }
-  get headers() {
-    return this[INTERNALS].headers;
-  }
-  get redirect() {
-    return this[INTERNALS].redirect;
-  }
-  get signal() {
-    return this[INTERNALS].signal;
-  }
-  clone() {
-    return new Request2(this);
-  }
-  get [Symbol.toStringTag]() {
-    return "Request";
-  }
-};
-Object.defineProperties(Request2.prototype, {
-  method: { enumerable: true },
-  url: { enumerable: true },
-  headers: { enumerable: true },
-  redirect: { enumerable: true },
-  clone: { enumerable: true },
-  signal: { enumerable: true }
-});
-var getNodeRequestOptions = (request) => {
-  const { parsedURL } = request[INTERNALS];
-  const headers = new Headers(request[INTERNALS].headers);
-  if (!headers.has("Accept")) {
-    headers.set("Accept", "*/*");
-  }
-  let contentLengthValue = null;
-  if (request.body === null && /^(post|put)$/i.test(request.method)) {
-    contentLengthValue = "0";
-  }
-  if (request.body !== null) {
-    const totalBytes = getTotalBytes(request);
-    if (typeof totalBytes === "number" && !Number.isNaN(totalBytes)) {
-      contentLengthValue = String(totalBytes);
-    }
-  }
-  if (contentLengthValue) {
-    headers.set("Content-Length", contentLengthValue);
-  }
-  if (!headers.has("User-Agent")) {
-    headers.set("User-Agent", "node-fetch");
-  }
-  if (request.compress && !headers.has("Accept-Encoding")) {
-    headers.set("Accept-Encoding", "gzip,deflate,br");
-  }
-  let { agent } = request;
-  if (typeof agent === "function") {
-    agent = agent(parsedURL);
-  }
-  if (!headers.has("Connection") && !agent) {
-    headers.set("Connection", "close");
-  }
-  const search = getSearch(parsedURL);
-  const requestOptions = {
-    path: parsedURL.pathname + search,
-    pathname: parsedURL.pathname,
-    hostname: parsedURL.hostname,
-    protocol: parsedURL.protocol,
-    port: parsedURL.port,
-    hash: parsedURL.hash,
-    search: parsedURL.search,
-    query: parsedURL.query,
-    href: parsedURL.href,
-    method: request.method,
-    headers: headers[Symbol.for("nodejs.util.inspect.custom")](),
-    insecureHTTPParser: request.insecureHTTPParser,
-    agent
-  };
-  return requestOptions;
-};
-var AbortError = class extends FetchBaseError {
-  constructor(message, type = "aborted") {
-    super(message, type);
-  }
-};
-var supportedSchemas = new Set(["data:", "http:", "https:"]);
-async function fetch2(url, options_) {
-  return new Promise((resolve2, reject) => {
-    const request = new Request2(url, options_);
-    const options2 = getNodeRequestOptions(request);
-    if (!supportedSchemas.has(options2.protocol)) {
-      throw new TypeError(`node-fetch cannot load ${url}. URL scheme "${options2.protocol.replace(/:$/, "")}" is not supported.`);
-    }
-    if (options2.protocol === "data:") {
-      const data = src(request.url);
-      const response2 = new Response2(data, { headers: { "Content-Type": data.typeFull } });
-      resolve2(response2);
-      return;
-    }
-    const send = (options2.protocol === "https:" ? import_https.default : import_http.default).request;
-    const { signal } = request;
-    let response = null;
-    const abort = () => {
-      const error2 = new AbortError("The operation was aborted.");
-      reject(error2);
-      if (request.body && request.body instanceof import_stream.default.Readable) {
-        request.body.destroy(error2);
-      }
-      if (!response || !response.body) {
-        return;
-      }
-      response.body.emit("error", error2);
-    };
-    if (signal && signal.aborted) {
-      abort();
-      return;
-    }
-    const abortAndFinalize = () => {
-      abort();
-      finalize();
-    };
-    const request_ = send(options2);
-    if (signal) {
-      signal.addEventListener("abort", abortAndFinalize);
-    }
-    const finalize = () => {
-      request_.abort();
-      if (signal) {
-        signal.removeEventListener("abort", abortAndFinalize);
-      }
-    };
-    request_.on("error", (err) => {
-      reject(new FetchError(`request to ${request.url} failed, reason: ${err.message}`, "system", err));
-      finalize();
-    });
-    request_.on("response", (response_) => {
-      request_.setTimeout(0);
-      const headers = fromRawHeaders(response_.rawHeaders);
-      if (isRedirect(response_.statusCode)) {
-        const location = headers.get("Location");
-        const locationURL = location === null ? null : new URL(location, request.url);
-        switch (request.redirect) {
-          case "error":
-            reject(new FetchError(`uri requested responds with a redirect, redirect mode is set to error: ${request.url}`, "no-redirect"));
-            finalize();
-            return;
-          case "manual":
-            if (locationURL !== null) {
-              try {
-                headers.set("Location", locationURL);
-              } catch (error2) {
-                reject(error2);
-              }
-            }
-            break;
-          case "follow": {
-            if (locationURL === null) {
-              break;
-            }
-            if (request.counter >= request.follow) {
-              reject(new FetchError(`maximum redirect reached at: ${request.url}`, "max-redirect"));
-              finalize();
-              return;
-            }
-            const requestOptions = {
-              headers: new Headers(request.headers),
-              follow: request.follow,
-              counter: request.counter + 1,
-              agent: request.agent,
-              compress: request.compress,
-              method: request.method,
-              body: request.body,
-              signal: request.signal,
-              size: request.size
-            };
-            if (response_.statusCode !== 303 && request.body && options_.body instanceof import_stream.default.Readable) {
-              reject(new FetchError("Cannot follow redirect with body being a readable stream", "unsupported-redirect"));
-              finalize();
-              return;
-            }
-            if (response_.statusCode === 303 || (response_.statusCode === 301 || response_.statusCode === 302) && request.method === "POST") {
-              requestOptions.method = "GET";
-              requestOptions.body = void 0;
-              requestOptions.headers.delete("content-length");
-            }
-            resolve2(fetch2(new Request2(locationURL, requestOptions)));
-            finalize();
-            return;
-          }
-        }
-      }
-      response_.once("end", () => {
-        if (signal) {
-          signal.removeEventListener("abort", abortAndFinalize);
-        }
-      });
-      let body = (0, import_stream.pipeline)(response_, new import_stream.PassThrough(), (error2) => {
-        reject(error2);
-      });
-      if (process.version < "v12.10") {
-        response_.on("aborted", abortAndFinalize);
-      }
-      const responseOptions = {
-        url: request.url,
-        status: response_.statusCode,
-        statusText: response_.statusMessage,
-        headers,
-        size: request.size,
-        counter: request.counter,
-        highWaterMark: request.highWaterMark
-      };
-      const codings = headers.get("Content-Encoding");
-      if (!request.compress || request.method === "HEAD" || codings === null || response_.statusCode === 204 || response_.statusCode === 304) {
-        response = new Response2(body, responseOptions);
-        resolve2(response);
-        return;
-      }
-      const zlibOptions = {
-        flush: import_zlib.default.Z_SYNC_FLUSH,
-        finishFlush: import_zlib.default.Z_SYNC_FLUSH
-      };
-      if (codings === "gzip" || codings === "x-gzip") {
-        body = (0, import_stream.pipeline)(body, import_zlib.default.createGunzip(zlibOptions), (error2) => {
-          reject(error2);
-        });
-        response = new Response2(body, responseOptions);
-        resolve2(response);
-        return;
-      }
-      if (codings === "deflate" || codings === "x-deflate") {
-        const raw = (0, import_stream.pipeline)(response_, new import_stream.PassThrough(), (error2) => {
-          reject(error2);
-        });
-        raw.once("data", (chunk) => {
-          if ((chunk[0] & 15) === 8) {
-            body = (0, import_stream.pipeline)(body, import_zlib.default.createInflate(), (error2) => {
-              reject(error2);
-            });
-          } else {
-            body = (0, import_stream.pipeline)(body, import_zlib.default.createInflateRaw(), (error2) => {
-              reject(error2);
-            });
-          }
-          response = new Response2(body, responseOptions);
-          resolve2(response);
-        });
-        return;
-      }
-      if (codings === "br") {
-        body = (0, import_stream.pipeline)(body, import_zlib.default.createBrotliDecompress(), (error2) => {
-          reject(error2);
-        });
-        response = new Response2(body, responseOptions);
-        resolve2(response);
-        return;
-      }
-      response = new Response2(body, responseOptions);
-      resolve2(response);
-    });
-    writeToStream(request_, request);
+function normalize_request_method(event) {
+  const method = event.request.method.toLowerCase();
+  return method === "delete" ? "del" : method;
+}
+function error(body) {
+  return new Response(body, {
+    status: 500
   });
 }
-globalThis.fetch = fetch2;
-globalThis.Response = Response2;
-globalThis.Request = Request2;
-globalThis.Headers = Headers;
-
-// node_modules/@sveltejs/kit/dist/ssr.js
-var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$";
+function is_string(s22) {
+  return typeof s22 === "string" || s22 instanceof String;
+}
+var text_types = /* @__PURE__ */ new Set([
+  "application/xml",
+  "application/json",
+  "application/x-www-form-urlencoded",
+  "multipart/form-data"
+]);
+function is_text(content_type) {
+  if (!content_type)
+    return true;
+  const type = content_type.split(";")[0].toLowerCase();
+  return type.startsWith("text/") || type.endsWith("+xml") || text_types.has(type);
+}
+async function render_endpoint(event, mod) {
+  const method = normalize_request_method(event);
+  let handler = mod[method];
+  if (!handler && method === "head") {
+    handler = mod.get;
+  }
+  if (!handler) {
+    return event.request.headers.get("x-sveltekit-load") ? new Response(void 0, {
+      status: 204
+    }) : new Response("Method not allowed", {
+      status: 405
+    });
+  }
+  const response = await handler(event);
+  const preface = `Invalid response from route ${event.url.pathname}`;
+  if (typeof response !== "object") {
+    return error(`${preface}: expected an object, got ${typeof response}`);
+  }
+  if (response.fallthrough) {
+    throw new Error("fallthrough is no longer supported. Use matchers instead: https://kit.svelte.dev/docs/routing#advanced-routing-matching");
+  }
+  const { status = 200, body = {} } = response;
+  const headers = response.headers instanceof Headers ? new Headers(response.headers) : to_headers(response.headers);
+  const type = headers.get("content-type");
+  if (!is_text(type) && !(body instanceof Uint8Array || is_string(body))) {
+    return error(`${preface}: body must be an instance of string or Uint8Array if content-type is not a supported textual content-type`);
+  }
+  let normalized_body;
+  if (is_pojo(body) && (!type || type.startsWith("application/json"))) {
+    headers.set("content-type", "application/json; charset=utf-8");
+    normalized_body = JSON.stringify(body);
+  } else {
+    normalized_body = body;
+  }
+  if ((typeof normalized_body === "string" || normalized_body instanceof Uint8Array) && !headers.has("etag")) {
+    const cache_control = headers.get("cache-control");
+    if (!cache_control || !/(no-store|immutable)/.test(cache_control)) {
+      headers.set("etag", `"${hash(normalized_body)}"`);
+    }
+  }
+  return new Response(method !== "head" ? normalized_body : void 0, {
+    status,
+    headers
+  });
+}
+var chars$1 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$";
 var unsafeChars = /[<>\b\f\n\r\t\0\u2028\u2029]/g;
 var reserved = /^(?:do|if|in|for|int|let|new|try|var|byte|case|char|else|enum|goto|long|this|void|with|await|break|catch|class|const|final|float|short|super|throw|while|yield|delete|double|export|import|native|return|switch|throws|typeof|boolean|default|extends|finally|package|private|abstract|continue|debugger|function|volatile|interface|protected|transient|implements|instanceof|synchronized)$/;
-var escaped$1 = {
+var escaped2 = {
   "<": "\\u003C",
   ">": "\\u003E",
   "/": "\\u002F",
@@ -1076,7 +6809,7 @@ var escaped$1 = {
 };
 var objectProtoOwnPropertyNames = Object.getOwnPropertyNames(Object.prototype).sort().join("\0");
 function devalue(value) {
-  var counts = new Map();
+  var counts = /* @__PURE__ */ new Map();
   function walk(thing) {
     if (typeof thing === "function") {
       throw new Error("Cannot stringify a function");
@@ -1110,20 +6843,20 @@ function devalue(value) {
           if (Object.getOwnPropertySymbols(thing).length > 0) {
             throw new Error("Cannot stringify POJOs with symbolic keys");
           }
-          Object.keys(thing).forEach(function(key) {
-            return walk(thing[key]);
+          Object.keys(thing).forEach(function(key2) {
+            return walk(thing[key2]);
           });
       }
     }
   }
   walk(value);
-  var names = new Map();
-  Array.from(counts).filter(function(entry) {
-    return entry[1] > 1;
+  var names = /* @__PURE__ */ new Map();
+  Array.from(counts).filter(function(entry14) {
+    return entry14[1] > 1;
   }).sort(function(a, b) {
     return b[1] - a[1];
-  }).forEach(function(entry, i) {
-    names.set(entry[0], getName(i));
+  }).forEach(function(entry14, i2) {
+    names.set(entry14[0], getName(i2));
   });
   function stringify(thing) {
     if (names.has(thing)) {
@@ -1143,8 +6876,8 @@ function devalue(value) {
       case "Date":
         return "new Date(" + thing.getTime() + ")";
       case "Array":
-        var members = thing.map(function(v, i) {
-          return i in thing ? stringify(v) : "";
+        var members = thing.map(function(v, i2) {
+          return i2 in thing ? stringify(v) : "";
         });
         var tail = thing.length === 0 || thing.length - 1 in thing ? "" : ",";
         return "[" + members.join(",") + tail + "]";
@@ -1152,8 +6885,8 @@ function devalue(value) {
       case "Map":
         return "new " + type + "([" + Array.from(thing).map(stringify).join(",") + "])";
       default:
-        var obj = "{" + Object.keys(thing).map(function(key) {
-          return safeKey(key) + ":" + stringify(thing[key]);
+        var obj = "{" + Object.keys(thing).map(function(key2) {
+          return safeKey(key2) + ":" + stringify(thing[key2]);
         }).join(",") + "}";
         var proto = Object.getPrototypeOf(thing);
         if (proto === null) {
@@ -1188,8 +6921,8 @@ function devalue(value) {
           break;
         case "Array":
           values_1.push("Array(" + thing.length + ")");
-          thing.forEach(function(v, i) {
-            statements_1.push(name + "[" + i + "]=" + stringify(v));
+          thing.forEach(function(v, i2) {
+            statements_1.push(name + "[" + i2 + "]=" + stringify(v));
           });
           break;
         case "Set":
@@ -1200,15 +6933,15 @@ function devalue(value) {
           break;
         case "Map":
           values_1.push("new Map");
-          statements_1.push(name + "." + Array.from(thing).map(function(_a) {
-            var k = _a[0], v = _a[1];
+          statements_1.push(name + "." + Array.from(thing).map(function(_a4) {
+            var k = _a4[0], v = _a4[1];
             return "set(" + stringify(k) + ", " + stringify(v) + ")";
           }).join("."));
           break;
         default:
           values_1.push(Object.getPrototypeOf(thing) === null ? "Object.create(null)" : "{}");
-          Object.keys(thing).forEach(function(key) {
-            statements_1.push("" + name + safeProp(key) + "=" + stringify(thing[key]));
+          Object.keys(thing).forEach(function(key2) {
+            statements_1.push("" + name + safeProp(key2) + "=" + stringify(thing[key2]));
           });
       }
     });
@@ -1221,8 +6954,8 @@ function devalue(value) {
 function getName(num) {
   var name = "";
   do {
-    name = chars[num % chars.length] + name;
-    num = ~~(num / chars.length) - 1;
+    name = chars$1[num % chars$1.length] + name;
+    num = ~~(num / chars$1.length) - 1;
   } while (num >= 0);
   return reserved.test(name) ? name + "_" : name;
 }
@@ -1245,30 +6978,30 @@ function getType(thing) {
   return Object.prototype.toString.call(thing).slice(8, -1);
 }
 function escapeUnsafeChar(c) {
-  return escaped$1[c] || c;
+  return escaped2[c] || c;
 }
 function escapeUnsafeChars(str) {
   return str.replace(unsafeChars, escapeUnsafeChar);
 }
-function safeKey(key) {
-  return /^[_$a-zA-Z][_$a-zA-Z0-9]*$/.test(key) ? key : escapeUnsafeChars(JSON.stringify(key));
+function safeKey(key2) {
+  return /^[_$a-zA-Z][_$a-zA-Z0-9]*$/.test(key2) ? key2 : escapeUnsafeChars(JSON.stringify(key2));
 }
-function safeProp(key) {
-  return /^[_$a-zA-Z][_$a-zA-Z0-9]*$/.test(key) ? "." + key : "[" + escapeUnsafeChars(JSON.stringify(key)) + "]";
+function safeProp(key2) {
+  return /^[_$a-zA-Z][_$a-zA-Z0-9]*$/.test(key2) ? "." + key2 : "[" + escapeUnsafeChars(JSON.stringify(key2)) + "]";
 }
 function stringifyString(str) {
   var result = '"';
-  for (var i = 0; i < str.length; i += 1) {
-    var char = str.charAt(i);
+  for (var i2 = 0; i2 < str.length; i2 += 1) {
+    var char = str.charAt(i2);
     var code = char.charCodeAt(0);
     if (char === '"') {
       result += '\\"';
-    } else if (char in escaped$1) {
-      result += escaped$1[char];
+    } else if (char in escaped2) {
+      result += escaped2[char];
     } else if (code >= 55296 && code <= 57343) {
-      var next = str.charCodeAt(i + 1);
+      var next = str.charCodeAt(i2 + 1);
       if (code <= 56319 && (next >= 56320 && next <= 57343)) {
-        result += char + str[++i];
+        result += char + str[++i2];
       } else {
         result += "\\u" + code.toString(16).toUpperCase();
       }
@@ -1279,28 +7012,33 @@ function stringifyString(str) {
   result += '"';
   return result;
 }
-function noop() {
+function noop3() {
 }
-function safe_not_equal(a, b) {
+function safe_not_equal2(a, b) {
   return a != a ? b == b : a !== b || (a && typeof a === "object" || typeof a === "function");
 }
+Promise.resolve();
 var subscriber_queue = [];
-function writable(value, start = noop) {
+function readable(value, start) {
+  return {
+    subscribe: writable(value, start).subscribe
+  };
+}
+function writable(value, start = noop3) {
   let stop;
-  const subscribers = [];
+  const subscribers = /* @__PURE__ */ new Set();
   function set(new_value) {
-    if (safe_not_equal(value, new_value)) {
+    if (safe_not_equal2(value, new_value)) {
       value = new_value;
       if (stop) {
         const run_queue = !subscriber_queue.length;
-        for (let i = 0; i < subscribers.length; i += 1) {
-          const s2 = subscribers[i];
-          s2[1]();
-          subscriber_queue.push(s2, value);
+        for (const subscriber of subscribers) {
+          subscriber[1]();
+          subscriber_queue.push(subscriber, value);
         }
         if (run_queue) {
-          for (let i = 0; i < subscriber_queue.length; i += 2) {
-            subscriber_queue[i][0](subscriber_queue[i + 1]);
+          for (let i2 = 0; i2 < subscriber_queue.length; i2 += 2) {
+            subscriber_queue[i2][0](subscriber_queue[i2 + 1]);
           }
           subscriber_queue.length = 0;
         }
@@ -1310,19 +7048,16 @@ function writable(value, start = noop) {
   function update(fn) {
     set(fn(value));
   }
-  function subscribe2(run2, invalidate = noop) {
+  function subscribe2(run2, invalidate = noop3) {
     const subscriber = [run2, invalidate];
-    subscribers.push(subscriber);
-    if (subscribers.length === 1) {
-      stop = start(set) || noop;
+    subscribers.add(subscriber);
+    if (subscribers.size === 1) {
+      stop = start(set) || noop3;
     }
     run2(value);
     return () => {
-      const index2 = subscribers.indexOf(subscriber);
-      if (index2 !== -1) {
-        subscribers.splice(index2, 1);
-      }
-      if (subscribers.length === 0) {
+      subscribers.delete(subscriber);
+      if (subscribers.size === 0) {
         stop();
         stop = null;
       }
@@ -1330,48 +7065,347 @@ function writable(value, start = noop) {
   }
   return { set, update, subscribe: subscribe2 };
 }
-function hash(value) {
-  let hash2 = 5381;
-  let i = value.length;
-  if (typeof value === "string") {
-    while (i)
-      hash2 = hash2 * 33 ^ value.charCodeAt(--i);
-  } else {
-    while (i)
-      hash2 = hash2 * 33 ^ value[--i];
-  }
-  return (hash2 >>> 0).toString(36);
+function coalesce_to_error(err) {
+  return err instanceof Error || err && err.name && err.message ? err : new Error(JSON.stringify(err));
 }
-var s$1 = JSON.stringify;
+var render_json_payload_script_dict = {
+  "<": "\\u003C",
+  "\u2028": "\\u2028",
+  "\u2029": "\\u2029"
+};
+var render_json_payload_script_regex = new RegExp(`[${Object.keys(render_json_payload_script_dict).join("")}]`, "g");
+function render_json_payload_script(attrs, payload) {
+  const safe_payload = JSON.stringify(payload).replace(render_json_payload_script_regex, (match) => render_json_payload_script_dict[match]);
+  let safe_attrs = "";
+  for (const [key2, value] of Object.entries(attrs)) {
+    if (value === void 0)
+      continue;
+    safe_attrs += ` sveltekit:data-${key2}=${escape_html_attr(value)}`;
+  }
+  return `<script type="application/json"${safe_attrs}>${safe_payload}<\/script>`;
+}
+var escape_html_attr_dict = {
+  "&": "&amp;",
+  '"': "&quot;"
+};
+var escape_html_attr_regex = new RegExp(`[${Object.keys(escape_html_attr_dict).join("")}]|[\\ud800-\\udbff](?![\\udc00-\\udfff])|[\\ud800-\\udbff][\\udc00-\\udfff]|[\\udc00-\\udfff]`, "g");
+function escape_html_attr(str) {
+  const escaped_str = str.replace(escape_html_attr_regex, (match) => {
+    if (match.length === 2) {
+      return match;
+    }
+    return escape_html_attr_dict[match] ?? `&#${match.charCodeAt(0)};`;
+  });
+  return `"${escaped_str}"`;
+}
+var s2 = JSON.stringify;
+function create_prerendering_url_proxy(url) {
+  return new Proxy(url, {
+    get: (target, prop, receiver) => {
+      if (prop === "search" || prop === "searchParams") {
+        throw new Error(`Cannot access url.${prop} on a page with prerendering enabled`);
+      }
+      return Reflect.get(target, prop, receiver);
+    }
+  });
+}
+var encoder = new TextEncoder();
+function sha256(data) {
+  if (!key[0])
+    precompute();
+  const out = init.slice(0);
+  const array = encode(data);
+  for (let i2 = 0; i2 < array.length; i2 += 16) {
+    const w = array.subarray(i2, i2 + 16);
+    let tmp;
+    let a;
+    let b;
+    let out0 = out[0];
+    let out1 = out[1];
+    let out2 = out[2];
+    let out3 = out[3];
+    let out4 = out[4];
+    let out5 = out[5];
+    let out6 = out[6];
+    let out7 = out[7];
+    for (let i22 = 0; i22 < 64; i22++) {
+      if (i22 < 16) {
+        tmp = w[i22];
+      } else {
+        a = w[i22 + 1 & 15];
+        b = w[i22 + 14 & 15];
+        tmp = w[i22 & 15] = (a >>> 7 ^ a >>> 18 ^ a >>> 3 ^ a << 25 ^ a << 14) + (b >>> 17 ^ b >>> 19 ^ b >>> 10 ^ b << 15 ^ b << 13) + w[i22 & 15] + w[i22 + 9 & 15] | 0;
+      }
+      tmp = tmp + out7 + (out4 >>> 6 ^ out4 >>> 11 ^ out4 >>> 25 ^ out4 << 26 ^ out4 << 21 ^ out4 << 7) + (out6 ^ out4 & (out5 ^ out6)) + key[i22];
+      out7 = out6;
+      out6 = out5;
+      out5 = out4;
+      out4 = out3 + tmp | 0;
+      out3 = out2;
+      out2 = out1;
+      out1 = out0;
+      out0 = tmp + (out1 & out2 ^ out3 & (out1 ^ out2)) + (out1 >>> 2 ^ out1 >>> 13 ^ out1 >>> 22 ^ out1 << 30 ^ out1 << 19 ^ out1 << 10) | 0;
+    }
+    out[0] = out[0] + out0 | 0;
+    out[1] = out[1] + out1 | 0;
+    out[2] = out[2] + out2 | 0;
+    out[3] = out[3] + out3 | 0;
+    out[4] = out[4] + out4 | 0;
+    out[5] = out[5] + out5 | 0;
+    out[6] = out[6] + out6 | 0;
+    out[7] = out[7] + out7 | 0;
+  }
+  const bytes = new Uint8Array(out.buffer);
+  reverse_endianness(bytes);
+  return base64(bytes);
+}
+var init = new Uint32Array(8);
+var key = new Uint32Array(64);
+function precompute() {
+  function frac(x2) {
+    return (x2 - Math.floor(x2)) * 4294967296;
+  }
+  let prime = 2;
+  for (let i2 = 0; i2 < 64; prime++) {
+    let is_prime = true;
+    for (let factor = 2; factor * factor <= prime; factor++) {
+      if (prime % factor === 0) {
+        is_prime = false;
+        break;
+      }
+    }
+    if (is_prime) {
+      if (i2 < 8) {
+        init[i2] = frac(prime ** (1 / 2));
+      }
+      key[i2] = frac(prime ** (1 / 3));
+      i2++;
+    }
+  }
+}
+function reverse_endianness(bytes) {
+  for (let i2 = 0; i2 < bytes.length; i2 += 4) {
+    const a = bytes[i2 + 0];
+    const b = bytes[i2 + 1];
+    const c = bytes[i2 + 2];
+    const d = bytes[i2 + 3];
+    bytes[i2 + 0] = d;
+    bytes[i2 + 1] = c;
+    bytes[i2 + 2] = b;
+    bytes[i2 + 3] = a;
+  }
+}
+function encode(str) {
+  const encoded = encoder.encode(str);
+  const length = encoded.length * 8;
+  const size = 512 * Math.ceil((length + 65) / 512);
+  const bytes = new Uint8Array(size / 8);
+  bytes.set(encoded);
+  bytes[encoded.length] = 128;
+  reverse_endianness(bytes);
+  const words = new Uint32Array(bytes.buffer);
+  words[words.length - 2] = Math.floor(length / 4294967296);
+  words[words.length - 1] = length;
+  return words;
+}
+var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".split("");
+function base64(bytes) {
+  const l = bytes.length;
+  let result = "";
+  let i2;
+  for (i2 = 2; i2 < l; i2 += 3) {
+    result += chars[bytes[i2 - 2] >> 2];
+    result += chars[(bytes[i2 - 2] & 3) << 4 | bytes[i2 - 1] >> 4];
+    result += chars[(bytes[i2 - 1] & 15) << 2 | bytes[i2] >> 6];
+    result += chars[bytes[i2] & 63];
+  }
+  if (i2 === l + 1) {
+    result += chars[bytes[i2 - 2] >> 2];
+    result += chars[(bytes[i2 - 2] & 3) << 4];
+    result += "==";
+  }
+  if (i2 === l) {
+    result += chars[bytes[i2 - 2] >> 2];
+    result += chars[(bytes[i2 - 2] & 3) << 4 | bytes[i2 - 1] >> 4];
+    result += chars[(bytes[i2 - 1] & 15) << 2];
+    result += "=";
+  }
+  return result;
+}
+var csp_ready;
+var generate_nonce;
+var generate_hash;
+if (typeof crypto !== "undefined") {
+  const array = new Uint8Array(16);
+  generate_nonce = () => {
+    crypto.getRandomValues(array);
+    return base64(array);
+  };
+  generate_hash = sha256;
+} else {
+  const name = "crypto";
+  csp_ready = import(name).then((crypto2) => {
+    generate_nonce = () => {
+      return crypto2.randomBytes(16).toString("base64");
+    };
+    generate_hash = (input) => {
+      return crypto2.createHash("sha256").update(input, "utf-8").digest().toString("base64");
+    };
+  });
+}
+var quoted = /* @__PURE__ */ new Set([
+  "self",
+  "unsafe-eval",
+  "unsafe-hashes",
+  "unsafe-inline",
+  "none",
+  "strict-dynamic",
+  "report-sample"
+]);
+var crypto_pattern = /^(nonce|sha\d\d\d)-/;
+var Csp = class {
+  constructor({ mode, directives }, { dev, prerender, needs_nonce }) {
+    __privateAdd2(this, _use_hashes, void 0);
+    __privateAdd2(this, _dev, void 0);
+    __privateAdd2(this, _script_needs_csp, void 0);
+    __privateAdd2(this, _style_needs_csp, void 0);
+    __privateAdd2(this, _directives, void 0);
+    __privateAdd2(this, _script_src, void 0);
+    __privateAdd2(this, _style_src, void 0);
+    __privateSet2(this, _use_hashes, mode === "hash" || mode === "auto" && prerender);
+    __privateSet2(this, _directives, dev ? __spreadValues({}, directives) : directives);
+    __privateSet2(this, _dev, dev);
+    const d = __privateGet2(this, _directives);
+    if (dev) {
+      const effective_style_src2 = d["style-src"] || d["default-src"];
+      if (effective_style_src2 && !effective_style_src2.includes("unsafe-inline")) {
+        d["style-src"] = [...effective_style_src2, "unsafe-inline"];
+      }
+    }
+    __privateSet2(this, _script_src, []);
+    __privateSet2(this, _style_src, []);
+    const effective_script_src = d["script-src"] || d["default-src"];
+    const effective_style_src = d["style-src"] || d["default-src"];
+    __privateSet2(this, _script_needs_csp, !!effective_script_src && effective_script_src.filter((value) => value !== "unsafe-inline").length > 0);
+    __privateSet2(this, _style_needs_csp, !dev && !!effective_style_src && effective_style_src.filter((value) => value !== "unsafe-inline").length > 0);
+    this.script_needs_nonce = __privateGet2(this, _script_needs_csp) && !__privateGet2(this, _use_hashes);
+    this.style_needs_nonce = __privateGet2(this, _style_needs_csp) && !__privateGet2(this, _use_hashes);
+    if (this.script_needs_nonce || this.style_needs_nonce || needs_nonce) {
+      this.nonce = generate_nonce();
+    }
+  }
+  add_script(content) {
+    if (__privateGet2(this, _script_needs_csp)) {
+      if (__privateGet2(this, _use_hashes)) {
+        __privateGet2(this, _script_src).push(`sha256-${generate_hash(content)}`);
+      } else if (__privateGet2(this, _script_src).length === 0) {
+        __privateGet2(this, _script_src).push(`nonce-${this.nonce}`);
+      }
+    }
+  }
+  add_style(content) {
+    if (__privateGet2(this, _style_needs_csp)) {
+      if (__privateGet2(this, _use_hashes)) {
+        __privateGet2(this, _style_src).push(`sha256-${generate_hash(content)}`);
+      } else if (__privateGet2(this, _style_src).length === 0) {
+        __privateGet2(this, _style_src).push(`nonce-${this.nonce}`);
+      }
+    }
+  }
+  get_header(is_meta = false) {
+    const header = [];
+    const directives = __spreadValues({}, __privateGet2(this, _directives));
+    if (__privateGet2(this, _style_src).length > 0) {
+      directives["style-src"] = [
+        ...directives["style-src"] || directives["default-src"] || [],
+        ...__privateGet2(this, _style_src)
+      ];
+    }
+    if (__privateGet2(this, _script_src).length > 0) {
+      directives["script-src"] = [
+        ...directives["script-src"] || directives["default-src"] || [],
+        ...__privateGet2(this, _script_src)
+      ];
+    }
+    for (const key2 in directives) {
+      if (is_meta && (key2 === "frame-ancestors" || key2 === "report-uri" || key2 === "sandbox")) {
+        continue;
+      }
+      const value = directives[key2];
+      if (!value)
+        continue;
+      const directive = [key2];
+      if (Array.isArray(value)) {
+        value.forEach((value2) => {
+          if (quoted.has(value2) || crypto_pattern.test(value2)) {
+            directive.push(`'${value2}'`);
+          } else {
+            directive.push(value2);
+          }
+        });
+      }
+      header.push(directive.join(" "));
+    }
+    return header.join("; ");
+  }
+  get_meta() {
+    const content = escape_html_attr(this.get_header(true));
+    return `<meta http-equiv="content-security-policy" content=${content}>`;
+  }
+};
+_use_hashes = /* @__PURE__ */ new WeakMap();
+_dev = /* @__PURE__ */ new WeakMap();
+_script_needs_csp = /* @__PURE__ */ new WeakMap();
+_style_needs_csp = /* @__PURE__ */ new WeakMap();
+_directives = /* @__PURE__ */ new WeakMap();
+_script_src = /* @__PURE__ */ new WeakMap();
+_style_src = /* @__PURE__ */ new WeakMap();
+var updated = __spreadProps(__spreadValues({}, readable(false)), {
+  check: () => false
+});
 async function render_response({
-  options: options2,
+  branch,
+  options,
+  state,
   $session,
   page_config,
   status,
-  error: error2,
-  branch,
-  page: page2
+  error: error2 = null,
+  event,
+  resolve_opts,
+  stuff
 }) {
-  const css2 = new Set(options2.entry.css);
-  const js = new Set(options2.entry.js);
-  const styles = new Set();
+  if (state.prerender) {
+    if (options.csp.mode === "nonce") {
+      throw new Error('Cannot use prerendering if config.kit.csp.mode === "nonce"');
+    }
+    if (options.template_contains_nonce) {
+      throw new Error("Cannot use prerendering if page template contains %svelte.nonce%");
+    }
+  }
+  const stylesheets = new Set(options.manifest._.entry.css);
+  const modulepreloads = new Set(options.manifest._.entry.js);
+  const styles = /* @__PURE__ */ new Map();
   const serialized_data = [];
+  let shadow_props;
   let rendered;
   let is_private = false;
   let maxage;
   if (error2) {
-    error2.stack = options2.get_stack(error2);
+    error2.stack = options.get_stack(error2);
   }
-  if (branch) {
-    branch.forEach(({ node, loaded, fetched, uses_credentials }) => {
+  if (resolve_opts.ssr) {
+    branch.forEach(({ node, props: props2, loaded, fetched, uses_credentials }) => {
       if (node.css)
-        node.css.forEach((url) => css2.add(url));
+        node.css.forEach((url) => stylesheets.add(url));
       if (node.js)
-        node.js.forEach((url) => js.add(url));
+        node.js.forEach((url) => modulepreloads.add(url));
       if (node.styles)
-        node.styles.forEach((content) => styles.add(content));
+        Object.entries(node.styles).forEach(([k, v]) => styles.set(k, v));
       if (fetched && page_config.hydrate)
         serialized_data.push(...fetched);
+      if (props2)
+        shadow_props = props2;
       if (uses_credentials)
         is_private = true;
       maxage = loaded.maxage;
@@ -1381,103 +7415,181 @@ async function render_response({
       stores: {
         page: writable(null),
         navigating: writable(null),
-        session
+        session: __spreadProps(__spreadValues({}, session), {
+          subscribe: (fn) => {
+            is_private = true;
+            return session.subscribe(fn);
+          }
+        }),
+        updated
       },
-      page: page2,
+      page: {
+        error: error2,
+        params: event.params,
+        routeId: event.routeId,
+        status,
+        stuff,
+        url: state.prerender ? create_prerendering_url_proxy(event.url) : event.url
+      },
       components: branch.map(({ node }) => node.module.default)
     };
-    for (let i = 0; i < branch.length; i += 1) {
-      props[`props_${i}`] = await branch[i].loaded.props;
+    const print_error = (property, replacement) => {
+      Object.defineProperty(props.page, property, {
+        get: () => {
+          throw new Error(`$page.${property} has been replaced by $page.url.${replacement}`);
+        }
+      });
+    };
+    print_error("origin", "origin");
+    print_error("path", "pathname");
+    print_error("query", "searchParams");
+    for (let i2 = 0; i2 < branch.length; i2 += 1) {
+      props[`props_${i2}`] = await branch[i2].loaded.props;
     }
-    let session_tracking_active = false;
-    const unsubscribe = session.subscribe(() => {
-      if (session_tracking_active)
-        is_private = true;
-    });
-    session_tracking_active = true;
-    try {
-      rendered = options2.root.render(props);
-    } finally {
-      unsubscribe();
-    }
+    rendered = options.root.render(props);
   } else {
     rendered = { head: "", html: "", css: { code: "", map: null } };
   }
-  const include_js = page_config.router || page_config.hydrate;
-  if (!include_js)
-    js.clear();
-  const links = options2.amp ? styles.size > 0 || rendered.css.code.length > 0 ? `<style amp-custom>${Array.from(styles).concat(rendered.css.code).join("\n")}</style>` : "" : [
-    ...Array.from(js).map((dep) => `<link rel="modulepreload" href="${dep}">`),
-    ...Array.from(css2).map((dep) => `<link rel="stylesheet" href="${dep}">`)
-  ].join("\n		");
-  let init2 = "";
-  if (options2.amp) {
-    init2 = `
+  let { head, html: body } = rendered;
+  const inlined_style = Array.from(styles.values()).join("\n");
+  await csp_ready;
+  const csp = new Csp(options.csp, {
+    dev: options.dev,
+    prerender: !!state.prerender,
+    needs_nonce: options.template_contains_nonce
+  });
+  const target = hash(body);
+  const init_app = `
+		import { start } from ${s2(options.prefix + options.manifest._.entry.file)};
+		start({
+			target: document.querySelector('[data-hydrate="${target}"]').parentNode,
+			paths: ${s2(options.paths)},
+			session: ${try_serialize($session, (error3) => {
+    throw new Error(`Failed to serialize session data: ${error3.message}`);
+  })},
+			route: ${!!page_config.router},
+			spa: ${!resolve_opts.ssr},
+			trailing_slash: ${s2(options.trailing_slash)},
+			hydrate: ${resolve_opts.ssr && page_config.hydrate ? `{
+				status: ${status},
+				error: ${serialize_error(error2)},
+				nodes: [
+					${(branch || []).map(({ node }) => `import(${s2(options.prefix + node.entry)})`).join(",\n						")}
+				],
+				params: ${devalue(event.params)},
+				routeId: ${s2(event.routeId)}
+			}` : "null"}
+		});
+	`;
+  const init_service_worker = `
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('${options.service_worker}');
+		}
+	`;
+  if (options.amp) {
+    const styles2 = `${inlined_style}
+${rendered.css.code}`;
+    head += `
 		<style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
 		<noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
-		<script async src="https://cdn.ampproject.org/v0.js"><\/script>`;
-  } else if (include_js) {
-    init2 = `<script type="module">
-			import { start } from ${s$1(options2.entry.file)};
-			start({
-				target: ${options2.target ? `document.querySelector(${s$1(options2.target)})` : "document.body"},
-				paths: ${s$1(options2.paths)},
-				session: ${try_serialize($session, (error3) => {
-      throw new Error(`Failed to serialize session data: ${error3.message}`);
-    })},
-				host: ${page2 && page2.host ? s$1(page2.host) : "location.host"},
-				route: ${!!page_config.router},
-				spa: ${!page_config.ssr},
-				trailing_slash: ${s$1(options2.trailing_slash)},
-				hydrate: ${page_config.ssr && page_config.hydrate ? `{
-					status: ${status},
-					error: ${serialize_error(error2)},
-					nodes: [
-						${branch.map(({ node }) => `import(${s$1(node.entry)})`).join(",\n						")}
-					],
-					page: {
-						host: ${page2.host ? s$1(page2.host) : "location.host"}, // TODO this is redundant
-						path: ${s$1(page2.path)},
-						query: new URLSearchParams(${s$1(page2.query.toString())}),
-						params: ${s$1(page2.params)}
-					}
-				}` : "null"}
-			});
-		<\/script>`;
-  }
-  const head = [
-    rendered.head,
-    styles.size && !options2.amp ? `<style data-svelte>${Array.from(styles).join("\n")}</style>` : "",
-    links,
-    init2
-  ].join("\n\n		");
-  const body = options2.amp ? rendered.html : `${rendered.html}
+		<script async src="https://cdn.ampproject.org/v0.js"><\/script>
 
-			${serialized_data.map(({ url, body: body2, json }) => {
-    return body2 ? `<script type="svelte-data" url="${url}" body="${hash(body2)}">${json}<\/script>` : `<script type="svelte-data" url="${url}">${json}<\/script>`;
-  }).join("\n\n			")}
-		`.replace(/^\t{2}/gm, "");
-  const headers = {
-    "content-type": "text/html"
-  };
+		<style amp-custom>${styles2}</style>`;
+    if (options.service_worker) {
+      head += '<script async custom-element="amp-install-serviceworker" src="https://cdn.ampproject.org/v0/amp-install-serviceworker-0.1.js"><\/script>';
+      body += `<amp-install-serviceworker src="${options.service_worker}" layout="nodisplay"></amp-install-serviceworker>`;
+    }
+  } else {
+    if (inlined_style) {
+      const attributes = [];
+      if (options.dev)
+        attributes.push(" data-svelte");
+      if (csp.style_needs_nonce)
+        attributes.push(` nonce="${csp.nonce}"`);
+      csp.add_style(inlined_style);
+      head += `
+	<style${attributes.join("")}>${inlined_style}</style>`;
+    }
+    head += Array.from(stylesheets).map((dep) => {
+      const attributes = [
+        'rel="stylesheet"',
+        `href="${options.prefix + dep}"`
+      ];
+      if (csp.style_needs_nonce) {
+        attributes.push(`nonce="${csp.nonce}"`);
+      }
+      if (styles.has(dep)) {
+        attributes.push("disabled", 'media="(max-width: 0)"');
+      }
+      return `
+	<link ${attributes.join(" ")}>`;
+    }).join("");
+    if (page_config.router || page_config.hydrate) {
+      head += Array.from(modulepreloads).map((dep) => `
+	<link rel="modulepreload" href="${options.prefix + dep}">`).join("");
+      const attributes = ['type="module"', `data-hydrate="${target}"`];
+      csp.add_script(init_app);
+      if (csp.script_needs_nonce) {
+        attributes.push(`nonce="${csp.nonce}"`);
+      }
+      body += `
+		<script ${attributes.join(" ")}>${init_app}<\/script>`;
+      body += serialized_data.map(({ url, body: body2, response }) => render_json_payload_script({ type: "data", url, body: typeof body2 === "string" ? hash(body2) : void 0 }, response)).join("\n	");
+      if (shadow_props) {
+        body += render_json_payload_script({ type: "props" }, shadow_props);
+      }
+    }
+    if (options.service_worker) {
+      csp.add_script(init_service_worker);
+      head += `
+				<script${csp.script_needs_nonce ? ` nonce="${csp.nonce}"` : ""}>${init_service_worker}<\/script>`;
+    }
+  }
+  if (state.prerender && !options.amp) {
+    const http_equiv = [];
+    const csp_headers = csp.get_meta();
+    if (csp_headers) {
+      http_equiv.push(csp_headers);
+    }
+    if (maxage) {
+      http_equiv.push(`<meta http-equiv="cache-control" content="max-age=${maxage}">`);
+    }
+    if (http_equiv.length > 0) {
+      head = http_equiv.join("\n") + head;
+    }
+  }
+  const segments = event.url.pathname.slice(options.paths.base.length).split("/").slice(2);
+  const assets2 = options.paths.assets || (segments.length > 0 ? segments.map(() => "..").join("/") : ".");
+  const html = await resolve_opts.transformPage({
+    html: options.template({ head, body, assets: assets2, nonce: csp.nonce })
+  });
+  const headers = new Headers({
+    "content-type": "text/html",
+    etag: `"${hash(html)}"`
+  });
   if (maxage) {
-    headers["cache-control"] = `${is_private ? "private" : "public"}, max-age=${maxage}`;
+    headers.set("cache-control", `${is_private ? "private" : "public"}, max-age=${maxage}`);
   }
-  if (!options2.floc) {
-    headers["permissions-policy"] = "interest-cohort=()";
+  if (!options.floc) {
+    headers.set("permissions-policy", "interest-cohort=()");
   }
-  return {
+  if (!state.prerender) {
+    const csp_header = csp.get_header();
+    if (csp_header) {
+      headers.set("content-security-policy", csp_header);
+    }
+  }
+  return new Response(html, {
     status,
-    headers,
-    body: options2.template({ head, body })
-  };
+    headers
+  });
 }
 function try_serialize(data, fail) {
   try {
     return devalue(data);
   } catch (err) {
     if (fail)
-      fail(err);
+      fail(coalesce_to_error(err));
     return null;
   }
 }
@@ -1487,7 +7599,7 @@ function serialize_error(error2) {
   let serialized = try_serialize(error2);
   if (!serialized) {
     const { name, message, stack } = error2;
-    serialized = try_serialize({ name, message, stack });
+    serialized = try_serialize(__spreadProps(__spreadValues({}, error2), { name, message, stack }));
   }
   if (!serialized) {
     serialized = "{}";
@@ -1495,9 +7607,16 @@ function serialize_error(error2) {
   return serialized;
 }
 function normalize(loaded) {
-  if (loaded.error) {
-    const error2 = typeof loaded.error === "string" ? new Error(loaded.error) : loaded.error;
+  const has_error_status = loaded.status && loaded.status >= 400 && loaded.status <= 599 && !loaded.redirect;
+  if (loaded.error || has_error_status) {
     const status = loaded.status;
+    if (!loaded.error && has_error_status) {
+      return {
+        status: status || 500,
+        error: new Error()
+      };
+    }
+    const error2 = typeof loaded.error === "string" ? new Error(loaded.error) : loaded.error;
     if (!(error2 instanceof Error)) {
       return {
         status: 500,
@@ -1524,14 +7643,26 @@ function normalize(loaded) {
       };
     }
   }
+  if (loaded.context) {
+    throw new Error('You are returning "context" from a load function. "context" was renamed to "stuff", please adjust your code accordingly.');
+  }
   return loaded;
 }
-function resolve(base, path) {
-  const baseparts = path[0] === "/" ? [] : base.slice(1).split("/");
-  const pathparts = path[0] === "/" ? path.slice(1).split("/") : path.split("/");
+var absolute = /^([a-z]+:)?\/?\//;
+var scheme = /^[a-z]+:/;
+function resolve(base2, path) {
+  if (scheme.test(path))
+    return path;
+  const base_match = absolute.exec(base2);
+  const path_match = absolute.exec(path);
+  if (!base_match) {
+    throw new Error(`bad base path: "${base2}"`);
+  }
+  const baseparts = path_match ? [] : base2.slice(base_match[0].length).split("/");
+  const pathparts = path_match ? path.slice(path_match[0].length).split("/") : path.split("/");
   baseparts.pop();
-  for (let i = 0; i < pathparts.length; i += 1) {
-    const part = pathparts[i];
+  for (let i2 = 0; i2 < pathparts.length; i2 += 1) {
+    const part = pathparts[i2];
     if (part === ".")
       continue;
     else if (part === "..")
@@ -1539,41 +7670,71 @@ function resolve(base, path) {
     else
       baseparts.push(part);
   }
-  return `/${baseparts.join("/")}`;
+  const prefix = path_match && path_match[0] || base_match && base_match[0] || "";
+  return `${prefix}${baseparts.join("/")}`;
 }
-var s = JSON.stringify;
+function is_root_relative(path) {
+  return path[0] === "/" && path[1] !== "/";
+}
+function normalize_path(path, trailing_slash) {
+  if (path === "/" || trailing_slash === "ignore")
+    return path;
+  if (trailing_slash === "never") {
+    return path.endsWith("/") ? path.slice(0, -1) : path;
+  } else if (trailing_slash === "always" && /\/[^./]+$/.test(path)) {
+    return path + "/";
+  }
+  return path;
+}
 async function load_node({
-  request,
-  options: options2,
+  event,
+  options,
   state,
   route,
-  page: page2,
   node,
   $session,
-  context,
-  is_leaf,
+  stuff,
   is_error,
+  is_leaf,
   status,
   error: error2
 }) {
   const { module: module2 } = node;
   let uses_credentials = false;
   const fetched = [];
+  let set_cookie_headers = [];
   let loaded;
-  if (module2.load) {
+  const shadow = is_leaf ? await load_shadow_data(route, event, options, !!state.prerender) : {};
+  if (shadow.cookies) {
+    set_cookie_headers.push(...shadow.cookies);
+  }
+  if (shadow.error) {
+    loaded = {
+      status: shadow.status,
+      error: shadow.error
+    };
+  } else if (shadow.redirect) {
+    loaded = {
+      status: shadow.status,
+      redirect: shadow.redirect
+    };
+  } else if (module2.load) {
     const load_input = {
-      page: page2,
+      url: state.prerender ? create_prerendering_url_proxy(event.url) : event.url,
+      params: event.params,
+      props: shadow.body || {},
+      routeId: event.routeId,
       get session() {
         uses_credentials = true;
         return $session;
       },
       fetch: async (resource, opts = {}) => {
-        let url;
+        let requested;
         if (typeof resource === "string") {
-          url = resource;
+          requested = resource;
         } else {
-          url = resource.url;
-          opts = {
+          requested = resource.url;
+          opts = __spreadValues({
             method: resource.method,
             headers: resource.headers,
             body: resource.body,
@@ -1582,1728 +7743,1020 @@ async function load_node({
             cache: resource.cache,
             redirect: resource.redirect,
             referrer: resource.referrer,
-            integrity: resource.integrity,
-            ...opts
-          };
+            integrity: resource.integrity
+          }, opts);
         }
-        if (options2.read && url.startsWith(options2.paths.assets)) {
-          url = url.replace(options2.paths.assets, "");
+        opts.headers = new Headers(opts.headers);
+        for (const [key2, value] of event.request.headers) {
+          if (key2 !== "authorization" && key2 !== "cookie" && key2 !== "host" && key2 !== "if-none-match" && !opts.headers.has(key2)) {
+            opts.headers.set(key2, value);
+          }
         }
-        if (url.startsWith("//")) {
-          throw new Error(`Cannot request protocol-relative URL (${url}) in server-side fetch`);
-        }
+        const resolved = resolve(event.url.pathname, requested.split("?")[0]);
         let response;
-        if (/^[a-zA-Z]+:/.test(url)) {
-          const request2 = new Request(url, opts);
-          response = await options2.hooks.serverFetch.call(null, request2);
-        } else {
-          const [path, search] = url.split("?");
-          const resolved = resolve(request.path, path);
-          const filename = resolved.slice(1);
-          const filename_html = `${filename}/index.html`;
-          const asset = options2.manifest.assets.find((d) => d.file === filename || d.file === filename_html);
-          if (asset) {
-            if (options2.read) {
-              response = new Response(options2.read(asset.file), {
-                headers: {
-                  "content-type": asset.type
-                }
-              });
-            } else {
-              response = await fetch(`http://${page2.host}/${asset.file}`, opts);
-            }
-          }
-          if (!response) {
-            const headers = { ...opts.headers };
-            if (opts.credentials !== "omit") {
-              uses_credentials = true;
-              headers.cookie = request.headers.cookie;
-              if (!headers.authorization) {
-                headers.authorization = request.headers.authorization;
-              }
-            }
-            if (opts.body && typeof opts.body !== "string") {
-              throw new Error("Request body must be a string");
-            }
-            const rendered = await respond({
-              host: request.host,
-              method: opts.method || "GET",
-              headers,
-              path: resolved,
-              rawBody: opts.body,
-              query: new URLSearchParams(search)
-            }, options2, {
-              fetched: url,
-              initiator: route
+        let dependency;
+        const prefix = options.paths.assets || options.paths.base;
+        const filename = decodeURIComponent(resolved.startsWith(prefix) ? resolved.slice(prefix.length) : resolved).slice(1);
+        const filename_html = `${filename}/index.html`;
+        const is_asset = options.manifest.assets.has(filename);
+        const is_asset_html = options.manifest.assets.has(filename_html);
+        if (is_asset || is_asset_html) {
+          const file = is_asset ? filename : filename_html;
+          if (options.read) {
+            const type = is_asset ? options.manifest.mimeTypes[filename.slice(filename.lastIndexOf("."))] : "text/html";
+            response = new Response(options.read(file), {
+              headers: type ? { "content-type": type } : {}
             });
-            if (rendered) {
-              if (state.prerender) {
-                state.prerender.dependencies.set(resolved, rendered);
-              }
-              response = new Response(rendered.body, {
-                status: rendered.status,
-                headers: rendered.headers
-              });
+          } else {
+            response = await fetch(`${event.url.origin}/${file}`, opts);
+          }
+        } else if (is_root_relative(resolved)) {
+          if (opts.credentials !== "omit") {
+            uses_credentials = true;
+            const cookie = event.request.headers.get("cookie");
+            const authorization = event.request.headers.get("authorization");
+            if (cookie) {
+              opts.headers.set("cookie", cookie);
+            }
+            if (authorization && !opts.headers.has("authorization")) {
+              opts.headers.set("authorization", authorization);
             }
           }
-        }
-        if (response) {
-          const proxy = new Proxy(response, {
-            get(response2, key, receiver) {
-              async function text() {
-                const body = await response2.text();
-                const headers = {};
-                for (const [key2, value] of response2.headers) {
-                  if (key2 !== "etag" && key2 !== "set-cookie")
-                    headers[key2] = value;
-                }
-                if (!opts.body || typeof opts.body === "string") {
-                  fetched.push({
-                    url,
-                    body: opts.body,
-                    json: `{"status":${response2.status},"statusText":${s(response2.statusText)},"headers":${s(headers)},"body":${escape(body)}}`
-                  });
-                }
-                return body;
-              }
-              if (key === "text") {
-                return text;
-              }
-              if (key === "json") {
-                return async () => {
-                  return JSON.parse(await text());
-                };
-              }
-              return Reflect.get(response2, key, response2);
-            }
+          if (opts.body && typeof opts.body !== "string") {
+            throw new Error("Request body must be a string");
+          }
+          response = await respond(new Request(new URL(requested, event.url).href, __spreadProps(__spreadValues({}, opts), { credentials: void 0 })), options, {
+            getClientAddress: state.getClientAddress,
+            initiator: route,
+            prerender: state.prerender
           });
-          return proxy;
+          if (state.prerender) {
+            dependency = { response, body: null };
+            state.prerender.dependencies.set(resolved, dependency);
+          }
+        } else {
+          if (resolved.startsWith("//")) {
+            requested = event.url.protocol + requested;
+          }
+          if (`.${new URL(requested).hostname}`.endsWith(`.${event.url.hostname}`) && opts.credentials !== "omit") {
+            uses_credentials = true;
+            const cookie = event.request.headers.get("cookie");
+            if (cookie)
+              opts.headers.set("cookie", cookie);
+          }
+          const external_request = new Request(requested, opts);
+          response = await options.hooks.externalFetch.call(null, external_request);
         }
-        return response || new Response("Not found", {
-          status: 404
+        const proxy = new Proxy(response, {
+          get(response2, key2, _receiver) {
+            async function text() {
+              const body = await response2.text();
+              const headers = {};
+              for (const [key3, value] of response2.headers) {
+                if (key3 === "set-cookie") {
+                  set_cookie_headers = set_cookie_headers.concat(value);
+                } else if (key3 !== "etag") {
+                  headers[key3] = value;
+                }
+              }
+              if (!opts.body || typeof opts.body === "string") {
+                const status_number = Number(response2.status);
+                if (isNaN(status_number)) {
+                  throw new Error(`response.status is not a number. value: "${response2.status}" type: ${typeof response2.status}`);
+                }
+                fetched.push({
+                  url: requested,
+                  body: opts.body,
+                  response: {
+                    status: status_number,
+                    statusText: response2.statusText,
+                    headers,
+                    body
+                  }
+                });
+              }
+              if (dependency) {
+                dependency.body = body;
+              }
+              return body;
+            }
+            if (key2 === "arrayBuffer") {
+              return async () => {
+                const buffer = await response2.arrayBuffer();
+                if (dependency) {
+                  dependency.body = new Uint8Array(buffer);
+                }
+                return buffer;
+              };
+            }
+            if (key2 === "text") {
+              return text;
+            }
+            if (key2 === "json") {
+              return async () => {
+                return JSON.parse(await text());
+              };
+            }
+            return Reflect.get(response2, key2, response2);
+          }
         });
+        return proxy;
       },
-      context: { ...context }
+      stuff: __spreadValues({}, stuff)
     };
+    if (options.dev) {
+      Object.defineProperty(load_input, "page", {
+        get: () => {
+          throw new Error("`page` in `load` functions has been replaced by `url` and `params`");
+        }
+      });
+    }
     if (is_error) {
       load_input.status = status;
       load_input.error = error2;
     }
     loaded = await module2.load.call(null, load_input);
+    if (!loaded) {
+      throw new Error(`load function must return a value${options.dev ? ` (${node.entry})` : ""}`);
+    }
+    if (loaded.fallthrough) {
+      throw new Error("fallthrough is no longer supported. Use matchers instead: https://kit.svelte.dev/docs/routing#advanced-routing-matching");
+    }
+  } else if (shadow.body) {
+    loaded = {
+      props: shadow.body
+    };
   } else {
     loaded = {};
   }
-  if (!loaded && is_leaf && !is_error)
-    return;
+  if (shadow.body && state.prerender) {
+    const pathname = `${event.url.pathname.replace(/\/$/, "")}/__data.json`;
+    const dependency = {
+      response: new Response(void 0),
+      body: JSON.stringify(shadow.body)
+    };
+    state.prerender.dependencies.set(pathname, dependency);
+  }
   return {
     node,
+    props: shadow.body,
     loaded: normalize(loaded),
-    context: loaded.context || context,
+    stuff: loaded.stuff || stuff,
     fetched,
+    set_cookie_headers,
     uses_credentials
   };
 }
-var escaped = {
-  "<": "\\u003C",
-  ">": "\\u003E",
-  "/": "\\u002F",
-  "\\": "\\\\",
-  "\b": "\\b",
-  "\f": "\\f",
-  "\n": "\\n",
-  "\r": "\\r",
-  "	": "\\t",
-  "\0": "\\0",
-  "\u2028": "\\u2028",
-  "\u2029": "\\u2029"
-};
-function escape(str) {
-  let result = '"';
-  for (let i = 0; i < str.length; i += 1) {
-    const char = str.charAt(i);
-    const code = char.charCodeAt(0);
-    if (char === '"') {
-      result += '\\"';
-    } else if (char in escaped) {
-      result += escaped[char];
-    } else if (code >= 55296 && code <= 57343) {
-      const next = str.charCodeAt(i + 1);
-      if (code <= 56319 && next >= 56320 && next <= 57343) {
-        result += char + str[++i];
-      } else {
-        result += `\\u${code.toString(16).toUpperCase()}`;
+async function load_shadow_data(route, event, options, prerender) {
+  if (!route.shadow)
+    return {};
+  try {
+    const mod = await route.shadow();
+    if (prerender && (mod.post || mod.put || mod.del || mod.patch)) {
+      throw new Error("Cannot prerender pages that have endpoints with mutative methods");
+    }
+    const method = normalize_request_method(event);
+    const is_get = method === "head" || method === "get";
+    const handler = method === "head" ? mod.head || mod.get : mod[method];
+    if (!handler && !is_get) {
+      return {
+        status: 405,
+        error: new Error(`${method} method not allowed`)
+      };
+    }
+    const data = {
+      status: 200,
+      cookies: [],
+      body: {}
+    };
+    if (!is_get) {
+      const result = await handler(event);
+      if (result.fallthrough) {
+        throw new Error("fallthrough is no longer supported. Use matchers instead: https://kit.svelte.dev/docs/routing#advanced-routing-matching");
       }
+      const { status, headers, body } = validate_shadow_output(result);
+      data.status = status;
+      add_cookies(data.cookies, headers);
+      if (status >= 300 && status < 400) {
+        data.redirect = headers instanceof Headers ? headers.get("location") : headers.location;
+        return data;
+      }
+      data.body = body;
+    }
+    const get = method === "head" && mod.head || mod.get;
+    if (get) {
+      const result = await get(event);
+      if (result.fallthrough) {
+        throw new Error("fallthrough is no longer supported. Use matchers instead: https://kit.svelte.dev/docs/routing#advanced-routing-matching");
+      }
+      const { status, headers, body } = validate_shadow_output(result);
+      add_cookies(data.cookies, headers);
+      data.status = status;
+      if (status >= 400) {
+        data.error = new Error("Failed to load data");
+        return data;
+      }
+      if (status >= 300) {
+        data.redirect = headers instanceof Headers ? headers.get("location") : headers.location;
+        return data;
+      }
+      data.body = __spreadValues(__spreadValues({}, body), data.body);
+    }
+    return data;
+  } catch (e2) {
+    const error2 = coalesce_to_error(e2);
+    options.handle_error(error2, event);
+    return {
+      status: 500,
+      error: error2
+    };
+  }
+}
+function add_cookies(target, headers) {
+  const cookies = headers["set-cookie"];
+  if (cookies) {
+    if (Array.isArray(cookies)) {
+      target.push(...cookies);
     } else {
-      result += char;
+      target.push(cookies);
     }
   }
-  result += '"';
-  return result;
 }
-async function respond_with_error({ request, options: options2, state, $session, status, error: error2 }) {
-  const default_layout = await options2.load_component(options2.manifest.layout);
-  const default_error = await options2.load_component(options2.manifest.error);
-  const page2 = {
-    host: request.host,
-    path: request.path,
-    query: request.query,
-    params: {}
-  };
-  const loaded = await load_node({
-    request,
-    options: options2,
-    state,
-    route: null,
-    page: page2,
-    node: default_layout,
-    $session,
-    context: {},
-    is_leaf: false,
-    is_error: false
-  });
-  const branch = [
-    loaded,
-    await load_node({
-      request,
-      options: options2,
-      state,
-      route: null,
-      page: page2,
-      node: default_error,
-      $session,
-      context: loaded.context,
-      is_leaf: false,
-      is_error: true,
-      status,
-      error: error2
-    })
-  ];
+function validate_shadow_output(result) {
+  const { status = 200, body = {} } = result;
+  let headers = result.headers || {};
+  if (headers instanceof Headers) {
+    if (headers.has("set-cookie")) {
+      throw new Error("Endpoint request handler cannot use Headers interface with Set-Cookie headers");
+    }
+  } else {
+    headers = lowercase_keys(headers);
+  }
+  if (!is_pojo(body)) {
+    throw new Error("Body returned from endpoint request handler must be a plain object");
+  }
+  return { status, headers, body };
+}
+async function respond_with_error({
+  event,
+  options,
+  state,
+  $session,
+  status,
+  error: error2,
+  resolve_opts
+}) {
   try {
+    const branch = [];
+    let stuff = {};
+    if (resolve_opts.ssr) {
+      const default_layout = await options.manifest._.nodes[0]();
+      const default_error = await options.manifest._.nodes[1]();
+      const layout_loaded = await load_node({
+        event,
+        options,
+        state,
+        route: null,
+        node: default_layout,
+        $session,
+        stuff: {},
+        is_error: false,
+        is_leaf: false
+      });
+      const error_loaded = await load_node({
+        event,
+        options,
+        state,
+        route: null,
+        node: default_error,
+        $session,
+        stuff: layout_loaded ? layout_loaded.stuff : {},
+        is_error: true,
+        is_leaf: false,
+        status,
+        error: error2
+      });
+      branch.push(layout_loaded, error_loaded);
+      stuff = error_loaded.stuff;
+    }
     return await render_response({
-      options: options2,
+      options,
+      state,
       $session,
       page_config: {
-        hydrate: options2.hydrate,
-        router: options2.router,
-        ssr: options2.ssr
+        hydrate: options.hydrate,
+        router: options.router
       },
+      stuff,
       status,
       error: error2,
       branch,
-      page: page2
+      event,
+      resolve_opts
     });
-  } catch (error3) {
-    options2.handle_error(error3);
-    return {
-      status: 500,
-      headers: {},
-      body: error3.stack
-    };
+  } catch (err) {
+    const error3 = coalesce_to_error(err);
+    options.handle_error(error3, event);
+    return new Response(error3.stack, {
+      status: 500
+    });
   }
 }
-async function respond$1({ request, options: options2, state, $session, route }) {
-  const match = route.pattern.exec(request.path);
-  const params = route.params(match);
-  const page2 = {
-    host: request.host,
-    path: request.path,
-    query: request.query,
-    params
-  };
+async function respond$1(opts) {
+  const { event, options, state, $session, route, resolve_opts } = opts;
   let nodes;
+  if (!resolve_opts.ssr) {
+    return await render_response(__spreadProps(__spreadValues({}, opts), {
+      branch: [],
+      page_config: {
+        hydrate: true,
+        router: true
+      },
+      status: 200,
+      error: null,
+      event,
+      stuff: {}
+    }));
+  }
   try {
-    nodes = await Promise.all(route.a.map((id) => id && options2.load_component(id)));
-  } catch (error3) {
-    options2.handle_error(error3);
+    nodes = await Promise.all(route.a.map((n) => n == void 0 ? n : options.manifest._.nodes[n]()));
+  } catch (err) {
+    const error3 = coalesce_to_error(err);
+    options.handle_error(error3, event);
     return await respond_with_error({
-      request,
-      options: options2,
+      event,
+      options,
       state,
       $session,
       status: 500,
-      error: error3
+      error: error3,
+      resolve_opts
     });
   }
   const leaf = nodes[nodes.length - 1].module;
-  const page_config = {
-    ssr: "ssr" in leaf ? leaf.ssr : options2.ssr,
-    router: "router" in leaf ? leaf.router : options2.router,
-    hydrate: "hydrate" in leaf ? leaf.hydrate : options2.hydrate
-  };
-  if (!leaf.prerender && state.prerender && !state.prerender.all) {
-    return {
-      status: 204,
-      headers: {},
-      body: null
-    };
+  let page_config = get_page_config(leaf, options);
+  if (state.prerender) {
+    const should_prerender = leaf.prerender ?? state.prerender.default;
+    if (!should_prerender) {
+      return new Response(void 0, {
+        status: 204
+      });
+    }
   }
-  let branch;
+  let branch = [];
   let status = 200;
-  let error2;
+  let error2 = null;
+  let set_cookie_headers = [];
+  let stuff = {};
   ssr:
-    if (page_config.ssr) {
-      let context = {};
-      branch = [];
-      for (let i = 0; i < nodes.length; i += 1) {
-        const node = nodes[i];
+    if (resolve_opts.ssr) {
+      for (let i2 = 0; i2 < nodes.length; i2 += 1) {
+        const node = nodes[i2];
         let loaded;
         if (node) {
           try {
-            loaded = await load_node({
-              request,
-              options: options2,
-              state,
-              route,
-              page: page2,
+            loaded = await load_node(__spreadProps(__spreadValues({}, opts), {
               node,
-              $session,
-              context,
-              is_leaf: i === nodes.length - 1,
-              is_error: false
-            });
-            if (!loaded)
-              return;
+              stuff,
+              is_error: false,
+              is_leaf: i2 === nodes.length - 1
+            }));
+            set_cookie_headers = set_cookie_headers.concat(loaded.set_cookie_headers);
             if (loaded.loaded.redirect) {
-              return {
+              return with_cookies(new Response(void 0, {
                 status: loaded.loaded.status,
                 headers: {
-                  location: encodeURI(loaded.loaded.redirect)
+                  location: loaded.loaded.redirect
                 }
-              };
+              }), set_cookie_headers);
             }
             if (loaded.loaded.error) {
               ({ status, error: error2 } = loaded.loaded);
             }
-          } catch (e) {
-            options2.handle_error(e);
+          } catch (err) {
+            const e2 = coalesce_to_error(err);
+            options.handle_error(e2, event);
             status = 500;
-            error2 = e;
+            error2 = e2;
+          }
+          if (loaded && !error2) {
+            branch.push(loaded);
           }
           if (error2) {
-            while (i--) {
-              if (route.b[i]) {
-                const error_node = await options2.load_component(route.b[i]);
-                let error_loaded;
+            while (i2--) {
+              if (route.b[i2]) {
+                const index = route.b[i2];
+                const error_node = await options.manifest._.nodes[index]();
                 let node_loaded;
-                let j = i;
+                let j = i2;
                 while (!(node_loaded = branch[j])) {
                   j -= 1;
                 }
                 try {
-                  error_loaded = await load_node({
-                    request,
-                    options: options2,
-                    state,
-                    route,
-                    page: page2,
+                  const error_loaded = await load_node(__spreadProps(__spreadValues({}, opts), {
                     node: error_node,
-                    $session,
-                    context: node_loaded.context,
-                    is_leaf: false,
+                    stuff: node_loaded.stuff,
                     is_error: true,
+                    is_leaf: false,
                     status,
                     error: error2
-                  });
+                  }));
                   if (error_loaded.loaded.error) {
                     continue;
                   }
+                  page_config = get_page_config(error_node.module, options);
                   branch = branch.slice(0, j + 1).concat(error_loaded);
+                  stuff = __spreadValues(__spreadValues({}, node_loaded.stuff), error_loaded.stuff);
                   break ssr;
-                } catch (e) {
-                  options2.handle_error(e);
+                } catch (err) {
+                  const e2 = coalesce_to_error(err);
+                  options.handle_error(e2, event);
                   continue;
                 }
               }
             }
-            return await respond_with_error({
-              request,
-              options: options2,
+            return with_cookies(await respond_with_error({
+              event,
+              options,
               state,
               $session,
               status,
-              error: error2
-            });
+              error: error2,
+              resolve_opts
+            }), set_cookie_headers);
           }
         }
-        branch.push(loaded);
-        if (loaded && loaded.loaded.context) {
-          context = {
-            ...context,
-            ...loaded.loaded.context
-          };
+        if (loaded && loaded.loaded.stuff) {
+          stuff = __spreadValues(__spreadValues({}, stuff), loaded.loaded.stuff);
         }
       }
     }
   try {
-    return await render_response({
-      options: options2,
-      $session,
+    return with_cookies(await render_response(__spreadProps(__spreadValues({}, opts), {
+      stuff,
+      event,
       page_config,
       status,
       error: error2,
-      branch: branch && branch.filter(Boolean),
-      page: page2
-    });
-  } catch (error3) {
-    options2.handle_error(error3);
-    return await respond_with_error({
-      request,
-      options: options2,
-      state,
-      $session,
+      branch: branch.filter(Boolean)
+    })), set_cookie_headers);
+  } catch (err) {
+    const error3 = coalesce_to_error(err);
+    options.handle_error(error3, event);
+    return with_cookies(await respond_with_error(__spreadProps(__spreadValues({}, opts), {
       status: 500,
       error: error3
-    });
+    })), set_cookie_headers);
   }
 }
-async function render_page(request, route, options2, state) {
+function get_page_config(leaf, options) {
+  if ("ssr" in leaf) {
+    throw new Error("`export const ssr` has been removed \u2014 use the handle hook instead: https://kit.svelte.dev/docs/hooks#handle");
+  }
+  return {
+    router: "router" in leaf ? !!leaf.router : options.router,
+    hydrate: "hydrate" in leaf ? !!leaf.hydrate : options.hydrate
+  };
+}
+function with_cookies(response, set_cookie_headers) {
+  if (set_cookie_headers.length) {
+    set_cookie_headers.forEach((value) => {
+      response.headers.append("set-cookie", value);
+    });
+  }
+  return response;
+}
+async function render_page(event, route, options, state, resolve_opts) {
   if (state.initiator === route) {
-    return {
-      status: 404,
-      headers: {},
-      body: `Not found: ${request.path}`
-    };
-  }
-  const $session = await options2.hooks.getSession(request);
-  if (route) {
-    const response = await respond$1({
-      request,
-      options: options2,
-      state,
-      $session,
-      route
-    });
-    if (response) {
-      return response;
-    }
-    if (state.fetched) {
-      return {
-        status: 500,
-        headers: {},
-        body: `Bad request in load function: failed to fetch ${state.fetched}`
-      };
-    }
-  } else {
-    return await respond_with_error({
-      request,
-      options: options2,
-      state,
-      $session,
-      status: 404,
-      error: new Error(`Not found: ${request.path}`)
+    return new Response(`Not found: ${event.url.pathname}`, {
+      status: 404
     });
   }
-}
-function lowercase_keys(obj) {
-  const clone2 = {};
-  for (const key in obj) {
-    clone2[key.toLowerCase()] = obj[key];
-  }
-  return clone2;
-}
-function error(body) {
-  return {
-    status: 500,
-    body,
-    headers: {}
-  };
-}
-async function render_route(request, route) {
-  const mod = await route.load();
-  const handler = mod[request.method.toLowerCase().replace("delete", "del")];
-  if (handler) {
-    const match = route.pattern.exec(request.path);
-    const params = route.params(match);
-    const response = await handler({ ...request, params });
-    if (response) {
-      if (typeof response !== "object") {
-        return error(`Invalid response from route ${request.path}: expected an object, got ${typeof response}`);
-      }
-      let { status = 200, body, headers = {} } = response;
-      headers = lowercase_keys(headers);
-      const type = headers["content-type"];
-      if (type === "application/octet-stream" && !(body instanceof Uint8Array)) {
-        return error(`Invalid response from route ${request.path}: body must be an instance of Uint8Array if content type is application/octet-stream`);
-      }
-      if (body instanceof Uint8Array && type !== "application/octet-stream") {
-        return error(`Invalid response from route ${request.path}: Uint8Array body must be accompanied by content-type: application/octet-stream header`);
-      }
-      let normalized_body;
-      if (typeof body === "object" && (!type || type === "application/json")) {
-        headers = { ...headers, "content-type": "application/json" };
-        normalized_body = JSON.stringify(body);
-      } else {
-        normalized_body = body;
-      }
-      return { status, body: normalized_body, headers };
+  if (route.shadow) {
+    const type = negotiate(event.request.headers.get("accept") || "text/html", [
+      "text/html",
+      "application/json"
+    ]);
+    if (type === "application/json") {
+      return render_endpoint(event, await route.shadow());
     }
   }
-}
-function read_only_form_data() {
-  const map = new Map();
-  return {
-    append(key, value) {
-      if (map.has(key)) {
-        map.get(key).push(value);
-      } else {
-        map.set(key, [value]);
-      }
-    },
-    data: new ReadOnlyFormData(map)
-  };
-}
-var ReadOnlyFormData = class {
-  #map;
-  constructor(map) {
-    this.#map = map;
-  }
-  get(key) {
-    const value = this.#map.get(key);
-    return value && value[0];
-  }
-  getAll(key) {
-    return this.#map.get(key);
-  }
-  has(key) {
-    return this.#map.has(key);
-  }
-  *[Symbol.iterator]() {
-    for (const [key, value] of this.#map) {
-      for (let i = 0; i < value.length; i += 1) {
-        yield [key, value[i]];
-      }
-    }
-  }
-  *entries() {
-    for (const [key, value] of this.#map) {
-      for (let i = 0; i < value.length; i += 1) {
-        yield [key, value[i]];
-      }
-    }
-  }
-  *keys() {
-    for (const [key, value] of this.#map) {
-      for (let i = 0; i < value.length; i += 1) {
-        yield key;
-      }
-    }
-  }
-  *values() {
-    for (const [, value] of this.#map) {
-      for (let i = 0; i < value.length; i += 1) {
-        yield value;
-      }
-    }
-  }
-};
-function parse_body(raw, headers) {
-  if (!raw)
-    return raw;
-  const [type, ...directives] = headers["content-type"].split(/;\s*/);
-  if (typeof raw === "string") {
-    switch (type) {
-      case "text/plain":
-        return raw;
-      case "application/json":
-        return JSON.parse(raw);
-      case "application/x-www-form-urlencoded":
-        return get_urlencoded(raw);
-      case "multipart/form-data": {
-        const boundary = directives.find((directive) => directive.startsWith("boundary="));
-        if (!boundary)
-          throw new Error("Missing boundary");
-        return get_multipart(raw, boundary.slice("boundary=".length));
-      }
-      default:
-        throw new Error(`Invalid Content-Type ${type}`);
-    }
-  }
-  return raw;
-}
-function get_urlencoded(text) {
-  const { data, append } = read_only_form_data();
-  text.replace(/\+/g, " ").split("&").forEach((str) => {
-    const [key, value] = str.split("=");
-    append(decodeURIComponent(key), decodeURIComponent(value));
+  const $session = await options.hooks.getSession(event);
+  return respond$1({
+    event,
+    options,
+    state,
+    $session,
+    resolve_opts,
+    route
   });
-  return data;
 }
-function get_multipart(text, boundary) {
-  const parts = text.split(`--${boundary}`);
-  const nope = () => {
-    throw new Error("Malformed form data");
-  };
-  if (parts[0] !== "" || parts[parts.length - 1].trim() !== "--") {
-    nope();
+function negotiate(accept, types2) {
+  const parts = accept.split(",").map((str, i2) => {
+    const match = /([^/]+)\/([^;]+)(?:;q=([0-9.]+))?/.exec(str);
+    if (match) {
+      const [, type, subtype, q = "1"] = match;
+      return { type, subtype, q: +q, i: i2 };
+    }
+    throw new Error(`Invalid Accept header: ${accept}`);
+  }).sort((a, b) => {
+    if (a.q !== b.q) {
+      return b.q - a.q;
+    }
+    if (a.subtype === "*" !== (b.subtype === "*")) {
+      return a.subtype === "*" ? 1 : -1;
+    }
+    if (a.type === "*" !== (b.type === "*")) {
+      return a.type === "*" ? 1 : -1;
+    }
+    return a.i - b.i;
+  });
+  let accepted;
+  let min_priority = Infinity;
+  for (const mimetype of types2) {
+    const [type, subtype] = mimetype.split("/");
+    const priority = parts.findIndex((part) => (part.type === type || part.type === "*") && (part.subtype === subtype || part.subtype === "*"));
+    if (priority !== -1 && priority < min_priority) {
+      accepted = mimetype;
+      min_priority = priority;
+    }
   }
-  const { data, append } = read_only_form_data();
-  parts.slice(1, -1).forEach((part) => {
-    const match = /\s*([\s\S]+?)\r\n\r\n([\s\S]*)\s*/.exec(part);
-    const raw_headers = match[1];
-    const body = match[2].trim();
-    let key;
-    raw_headers.split("\r\n").forEach((str) => {
-      const [raw_header, ...raw_directives] = str.split("; ");
-      let [name, value] = raw_header.split(": ");
-      name = name.toLowerCase();
-      const directives = {};
-      raw_directives.forEach((raw_directive) => {
-        const [name2, value2] = raw_directive.split("=");
-        directives[name2] = JSON.parse(value2);
+  return accepted;
+}
+function exec(match, names, types2, matchers) {
+  const params = {};
+  for (let i2 = 0; i2 < names.length; i2 += 1) {
+    const name = names[i2];
+    const type = types2[i2];
+    const value = match[i2 + 1] || "";
+    if (type) {
+      const matcher = matchers[type];
+      if (!matcher)
+        throw new Error(`Missing "${type}" param matcher`);
+      if (!matcher(value))
+        return;
+    }
+    params[name] = value;
+  }
+  return params;
+}
+var DATA_SUFFIX = "/__data.json";
+var default_transform = ({ html }) => html;
+async function respond(request, options, state) {
+  var _a4, _b, _c;
+  let url = new URL(request.url);
+  const normalized = normalize_path(url.pathname, options.trailing_slash);
+  if (normalized !== url.pathname && !((_a4 = state.prerender) == null ? void 0 : _a4.fallback)) {
+    return new Response(void 0, {
+      status: 301,
+      headers: {
+        location: (normalized.startsWith("//") ? url.origin + normalized : normalized) + (url.search === "?" ? "" : url.search)
+      }
+    });
+  }
+  const { parameter, allowed } = options.method_override;
+  const method_override = (_b = url.searchParams.get(parameter)) == null ? void 0 : _b.toUpperCase();
+  if (method_override) {
+    if (request.method === "POST") {
+      if (allowed.includes(method_override)) {
+        request = new Proxy(request, {
+          get: (target, property, _receiver) => {
+            if (property === "method")
+              return method_override;
+            return Reflect.get(target, property, target);
+          }
+        });
+      } else {
+        const verb = allowed.length === 0 ? "enabled" : "allowed";
+        const body = `${parameter}=${method_override} is not ${verb}. See https://kit.svelte.dev/docs/configuration#methodoverride`;
+        return new Response(body, {
+          status: 400
+        });
+      }
+    } else {
+      throw new Error(`${parameter}=${method_override} is only allowed with POST requests`);
+    }
+  }
+  let decoded = decodeURI(url.pathname);
+  let route = null;
+  let params = {};
+  if (options.paths.base && !((_c = state.prerender) == null ? void 0 : _c.fallback)) {
+    if (!decoded.startsWith(options.paths.base)) {
+      return new Response(void 0, { status: 404 });
+    }
+    decoded = decoded.slice(options.paths.base.length) || "/";
+  }
+  const is_data_request = decoded.endsWith(DATA_SUFFIX);
+  if (is_data_request) {
+    decoded = decoded.slice(0, -DATA_SUFFIX.length) || "/";
+    const normalized2 = normalize_path(url.pathname.slice(0, -DATA_SUFFIX.length), options.trailing_slash);
+    url = new URL(url.origin + normalized2 + url.search);
+  }
+  if (!state.prerender || !state.prerender.fallback) {
+    const matchers = await options.manifest._.matchers();
+    for (const candidate of options.manifest._.routes) {
+      const match = candidate.pattern.exec(decoded);
+      if (!match)
+        continue;
+      const matched = exec(match, candidate.names, candidate.types, matchers);
+      if (matched) {
+        route = candidate;
+        params = decode_params(matched);
+        break;
+      }
+    }
+  }
+  const event = {
+    get clientAddress() {
+      if (!state.getClientAddress) {
+        throw new Error(`${"@sveltejs/adapter-vercel"} does not specify getClientAddress. Please raise an issue`);
+      }
+      Object.defineProperty(event, "clientAddress", {
+        value: state.getClientAddress()
       });
-      if (name === "content-disposition") {
-        if (value !== "form-data")
-          nope();
-        if (directives.filename) {
-          throw new Error("File upload is not yet implemented");
-        }
-        if (directives.name) {
-          key = directives.name;
-        }
-      }
-    });
-    if (!key)
-      nope();
-    append(key, body);
-  });
-  return data;
-}
-async function respond(incoming, options2, state = {}) {
-  if (incoming.path !== "/" && options2.trailing_slash !== "ignore") {
-    const has_trailing_slash = incoming.path.endsWith("/");
-    if (has_trailing_slash && options2.trailing_slash === "never" || !has_trailing_slash && options2.trailing_slash === "always" && !incoming.path.split("/").pop().includes(".")) {
-      const path = has_trailing_slash ? incoming.path.slice(0, -1) : incoming.path + "/";
-      const q = incoming.query.toString();
-      return {
-        status: 301,
-        headers: {
-          location: encodeURI(path + (q ? `?${q}` : ""))
-        }
-      };
+      return event.clientAddress;
+    },
+    locals: {},
+    params,
+    platform: state.platform,
+    request,
+    routeId: route && route.id,
+    url
+  };
+  const removed = (property, replacement, suffix = "") => ({
+    get: () => {
+      throw new Error(`event.${property} has been replaced by event.${replacement}` + suffix);
     }
-  }
+  });
+  const details = ". See https://github.com/sveltejs/kit/pull/3384 for details";
+  const body_getter = {
+    get: () => {
+      throw new Error("To access the request body use the text/json/arrayBuffer/formData methods, e.g. `body = await request.json()`" + details);
+    }
+  };
+  Object.defineProperties(event, {
+    method: removed("method", "request.method", details),
+    headers: removed("headers", "request.headers", details),
+    origin: removed("origin", "url.origin"),
+    path: removed("path", "url.pathname"),
+    query: removed("query", "url.searchParams"),
+    body: body_getter,
+    rawBody: body_getter
+  });
+  let resolve_opts = {
+    ssr: true,
+    transformPage: default_transform
+  };
   try {
-    const headers = lowercase_keys(incoming.headers);
-    return await options2.hooks.handle({
-      request: {
-        ...incoming,
-        headers,
-        body: parse_body(incoming.rawBody, headers),
-        params: null,
-        locals: {}
-      },
-      resolve: async (request) => {
+    const response = await options.hooks.handle({
+      event,
+      resolve: async (event2, opts) => {
+        if (opts) {
+          resolve_opts = {
+            ssr: opts.ssr !== false,
+            transformPage: opts.transformPage || default_transform
+          };
+        }
         if (state.prerender && state.prerender.fallback) {
           return await render_response({
-            options: options2,
-            $session: await options2.hooks.getSession(request),
-            page_config: { ssr: false, router: true, hydrate: true },
+            event: event2,
+            options,
+            state,
+            $session: await options.hooks.getSession(event2),
+            page_config: { router: true, hydrate: true },
+            stuff: {},
             status: 200,
             error: null,
             branch: [],
-            page: null
+            resolve_opts: __spreadProps(__spreadValues({}, resolve_opts), {
+              ssr: false
+            })
           });
         }
-        for (const route of options2.manifest.routes) {
-          if (!route.pattern.test(request.path))
-            continue;
-          const response = route.type === "endpoint" ? await render_route(request, route) : await render_page(request, route, options2, state);
-          if (response) {
-            if (response.status === 200) {
-              if (!/(no-store|immutable)/.test(response.headers["cache-control"])) {
-                const etag = `"${hash(response.body)}"`;
-                if (request.headers["if-none-match"] === etag) {
-                  return {
-                    status: 304,
-                    headers: {},
-                    body: null
-                  };
+        if (route) {
+          let response2;
+          if (is_data_request && route.type === "page" && route.shadow) {
+            response2 = await render_endpoint(event2, await route.shadow());
+            if (request.headers.has("x-sveltekit-load")) {
+              if (response2.status >= 300 && response2.status < 400) {
+                const location = response2.headers.get("location");
+                if (location) {
+                  const headers = new Headers(response2.headers);
+                  headers.set("x-sveltekit-location", location);
+                  response2 = new Response(void 0, {
+                    status: 204,
+                    headers
+                  });
                 }
-                response.headers["etag"] = etag;
               }
             }
-            return response;
+          } else {
+            response2 = route.type === "endpoint" ? await render_endpoint(event2, await route.load()) : await render_page(event2, route, options, state, resolve_opts);
+          }
+          if (response2) {
+            if (response2.status === 200 && response2.headers.has("etag")) {
+              let if_none_match_value = request.headers.get("if-none-match");
+              if (if_none_match_value == null ? void 0 : if_none_match_value.startsWith('W/"')) {
+                if_none_match_value = if_none_match_value.substring(2);
+              }
+              const etag = response2.headers.get("etag");
+              if (if_none_match_value === etag) {
+                const headers = new Headers({ etag });
+                for (const key2 of [
+                  "cache-control",
+                  "content-location",
+                  "date",
+                  "expires",
+                  "vary"
+                ]) {
+                  const value = response2.headers.get(key2);
+                  if (value)
+                    headers.set(key2, value);
+                }
+                return new Response(void 0, {
+                  status: 304,
+                  headers
+                });
+              }
+            }
+            return response2;
           }
         }
-        return await render_page(request, null, options2, state);
+        if (!state.initiator) {
+          const $session = await options.hooks.getSession(event2);
+          return await respond_with_error({
+            event: event2,
+            options,
+            state,
+            $session,
+            status: 404,
+            error: new Error(`Not found: ${event2.url.pathname}`),
+            resolve_opts
+          });
+        }
+        if (state.prerender) {
+          return new Response("not found", { status: 404 });
+        }
+        return await fetch(request);
+      },
+      get request() {
+        throw new Error("request in handle has been replaced with event" + details);
       }
     });
-  } catch (e) {
-    options2.handle_error(e);
-    return {
-      status: 500,
-      headers: {},
-      body: options2.dev ? e.stack : e.message
-    };
-  }
-}
-
-// node_modules/svelte/internal/index.mjs
-function noop2() {
-}
-function run(fn) {
-  return fn();
-}
-function blank_object() {
-  return Object.create(null);
-}
-function run_all(fns) {
-  fns.forEach(run);
-}
-function is_function(thing) {
-  return typeof thing === "function";
-}
-function safe_not_equal2(a, b) {
-  return a != a ? b == b : a !== b || (a && typeof a === "object" || typeof a === "function");
-}
-function is_empty(obj) {
-  return Object.keys(obj).length === 0;
-}
-function subscribe(store, ...callbacks) {
-  if (store == null) {
-    return noop2;
-  }
-  const unsub = store.subscribe(...callbacks);
-  return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
-}
-var tasks = new Set();
-var active_docs = new Set();
-var current_component;
-function set_current_component(component) {
-  current_component = component;
-}
-function get_current_component() {
-  if (!current_component)
-    throw new Error("Function called outside component initialization");
-  return current_component;
-}
-function onMount(fn) {
-  get_current_component().$$.on_mount.push(fn);
-}
-function afterUpdate(fn) {
-  get_current_component().$$.after_update.push(fn);
-}
-function onDestroy(fn) {
-  get_current_component().$$.on_destroy.push(fn);
-}
-function setContext(key, context) {
-  get_current_component().$$.context.set(key, context);
-}
-function getContext(key) {
-  return get_current_component().$$.context.get(key);
-}
-var resolved_promise = Promise.resolve();
-var seen_callbacks = new Set();
-var outroing = new Set();
-var globals = typeof window !== "undefined" ? window : typeof globalThis !== "undefined" ? globalThis : global;
-var boolean_attributes = new Set([
-  "allowfullscreen",
-  "allowpaymentrequest",
-  "async",
-  "autofocus",
-  "autoplay",
-  "checked",
-  "controls",
-  "default",
-  "defer",
-  "disabled",
-  "formnovalidate",
-  "hidden",
-  "ismap",
-  "loop",
-  "multiple",
-  "muted",
-  "nomodule",
-  "novalidate",
-  "open",
-  "playsinline",
-  "readonly",
-  "required",
-  "reversed",
-  "selected"
-]);
-var escaped2 = {
-  '"': "&quot;",
-  "'": "&#39;",
-  "&": "&amp;",
-  "<": "&lt;",
-  ">": "&gt;"
-};
-function escape2(html) {
-  return String(html).replace(/["'&<>]/g, (match) => escaped2[match]);
-}
-function each(items, fn) {
-  let str = "";
-  for (let i = 0; i < items.length; i += 1) {
-    str += fn(items[i], i);
-  }
-  return str;
-}
-var missing_component = {
-  $$render: () => ""
-};
-function validate_component(component, name) {
-  if (!component || !component.$$render) {
-    if (name === "svelte:component")
-      name += " this={...}";
-    throw new Error(`<${name}> is not a valid SSR component. You may need to review your build config to ensure that dependencies are compiled, rather than imported as pre-compiled modules`);
-  }
-  return component;
-}
-var on_destroy;
-function create_ssr_component(fn) {
-  function $$render(result, props, bindings, slots, context) {
-    const parent_component = current_component;
-    const $$ = {
-      on_destroy,
-      context: new Map(parent_component ? parent_component.$$.context : context || []),
-      on_mount: [],
-      before_update: [],
-      after_update: [],
-      callbacks: blank_object()
-    };
-    set_current_component({ $$ });
-    const html = fn(result, props, bindings, slots);
-    set_current_component(parent_component);
-    return html;
-  }
-  return {
-    render: (props = {}, { $$slots = {}, context = new Map() } = {}) => {
-      on_destroy = [];
-      const result = { title: "", head: "", css: new Set() };
-      const html = $$render(result, props, {}, $$slots, context);
-      run_all(on_destroy);
-      return {
-        html,
-        css: {
-          code: Array.from(result.css).map((css2) => css2.code).join("\n"),
-          map: null
-        },
-        head: result.title + result.head
-      };
-    },
-    $$render
-  };
-}
-function add_attribute(name, value, boolean) {
-  if (value == null || boolean && !value)
-    return "";
-  return ` ${name}${value === true ? "" : `=${typeof value === "string" ? JSON.stringify(escape2(value)) : `"${value}"`}`}`;
-}
-function destroy_component(component, detaching) {
-  const $$ = component.$$;
-  if ($$.fragment !== null) {
-    run_all($$.on_destroy);
-    $$.fragment && $$.fragment.d(detaching);
-    $$.on_destroy = $$.fragment = null;
-    $$.ctx = [];
-  }
-}
-var SvelteElement;
-if (typeof HTMLElement === "function") {
-  SvelteElement = class extends HTMLElement {
-    constructor() {
-      super();
-      this.attachShadow({ mode: "open" });
+    if (response && !(response instanceof Response)) {
+      throw new Error("handle must return a Response object" + details);
     }
-    connectedCallback() {
-      const { on_mount } = this.$$;
-      this.$$.on_disconnect = on_mount.map(run).filter(is_function);
-      for (const key in this.$$.slotted) {
-        this.appendChild(this.$$.slotted[key]);
-      }
-    }
-    attributeChangedCallback(attr, _oldValue, newValue) {
-      this[attr] = newValue;
-    }
-    disconnectedCallback() {
-      run_all(this.$$.on_disconnect);
-    }
-    $destroy() {
-      destroy_component(this, 1);
-      this.$destroy = noop2;
-    }
-    $on(type, callback) {
-      const callbacks = this.$$.callbacks[type] || (this.$$.callbacks[type] = []);
-      callbacks.push(callback);
-      return () => {
-        const index2 = callbacks.indexOf(callback);
-        if (index2 !== -1)
-          callbacks.splice(index2, 1);
-      };
-    }
-    $set($$props) {
-      if (this.$$set && !is_empty($$props)) {
-        this.$$.skip_bound = true;
-        this.$$set($$props);
-        this.$$.skip_bound = false;
-      }
-    }
-  };
-}
-
-// node_modules/svelte/store/index.mjs
-var subscriber_queue2 = [];
-function writable2(value, start = noop2) {
-  let stop;
-  const subscribers = [];
-  function set(new_value) {
-    if (safe_not_equal2(value, new_value)) {
-      value = new_value;
-      if (stop) {
-        const run_queue = !subscriber_queue2.length;
-        for (let i = 0; i < subscribers.length; i += 1) {
-          const s2 = subscribers[i];
-          s2[1]();
-          subscriber_queue2.push(s2, value);
-        }
-        if (run_queue) {
-          for (let i = 0; i < subscriber_queue2.length; i += 2) {
-            subscriber_queue2[i][0](subscriber_queue2[i + 1]);
-          }
-          subscriber_queue2.length = 0;
-        }
-      }
-    }
-  }
-  function update(fn) {
-    set(fn(value));
-  }
-  function subscribe2(run2, invalidate = noop2) {
-    const subscriber = [run2, invalidate];
-    subscribers.push(subscriber);
-    if (subscribers.length === 1) {
-      stop = start(set) || noop2;
-    }
-    run2(value);
-    return () => {
-      const index2 = subscribers.indexOf(subscriber);
-      if (index2 !== -1) {
-        subscribers.splice(index2, 1);
-      }
-      if (subscribers.length === 0) {
-        stop();
-        stop = null;
-      }
-    };
-  }
-  return { set, update, subscribe: subscribe2 };
-}
-
-// .svelte-kit/output/server/app.js
-var css$9 = {
-  code: "#svelte-announcer.svelte-1j55zn5{position:absolute;left:0;top:0;clip:rect(0 0 0 0);clip-path:inset(50%);overflow:hidden;white-space:nowrap;width:1px;height:1px}",
-  map: `{"version":3,"file":"root.svelte","sources":["root.svelte"],"sourcesContent":["<!-- This file is generated by @sveltejs/kit \u2014 do not edit it! -->\\n<script>\\n\\timport { setContext, afterUpdate, onMount } from 'svelte';\\n\\n\\t// stores\\n\\texport let stores;\\n\\texport let page;\\n\\n\\texport let components;\\n\\texport let props_0 = null;\\n\\texport let props_1 = null;\\n\\texport let props_2 = null;\\n\\n\\tsetContext('__svelte__', stores);\\n\\n\\t$: stores.page.set(page);\\n\\tafterUpdate(stores.page.notify);\\n\\n\\tlet mounted = false;\\n\\tlet navigated = false;\\n\\tlet title = null;\\n\\n\\tonMount(() => {\\n\\t\\tconst unsubscribe = stores.page.subscribe(() => {\\n\\t\\t\\tif (mounted) {\\n\\t\\t\\t\\tnavigated = true;\\n\\t\\t\\t\\ttitle = document.title || 'untitled page';\\n\\t\\t\\t}\\n\\t\\t});\\n\\n\\t\\tmounted = true;\\n\\t\\treturn unsubscribe;\\n\\t});\\n<\/script>\\n\\n<svelte:component this={components[0]} {...(props_0 || {})}>\\n\\t{#if components[1]}\\n\\t\\t<svelte:component this={components[1]} {...(props_1 || {})}>\\n\\t\\t\\t{#if components[2]}\\n\\t\\t\\t\\t<svelte:component this={components[2]} {...(props_2 || {})}/>\\n\\t\\t\\t{/if}\\n\\t\\t</svelte:component>\\n\\t{/if}\\n</svelte:component>\\n\\n{#if mounted}\\n\\t<div id=\\"svelte-announcer\\" aria-live=\\"assertive\\" aria-atomic=\\"true\\">\\n\\t\\t{#if navigated}\\n\\t\\t\\t{title}\\n\\t\\t{/if}\\n\\t</div>\\n{/if}\\n\\n<style>\\n\\t#svelte-announcer {\\n\\t\\tposition: absolute;\\n\\t\\tleft: 0;\\n\\t\\ttop: 0;\\n\\t\\tclip: rect(0 0 0 0);\\n\\t\\tclip-path: inset(50%);\\n\\t\\toverflow: hidden;\\n\\t\\twhite-space: nowrap;\\n\\t\\twidth: 1px;\\n\\t\\theight: 1px;\\n\\t}\\n</style>"],"names":[],"mappings":"AAsDC,iBAAiB,eAAC,CAAC,AAClB,QAAQ,CAAE,QAAQ,CAClB,IAAI,CAAE,CAAC,CACP,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CACnB,SAAS,CAAE,MAAM,GAAG,CAAC,CACrB,QAAQ,CAAE,MAAM,CAChB,WAAW,CAAE,MAAM,CACnB,KAAK,CAAE,GAAG,CACV,MAAM,CAAE,GAAG,AACZ,CAAC"}`
-};
-var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  let { stores } = $$props;
-  let { page: page2 } = $$props;
-  let { components } = $$props;
-  let { props_0 = null } = $$props;
-  let { props_1 = null } = $$props;
-  let { props_2 = null } = $$props;
-  setContext("__svelte__", stores);
-  afterUpdate(stores.page.notify);
-  let mounted = false;
-  let navigated = false;
-  let title2 = null;
-  onMount(() => {
-    const unsubscribe = stores.page.subscribe(() => {
-      if (mounted) {
-        navigated = true;
-        title2 = document.title || "untitled page";
-      }
-    });
-    mounted = true;
-    return unsubscribe;
-  });
-  if ($$props.stores === void 0 && $$bindings.stores && stores !== void 0)
-    $$bindings.stores(stores);
-  if ($$props.page === void 0 && $$bindings.page && page2 !== void 0)
-    $$bindings.page(page2);
-  if ($$props.components === void 0 && $$bindings.components && components !== void 0)
-    $$bindings.components(components);
-  if ($$props.props_0 === void 0 && $$bindings.props_0 && props_0 !== void 0)
-    $$bindings.props_0(props_0);
-  if ($$props.props_1 === void 0 && $$bindings.props_1 && props_1 !== void 0)
-    $$bindings.props_1(props_1);
-  if ($$props.props_2 === void 0 && $$bindings.props_2 && props_2 !== void 0)
-    $$bindings.props_2(props_2);
-  $$result.css.add(css$9);
-  {
-    stores.page.set(page2);
-  }
-  return `
-
-
-${validate_component(components[0] || missing_component, "svelte:component").$$render($$result, Object.assign(props_0 || {}), {}, {
-    default: () => `${components[1] ? `${validate_component(components[1] || missing_component, "svelte:component").$$render($$result, Object.assign(props_1 || {}), {}, {
-      default: () => `${components[2] ? `${validate_component(components[2] || missing_component, "svelte:component").$$render($$result, Object.assign(props_2 || {}), {}, {})}` : ``}`
-    })}` : ``}`
-  })}
-
-${mounted ? `<div id="${"svelte-announcer"}" aria-live="${"assertive"}" aria-atomic="${"true"}" class="${"svelte-1j55zn5"}">${navigated ? `${escape2(title2)}` : ``}</div>` : ``}`;
-});
-function set_paths(paths) {
-}
-function set_prerendering(value) {
-}
-var user_hooks = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module"
-});
-var template = ({ head, body }) => '<!DOCTYPE html>\n<html lang="en">\n\n<head>\n  <meta charset="utf-8" />\n  <link rel="icon" href="/favicon.svg" />\n  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0" />\n  ' + head + '\n</head>\n\n<body>\n  <div id="svelte">' + body + "</div>\n</body>\n\n</html>";
-var options = null;
-function init(settings) {
-  set_paths(settings.paths);
-  set_prerendering(settings.prerendering || false);
-  options = {
-    amp: false,
-    dev: false,
-    entry: {
-      file: "/./_app/start-e74789cf.js",
-      css: ["/./_app/assets/start-a8cd1609.css"],
-      js: ["/./_app/start-e74789cf.js", "/./_app/chunks/vendor-703e0f7d.js", "/./_app/chunks/preload-helper-9f12a5fd.js"]
-    },
-    fetched: void 0,
-    floc: false,
-    get_component_path: (id) => "/./_app/" + entry_lookup[id],
-    get_stack: (error2) => String(error2),
-    handle_error: (error2) => {
-      console.error(error2.stack);
-      error2.stack = options.get_stack(error2);
-    },
-    hooks: get_hooks(user_hooks),
-    hydrate: true,
-    initiator: void 0,
-    load_component,
-    manifest,
-    paths: settings.paths,
-    read: settings.read,
-    root: Root,
-    router: true,
-    ssr: true,
-    target: "#svelte",
-    template,
-    trailing_slash: "never"
-  };
-}
-var empty = () => ({});
-var manifest = {
-  assets: [{ "file": "art/a-c1.jpeg", "size": 888549, "type": "image/jpeg" }, { "file": "art/a-c2.jpeg", "size": 752302, "type": "image/jpeg" }, { "file": "art/a-i1.jpeg", "size": 414163, "type": "image/jpeg" }, { "file": "art/p-e1.jpeg", "size": 772821, "type": "image/jpeg" }, { "file": "art/p-e2.jpeg", "size": 729817, "type": "image/jpeg" }, { "file": "art/p-h1.jpeg", "size": 4664057, "type": "image/jpeg" }, { "file": "art/p-t1.jpeg", "size": 1334606, "type": "image/jpeg" }, { "file": "favicon.svg", "size": 2183, "type": "image/svg+xml" }, { "file": "fonts/Recursive_VF_1.077--subset_range_english_basic.woff2", "size": 206776, "type": "font/woff2" }, { "file": "fonts/Recursive_VF_1.077--subset_range_latin_1.woff2", "size": 68568, "type": "font/woff2" }, { "file": "fonts/Recursive_VF_1.077--subset_range_latin_1_punc.woff2", "size": 48420, "type": "font/woff2" }, { "file": "fonts/Recursive_VF_1.077--subset_range_latin_ext.woff2", "size": 158688, "type": "font/woff2" }, { "file": "fonts/Recursive_VF_1.077--subset_range_remaining.woff2", "size": 338276, "type": "font/woff2" }, { "file": "fonts/Recursive_VF_1.077--subset_range_vietnamese.woff2", "size": 57420, "type": "font/woff2" }, { "file": "fonts.css", "size": 4264, "type": "text/css" }, { "file": "hint.min.css", "size": 9713, "type": "text/css" }, { "file": "icons/copy.svg", "size": 348, "type": "image/svg+xml" }, { "file": "icons/moon.svg", "size": 281, "type": "image/svg+xml" }, { "file": "icons/sun.svg", "size": 645, "type": "image/svg+xml" }, { "file": "images/flight-suit-full.png", "size": 3388091, "type": "image/png" }, { "file": "images/flight-suit.png", "size": 561439, "type": "image/png" }, { "file": "images/fsj-solid.svg", "size": 2183, "type": "image/svg+xml" }, { "file": "images/fsj.png", "size": 30287, "type": "image/png" }, { "file": "images/fsj.svg", "size": 1356, "type": "image/svg+xml" }, { "file": "main.scss", "size": 2010, "type": "text/x-scss" }, { "file": "normalize.css", "size": 6142, "type": "text/css" }],
-  layout: "src/routes/__layout.svelte",
-  error: "src/routes/__error.svelte",
-  routes: [
-    {
-      type: "page",
-      pattern: /^\/$/,
-      params: empty,
-      a: ["src/routes/__layout.svelte", "src/routes/index.svelte"],
-      b: ["src/routes/__error.svelte"]
-    },
-    {
-      type: "page",
-      pattern: /^\/portfolio\/?$/,
-      params: empty,
-      a: ["src/routes/__layout.svelte", "src/routes/portfolio.svelte"],
-      b: ["src/routes/__error.svelte"]
-    },
-    {
-      type: "page",
-      pattern: /^\/posts\/?$/,
-      params: empty,
-      a: ["src/routes/__layout.svelte", "src/routes/posts/index.svelte"],
-      b: ["src/routes/__error.svelte"]
-    },
-    {
-      type: "page",
-      pattern: /^\/posts\/2020-09-08-what-does-radiolevity-mean\/?$/,
-      params: empty,
-      a: ["src/routes/__layout.svelte", "src/routes/posts/2020-09-08-what-does-radiolevity-mean.md"],
-      b: ["src/routes/__error.svelte"]
-    },
-    {
-      type: "page",
-      pattern: /^\/posts\/2021-07-13-tools-of-the-trade\/?$/,
-      params: empty,
-      a: ["src/routes/__layout.svelte", "src/routes/posts/2021-07-13-tools-of-the-trade.md"],
-      b: ["src/routes/__error.svelte"]
-    },
-    {
-      type: "page",
-      pattern: /^\/posts\/2021-07-11-all-new-site\/?$/,
-      params: empty,
-      a: ["src/routes/__layout.svelte", "src/routes/posts/2021-07-11-all-new-site.md"],
-      b: ["src/routes/__error.svelte"]
-    },
-    {
-      type: "page",
-      pattern: /^\/posts\/2021-05-04-new-domain\/?$/,
-      params: empty,
-      a: ["src/routes/__layout.svelte", "src/routes/posts/2021-05-04-new-domain.md"],
-      b: ["src/routes/__error.svelte"]
-    },
-    {
-      type: "page",
-      pattern: /^\/posts\/2020-05-16-init\/?$/,
-      params: empty,
-      a: ["src/routes/__layout.svelte", "src/routes/posts/2020-05-16-init.md"],
-      b: ["src/routes/__error.svelte"]
-    },
-    {
-      type: "page",
-      pattern: /^\/cv\/?$/,
-      params: empty,
-      a: ["src/routes/__layout.svelte", "src/routes/cv.svelte"],
-      b: ["src/routes/__error.svelte"]
-    }
-  ]
-};
-var get_hooks = (hooks) => ({
-  getSession: hooks.getSession || (() => ({})),
-  handle: hooks.handle || (({ request, resolve: resolve2 }) => resolve2(request)),
-  serverFetch: hooks.serverFetch || fetch
-});
-var module_lookup = {
-  "src/routes/__layout.svelte": () => Promise.resolve().then(function() {
-    return __layout;
-  }),
-  "src/routes/__error.svelte": () => Promise.resolve().then(function() {
-    return __error;
-  }),
-  "src/routes/index.svelte": () => Promise.resolve().then(function() {
-    return index$1;
-  }),
-  "src/routes/portfolio.svelte": () => Promise.resolve().then(function() {
-    return portfolio;
-  }),
-  "src/routes/posts/index.svelte": () => Promise.resolve().then(function() {
-    return index;
-  }),
-  "src/routes/posts/2020-09-08-what-does-radiolevity-mean.md": () => Promise.resolve().then(function() {
-    return _20200908WhatDoesRadiolevityMean;
-  }),
-  "src/routes/posts/2021-07-13-tools-of-the-trade.md": () => Promise.resolve().then(function() {
-    return _20210713ToolsOfTheTrade;
-  }),
-  "src/routes/posts/2021-07-11-all-new-site.md": () => Promise.resolve().then(function() {
-    return _20210711AllNewSite;
-  }),
-  "src/routes/posts/2021-05-04-new-domain.md": () => Promise.resolve().then(function() {
-    return _20210504NewDomain;
-  }),
-  "src/routes/posts/2020-05-16-init.md": () => Promise.resolve().then(function() {
-    return _20200516Init;
-  }),
-  "src/routes/cv.svelte": () => Promise.resolve().then(function() {
-    return cv;
-  })
-};
-var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "/./_app/pages/__layout.svelte-0c87eb65.js", "css": ["/./_app/assets/pages/__layout.svelte-b95e4f9e.css"], "js": ["/./_app/pages/__layout.svelte-0c87eb65.js", "/./_app/chunks/vendor-703e0f7d.js"], "styles": null }, "src/routes/__error.svelte": { "entry": "/./_app/pages/__error.svelte-6528e137.js", "css": [], "js": ["/./_app/pages/__error.svelte-6528e137.js", "/./_app/chunks/vendor-703e0f7d.js"], "styles": null }, "src/routes/index.svelte": { "entry": "/./_app/pages/index.svelte-09da01ad.js", "css": ["/./_app/assets/pages/index.svelte-b285861b.css"], "js": ["/./_app/pages/index.svelte-09da01ad.js", "/./_app/chunks/vendor-703e0f7d.js"], "styles": null }, "src/routes/portfolio.svelte": { "entry": "/./_app/pages/portfolio.svelte-2c226f74.js", "css": ["/./_app/assets/pages/portfolio.svelte-d0024b74.css"], "js": ["/./_app/pages/portfolio.svelte-2c226f74.js", "/./_app/chunks/vendor-703e0f7d.js"], "styles": null }, "src/routes/posts/index.svelte": { "entry": "/./_app/pages/posts/index.svelte-76a20d7d.js", "css": ["/./_app/assets/pages/posts/index.svelte-79ae5d49.css"], "js": ["/./_app/pages/posts/index.svelte-76a20d7d.js", "/./_app/chunks/preload-helper-9f12a5fd.js", "/./_app/chunks/vendor-703e0f7d.js"], "styles": null }, "src/routes/posts/2020-09-08-what-does-radiolevity-mean.md": { "entry": "/./_app/pages/posts/2020-09-08-what-does-radiolevity-mean.md-5d50bec9.js", "css": [], "js": ["/./_app/pages/posts/2020-09-08-what-does-radiolevity-mean.md-5d50bec9.js", "/./_app/chunks/vendor-703e0f7d.js"], "styles": null }, "src/routes/posts/2021-07-13-tools-of-the-trade.md": { "entry": "/./_app/pages/posts/2021-07-13-tools-of-the-trade.md-c6266106.js", "css": [], "js": ["/./_app/pages/posts/2021-07-13-tools-of-the-trade.md-c6266106.js", "/./_app/chunks/vendor-703e0f7d.js"], "styles": null }, "src/routes/posts/2021-07-11-all-new-site.md": { "entry": "/./_app/pages/posts/2021-07-11-all-new-site.md-71b58c0c.js", "css": [], "js": ["/./_app/pages/posts/2021-07-11-all-new-site.md-71b58c0c.js", "/./_app/chunks/vendor-703e0f7d.js"], "styles": null }, "src/routes/posts/2021-05-04-new-domain.md": { "entry": "/./_app/pages/posts/2021-05-04-new-domain.md-2a096500.js", "css": [], "js": ["/./_app/pages/posts/2021-05-04-new-domain.md-2a096500.js", "/./_app/chunks/vendor-703e0f7d.js"], "styles": null }, "src/routes/posts/2020-05-16-init.md": { "entry": "/./_app/pages/posts/2020-05-16-init.md-60ec5109.js", "css": [], "js": ["/./_app/pages/posts/2020-05-16-init.md-60ec5109.js", "/./_app/chunks/vendor-703e0f7d.js"], "styles": null }, "src/routes/cv.svelte": { "entry": "/./_app/pages/cv.svelte-b4e8e9b1.js", "css": ["/./_app/assets/pages/cv.svelte-cb29a53f.css"], "js": ["/./_app/pages/cv.svelte-b4e8e9b1.js", "/./_app/chunks/vendor-703e0f7d.js"], "styles": null } };
-async function load_component(file) {
-  return {
-    module: await module_lookup[file](),
-    ...metadata_lookup[file]
-  };
-}
-init({ paths: { "base": "", "assets": "/." } });
-function render(request, {
-  prerender
-} = {}) {
-  const host = request.headers["host"];
-  return respond({ ...request, host }, options, { prerender });
-}
-var css$8 = {
-  code: "footer.svelte-dy6fjt.svelte-dy6fjt{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;color:var(--med-light-gray);padding-bottom:1rem;min-height:6rem}footer.svelte-dy6fjt a.svelte-dy6fjt{color:var(--med-gray)}footer.svelte-dy6fjt a.svelte-dy6fjt:hover{color:var(--med-dark-gray)}footer.svelte-dy6fjt a.svelte-dy6fjt:active{color:var(--dark-gray)}footer.svelte-dy6fjt div.svelte-dy6fjt{text-align:center;margin:0;position:relative;padding:0.1rem}",
-  map: '{"version":3,"file":"Footer.svelte","sources":["Footer.svelte"],"sourcesContent":["<footer>\\n  <div>\\n    This work licensed under\\n    <a href=\\"https://creativecommons.org/licenses/by-nc-sa/4.0\\">CC BY-NC-SA 4.0</a>\\n  </div>\\n</footer>\\n\\n<style lang=\\"scss\\">footer {\\n  display: flex;\\n  flex-direction: column;\\n  justify-content: flex-end;\\n  align-items: center;\\n  color: var(--med-light-gray);\\n  padding-bottom: 1rem;\\n  min-height: 6rem;\\n}\\nfooter a {\\n  color: var(--med-gray);\\n}\\nfooter a:hover {\\n  color: var(--med-dark-gray);\\n}\\nfooter a:active {\\n  color: var(--dark-gray);\\n}\\nfooter div {\\n  text-align: center;\\n  margin: 0;\\n  position: relative;\\n  padding: 0.1rem;\\n}</style>\\n"],"names":[],"mappings":"AAOmB,MAAM,4BAAC,CAAC,AACzB,OAAO,CAAE,IAAI,CACb,cAAc,CAAE,MAAM,CACtB,eAAe,CAAE,QAAQ,CACzB,WAAW,CAAE,MAAM,CACnB,KAAK,CAAE,IAAI,gBAAgB,CAAC,CAC5B,cAAc,CAAE,IAAI,CACpB,UAAU,CAAE,IAAI,AAClB,CAAC,AACD,oBAAM,CAAC,CAAC,cAAC,CAAC,AACR,KAAK,CAAE,IAAI,UAAU,CAAC,AACxB,CAAC,AACD,oBAAM,CAAC,eAAC,MAAM,AAAC,CAAC,AACd,KAAK,CAAE,IAAI,eAAe,CAAC,AAC7B,CAAC,AACD,oBAAM,CAAC,eAAC,OAAO,AAAC,CAAC,AACf,KAAK,CAAE,IAAI,WAAW,CAAC,AACzB,CAAC,AACD,oBAAM,CAAC,GAAG,cAAC,CAAC,AACV,UAAU,CAAE,MAAM,CAClB,MAAM,CAAE,CAAC,CACT,QAAQ,CAAE,QAAQ,CAClB,OAAO,CAAE,MAAM,AACjB,CAAC"}'
-};
-var Footer = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  $$result.css.add(css$8);
-  return `<footer class="${"svelte-dy6fjt"}"><div class="${"svelte-dy6fjt"}">This work licensed under
-    <a href="${"https://creativecommons.org/licenses/by-nc-sa/4.0"}" class="${"svelte-dy6fjt"}">CC BY-NC-SA 4.0</a></div>
-</footer>`;
-});
-var getStores = () => {
-  const stores = getContext("__svelte__");
-  return {
-    page: {
-      subscribe: stores.page.subscribe
-    },
-    navigating: {
-      subscribe: stores.navigating.subscribe
-    },
-    get preloading() {
-      console.error("stores.preloading is deprecated; use stores.navigating instead");
-      return {
-        subscribe: stores.navigating.subscribe
-      };
-    },
-    session: stores.session
-  };
-};
-var page = {
-  subscribe(fn) {
-    const store = getStores().page;
-    return store.subscribe(fn);
-  }
-};
-function createColorMode() {
-  const { subscribe: subscribe2, set, update } = writable2("");
-  return {
-    subscribe: subscribe2,
-    toggle: () => update((a) => a === "light" || a === "" ? "dark" : "light"),
-    setLightMode: () => set("light"),
-    setDarkMode: () => set("dark"),
-    setMode: (mode) => set(mode),
-    reset: () => set("")
-  };
-}
-var colorMode = createColorMode();
-var css$7 = {
-  code: '#header.svelte-ngsph1.svelte-ngsph1{display:flex;align-items:center;position:relative;padding-top:1rem;z-index:1}#color-mode-toggle.svelte-ngsph1.svelte-ngsph1{touch-action:manipulation;stroke:white;fill:var(--fg);display:inline-flex;justify-content:center;padding-left:1rem;cursor:pointer}#color-mode-toggle.svelte-ngsph1 img.svelte-ngsph1{width:24px}#logo.svelte-ngsph1.svelte-ngsph1{touch-action:manipulation;transition:transform 100ms ease, filter 100ms ease;position:relative}#logo.svelte-ngsph1.svelte-ngsph1:hover{transition:transform 240ms cubic-bezier(0, 0.62, 0.34, 1);transform:scale(116%) rotate(-4deg)}#logo.svelte-ngsph1:hover #logo-shadow.svelte-ngsph1{top:0.2rem;opacity:0.2;transition:all 240ms cubic-bezier(0, 0.62, 0.34, 1)}#logo.svelte-ngsph1.svelte-ngsph1:active{transition:transform 100ms ease;transform:scale(112%) rotate(-3deg)}#logo.svelte-ngsph1:active #logo-shadow.svelte-ngsph1{transition:all 100ms ease;top:0.15rem;opacity:0.15}#logo.svelte-ngsph1 #logo-shadow.svelte-ngsph1{left:0;top:0;position:absolute;z-index:-1;opacity:0;filter:brightness(0) blur(0.2rem);transition:all 100ms ease, filter 100ms ease}nav.svelte-ngsph1 .nav-container.svelte-ngsph1{display:flex;align-items:center}nav.svelte-ngsph1 button.svelte-ngsph1{background:none;border:none}nav.svelte-ngsph1 .nav-item.svelte-ngsph1{touch-action:manipulation;padding:1.2rem;display:block;text-decoration:none;font-variation-settings:"wght" 400, "CASL" 1, "slnt" -15;font-size:larger;transform:translateY(-4px);color:var(--fg);transition:font-variation-settings 100ms}nav.svelte-ngsph1 .nav-item.svelte-ngsph1:first-of-type{padding-left:2.4rem}nav.svelte-ngsph1 .nav-item.svelte-ngsph1:hover{font-variation-settings:"wght" 800, "CASL" 1, "slnt" -15}nav.svelte-ngsph1 .nav-item.svelte-ngsph1:active{font-variation-settings:"wght" 800, "CASL" 1, "slnt" -15}nav.svelte-ngsph1 .nav-item.active.svelte-ngsph1{color:var(--magenta);font-variation-settings:"wght" 800, "CASL" 1, "slnt" -15}#menu-icon.svelte-ngsph1.svelte-ngsph1{touch-action:manipulation;display:none;height:4rem;width:4rem;padding:0.8rem;transform:translateY(-4px);cursor:pointer}#menu-icon.svelte-ngsph1 div.svelte-ngsph1{visibility:hidden}#menu-icon.svelte-ngsph1.svelte-ngsph1::before,#menu-icon.svelte-ngsph1.svelte-ngsph1::after,#menu-icon.svelte-ngsph1 div.svelte-ngsph1{background:var(--fg);content:"";display:block;height:8px;border-radius:100px;margin:3px 0;transition:0.5s cubic-bezier(0, 0.62, 0.34, 1)}.active.svelte-ngsph1 #menu-icon.svelte-ngsph1:before{margin:7px 0;transform:translateY(8px) rotate(135deg)}.active.svelte-ngsph1 #menu-icon.svelte-ngsph1:after{margin:7px 0;transform:translateY(-22px) rotate(-135deg)}#blur.svelte-ngsph1.svelte-ngsph1{pointer-events:none;z-index:-1;position:fixed;top:0;left:0;right:0;bottom:0;opacity:0;transition:opacity 300ms cubic-bezier(0, 0.62, 0.34, 1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}#blur.svelte-ngsph1.svelte-ngsph1::after{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background-color:var(--bg);opacity:0.7}@media screen and (max-width: 767px){nav.svelte-ngsph1.svelte-ngsph1{z-index:1;position:fixed;right:0.4rem;padding-right:0.8rem;flex-direction:row-reverse}nav.svelte-ngsph1 .nav-container.svelte-ngsph1{flex-direction:column;align-items:flex-end;position:absolute;top:4rem;right:0;visibility:hidden}nav.svelte-ngsph1 #menu-icon.svelte-ngsph1{display:block}nav.svelte-ngsph1 .nav-item.svelte-ngsph1{font-size:x-large;font-variation-settings:"wght" 800, "CASL" 1, "slnt" -15;opacity:0;transform:translateX(6rem);transition:transform 300ms cubic-bezier(0, 0.62, 0.34, 1), opacity 300ms cubic-bezier(0, 0.62, 0.34, 1), visibility 300ms cubic-bezier(0, 0.62, 0.34, 1)}nav.svelte-ngsph1 #color-mode-toggle img.svelte-ngsph1{width:32px}nav.active.svelte-ngsph1.svelte-ngsph1{position:fixed}nav.active.svelte-ngsph1 .nav-item.svelte-ngsph1{transform:translateX(-0.5rem);visibility:visible;opacity:1;transition:transform 600ms cubic-bezier(0, 0.62, 0.34, 1), opacity 600ms cubic-bezier(0, 0.62, 0.34, 1), visibility 600ms cubic-bezier(0, 0.62, 0.34, 1)}nav.active.svelte-ngsph1 #blur.svelte-ngsph1{opacity:1;pointer-events:auto}}',
-  map: `{"version":3,"file":"Header.svelte","sources":["Header.svelte"],"sourcesContent":["<script lang=\\"ts\\">import { page } from \\"$app/stores\\";\\nimport { colorMode } from \\"@/stores.ts\\";\\nconst nav = [\\n    // { name: \\"Home\\", link: \\"/\\" },\\n    { name: \\"CV\\", link: \\"/cv\\" },\\n    { name: \\"Posts\\", link: \\"/posts\\" },\\n    { name: \\"Portfolio\\", link: \\"/portfolio\\" }\\n];\\nlet menuOpen = false;\\n<\/script>\\n\\n<svelte:head>\\n  <link rel=\\"preload\\" href=\\"/images/fsj.svg\\" as=\\"image\\" />\\n  <link rel=\\"preload\\" href=\\"/icons/sun.svg\\" as=\\"image\\" />\\n  <link rel=\\"preload\\" href=\\"/icons/moon.svg\\" as=\\"image\\" />\\n</svelte:head>\\n\\n<header id=\\"header\\">\\n  <div id=\\"logo\\">\\n    <a href=\\"/\\">\\n      <img id=\\"logo-svg\\" src=\\"/images/fsj.svg\\" alt=\\"fsj logo\\" height=\\"100\\" width=\\"100\\" />\\n      <img id=\\"logo-shadow\\" src=\\"/images/fsj.svg\\" alt=\\"fsj logo\\" height=\\"100\\" width=\\"100\\" />\\n    </a>\\n  </div>\\n  <nav class:active={menuOpen}>\\n    <div class=\\"nav-container\\">\\n      {#each nav as item, i}\\n        <a\\n          class=\\"nav-item\\"\\n          tabindex=\\"0\\"\\n          style=\\"transition-delay: {i * 32}ms\\"\\n          class:active={item.link === $page.path}\\n          on:click={() => (menuOpen = false)}\\n          sveltekit:prefetch\\n          href={item.link}\\n        >\\n          {@html item.name}\\n        </a>\\n      {/each}\\n      <button\\n        class=\\"nav-item\\"\\n        id=\\"color-mode-toggle\\"\\n        on:click={colorMode.toggle}\\n        style=\\"transition-delay: {nav.length * 32}ms\\"\\n      >\\n        <img\\n          src=\\"/icons/{$colorMode === 'dark' ? 'sun' : 'moon'}.svg\\"\\n          alt=\\"toggle dark mode\\"\\n          height=\\"24\\"\\n          width=\\"24\\"\\n        />\\n      </button>\\n    </div>\\n    <button id=\\"menu-icon\\" aria-label=\\"menu\\" on:click={() => (menuOpen = !menuOpen)}>\\n      <div />\\n    </button>\\n    <div id=\\"blur\\" />\\n  </nav>\\n</header>\\n\\n<style lang=\\"scss\\">#header {\\n  display: flex;\\n  align-items: center;\\n  position: relative;\\n  padding-top: 1rem;\\n  z-index: 1;\\n}\\n\\n#color-mode-toggle {\\n  touch-action: manipulation;\\n  stroke: white;\\n  fill: var(--fg);\\n  display: inline-flex;\\n  justify-content: center;\\n  padding-left: 1rem;\\n  cursor: pointer;\\n}\\n#color-mode-toggle img {\\n  width: 24px;\\n}\\n\\n#logo {\\n  touch-action: manipulation;\\n  transition: transform 100ms ease, filter 100ms ease;\\n  position: relative;\\n}\\n#logo:hover {\\n  transition: transform 240ms cubic-bezier(0, 0.62, 0.34, 1);\\n  transform: scale(116%) rotate(-4deg);\\n}\\n#logo:hover #logo-shadow {\\n  top: 0.2rem;\\n  opacity: 0.2;\\n  transition: all 240ms cubic-bezier(0, 0.62, 0.34, 1);\\n}\\n#logo:active {\\n  transition: transform 100ms ease;\\n  transform: scale(112%) rotate(-3deg);\\n}\\n#logo:active #logo-shadow {\\n  transition: all 100ms ease;\\n  top: 0.15rem;\\n  opacity: 0.15;\\n}\\n#logo #logo-shadow {\\n  left: 0;\\n  top: 0;\\n  position: absolute;\\n  z-index: -1;\\n  opacity: 0;\\n  filter: brightness(0) blur(0.2rem);\\n  transition: all 100ms ease, filter 100ms ease;\\n}\\n\\nnav .nav-container {\\n  display: flex;\\n  align-items: center;\\n}\\nnav button {\\n  background: none;\\n  border: none;\\n}\\nnav .nav-item {\\n  touch-action: manipulation;\\n  padding: 1.2rem;\\n  display: block;\\n  text-decoration: none;\\n  font-variation-settings: \\"wght\\" 400, \\"CASL\\" 1, \\"slnt\\" -15;\\n  font-size: larger;\\n  transform: translateY(-4px);\\n  color: var(--fg);\\n  transition: font-variation-settings 100ms;\\n}\\nnav .nav-item:first-of-type {\\n  padding-left: 2.4rem;\\n}\\nnav .nav-item:hover {\\n  font-variation-settings: \\"wght\\" 800, \\"CASL\\" 1, \\"slnt\\" -15;\\n}\\nnav .nav-item:active {\\n  font-variation-settings: \\"wght\\" 800, \\"CASL\\" 1, \\"slnt\\" -15;\\n}\\nnav .nav-item.active {\\n  color: var(--magenta);\\n  font-variation-settings: \\"wght\\" 800, \\"CASL\\" 1, \\"slnt\\" -15;\\n}\\n\\n#menu-icon {\\n  touch-action: manipulation;\\n  display: none;\\n  height: 4rem;\\n  width: 4rem;\\n  padding: 0.8rem;\\n  transform: translateY(-4px);\\n  cursor: pointer;\\n}\\n#menu-icon div {\\n  visibility: hidden;\\n}\\n#menu-icon::before, #menu-icon::after, #menu-icon div {\\n  background: var(--fg);\\n  content: \\"\\";\\n  display: block;\\n  height: 8px;\\n  border-radius: 100px;\\n  margin: 3px 0;\\n  transition: 0.5s cubic-bezier(0, 0.62, 0.34, 1);\\n}\\n\\n.active #menu-icon:before {\\n  margin: 7px 0;\\n  transform: translateY(8px) rotate(135deg);\\n}\\n.active #menu-icon:after {\\n  margin: 7px 0;\\n  transform: translateY(-22px) rotate(-135deg);\\n}\\n\\n#blur {\\n  pointer-events: none;\\n  z-index: -1;\\n  position: fixed;\\n  top: 0;\\n  left: 0;\\n  right: 0;\\n  bottom: 0;\\n  opacity: 0;\\n  transition: opacity 300ms cubic-bezier(0, 0.62, 0.34, 1);\\n  backdrop-filter: blur(10px);\\n  -webkit-backdrop-filter: blur(10px);\\n}\\n#blur::after {\\n  content: \\"\\";\\n  position: absolute;\\n  top: 0;\\n  left: 0;\\n  right: 0;\\n  bottom: 0;\\n  background-color: var(--bg);\\n  opacity: 0.7;\\n}\\n\\n@media screen and (max-width: 767px) {\\n  nav {\\n    z-index: 1;\\n    position: fixed;\\n    right: 0.4rem;\\n    padding-right: 0.8rem;\\n    flex-direction: row-reverse;\\n  }\\n  nav .nav-container {\\n    flex-direction: column;\\n    align-items: flex-end;\\n    position: absolute;\\n    top: 4rem;\\n    right: 0;\\n    visibility: hidden;\\n  }\\n  nav #menu-icon {\\n    display: block;\\n  }\\n  nav .nav-item {\\n    font-size: x-large;\\n    font-variation-settings: \\"wght\\" 800, \\"CASL\\" 1, \\"slnt\\" -15;\\n    opacity: 0;\\n    transform: translateX(6rem);\\n    transition: transform 300ms cubic-bezier(0, 0.62, 0.34, 1), opacity 300ms cubic-bezier(0, 0.62, 0.34, 1), visibility 300ms cubic-bezier(0, 0.62, 0.34, 1);\\n  }\\n  nav #color-mode-toggle img {\\n    width: 32px;\\n  }\\n  nav.active {\\n    position: fixed;\\n  }\\n  nav.active .nav-item {\\n    transform: translateX(-0.5rem);\\n    visibility: visible;\\n    opacity: 1;\\n    transition: transform 600ms cubic-bezier(0, 0.62, 0.34, 1), opacity 600ms cubic-bezier(0, 0.62, 0.34, 1), visibility 600ms cubic-bezier(0, 0.62, 0.34, 1);\\n  }\\n  nav.active #blur {\\n    opacity: 1;\\n    pointer-events: auto;\\n  }\\n}</style>\\n"],"names":[],"mappings":"AA4DmB,OAAO,4BAAC,CAAC,AAC1B,OAAO,CAAE,IAAI,CACb,WAAW,CAAE,MAAM,CACnB,QAAQ,CAAE,QAAQ,CAClB,WAAW,CAAE,IAAI,CACjB,OAAO,CAAE,CAAC,AACZ,CAAC,AAED,kBAAkB,4BAAC,CAAC,AAClB,YAAY,CAAE,YAAY,CAC1B,MAAM,CAAE,KAAK,CACb,IAAI,CAAE,IAAI,IAAI,CAAC,CACf,OAAO,CAAE,WAAW,CACpB,eAAe,CAAE,MAAM,CACvB,YAAY,CAAE,IAAI,CAClB,MAAM,CAAE,OAAO,AACjB,CAAC,AACD,gCAAkB,CAAC,GAAG,cAAC,CAAC,AACtB,KAAK,CAAE,IAAI,AACb,CAAC,AAED,KAAK,4BAAC,CAAC,AACL,YAAY,CAAE,YAAY,CAC1B,UAAU,CAAE,SAAS,CAAC,KAAK,CAAC,IAAI,CAAC,CAAC,MAAM,CAAC,KAAK,CAAC,IAAI,CACnD,QAAQ,CAAE,QAAQ,AACpB,CAAC,AACD,iCAAK,MAAM,AAAC,CAAC,AACX,UAAU,CAAE,SAAS,CAAC,KAAK,CAAC,aAAa,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAC1D,SAAS,CAAE,MAAM,IAAI,CAAC,CAAC,OAAO,KAAK,CAAC,AACtC,CAAC,AACD,mBAAK,MAAM,CAAC,YAAY,cAAC,CAAC,AACxB,GAAG,CAAE,MAAM,CACX,OAAO,CAAE,GAAG,CACZ,UAAU,CAAE,GAAG,CAAC,KAAK,CAAC,aAAa,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,AACtD,CAAC,AACD,iCAAK,OAAO,AAAC,CAAC,AACZ,UAAU,CAAE,SAAS,CAAC,KAAK,CAAC,IAAI,CAChC,SAAS,CAAE,MAAM,IAAI,CAAC,CAAC,OAAO,KAAK,CAAC,AACtC,CAAC,AACD,mBAAK,OAAO,CAAC,YAAY,cAAC,CAAC,AACzB,UAAU,CAAE,GAAG,CAAC,KAAK,CAAC,IAAI,CAC1B,GAAG,CAAE,OAAO,CACZ,OAAO,CAAE,IAAI,AACf,CAAC,AACD,mBAAK,CAAC,YAAY,cAAC,CAAC,AAClB,IAAI,CAAE,CAAC,CACP,GAAG,CAAE,CAAC,CACN,QAAQ,CAAE,QAAQ,CAClB,OAAO,CAAE,EAAE,CACX,OAAO,CAAE,CAAC,CACV,MAAM,CAAE,WAAW,CAAC,CAAC,CAAC,KAAK,MAAM,CAAC,CAClC,UAAU,CAAE,GAAG,CAAC,KAAK,CAAC,IAAI,CAAC,CAAC,MAAM,CAAC,KAAK,CAAC,IAAI,AAC/C,CAAC,AAED,iBAAG,CAAC,cAAc,cAAC,CAAC,AAClB,OAAO,CAAE,IAAI,CACb,WAAW,CAAE,MAAM,AACrB,CAAC,AACD,iBAAG,CAAC,MAAM,cAAC,CAAC,AACV,UAAU,CAAE,IAAI,CAChB,MAAM,CAAE,IAAI,AACd,CAAC,AACD,iBAAG,CAAC,SAAS,cAAC,CAAC,AACb,YAAY,CAAE,YAAY,CAC1B,OAAO,CAAE,MAAM,CACf,OAAO,CAAE,KAAK,CACd,eAAe,CAAE,IAAI,CACrB,uBAAuB,CAAE,MAAM,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,GAAG,CACzD,SAAS,CAAE,MAAM,CACjB,SAAS,CAAE,WAAW,IAAI,CAAC,CAC3B,KAAK,CAAE,IAAI,IAAI,CAAC,CAChB,UAAU,CAAE,uBAAuB,CAAC,KAAK,AAC3C,CAAC,AACD,iBAAG,CAAC,uBAAS,cAAc,AAAC,CAAC,AAC3B,YAAY,CAAE,MAAM,AACtB,CAAC,AACD,iBAAG,CAAC,uBAAS,MAAM,AAAC,CAAC,AACnB,uBAAuB,CAAE,MAAM,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,GAAG,AAC3D,CAAC,AACD,iBAAG,CAAC,uBAAS,OAAO,AAAC,CAAC,AACpB,uBAAuB,CAAE,MAAM,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,GAAG,AAC3D,CAAC,AACD,iBAAG,CAAC,SAAS,OAAO,cAAC,CAAC,AACpB,KAAK,CAAE,IAAI,SAAS,CAAC,CACrB,uBAAuB,CAAE,MAAM,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,GAAG,AAC3D,CAAC,AAED,UAAU,4BAAC,CAAC,AACV,YAAY,CAAE,YAAY,CAC1B,OAAO,CAAE,IAAI,CACb,MAAM,CAAE,IAAI,CACZ,KAAK,CAAE,IAAI,CACX,OAAO,CAAE,MAAM,CACf,SAAS,CAAE,WAAW,IAAI,CAAC,CAC3B,MAAM,CAAE,OAAO,AACjB,CAAC,AACD,wBAAU,CAAC,GAAG,cAAC,CAAC,AACd,UAAU,CAAE,MAAM,AACpB,CAAC,AACD,sCAAU,QAAQ,CAAE,sCAAU,OAAO,CAAE,wBAAU,CAAC,GAAG,cAAC,CAAC,AACrD,UAAU,CAAE,IAAI,IAAI,CAAC,CACrB,OAAO,CAAE,EAAE,CACX,OAAO,CAAE,KAAK,CACd,MAAM,CAAE,GAAG,CACX,aAAa,CAAE,KAAK,CACpB,MAAM,CAAE,GAAG,CAAC,CAAC,CACb,UAAU,CAAE,IAAI,CAAC,aAAa,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,AACjD,CAAC,AAED,qBAAO,CAAC,wBAAU,OAAO,AAAC,CAAC,AACzB,MAAM,CAAE,GAAG,CAAC,CAAC,CACb,SAAS,CAAE,WAAW,GAAG,CAAC,CAAC,OAAO,MAAM,CAAC,AAC3C,CAAC,AACD,qBAAO,CAAC,wBAAU,MAAM,AAAC,CAAC,AACxB,MAAM,CAAE,GAAG,CAAC,CAAC,CACb,SAAS,CAAE,WAAW,KAAK,CAAC,CAAC,OAAO,OAAO,CAAC,AAC9C,CAAC,AAED,KAAK,4BAAC,CAAC,AACL,cAAc,CAAE,IAAI,CACpB,OAAO,CAAE,EAAE,CACX,QAAQ,CAAE,KAAK,CACf,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,CAAC,CACP,KAAK,CAAE,CAAC,CACR,MAAM,CAAE,CAAC,CACT,OAAO,CAAE,CAAC,CACV,UAAU,CAAE,OAAO,CAAC,KAAK,CAAC,aAAa,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CACxD,eAAe,CAAE,KAAK,IAAI,CAAC,CAC3B,uBAAuB,CAAE,KAAK,IAAI,CAAC,AACrC,CAAC,AACD,iCAAK,OAAO,AAAC,CAAC,AACZ,OAAO,CAAE,EAAE,CACX,QAAQ,CAAE,QAAQ,CAClB,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,CAAC,CACP,KAAK,CAAE,CAAC,CACR,MAAM,CAAE,CAAC,CACT,gBAAgB,CAAE,IAAI,IAAI,CAAC,CAC3B,OAAO,CAAE,GAAG,AACd,CAAC,AAED,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACpC,GAAG,4BAAC,CAAC,AACH,OAAO,CAAE,CAAC,CACV,QAAQ,CAAE,KAAK,CACf,KAAK,CAAE,MAAM,CACb,aAAa,CAAE,MAAM,CACrB,cAAc,CAAE,WAAW,AAC7B,CAAC,AACD,iBAAG,CAAC,cAAc,cAAC,CAAC,AAClB,cAAc,CAAE,MAAM,CACtB,WAAW,CAAE,QAAQ,CACrB,QAAQ,CAAE,QAAQ,CAClB,GAAG,CAAE,IAAI,CACT,KAAK,CAAE,CAAC,CACR,UAAU,CAAE,MAAM,AACpB,CAAC,AACD,iBAAG,CAAC,UAAU,cAAC,CAAC,AACd,OAAO,CAAE,KAAK,AAChB,CAAC,AACD,iBAAG,CAAC,SAAS,cAAC,CAAC,AACb,SAAS,CAAE,OAAO,CAClB,uBAAuB,CAAE,MAAM,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,GAAG,CACzD,OAAO,CAAE,CAAC,CACV,SAAS,CAAE,WAAW,IAAI,CAAC,CAC3B,UAAU,CAAE,SAAS,CAAC,KAAK,CAAC,aAAa,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,KAAK,CAAC,aAAa,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,UAAU,CAAC,KAAK,CAAC,aAAa,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,AAC3J,CAAC,AACD,iBAAG,CAAC,kBAAkB,CAAC,GAAG,cAAC,CAAC,AAC1B,KAAK,CAAE,IAAI,AACb,CAAC,AACD,GAAG,OAAO,4BAAC,CAAC,AACV,QAAQ,CAAE,KAAK,AACjB,CAAC,AACD,GAAG,qBAAO,CAAC,SAAS,cAAC,CAAC,AACpB,SAAS,CAAE,WAAW,OAAO,CAAC,CAC9B,UAAU,CAAE,OAAO,CACnB,OAAO,CAAE,CAAC,CACV,UAAU,CAAE,SAAS,CAAC,KAAK,CAAC,aAAa,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,KAAK,CAAC,aAAa,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,UAAU,CAAC,KAAK,CAAC,aAAa,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,AAC3J,CAAC,AACD,GAAG,qBAAO,CAAC,KAAK,cAAC,CAAC,AAChB,OAAO,CAAE,CAAC,CACV,cAAc,CAAE,IAAI,AACtB,CAAC,AACH,CAAC"}`
-};
-var Header = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  let $page, $$unsubscribe_page;
-  let $colorMode, $$unsubscribe_colorMode;
-  $$unsubscribe_page = subscribe(page, (value) => $page = value);
-  $$unsubscribe_colorMode = subscribe(colorMode, (value) => $colorMode = value);
-  const nav = [
-    { name: "CV", link: "/cv" },
-    { name: "Posts", link: "/posts" },
-    { name: "Portfolio", link: "/portfolio" }
-  ];
-  $$result.css.add(css$7);
-  $$unsubscribe_page();
-  $$unsubscribe_colorMode();
-  return `${$$result.head += `<link rel="${"preload"}" href="${"/images/fsj.svg"}" as="${"image"}" data-svelte="svelte-1uhuorq"><link rel="${"preload"}" href="${"/icons/sun.svg"}" as="${"image"}" data-svelte="svelte-1uhuorq"><link rel="${"preload"}" href="${"/icons/moon.svg"}" as="${"image"}" data-svelte="svelte-1uhuorq">`, ""}
-
-<header id="${"header"}" class="${"svelte-ngsph1"}"><div id="${"logo"}" class="${"svelte-ngsph1"}"><a href="${"/"}"><img id="${"logo-svg"}" src="${"/images/fsj.svg"}" alt="${"fsj logo"}" height="${"100"}" width="${"100"}">
-      <img id="${"logo-shadow"}" src="${"/images/fsj.svg"}" alt="${"fsj logo"}" height="${"100"}" width="${"100"}" class="${"svelte-ngsph1"}"></a></div>
-  <nav class="${["svelte-ngsph1", ""].join(" ").trim()}"><div class="${"nav-container svelte-ngsph1"}">${each(nav, (item, i) => `<a class="${["nav-item svelte-ngsph1", item.link === $page.path ? "active" : ""].join(" ").trim()}" tabindex="${"0"}" style="${"transition-delay: " + escape2(i * 32) + "ms"}" sveltekit:prefetch${add_attribute("href", item.link, 0)}><!-- HTML_TAG_START -->${item.name}<!-- HTML_TAG_END -->
-        </a>`)}
-      <button class="${"nav-item svelte-ngsph1"}" id="${"color-mode-toggle"}" style="${"transition-delay: " + escape2(nav.length * 32) + "ms"}"><img src="${"/icons/" + escape2($colorMode === "dark" ? "sun" : "moon") + ".svg"}" alt="${"toggle dark mode"}" height="${"24"}" width="${"24"}" class="${"svelte-ngsph1"}"></button></div>
-    <button id="${"menu-icon"}" aria-label="${"menu"}" class="${"svelte-ngsph1"}"><div class="${"svelte-ngsph1"}"></div></button>
-    <div id="${"blur"}" class="${"svelte-ngsph1"}"></div></nav>
-</header>`;
-});
-var css$6 = {
-  code: ':root{--breakpoint:767px;--bg:white;--fg:#1a101f;--white:white;--light-gray:#ccc;--med-light-gray:#aaa;--med-gray:#999;--med-dark-gray:#777;--dark-gray:#333;--light-purple:#e4d0ff;--purple:#a154ff;--dark-purple:#6421b6;--darker-purple:#41107c;--magenta:#f30b68;--dark-magenta:#db0058;--darker-magenta:#97013d;--cyan:#1192ce}[data-color-mode=dark]{--bg:#150e22;--fg:white;--dark-gray:#b0a4c9;--med-dark-gray:#9688b1;--med-gray:#6d5c8d;--med-light-gray:#5b497a;--light-gray:#43345e;--purple:#b67aff;--dark-purple:#a154ff;--darker-purple:#6421b6;--cyan:#4bbcf0}body{margin:0;box-sizing:border-box;font-family:"RecVar", sans-serif;background-color:var(--bg);color:var(--fg);transition:background-color 320ms;line-height:1.4;position:relative;overflow-x:hidden}*,*:before,*:after{box-sizing:inherit}h1,h2,h3,h4,h5,h6{position:relative;font-variation-settings:"wght" 800}@media screen and (min-width: 992px){h1:not(.no-hash)::before{position:absolute;color:var(--med-light-gray);font-variation-settings:"SLNT" -15, "wght" 600, "CASL" -15;content:"#";left:-1.9rem}}@media screen and (min-width: 992px) and (max-width: 36rem){h1:not(.no-hash)::before{display:none}}@media screen and (min-width: 992px){h2:not(.no-hash)::before{position:absolute;color:var(--med-light-gray);font-variation-settings:"SLNT" -15, "wght" 600, "CASL" -15;content:"##";left:-2.76rem}}@media screen and (min-width: 992px) and (max-width: 36rem){h2:not(.no-hash)::before{display:none}}@media screen and (min-width: 992px){h3:not(.no-hash)::before{position:absolute;color:var(--med-light-gray);font-variation-settings:"SLNT" -15, "wght" 600, "CASL" -15;content:"###";left:-3.14rem}}@media screen and (min-width: 992px) and (max-width: 36rem){h3:not(.no-hash)::before{display:none}}@media screen and (min-width: 992px){h4:not(.no-hash)::before{position:absolute;color:var(--med-light-gray);font-variation-settings:"SLNT" -15, "wght" 600, "CASL" -15;content:"####";left:-3.42rem}}@media screen and (min-width: 992px) and (max-width: 36rem){h4:not(.no-hash)::before{display:none}}content a{color:var(--purple);text-decoration-thickness:2px;transition:color 150ms linear;text-decoration-color:var(--magenta);font-weight:500}content a:hover{color:var(--dark-magenta);transition:color 100ms linear}content a:active{opacity:0.6}.container{display:grid;grid-template-columns:minmax(4%, auto) minmax(auto, 42rem) minmax(4%, auto);grid-template-rows:auto 1fr;gap:0px 0px;height:100%;width:100%;grid-template-areas:". hd ." ". main ."}header{grid-area:hd}main{grid-area:main;display:flex;flex-direction:column}content{flex:1 0 auto}footer{flex-shrink:0}',
-  map: '{"version":3,"file":"__layout.svelte","sources":["__layout.svelte"],"sourcesContent":["<script lang=\\"ts\\">import Footer from \\"$lib/Footer.svelte\\";\\nimport Header from \\"$lib/Header.svelte\\";\\nimport { page } from \\"$app/stores\\";\\nimport { colorMode } from \\"@/stores.ts\\";\\nimport { onDestroy, onMount } from \\"svelte\\";\\nfunction getInitialColorMode() {\\n    const persistedColorMode = window.localStorage.getItem(\\"color-mode\\");\\n    const hasPersistedColorMode = typeof persistedColorMode === \\"string\\";\\n    if (hasPersistedColorMode) {\\n        console.log(`loaded color mode: ${persistedColorMode}`);\\n        return persistedColorMode;\\n    }\\n    const mql = window.matchMedia(\\"(prefers-color-scheme: dark)\\");\\n    const hasMediaQueryPreference = typeof mql.matches === \\"boolean\\";\\n    if (hasMediaQueryPreference) {\\n        return mql.matches ? \\"dark\\" : \\"light\\";\\n    }\\n    return \\"light\\";\\n}\\nonMount(() => {\\n    colorMode.setMode(getInitialColorMode());\\n    setColorMode($colorMode);\\n});\\nlet unsubscribe = colorMode.subscribe((colorMode) => {\\n    try {\\n        setColorMode(colorMode);\\n    }\\n    catch (e) {\\n        // on initial set, document hasn\'t loaded yet :/\\n        if (!(e instanceof ReferenceError)) {\\n            throw e;\\n        }\\n    }\\n});\\nonDestroy(unsubscribe);\\nfunction setColorMode(newMode, localStorage = false) {\\n    const root = document.documentElement;\\n    if (newMode === \\"\\") {\\n        root.getAttribute(\\"data-color-mode\\") === \\"dark\\" ? (newMode = \\"light\\") : (newMode = \\"dark\\");\\n    }\\n    root.setAttribute(\\"data-color-mode\\", newMode);\\n    if (localStorage) {\\n        window.localStorage.setItem(\\"color-mode\\", newMode);\\n    }\\n}\\n<\/script>\\n\\n<svelte:head>\\n  <link rel=\\"preload\\" href=\\"/normalize.css\\" as=\\"style\\" />\\n  <link rel=\\"preload\\" href=\\"/fonts.css\\" as=\\"style\\" />\\n  <link rel=\\"preload\\" href=\\"/main.scss\\" as=\\"style\\" />\\n\\n  <link rel=\\"stylesheet\\" href=\\"/normalize.css\\" />\\n  <link rel=\\"stylesheet\\" href=\\"/hint.min.css\\" />\\n  <link rel=\\"stylesheet\\" href=\\"/fonts.css\\" />\\n  <link rel=\\"stylesheet\\" href=\\"/main.scss\\" />\\n  <script>\\n    function getInitialColorMode() {\\n      const persistedColorMode = window.localStorage.getItem(\\"color-mode\\");\\n      const hasPersistedColorMode = typeof persistedColorMode === \\"string\\";\\n      if (hasPersistedColorMode) {\\n        console.log(`loaded color mode: ${persistedColorMode}`);\\n        return persistedColorMode;\\n      }\\n      const mql = window.matchMedia(\\"(prefers-color-scheme: dark)\\");\\n      const hasMediaQueryPreference = typeof mql.matches === \\"boolean\\";\\n\\n      if (hasMediaQueryPreference) {\\n        return mql.matches ? \\"dark\\" : \\"light\\";\\n      }\\n      return \\"light\\";\\n    }\\n\\n    const colorMode = getInitialColorMode();\\n    const root = document.documentElement;\\n\\n    root.setAttribute(\\"data-color-mode\\", colorMode);\\n  <\/script>\\n</svelte:head>\\n\\n<div class=\\"container\\">\\n  <Header />\\n  <main>\\n    <content>\\n      <slot />\\n    </content>\\n    {#if $page.path != \\"/\\"}\\n      <Footer />\\n    {/if}\\n  </main>\\n</div>\\n\\n<style lang=\\"scss\\" global>:global(:root) {\\n  --breakpoint: 767px;\\n  --bg: white;\\n  --fg: #1a101f;\\n  --white: white;\\n  --light-gray: #ccc;\\n  --med-light-gray: #aaa;\\n  --med-gray: #999;\\n  --med-dark-gray: #777;\\n  --dark-gray: #333;\\n  --light-purple: #e4d0ff;\\n  --purple: #a154ff;\\n  --dark-purple: #6421b6;\\n  --darker-purple: #41107c;\\n  --magenta: #f30b68;\\n  --dark-magenta: #db0058;\\n  --darker-magenta: #97013d;\\n  --cyan: #1192ce;\\n}\\n\\n:global([data-color-mode=dark]) {\\n  --bg: #150e22;\\n  --fg: white;\\n  --dark-gray: #b0a4c9;\\n  --med-dark-gray: #9688b1;\\n  --med-gray: #6d5c8d;\\n  --med-light-gray: #5b497a;\\n  --light-gray: #43345e;\\n  --purple: #b67aff;\\n  --dark-purple: #a154ff;\\n  --darker-purple: #6421b6;\\n  --cyan: #4bbcf0;\\n}\\n\\n:global(body) {\\n  margin: 0;\\n  box-sizing: border-box;\\n  font-family: \\"RecVar\\", sans-serif;\\n  background-color: var(--bg);\\n  color: var(--fg);\\n  transition: background-color 320ms;\\n  line-height: 1.4;\\n  position: relative;\\n  overflow-x: hidden;\\n}\\n\\n:global(*),\\n:global(*:before),\\n:global(*:after) {\\n  box-sizing: inherit;\\n}\\n\\n:global(h1),\\n:global(h2),\\n:global(h3),\\n:global(h4),\\n:global(h5),\\n:global(h6) {\\n  position: relative;\\n  font-variation-settings: \\"wght\\" 800;\\n}\\n\\n@media screen and (min-width: 992px) {\\n  :global(h1:not(.no-hash)::before) {\\n    position: absolute;\\n    color: var(--med-light-gray);\\n    font-variation-settings: \\"SLNT\\" -15, \\"wght\\" 600, \\"CASL\\" -15;\\n    content: \\"#\\";\\n    left: -1.9rem;\\n  }\\n}\\n@media screen and (min-width: 992px) and (max-width: 36rem) {\\n  :global(h1:not(.no-hash)::before) {\\n    display: none;\\n  }\\n}\\n@media screen and (min-width: 992px) {\\n  :global(h2:not(.no-hash)::before) {\\n    position: absolute;\\n    color: var(--med-light-gray);\\n    font-variation-settings: \\"SLNT\\" -15, \\"wght\\" 600, \\"CASL\\" -15;\\n    content: \\"##\\";\\n    left: -2.76rem;\\n  }\\n}\\n@media screen and (min-width: 992px) and (max-width: 36rem) {\\n  :global(h2:not(.no-hash)::before) {\\n    display: none;\\n  }\\n}\\n@media screen and (min-width: 992px) {\\n  :global(h3:not(.no-hash)::before) {\\n    position: absolute;\\n    color: var(--med-light-gray);\\n    font-variation-settings: \\"SLNT\\" -15, \\"wght\\" 600, \\"CASL\\" -15;\\n    content: \\"###\\";\\n    left: -3.14rem;\\n  }\\n}\\n@media screen and (min-width: 992px) and (max-width: 36rem) {\\n  :global(h3:not(.no-hash)::before) {\\n    display: none;\\n  }\\n}\\n@media screen and (min-width: 992px) {\\n  :global(h4:not(.no-hash)::before) {\\n    position: absolute;\\n    color: var(--med-light-gray);\\n    font-variation-settings: \\"SLNT\\" -15, \\"wght\\" 600, \\"CASL\\" -15;\\n    content: \\"####\\";\\n    left: -3.42rem;\\n  }\\n}\\n@media screen and (min-width: 992px) and (max-width: 36rem) {\\n  :global(h4:not(.no-hash)::before) {\\n    display: none;\\n  }\\n}\\n:global(content) :global(a) {\\n  color: var(--purple);\\n  text-decoration-thickness: 2px;\\n  transition: color 150ms linear;\\n  text-decoration-color: var(--magenta);\\n  font-weight: 500;\\n}\\n:global(content) :global(a:hover) {\\n  color: var(--dark-magenta);\\n  transition: color 100ms linear;\\n}\\n:global(content) :global(a:active) {\\n  opacity: 0.6;\\n}\\n\\n:global(.container) {\\n  display: grid;\\n  grid-template-columns: minmax(4%, auto) minmax(auto, 42rem) minmax(4%, auto);\\n  grid-template-rows: auto 1fr;\\n  gap: 0px 0px;\\n  height: 100%;\\n  width: 100%;\\n  grid-template-areas: \\". hd .\\" \\". main .\\";\\n}\\n\\n:global(header) {\\n  grid-area: hd;\\n}\\n\\n:global(main) {\\n  grid-area: main;\\n  display: flex;\\n  flex-direction: column;\\n}\\n\\n:global(content) {\\n  flex: 1 0 auto;\\n}\\n\\n:global(footer) {\\n  flex-shrink: 0;\\n}</style>\\n"],"names":[],"mappings":"AA4FkC,KAAK,AAAE,CAAC,AACxC,YAAY,CAAE,KAAK,CACnB,IAAI,CAAE,KAAK,CACX,IAAI,CAAE,OAAO,CACb,OAAO,CAAE,KAAK,CACd,YAAY,CAAE,IAAI,CAClB,gBAAgB,CAAE,IAAI,CACtB,UAAU,CAAE,IAAI,CAChB,eAAe,CAAE,IAAI,CACrB,WAAW,CAAE,IAAI,CACjB,cAAc,CAAE,OAAO,CACvB,QAAQ,CAAE,OAAO,CACjB,aAAa,CAAE,OAAO,CACtB,eAAe,CAAE,OAAO,CACxB,SAAS,CAAE,OAAO,CAClB,cAAc,CAAE,OAAO,CACvB,gBAAgB,CAAE,OAAO,CACzB,MAAM,CAAE,OAAO,AACjB,CAAC,AAEO,sBAAsB,AAAE,CAAC,AAC/B,IAAI,CAAE,OAAO,CACb,IAAI,CAAE,KAAK,CACX,WAAW,CAAE,OAAO,CACpB,eAAe,CAAE,OAAO,CACxB,UAAU,CAAE,OAAO,CACnB,gBAAgB,CAAE,OAAO,CACzB,YAAY,CAAE,OAAO,CACrB,QAAQ,CAAE,OAAO,CACjB,aAAa,CAAE,OAAO,CACtB,eAAe,CAAE,OAAO,CACxB,MAAM,CAAE,OAAO,AACjB,CAAC,AAEO,IAAI,AAAE,CAAC,AACb,MAAM,CAAE,CAAC,CACT,UAAU,CAAE,UAAU,CACtB,WAAW,CAAE,QAAQ,CAAC,CAAC,UAAU,CACjC,gBAAgB,CAAE,IAAI,IAAI,CAAC,CAC3B,KAAK,CAAE,IAAI,IAAI,CAAC,CAChB,UAAU,CAAE,gBAAgB,CAAC,KAAK,CAClC,WAAW,CAAE,GAAG,CAChB,QAAQ,CAAE,QAAQ,CAClB,UAAU,CAAE,MAAM,AACpB,CAAC,AAEO,CAAC,AAAC,CACF,QAAQ,AAAC,CACT,OAAO,AAAE,CAAC,AAChB,UAAU,CAAE,OAAO,AACrB,CAAC,AAEO,EAAE,AAAC,CACH,EAAE,AAAC,CACH,EAAE,AAAC,CACH,EAAE,AAAC,CACH,EAAE,AAAC,CACH,EAAE,AAAE,CAAC,AACX,QAAQ,CAAE,QAAQ,CAClB,uBAAuB,CAAE,MAAM,CAAC,GAAG,AACrC,CAAC,AAED,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AAC5B,wBAAwB,AAAE,CAAC,AACjC,QAAQ,CAAE,QAAQ,CAClB,KAAK,CAAE,IAAI,gBAAgB,CAAC,CAC5B,uBAAuB,CAAE,MAAM,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,GAAG,CAC3D,OAAO,CAAE,GAAG,CACZ,IAAI,CAAE,OAAO,AACf,CAAC,AACH,CAAC,AACD,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACnD,wBAAwB,AAAE,CAAC,AACjC,OAAO,CAAE,IAAI,AACf,CAAC,AACH,CAAC,AACD,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AAC5B,wBAAwB,AAAE,CAAC,AACjC,QAAQ,CAAE,QAAQ,CAClB,KAAK,CAAE,IAAI,gBAAgB,CAAC,CAC5B,uBAAuB,CAAE,MAAM,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,GAAG,CAC3D,OAAO,CAAE,IAAI,CACb,IAAI,CAAE,QAAQ,AAChB,CAAC,AACH,CAAC,AACD,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACnD,wBAAwB,AAAE,CAAC,AACjC,OAAO,CAAE,IAAI,AACf,CAAC,AACH,CAAC,AACD,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AAC5B,wBAAwB,AAAE,CAAC,AACjC,QAAQ,CAAE,QAAQ,CAClB,KAAK,CAAE,IAAI,gBAAgB,CAAC,CAC5B,uBAAuB,CAAE,MAAM,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,GAAG,CAC3D,OAAO,CAAE,KAAK,CACd,IAAI,CAAE,QAAQ,AAChB,CAAC,AACH,CAAC,AACD,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACnD,wBAAwB,AAAE,CAAC,AACjC,OAAO,CAAE,IAAI,AACf,CAAC,AACH,CAAC,AACD,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AAC5B,wBAAwB,AAAE,CAAC,AACjC,QAAQ,CAAE,QAAQ,CAClB,KAAK,CAAE,IAAI,gBAAgB,CAAC,CAC5B,uBAAuB,CAAE,MAAM,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,GAAG,CAC3D,OAAO,CAAE,MAAM,CACf,IAAI,CAAE,QAAQ,AAChB,CAAC,AACH,CAAC,AACD,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACnD,wBAAwB,AAAE,CAAC,AACjC,OAAO,CAAE,IAAI,AACf,CAAC,AACH,CAAC,AACO,OAAO,AAAC,CAAC,AAAQ,CAAC,AAAE,CAAC,AAC3B,KAAK,CAAE,IAAI,QAAQ,CAAC,CACpB,yBAAyB,CAAE,GAAG,CAC9B,UAAU,CAAE,KAAK,CAAC,KAAK,CAAC,MAAM,CAC9B,qBAAqB,CAAE,IAAI,SAAS,CAAC,CACrC,WAAW,CAAE,GAAG,AAClB,CAAC,AACO,OAAO,AAAC,CAAC,AAAQ,OAAO,AAAE,CAAC,AACjC,KAAK,CAAE,IAAI,cAAc,CAAC,CAC1B,UAAU,CAAE,KAAK,CAAC,KAAK,CAAC,MAAM,AAChC,CAAC,AACO,OAAO,AAAC,CAAC,AAAQ,QAAQ,AAAE,CAAC,AAClC,OAAO,CAAE,GAAG,AACd,CAAC,AAEO,UAAU,AAAE,CAAC,AACnB,OAAO,CAAE,IAAI,CACb,qBAAqB,CAAE,OAAO,EAAE,CAAC,CAAC,IAAI,CAAC,CAAC,OAAO,IAAI,CAAC,CAAC,KAAK,CAAC,CAAC,OAAO,EAAE,CAAC,CAAC,IAAI,CAAC,CAC5E,kBAAkB,CAAE,IAAI,CAAC,GAAG,CAC5B,GAAG,CAAE,GAAG,CAAC,GAAG,CACZ,MAAM,CAAE,IAAI,CACZ,KAAK,CAAE,IAAI,CACX,mBAAmB,CAAE,QAAQ,CAAC,UAAU,AAC1C,CAAC,AAEO,MAAM,AAAE,CAAC,AACf,SAAS,CAAE,EAAE,AACf,CAAC,AAEO,IAAI,AAAE,CAAC,AACb,SAAS,CAAE,IAAI,CACf,OAAO,CAAE,IAAI,CACb,cAAc,CAAE,MAAM,AACxB,CAAC,AAEO,OAAO,AAAE,CAAC,AAChB,IAAI,CAAE,CAAC,CAAC,CAAC,CAAC,IAAI,AAChB,CAAC,AAEO,MAAM,AAAE,CAAC,AACf,WAAW,CAAE,CAAC,AAChB,CAAC"}'
-};
-function getInitialColorMode() {
-  const persistedColorMode = window.localStorage.getItem("color-mode");
-  const hasPersistedColorMode = typeof persistedColorMode === "string";
-  if (hasPersistedColorMode) {
-    console.log(`loaded color mode: ${persistedColorMode}`);
-    return persistedColorMode;
-  }
-  const mql = window.matchMedia("(prefers-color-scheme: dark)");
-  const hasMediaQueryPreference = typeof mql.matches === "boolean";
-  if (hasMediaQueryPreference) {
-    return mql.matches ? "dark" : "light";
-  }
-  return "light";
-}
-function setColorMode(newMode, localStorage = false) {
-  const root = document.documentElement;
-  if (newMode === "") {
-    root.getAttribute("data-color-mode") === "dark" ? newMode = "light" : newMode = "dark";
-  }
-  root.setAttribute("data-color-mode", newMode);
-  if (localStorage) {
-    window.localStorage.setItem("color-mode", newMode);
-  }
-}
-var _layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  let $colorMode, $$unsubscribe_colorMode;
-  let $page, $$unsubscribe_page;
-  $$unsubscribe_colorMode = subscribe(colorMode, (value) => $colorMode = value);
-  $$unsubscribe_page = subscribe(page, (value) => $page = value);
-  onMount(() => {
-    colorMode.setMode(getInitialColorMode());
-    setColorMode($colorMode);
-  });
-  let unsubscribe = colorMode.subscribe((colorMode2) => {
+    return response;
+  } catch (e2) {
+    const error2 = coalesce_to_error(e2);
+    options.handle_error(error2, event);
     try {
-      setColorMode(colorMode2);
-    } catch (e) {
-      if (!(e instanceof ReferenceError)) {
-        throw e;
-      }
+      const $session = await options.hooks.getSession(event);
+      return await respond_with_error({
+        event,
+        options,
+        state,
+        $session,
+        status: 500,
+        error: error2,
+        resolve_opts
+      });
+    } catch (e22) {
+      const error3 = coalesce_to_error(e22);
+      return new Response(options.dev ? error3.stack : error3.message, {
+        status: 500
+      });
     }
-  });
-  onDestroy(unsubscribe);
-  $$result.css.add(css$6);
-  $$unsubscribe_colorMode();
-  $$unsubscribe_page();
-  return `${$$result.head += `<link rel="${"preload"}" href="${"/normalize.css"}" as="${"style"}" data-svelte="svelte-1i5p9ve"><link rel="${"preload"}" href="${"/fonts.css"}" as="${"style"}" data-svelte="svelte-1i5p9ve"><link rel="${"preload"}" href="${"/main.scss"}" as="${"style"}" data-svelte="svelte-1i5p9ve"><link rel="${"stylesheet"}" href="${"/normalize.css"}" data-svelte="svelte-1i5p9ve"><link rel="${"stylesheet"}" href="${"/hint.min.css"}" data-svelte="svelte-1i5p9ve"><link rel="${"stylesheet"}" href="${"/fonts.css"}" data-svelte="svelte-1i5p9ve"><link rel="${"stylesheet"}" href="${"/main.scss"}" data-svelte="svelte-1i5p9ve"><script data-svelte="svelte-1i5p9ve">function getInitialColorMode() {
-      const persistedColorMode = window.localStorage.getItem("color-mode");
-      const hasPersistedColorMode = typeof persistedColorMode === "string";
-      if (hasPersistedColorMode) {
-        console.log(\`loaded color mode: \${persistedColorMode}\`);
-        return persistedColorMode;
-      }
-      const mql = window.matchMedia("(prefers-color-scheme: dark)");
-      const hasMediaQueryPreference = typeof mql.matches === "boolean";
-
-      if (hasMediaQueryPreference) {
-        return mql.matches ? "dark" : "light";
-      }
-      return "light";
-    }
-
-    const colorMode = getInitialColorMode();
-    const root = document.documentElement;
-
-    root.setAttribute("data-color-mode", colorMode);
-  <\/script>`, ""}
-
-<div class="${"container"}">${validate_component(Header, "Header").$$render($$result, {}, {}, {})}
-  <main><content>${slots.default ? slots.default({}) : ``}</content>
-    ${$page.path != "/" ? `${validate_component(Footer, "Footer").$$render($$result, {}, {}, {})}` : ``}</main>
-</div>`;
-});
-var __layout = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": _layout
-});
-var load$1 = ({ error: error2, status }) => {
-  return { props: { error: error2, status } };
-};
-var _error = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  let { error: error2 } = $$props;
-  let { status } = $$props;
-  if ($$props.error === void 0 && $$bindings.error && error2 !== void 0)
-    $$bindings.error(error2);
-  if ($$props.status === void 0 && $$bindings.status && status !== void 0)
-    $$bindings.status(status);
-  return `<h1>${escape2(status)}</h1>
-<p>${escape2(error2.message)}</p>`;
-});
-var __error = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": _error,
-  load: load$1
-});
-var css$5 = {
-  code: "#email-container.svelte-1o5fn06.svelte-1o5fn06{border:none;background-color:var(--magenta);border-radius:0.8rem;font-family:inherit;font-size:inherit;position:relative;padding:0;height:3.2rem;display:flex;justify-content:space-between;align-items:center;color:var(--white);width:100%;max-width:19rem}@media screen and (max-width: 767px){#email-container.svelte-1o5fn06.svelte-1o5fn06{max-width:none}}#email-label.svelte-1o5fn06.svelte-1o5fn06{background-color:var(--dark-magenta);border-radius:0.8rem 0 0 0.8rem;padding:0 1rem;display:flex;align-items:center;height:100%}#address-wrapper.svelte-1o5fn06.svelte-1o5fn06{background:var(--magenta);padding:0 1rem;height:100%;display:flex;align-items:center}input.svelte-1o5fn06.svelte-1o5fn06{background:transparent;border:none;width:12ch;color:var(--white);text-align:center}#copy.svelte-1o5fn06.svelte-1o5fn06{border-radius:0 0.8rem 0.8rem 0;border:none;height:100%;width:51px;cursor:pointer;background-color:var(--dark-purple);background-image:linear-gradient(to right, var(--dark-magenta) calc(100% - 0.8rem), var(--darker-magenta) 100%)}#copy-front.svelte-1o5fn06.svelte-1o5fn06{border-radius:inherit;border:none;padding:inherit;height:inherit;background:var(--magenta);display:flex;justify-content:center;position:absolute;right:0;top:0;width:inherit;align-items:center;will-change:transform, filter;transition:transform 420ms cubic-bezier(0.3, 0.7, 0.4, 1), filter 420ms cubic-bezier(0.3, 0.7, 0.4, 1);transform:translateY(0px);filter:brightness(100%)}#copy.svelte-1o5fn06:hover #copy-front.svelte-1o5fn06{transform:translateY(-8px);transition:transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.6), filter 250ms cubic-bezier(0.3, 0.7, 0.4, 1);filter:brightness(120%)}#copy.svelte-1o5fn06:active #copy-front.svelte-1o5fn06{transform:translateY(-4px);transition:transform 42ms}",
-  map: '{"version":3,"file":"Email.svelte","sources":["Email.svelte"],"sourcesContent":["<script lang=\\"ts\\">import { select_multiple_value } from \\"svelte/internal\\";\\nconst email = hex2a(\\"6865794066736a2e78797a\\"); // hex email address\\nconst copy = () => {\\n    navigator.clipboard.writeText(email);\\n};\\nfunction hex2a(hexx) {\\n    var hex = hexx.toString(); //force conversion\\n    var str = \\"\\";\\n    for (var i = 0; i < hex.length; i += 2) {\\n        str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));\\n    }\\n    return str;\\n}\\nlet address;\\n<\/script>\\n\\n<div id=\\"email-container\\" href=\\"#\\">\\n  <label id=\\"email-label\\" for=\\"email\\">email</label>\\n  <div id=\\"address-wrapper\\">\\n    <input\\n      id=\\"email\\"\\n      name=\\"email\\"\\n      type=\\"email\\"\\n      bind:this={address}\\n      value={email}\\n      on:focus={address.select()}\\n      readonly\\n    />\\n  </div>\\n\\n  <button\\n    id=\\"copy\\"\\n    on:click={() => {\\n      address.select();\\n      document.execCommand(\\"copy\\");\\n    }}\\n  >\\n    <div id=\\"copy-front\\">\\n      <img alt=\\"copy email address\\" src=\\"/icons/copy.svg\\" height=\\"24\\" width=\\"24\\" />\\n    </div>\\n  </button>\\n</div>\\n\\n<style lang=\\"scss\\">#email-container {\\n  border: none;\\n  background-color: var(--magenta);\\n  border-radius: 0.8rem;\\n  font-family: inherit;\\n  font-size: inherit;\\n  position: relative;\\n  padding: 0;\\n  height: 3.2rem;\\n  display: flex;\\n  justify-content: space-between;\\n  align-items: center;\\n  color: var(--white);\\n  width: 100%;\\n  max-width: 19rem;\\n}\\n\\n@media screen and (max-width: 767px) {\\n  #email-container {\\n    max-width: none;\\n  }\\n}\\n#email-label {\\n  background-color: var(--dark-magenta);\\n  border-radius: 0.8rem 0 0 0.8rem;\\n  padding: 0 1rem;\\n  display: flex;\\n  align-items: center;\\n  height: 100%;\\n}\\n\\n#address-wrapper {\\n  background: var(--magenta);\\n  padding: 0 1rem;\\n  height: 100%;\\n  display: flex;\\n  align-items: center;\\n}\\n\\ninput {\\n  background: transparent;\\n  border: none;\\n  width: 12ch;\\n  color: var(--white);\\n  text-align: center;\\n}\\n\\n#copy {\\n  border-radius: 0 0.8rem 0.8rem 0;\\n  border: none;\\n  height: 100%;\\n  width: 51px;\\n  cursor: pointer;\\n  background-color: var(--dark-purple);\\n  background-image: linear-gradient(to right, var(--dark-magenta) calc(100% - 0.8rem), var(--darker-magenta) 100%);\\n}\\n\\n#copy-front {\\n  border-radius: inherit;\\n  border: none;\\n  padding: inherit;\\n  height: inherit;\\n  background: var(--magenta);\\n  display: flex;\\n  justify-content: center;\\n  position: absolute;\\n  right: 0;\\n  top: 0;\\n  width: inherit;\\n  align-items: center;\\n  will-change: transform, filter;\\n  transition: transform 420ms cubic-bezier(0.3, 0.7, 0.4, 1), filter 420ms cubic-bezier(0.3, 0.7, 0.4, 1);\\n  transform: translateY(0px);\\n  filter: brightness(100%);\\n}\\n\\n#copy:hover #copy-front {\\n  transform: translateY(-8px);\\n  transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.6), filter 250ms cubic-bezier(0.3, 0.7, 0.4, 1);\\n  filter: brightness(120%);\\n}\\n\\n#copy:active #copy-front {\\n  transform: translateY(-4px);\\n  transition: transform 42ms;\\n}</style>\\n"],"names":[],"mappings":"AA2CmB,gBAAgB,8BAAC,CAAC,AACnC,MAAM,CAAE,IAAI,CACZ,gBAAgB,CAAE,IAAI,SAAS,CAAC,CAChC,aAAa,CAAE,MAAM,CACrB,WAAW,CAAE,OAAO,CACpB,SAAS,CAAE,OAAO,CAClB,QAAQ,CAAE,QAAQ,CAClB,OAAO,CAAE,CAAC,CACV,MAAM,CAAE,MAAM,CACd,OAAO,CAAE,IAAI,CACb,eAAe,CAAE,aAAa,CAC9B,WAAW,CAAE,MAAM,CACnB,KAAK,CAAE,IAAI,OAAO,CAAC,CACnB,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,KAAK,AAClB,CAAC,AAED,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACpC,gBAAgB,8BAAC,CAAC,AAChB,SAAS,CAAE,IAAI,AACjB,CAAC,AACH,CAAC,AACD,YAAY,8BAAC,CAAC,AACZ,gBAAgB,CAAE,IAAI,cAAc,CAAC,CACrC,aAAa,CAAE,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAChC,OAAO,CAAE,CAAC,CAAC,IAAI,CACf,OAAO,CAAE,IAAI,CACb,WAAW,CAAE,MAAM,CACnB,MAAM,CAAE,IAAI,AACd,CAAC,AAED,gBAAgB,8BAAC,CAAC,AAChB,UAAU,CAAE,IAAI,SAAS,CAAC,CAC1B,OAAO,CAAE,CAAC,CAAC,IAAI,CACf,MAAM,CAAE,IAAI,CACZ,OAAO,CAAE,IAAI,CACb,WAAW,CAAE,MAAM,AACrB,CAAC,AAED,KAAK,8BAAC,CAAC,AACL,UAAU,CAAE,WAAW,CACvB,MAAM,CAAE,IAAI,CACZ,KAAK,CAAE,IAAI,CACX,KAAK,CAAE,IAAI,OAAO,CAAC,CACnB,UAAU,CAAE,MAAM,AACpB,CAAC,AAED,KAAK,8BAAC,CAAC,AACL,aAAa,CAAE,CAAC,CAAC,MAAM,CAAC,MAAM,CAAC,CAAC,CAChC,MAAM,CAAE,IAAI,CACZ,MAAM,CAAE,IAAI,CACZ,KAAK,CAAE,IAAI,CACX,MAAM,CAAE,OAAO,CACf,gBAAgB,CAAE,IAAI,aAAa,CAAC,CACpC,gBAAgB,CAAE,gBAAgB,EAAE,CAAC,KAAK,CAAC,CAAC,IAAI,cAAc,CAAC,CAAC,KAAK,IAAI,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,IAAI,gBAAgB,CAAC,CAAC,IAAI,CAAC,AAClH,CAAC,AAED,WAAW,8BAAC,CAAC,AACX,aAAa,CAAE,OAAO,CACtB,MAAM,CAAE,IAAI,CACZ,OAAO,CAAE,OAAO,CAChB,MAAM,CAAE,OAAO,CACf,UAAU,CAAE,IAAI,SAAS,CAAC,CAC1B,OAAO,CAAE,IAAI,CACb,eAAe,CAAE,MAAM,CACvB,QAAQ,CAAE,QAAQ,CAClB,KAAK,CAAE,CAAC,CACR,GAAG,CAAE,CAAC,CACN,KAAK,CAAE,OAAO,CACd,WAAW,CAAE,MAAM,CACnB,WAAW,CAAE,SAAS,CAAC,CAAC,MAAM,CAC9B,UAAU,CAAE,SAAS,CAAC,KAAK,CAAC,aAAa,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,KAAK,CAAC,aAAa,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CACvG,SAAS,CAAE,WAAW,GAAG,CAAC,CAC1B,MAAM,CAAE,WAAW,IAAI,CAAC,AAC1B,CAAC,AAED,oBAAK,MAAM,CAAC,WAAW,eAAC,CAAC,AACvB,SAAS,CAAE,WAAW,IAAI,CAAC,CAC3B,UAAU,CAAE,SAAS,CAAC,KAAK,CAAC,aAAa,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,MAAM,CAAC,KAAK,CAAC,aAAa,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CACzG,MAAM,CAAE,WAAW,IAAI,CAAC,AAC1B,CAAC,AAED,oBAAK,OAAO,CAAC,WAAW,eAAC,CAAC,AACxB,SAAS,CAAE,WAAW,IAAI,CAAC,CAC3B,UAAU,CAAE,SAAS,CAAC,IAAI,AAC5B,CAAC"}'
-};
-function hex2a(hexx) {
-  var hex = hexx.toString();
-  var str = "";
-  for (var i = 0; i < hex.length; i += 2) {
-    str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
   }
-  return str;
 }
-var Email = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  const email = hex2a("6865794066736a2e78797a");
-  let address;
-  $$result.css.add(css$5);
-  return `<div id="${"email-container"}" href="${"#"}" class="${"svelte-1o5fn06"}"><label id="${"email-label"}" for="${"email"}" class="${"svelte-1o5fn06"}">email</label>
-  <div id="${"address-wrapper"}" class="${"svelte-1o5fn06"}"><input id="${"email"}" name="${"email"}" type="${"email"}"${add_attribute("value", email, 0)} readonly class="${"svelte-1o5fn06"}"${add_attribute("this", address, 1)}></div>
-
-  <button id="${"copy"}" class="${"svelte-1o5fn06"}"><div id="${"copy-front"}" class="${"svelte-1o5fn06"}"><img alt="${"copy email address"}" src="${"/icons/copy.svg"}" height="${"24"}" width="${"24"}"></div></button>
-</div>`;
-});
-var css$4 = {
-  code: 'h1.svelte-1ph4qi7{font-weight:bold;font-size:3.2rem;margin-top:1rem;margin-bottom:1.6rem;font-variation-settings:"wght" 800, "CASL" 1, "slnt" -15}p.svelte-1ph4qi7{font-size:large;line-height:1.6rem;margin-bottom:1.6rem}.hint--top.svelte-1ph4qi7{font-family:"RecVar" !important}.hint--top.svelte-1ph4qi7::before{border-top-color:var(--fg)}.hint--top.svelte-1ph4qi7::after{font-family:"RecVar", sans-serif;font-variation-settings:"wght" 550;background-color:var(--fg);color:var(--bg);text-shadow:none !important}.email-wrapper.svelte-1ph4qi7{padding-top:0.8rem;transform:translateX(-1px)}@media screen and (max-width: 767px){.email-wrapper.svelte-1ph4qi7{transform:none}}.bold.svelte-1ph4qi7{font-variation-settings:"wght" 800}',
-  map: '{"version":3,"file":"intro.md","sources":["intro.md"],"sourcesContent":["<script lang=\\"ts\\">import Email from \\"$lib/Email.svelte\\";\\n<\/script>\\n\\n<h1 class=\\"no-hash\\">Hey!</h1>\\n<p>My name is <span class=\\"bold hint--top hint--rounded\\" aria-label=\\"he/him, please\\">Finn James</span>. How\u2019s it going?</p>\\n<p>I am a frontend developer and amateur illustrator based in Chapel Hill, NC. I also write <a href=\\"https://github.com/finnsjames/threepio\\">software</a> for <a href=\\"https://skynet.unc.edu\\">telescopes</a>.</p>\\n<p><a href=\\"https://github.com/finnsjames\\" rel=\\"nofollow\\">GitHub</a> \u2022 <a href=\\"https://twitter.com/finnsjames\\" rel=\\"nofollow\\">Twitter</a> \u2022 <a href=\\"https://polywork.fsj.xyz\\" rel=\\"nofollow\\">Polywork</a></p>\\n<p class=\\"email-wrapper\\">\\n  <Email />\\n</p>\\n<style lang=\\"scss\\">h1 {\\n  font-weight: bold;\\n  font-size: 3.2rem;\\n  margin-top: 1rem;\\n  margin-bottom: 1.6rem;\\n  font-variation-settings: \\"wght\\" 800, \\"CASL\\" 1, \\"slnt\\" -15;\\n}\\n\\np {\\n  font-size: large;\\n  line-height: 1.6rem;\\n  margin-bottom: 1.6rem;\\n}\\n\\n.hint--top {\\n  font-family: \\"RecVar\\" !important;\\n}\\n.hint--top::before {\\n  border-top-color: var(--fg);\\n}\\n.hint--top::after {\\n  font-family: \\"RecVar\\", sans-serif;\\n  font-variation-settings: \\"wght\\" 550;\\n  background-color: var(--fg);\\n  color: var(--bg);\\n  text-shadow: none !important;\\n}\\n\\n.email-wrapper {\\n  padding-top: 0.8rem;\\n  transform: translateX(-1px);\\n}\\n\\n@media screen and (max-width: 767px) {\\n  .email-wrapper {\\n    transform: none;\\n  }\\n}\\n.bold {\\n  font-variation-settings: \\"wght\\" 800;\\n}</style>\\n"],"names":[],"mappings":"AAUmB,EAAE,eAAC,CAAC,AACrB,WAAW,CAAE,IAAI,CACjB,SAAS,CAAE,MAAM,CACjB,UAAU,CAAE,IAAI,CAChB,aAAa,CAAE,MAAM,CACrB,uBAAuB,CAAE,MAAM,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,GAAG,AAC3D,CAAC,AAED,CAAC,eAAC,CAAC,AACD,SAAS,CAAE,KAAK,CAChB,WAAW,CAAE,MAAM,CACnB,aAAa,CAAE,MAAM,AACvB,CAAC,AAED,UAAU,eAAC,CAAC,AACV,WAAW,CAAE,QAAQ,CAAC,UAAU,AAClC,CAAC,AACD,yBAAU,QAAQ,AAAC,CAAC,AAClB,gBAAgB,CAAE,IAAI,IAAI,CAAC,AAC7B,CAAC,AACD,yBAAU,OAAO,AAAC,CAAC,AACjB,WAAW,CAAE,QAAQ,CAAC,CAAC,UAAU,CACjC,uBAAuB,CAAE,MAAM,CAAC,GAAG,CACnC,gBAAgB,CAAE,IAAI,IAAI,CAAC,CAC3B,KAAK,CAAE,IAAI,IAAI,CAAC,CAChB,WAAW,CAAE,IAAI,CAAC,UAAU,AAC9B,CAAC,AAED,cAAc,eAAC,CAAC,AACd,WAAW,CAAE,MAAM,CACnB,SAAS,CAAE,WAAW,IAAI,CAAC,AAC7B,CAAC,AAED,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACpC,cAAc,eAAC,CAAC,AACd,SAAS,CAAE,IAAI,AACjB,CAAC,AACH,CAAC,AACD,KAAK,eAAC,CAAC,AACL,uBAAuB,CAAE,MAAM,CAAC,GAAG,AACrC,CAAC"}'
-};
-var Intro = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  $$result.css.add(css$4);
-  return `<h1 class="${"no-hash svelte-1ph4qi7"}">Hey!</h1>
-<p class="${"svelte-1ph4qi7"}">My name is <span class="${"bold hint--top hint--rounded svelte-1ph4qi7"}" aria-label="${"he/him, please"}">Finn James</span>. How\u2019s it going?</p>
-<p class="${"svelte-1ph4qi7"}">I am a frontend developer and amateur illustrator based in Chapel Hill, NC. I also write <a href="${"https://github.com/finnsjames/threepio"}">software</a> for <a href="${"https://skynet.unc.edu"}">telescopes</a>.</p>
-<p class="${"svelte-1ph4qi7"}"><a href="${"https://github.com/finnsjames"}" rel="${"nofollow"}">GitHub</a> \u2022 <a href="${"https://twitter.com/finnsjames"}" rel="${"nofollow"}">Twitter</a> \u2022 <a href="${"https://polywork.fsj.xyz"}" rel="${"nofollow"}">Polywork</a></p>
-<p class="${"email-wrapper svelte-1ph4qi7"}">${validate_component(Email, "Email").$$render($$result, {}, {}, {})}
-</p>`;
-});
-var css$3 = {
-  code: '.relative.svelte-7qkasq{position:relative}#splash.svelte-7qkasq{background-image:url("/images/flight-suit.png");background-size:auto 900px;background-repeat:no-repeat;position:fixed;right:calc(-24rem + 40vw);top:2.2rem;min-height:50rem;height:calc(100vh - 2rem);width:600px;user-select:none;pointer-events:none}.half.svelte-7qkasq{max-width:22rem;height:auto}@media screen and (max-width: 767px){#splash.svelte-7qkasq{width:100vw;position:relative;top:0;left:50%;right:50%;min-height:900px;margin-left:-50vw;margin-right:-50vw;display:block;background-position:calc(-300px + 50vw) 0}.half.svelte-7qkasq{max-width:none !important}}',
-  map: '{"version":3,"file":"index.svelte","sources":["index.svelte"],"sourcesContent":["<script lang=\\"ts\\">import Intro from \\"$markdown/intro.md\\";\\n<\/script>\\n\\n<svelte:head>\\n  <title>Finn James</title>\\n  <meta\\n    name=\\"description\\"\\n    content=\\"I\u2019m Finn, a frontend developer & illustrator. I also write software for telescopes.\\"\\n  />\\n</svelte:head>\\n\\n<div class=\\"relative\\">\\n  <div class=\\"half\\">\\n    <Intro />\\n  </div>\\n  <div id=\\"splash\\" alt=\\"me in a flight suit\\" />\\n</div>\\n\\n<style lang=\\"scss\\">.relative {\\n  position: relative;\\n}\\n\\n#splash {\\n  background-image: url(\\"/images/flight-suit.png\\");\\n  background-size: auto 900px;\\n  background-repeat: no-repeat;\\n  position: fixed;\\n  right: calc(-24rem + 40vw);\\n  top: 2.2rem;\\n  min-height: 50rem;\\n  height: calc(100vh - 2rem);\\n  width: 600px;\\n  user-select: none;\\n  pointer-events: none;\\n}\\n\\n.half {\\n  max-width: 22rem;\\n  height: auto;\\n}\\n\\n@media screen and (max-width: 767px) {\\n  #splash {\\n    width: 100vw;\\n    position: relative;\\n    top: 0;\\n    left: 50%;\\n    right: 50%;\\n    min-height: 900px;\\n    margin-left: -50vw;\\n    margin-right: -50vw;\\n    display: block;\\n    background-position: calc(-300px + 50vw) 0;\\n  }\\n\\n  .half {\\n    max-width: none !important;\\n  }\\n}</style>\\n"],"names":[],"mappings":"AAkBmB,SAAS,cAAC,CAAC,AAC5B,QAAQ,CAAE,QAAQ,AACpB,CAAC,AAED,OAAO,cAAC,CAAC,AACP,gBAAgB,CAAE,IAAI,yBAAyB,CAAC,CAChD,eAAe,CAAE,IAAI,CAAC,KAAK,CAC3B,iBAAiB,CAAE,SAAS,CAC5B,QAAQ,CAAE,KAAK,CACf,KAAK,CAAE,KAAK,MAAM,CAAC,CAAC,CAAC,IAAI,CAAC,CAC1B,GAAG,CAAE,MAAM,CACX,UAAU,CAAE,KAAK,CACjB,MAAM,CAAE,KAAK,KAAK,CAAC,CAAC,CAAC,IAAI,CAAC,CAC1B,KAAK,CAAE,KAAK,CACZ,WAAW,CAAE,IAAI,CACjB,cAAc,CAAE,IAAI,AACtB,CAAC,AAED,KAAK,cAAC,CAAC,AACL,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,IAAI,AACd,CAAC,AAED,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACpC,OAAO,cAAC,CAAC,AACP,KAAK,CAAE,KAAK,CACZ,QAAQ,CAAE,QAAQ,CAClB,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,GAAG,CACT,KAAK,CAAE,GAAG,CACV,UAAU,CAAE,KAAK,CACjB,WAAW,CAAE,KAAK,CAClB,YAAY,CAAE,KAAK,CACnB,OAAO,CAAE,KAAK,CACd,mBAAmB,CAAE,KAAK,MAAM,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,AAC5C,CAAC,AAED,KAAK,cAAC,CAAC,AACL,SAAS,CAAE,IAAI,CAAC,UAAU,AAC5B,CAAC,AACH,CAAC"}'
-};
-var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  $$result.css.add(css$3);
-  return `${$$result.head += `${$$result.title = `<title>Finn James</title>`, ""}<meta name="${"description"}" content="${"I\u2019m Finn, a frontend developer & illustrator. I also write software for telescopes."}" data-svelte="svelte-zo36oi">`, ""}
-
-<div class="${"relative svelte-7qkasq"}"><div class="${"half svelte-7qkasq"}">${validate_component(Intro, "Intro").$$render($$result, {}, {}, {})}</div>
-  <div id="${"splash"}" alt="${"me in a flight suit"}" class="${"svelte-7qkasq"}"></div>
-</div>`;
-});
-var index$1 = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": Routes
-});
-var css$2 = {
-  code: "h1.svelte-wdp2xd{padding-top:2.4rem;margin-top:0rem}h1.svelte-wdp2xd:first-of-type{padding-top:1.4rem}img.svelte-wdp2xd{height:auto;max-height:90vh;max-width:100vw;margin-bottom:2.4rem}#portfolio.svelte-wdp2xd{display:flex;flex-direction:column;align-items:center;width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw}",
-  map: '{"version":3,"file":"portfolio.svelte","sources":["portfolio.svelte"],"sourcesContent":["<svelte:head><title>Portfolio - Finn James</title></svelte:head>\\n\\n<div id=\\"portfolio\\">\\n  <h1 id=\\"photography\\" class=\\"no-hash\\">Photography</h1>\\n  <img loading=\\"lazy\\" alt=\\"Eszter 1\\" src=\\"/art/p-e2.jpeg\\" />\\n  <img loading=\\"lazy\\" alt=\\"Thomas\\" src=\\"/art/p-t1.jpeg\\" />\\n  <img loading=\\"lazy\\" alt=\\"Hannah\\" src=\\"/art/p-h1.jpeg\\" />\\n  <img loading=\\"lazy\\" alt=\\"Eszter 2\\" src=\\"/art/p-e1.jpeg\\" />\\n  <h1 id=\\"drawing\\" class=\\"no-hash\\">Drawing</h1>\\n  <img loading=\\"lazy\\" alt=\\"Charcoal drawing of my desk\\" class=\\"image\\" src=\\"/art/a-c1.jpeg\\" />\\n  <img loading=\\"lazy\\" alt=\\"Ink drawing in the style of Mucha\\" class=\\"image\\" src=\\"/art/a-i1.jpeg\\" />\\n  <img loading=\\"lazy\\" alt=\\"Charcoal drawings with a backlight\\" class=\\"image\\" src=\\"/art/a-c2.jpeg\\" />\\n</div>\\n\\n<style lang=\\"scss\\">h1 {\\n  padding-top: 2.4rem;\\n  margin-top: 0rem;\\n}\\nh1:first-of-type {\\n  padding-top: 1.4rem;\\n}\\n\\nimg {\\n  height: auto;\\n  max-height: 90vh;\\n  max-width: 100vw;\\n  margin-bottom: 2.4rem;\\n}\\n\\n#portfolio {\\n  display: flex;\\n  flex-direction: column;\\n  align-items: center;\\n  width: 100vw;\\n  position: relative;\\n  left: 50%;\\n  right: 50%;\\n  margin-left: -50vw;\\n  margin-right: -50vw;\\n}</style>\\n"],"names":[],"mappings":"AAcmB,EAAE,cAAC,CAAC,AACrB,WAAW,CAAE,MAAM,CACnB,UAAU,CAAE,IAAI,AAClB,CAAC,AACD,gBAAE,cAAc,AAAC,CAAC,AAChB,WAAW,CAAE,MAAM,AACrB,CAAC,AAED,GAAG,cAAC,CAAC,AACH,MAAM,CAAE,IAAI,CACZ,UAAU,CAAE,IAAI,CAChB,SAAS,CAAE,KAAK,CAChB,aAAa,CAAE,MAAM,AACvB,CAAC,AAED,UAAU,cAAC,CAAC,AACV,OAAO,CAAE,IAAI,CACb,cAAc,CAAE,MAAM,CACtB,WAAW,CAAE,MAAM,CACnB,KAAK,CAAE,KAAK,CACZ,QAAQ,CAAE,QAAQ,CAClB,IAAI,CAAE,GAAG,CACT,KAAK,CAAE,GAAG,CACV,WAAW,CAAE,KAAK,CAClB,YAAY,CAAE,KAAK,AACrB,CAAC"}'
-};
-var Portfolio = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  $$result.css.add(css$2);
-  return `${$$result.head += `${$$result.title = `<title>Portfolio - Finn James</title>`, ""}`, ""}
-
-<div id="${"portfolio"}" class="${"svelte-wdp2xd"}"><h1 id="${"photography"}" class="${"no-hash svelte-wdp2xd"}">Photography</h1>
-  <img loading="${"lazy"}" alt="${"Eszter 1"}" src="${"/art/p-e2.jpeg"}" class="${"svelte-wdp2xd"}">
-  <img loading="${"lazy"}" alt="${"Thomas"}" src="${"/art/p-t1.jpeg"}" class="${"svelte-wdp2xd"}">
-  <img loading="${"lazy"}" alt="${"Hannah"}" src="${"/art/p-h1.jpeg"}" class="${"svelte-wdp2xd"}">
-  <img loading="${"lazy"}" alt="${"Eszter 2"}" src="${"/art/p-e1.jpeg"}" class="${"svelte-wdp2xd"}">
-  <h1 id="${"drawing"}" class="${"no-hash svelte-wdp2xd"}">Drawing</h1>
-  <img loading="${"lazy"}" alt="${"Charcoal drawing of my desk"}" class="${"image svelte-wdp2xd"}" src="${"/art/a-c1.jpeg"}">
-  <img loading="${"lazy"}" alt="${"Ink drawing in the style of Mucha"}" class="${"image svelte-wdp2xd"}" src="${"/art/a-i1.jpeg"}">
-  <img loading="${"lazy"}" alt="${"Charcoal drawings with a backlight"}" class="${"image svelte-wdp2xd"}" src="${"/art/a-c2.jpeg"}">
-</div>`;
-});
-var portfolio = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": Portfolio
-});
-var css$1 = {
-  code: ".posts.svelte-3bstvf.svelte-3bstvf{list-style:none;padding:0}.posts.svelte-3bstvf li.svelte-3bstvf{padding:1rem;padding-left:0}.posts.svelte-3bstvf li p.svelte-3bstvf{padding:0;margin-top:0;color:var(--med-gray)}",
-  map: '{"version":3,"file":"index.svelte","sources":["index.svelte"],"sourcesContent":["<script context=\\"module\\">\\n  const allPosts = import.meta.glob(\\"./*.md\\");\\n\\n  // console.log(allPosts);\\n  let promisedPosts = [];\\n  for (let path in allPosts) {\\n    promisedPosts.push(\\n      allPosts[path]().then(({ metadata }) => {\\n        // console.log(metadata);\\n        return { path, metadata };\\n      })\\n    );\\n  }\\n  export const load = async () => {\\n    let posts = await Promise.all(promisedPosts);\\n    posts = posts.sort((a, b) => Date.parse(b.metadata.date) - Date.parse(a.metadata.date));\\n    // console.log(posts);\\n\\n    return {\\n      props: {\\n        posts: posts\\n      }\\n    };\\n  };\\n<\/script>\\n\\n<script>\\n  export let posts;\\n<\/script>\\n\\n<svelte:head>\\n  <title>Posts - Finn James</title>\\n</svelte:head>\\n\\n<h1>Posts</h1>\\n\\n<ul class=\\"posts\\">\\n  {#each posts.reverse() as { path, metadata: { title, date } }}\\n    <li>\\n      <p>\\n        <a sveltekit:prefetch href={`/posts/${path.replace(\\".md\\", \\"\\").replace(\\".svx\\", \\"\\")}`}\\n          >{title}</a\\n        >\\n      </p>\\n      <!-- <p>{date}</p> -->\\n    </li>\\n  {/each}\\n</ul>\\n\\n<style lang=\\"scss\\">.posts {\\n  list-style: none;\\n  padding: 0;\\n}\\n.posts li {\\n  padding: 1rem;\\n  padding-left: 0;\\n}\\n.posts li p {\\n  padding: 0;\\n  margin-top: 0;\\n  color: var(--med-gray);\\n}</style>\\n"],"names":[],"mappings":"AAiDmB,MAAM,4BAAC,CAAC,AACzB,UAAU,CAAE,IAAI,CAChB,OAAO,CAAE,CAAC,AACZ,CAAC,AACD,oBAAM,CAAC,EAAE,cAAC,CAAC,AACT,OAAO,CAAE,IAAI,CACb,YAAY,CAAE,CAAC,AACjB,CAAC,AACD,oBAAM,CAAC,EAAE,CAAC,CAAC,cAAC,CAAC,AACX,OAAO,CAAE,CAAC,CACV,UAAU,CAAE,CAAC,CACb,KAAK,CAAE,IAAI,UAAU,CAAC,AACxB,CAAC"}'
-};
-var allPosts = { "./2020-05-16-init.md": () => Promise.resolve().then(function() {
-  return _20200516Init;
-}), "./2020-09-08-what-does-radiolevity-mean.md": () => Promise.resolve().then(function() {
-  return _20200908WhatDoesRadiolevityMean;
-}), "./2021-05-04-new-domain.md": () => Promise.resolve().then(function() {
-  return _20210504NewDomain;
-}), "./2021-07-11-all-new-site.md": () => Promise.resolve().then(function() {
-  return _20210711AllNewSite;
-}), "./2021-07-13-tools-of-the-trade.md": () => Promise.resolve().then(function() {
-  return _20210713ToolsOfTheTrade;
-}) };
-var promisedPosts = [];
-for (let path in allPosts) {
-  promisedPosts.push(allPosts[path]().then(({ metadata: metadata2 }) => {
-    return { path, metadata: metadata2 };
-  }));
+var base = "";
+var assets = "";
+function set_paths(paths) {
+  base = paths.base;
+  assets = paths.assets || base;
 }
-var load = async () => {
-  let posts = await Promise.all(promisedPosts);
-  posts = posts.sort((a, b) => Date.parse(b.metadata.date) - Date.parse(a.metadata.date));
-  return { props: { posts } };
+var template = ({ head, body, assets: assets2, nonce }) => '<!DOCTYPE html>\n<html lang="en">\n\n<head>\n  <meta charset="utf-8" />\n  <link rel="icon" href="/favicon.svg" />\n  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0" />\n  ' + head + '\n</head>\n\n<body>\n  <div id="svelte">' + body + "</div>\n</body>\n\n</html>";
+var read = null;
+set_paths({ "base": "", "assets": "" });
+var Server = class {
+  constructor(manifest2) {
+    this.options = {
+      amp: false,
+      csp: { "mode": "auto", "directives": { "upgrade-insecure-requests": false, "block-all-mixed-content": false } },
+      dev: false,
+      floc: false,
+      get_stack: (error2) => String(error2),
+      handle_error: (error2, event) => {
+        this.options.hooks.handleError({
+          error: error2,
+          event,
+          get request() {
+            throw new Error("request in handleError has been replaced with event. See https://github.com/sveltejs/kit/pull/3384 for details");
+          }
+        });
+        error2.stack = this.options.get_stack(error2);
+      },
+      hooks: null,
+      hydrate: true,
+      manifest: manifest2,
+      method_override: { "parameter": "_method", "allowed": [] },
+      paths: { base, assets },
+      prefix: assets + "/_app/",
+      prerender: true,
+      read,
+      root: Root,
+      service_worker: null,
+      router: true,
+      template,
+      template_contains_nonce: false,
+      trailing_slash: "never"
+    };
+  }
+  async respond(request, options = {}) {
+    if (!(request instanceof Request)) {
+      throw new Error("The first argument to server.respond must be a Request object. See https://github.com/sveltejs/kit/pull/3384 for details");
+    }
+    if (!this.options.hooks) {
+      const module2 = await Promise.resolve().then(() => (init_hooks_1c45ba0b(), hooks_1c45ba0b_exports));
+      this.options.hooks = {
+        getSession: module2.getSession || (() => ({})),
+        handle: module2.handle || (({ event, resolve: resolve2 }) => resolve2(event)),
+        handleError: module2.handleError || (({ error: error2 }) => console.error(error2.stack)),
+        externalFetch: module2.externalFetch || fetch
+      };
+    }
+    return respond(request, this.options, options);
+  }
 };
-var Posts = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  let { posts } = $$props;
-  if ($$props.posts === void 0 && $$bindings.posts && posts !== void 0)
-    $$bindings.posts(posts);
-  $$result.css.add(css$1);
-  return `${$$result.head += `${$$result.title = `<title>Posts - Finn James</title>`, ""}`, ""}
 
-<h1>Posts</h1>
+// .svelte-kit/vercel-tmp/manifest.js
+var manifest = {
+  appDir: "_app",
+  assets: /* @__PURE__ */ new Set([".DS_Store", "art/a-c1.jpeg", "art/a-c1.webp", "art/a-c2.jpeg", "art/a-c2.webp", "art/a-i1.jpeg", "art/a-i1.webp", "art/p-c1.jpeg", "art/p-c1.webp", "art/p-e1.jpeg", "art/p-e1.webp", "art/p-e2.jpeg", "art/p-e2.webp", "art/p-h1.jpeg", "art/p-h1.webp", "art/p-t1.jpeg", "art/p-t1.webp", "favicon.svg", "fonts/Recursive_VF_1.077--subset_range_english_basic.woff2", "fonts/Recursive_VF_1.077--subset_range_latin_1.woff2", "fonts/Recursive_VF_1.077--subset_range_latin_1_punc.woff2", "fonts/Recursive_VF_1.077--subset_range_latin_ext.woff2", "fonts/Recursive_VF_1.077--subset_range_remaining.woff2", "fonts/Recursive_VF_1.077--subset_range_vietnamese.woff2", "fonts.css", "hint.min.css", "icons/copy.svg", "icons/moon.svg", "icons/sun.svg", "images/.DS_Store", "images/flight-suit-helmet-blur.png", "images/flight-suit-helmet-blur.webp", "images/flight-suit-helmet.png", "images/flight-suit-helmet.webp", "images/flight-suit-me.png", "images/flight-suit-me.webp", "images/flight-suit.png", "images/flight-suit.webp", "images/fsj-solid.svg", "images/fsj.png", "images/fsj.svg", "images/fsj.webp", "images/fsj.xyz_2022-04-12_23-47-35.report.html", "images/iss.png", "images/iss.webp", "main.scss", "normalize.css"]),
+  mimeTypes: { ".jpeg": "image/jpeg", ".webp": "image/webp", ".svg": "image/svg+xml", ".woff2": "font/woff2", ".css": "text/css", ".png": "image/png", ".html": "text/html", ".scss": "text/x-scss" },
+  _: {
+    entry: { "file": "start-747c75f6.js", "js": ["start-747c75f6.js", "chunks/index-bbc8ee63.js", "chunks/index-b66b148c.js", "chunks/preload-helper-e4860ae8.js"], "css": [] },
+    nodes: [
+      () => Promise.resolve().then(() => (init__(), __exports)),
+      () => Promise.resolve().then(() => (init__2(), __exports2)),
+      () => Promise.resolve().then(() => (init__3(), __exports3)),
+      () => Promise.resolve().then(() => (init__4(), __exports4)),
+      () => Promise.resolve().then(() => (init__5(), __exports5)),
+      () => Promise.resolve().then(() => (init__6(), __exports6)),
+      () => Promise.resolve().then(() => (init__7(), __exports7)),
+      () => Promise.resolve().then(() => (init__8(), __exports8)),
+      () => Promise.resolve().then(() => (init__9(), __exports9)),
+      () => Promise.resolve().then(() => (init__10(), __exports10)),
+      () => Promise.resolve().then(() => (init__11(), __exports11)),
+      () => Promise.resolve().then(() => (init__12(), __exports12)),
+      () => Promise.resolve().then(() => (init__13(), __exports13))
+    ],
+    routes: [
+      {
+        type: "page",
+        id: "",
+        pattern: /^\/$/,
+        names: [],
+        types: [],
+        path: "/",
+        shadow: null,
+        a: [0, 2],
+        b: [1]
+      },
+      {
+        type: "page",
+        id: "cv",
+        pattern: /^\/cv\/?$/,
+        names: [],
+        types: [],
+        path: "/cv",
+        shadow: null,
+        a: [0, 3],
+        b: [1]
+      },
+      {
+        type: "page",
+        id: "portfolio",
+        pattern: /^\/portfolio\/?$/,
+        names: [],
+        types: [],
+        path: "/portfolio",
+        shadow: null,
+        a: [0, 4],
+        b: [1]
+      },
+      {
+        type: "page",
+        id: "posts",
+        pattern: /^\/posts\/?$/,
+        names: [],
+        types: [],
+        path: "/posts",
+        shadow: null,
+        a: [0, 5],
+        b: [1]
+      },
+      {
+        type: "page",
+        id: "posts/2020-05-16-init",
+        pattern: /^\/posts\/2020-05-16-init\/?$/,
+        names: [],
+        types: [],
+        path: "/posts/2020-05-16-init",
+        shadow: null,
+        a: [0, 6],
+        b: [1]
+      },
+      {
+        type: "page",
+        id: "posts/2020-09-08-what-does-radiolevity-mean",
+        pattern: /^\/posts\/2020-09-08-what-does-radiolevity-mean\/?$/,
+        names: [],
+        types: [],
+        path: "/posts/2020-09-08-what-does-radiolevity-mean",
+        shadow: null,
+        a: [0, 7],
+        b: [1]
+      },
+      {
+        type: "page",
+        id: "posts/2021-05-04-new-domain",
+        pattern: /^\/posts\/2021-05-04-new-domain\/?$/,
+        names: [],
+        types: [],
+        path: "/posts/2021-05-04-new-domain",
+        shadow: null,
+        a: [0, 8],
+        b: [1]
+      },
+      {
+        type: "page",
+        id: "posts/2021-07-11-all-new-site",
+        pattern: /^\/posts\/2021-07-11-all-new-site\/?$/,
+        names: [],
+        types: [],
+        path: "/posts/2021-07-11-all-new-site",
+        shadow: null,
+        a: [0, 9],
+        b: [1]
+      },
+      {
+        type: "page",
+        id: "posts/2021-07-13-tools-of-the-trade",
+        pattern: /^\/posts\/2021-07-13-tools-of-the-trade\/?$/,
+        names: [],
+        types: [],
+        path: "/posts/2021-07-13-tools-of-the-trade",
+        shadow: null,
+        a: [0, 10],
+        b: [1]
+      },
+      {
+        type: "page",
+        id: "posts/2021-09-22-floating",
+        pattern: /^\/posts\/2021-09-22-floating\/?$/,
+        names: [],
+        types: [],
+        path: "/posts/2021-09-22-floating",
+        shadow: null,
+        a: [0, 11],
+        b: [1]
+      },
+      {
+        type: "page",
+        id: "posts/2022-04-12-floating copy",
+        pattern: /^\/posts\/2022-04-12-floating copy\/?$/,
+        names: [],
+        types: [],
+        path: "/posts/2022-04-12-floating copy",
+        shadow: null,
+        a: [0, 12],
+        b: [1]
+      }
+    ],
+    matchers: async () => {
+      return {};
+    }
+  }
+};
 
-<ul class="${"posts svelte-3bstvf"}">${each(posts.reverse(), ({ path, metadata: { title: title2, date: date2 } }) => `<li class="${"svelte-3bstvf"}"><p class="${"svelte-3bstvf"}"><a sveltekit:prefetch${add_attribute("href", `/posts/${path.replace(".md", "").replace(".svx", "")}`, 0)}>${escape2(title2)}</a></p>
-      
-    </li>`)}
-</ul>`;
-});
-var index = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": Posts,
-  load
-});
-var metadata$4 = {
-  "title": "What Does Radiolevity Mean?",
-  "date": "2020-09-08 00:00:00 -0400",
-  "categories": "blog"
-};
-var { title: title$4, date: date$4, categories: categories$4 } = metadata$4;
-var _2020_09_08_what_does_radiolevity_mean = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  return `<h1>${escape2(title$4)}</h1>
-<p>My username everywhere online is <strong>radiolevity</strong>. It doesn\u2019t really mean
-anything in particular\u2014I was inspired by my radio-spectrum astronomy research,
-my love of radio and podcasts, and my general desire to keep things
-lighthearted. But at a certain point, I just wanted something that was easy to
-say, spell, and remember. I made my radio logo by those same principles.</p>
-<p>Another advantage is that my name is rather common, especially in Europe. This
-makes my username slightly more recognizable than if I just used my name.
-Furthermore, much to my chagrin, I cannot get \u201Cfinnjames\u201D as a username on most
-of the major platforms anymore.</p>
-<p>Lastly, I appreciate when someone has a consistent handle across many platforms,
-because it means you can appreciate their work and find their voice in a number
-of different contexts. This has the associated effect of degrading one\u2019s
-anonymity\u2014my real name is deliberately very easy to find if you have my
-username\u2014but this is not necessarily a bad thing. I appreciate that by linking
-my name to a specific username I can more easily take credit and pride in my
-work without worrying too much.</p>`;
-});
-var _20200908WhatDoesRadiolevityMean = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": _2020_09_08_what_does_radiolevity_mean,
-  metadata: metadata$4
-});
-var metadata$3 = {
-  "title": "Tools of the Trade",
-  "date": "2021-07-13 00:00:00 -0400",
-  "categories": "blog"
-};
-var { title: title$3, date: date$3, categories: categories$3 } = metadata$3;
-var _2021_07_13_tools_of_the_trade = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  return `<h1>${escape2(title$3)}</h1>
-<p>I feel like every programmer at some point catalogs all of their gadgets and software. Here are mine!</p>
-<h2>Software</h2>
-<h3>VSCode</h3>
-<p>I\u2019ve tried every editor out there: WebStorm, Brackets, Komodo Edit, Nova, Sublime, TextWrangler, BBEdit, oh my. I keep coming back to VSCode because it\u2019s cross platform, has excellent extension support, and runs well on my 2015 MacBook Pro.</p>
-<h4>VSCode Extensions</h4>
-<p>The extensions I have installed are in constant flux, but there are a few I can\u2019t go without at this point:</p>
-<ol><li><a href="${"https://marketplace.visualstudio.com/items?itemName=radiolevity.search-lights"}" rel="${"nofollow"}">Search Lights</a>: I made a VSCode theme! It\u2019s meant to be easy to look at for a long time. I spent a long time tooling the color relationships to be subtle and informative. Please give it a try, and let me know what you think!</li>
-<li><a href="${"https://marketplace.visualstudio.com/items?itemName=vscodevim.vim"}" rel="${"nofollow"}">VSCode Vim</a>: I got used to vim keybindings during a college CS class that required using vim for all of the quizzes and assignments, and ever since I can\u2019t function without it.</li>
-<li><a href="${"https://marketplace.visualstudio.com/items?itemName=ms-python.python"}" rel="${"nofollow"}">Python Language Extension</a>: the various language plugins I have change over time, except this one. I use Python whenever I just need to write a quick script for something. I\u2019ve been experimenting with switching to Node for my day to day data-manipulation tasks, but for the time being nothing beats Python.</li></ol>
-<p>Bonus: I just started using <strong>GitHub Copilot</strong> a few weeks ago, and it\u2019s pretty cool. I love VSCode\u2019s autocomplete, and this extension is a super-powered version of it. I am hesitant to use it for anything serious, though, before questions of licensing are nailed down. Also, it can be a little weird to have to check autogenerated code for bugs\u2014but it\u2019s quickly become part of my workflow.</p>
-<h3><a href="${"https://neovim.io/"}" rel="${"nofollow"}">NeoVim</a></h3>
-<p>I love Vim as an editor, and NeoVim is even better. When it comes to command-line editors, look no further.</p>
-<h3><a href="${"https://sw.kovidgoyal.net/kitty/"}" rel="${"nofollow"}">kitty</a></h3>
-<p>A minimalist terminal emulator that does everything I need it to, no more, no less. Definitely the cutest option, as well. kitty also has a lot of interesting techniques to keep it running blazingly fast.</p>
-<h3>zsh</h3>
-<p>I use zsh with a few modifications as my terminal. <a href="${"https://github.com/romkatv/powerlevel10k"}" rel="${"nofollow"}">PowerLevel10k</a> and <a href="${"https://github.com/zsh-users/zsh-autosuggestions"}" rel="${"nofollow"}">zsh-autosuggestions</a> are the two I like the most.</p>
-<h2>Hardware</h2>
-<h3>Keyboard</h3>
-<p>I alternate between my MacBook\u2019s built-in keyboard and a custom mechanical keyboard I put together. (For the nerds: an olkb Preonic with a silver aluminum case, steel plate, 65g Zilents, and DSA Vilebloom keycaps.)</p>
-<h3>Drawing tablet</h3>
-<p>I switched to iPad Pro + Apple Pencil in 2017 and haven\u2019t looked back. All of my digital art is done in Procreate with \u{1F49C}.</p>`;
-});
-var _20210713ToolsOfTheTrade = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": _2021_07_13_tools_of_the_trade,
-  metadata: metadata$3
-});
-var metadata$2 = {
-  "title": "All New Site",
-  "date": "2021-07-11 00:00:00 -0400",
-  "categories": "blog"
-};
-var { title: title$2, date: date$2, categories: categories$2 } = metadata$2;
-var _2021_07_11_all_new_site = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  return `<h1>${escape2(title$2)}</h1>
-<p>As much as Jekyll + GitHub Pages served me well for my old static site, I have
-decided to take the plunge into a modern framework-based version. This site is
-made in the excellent <a href="${"https://kit.svelte.dev/"}" rel="${"nofollow"}">SvelteKit</a>. It isn\u2019t done, yet.
-At time of this writing, the \u201CPosts\u201D page still needs
-some work. With that said, I am very happy with how the new site is working out.</p>
-<p>I made a point with this rewrite to use as little code from the original version
-as possible. The only elements brought over are the SCSS that generates the
-Markdown-esque header markers and the click-to-copy email button on the home
-page.</p>
-<p>The new version of this site is hosted on <a href="${"https://vercel.com/"}" rel="${"nofollow"}">Vercel</a>, using
-the shockingly simple-to-use Svelte-Vercel adapter. I\u2019ve been really impressed
-with how simple and easy Vercel is to use.</p>
-<h2>Why SvelteKit?</h2>
-<p>I have been wanting to learn to use Svelte for a while now. I\u2019ve been using Vue
-for over a year now, and while I really like its functionality and wide support,
-I also like Svelte\u2019s opinionated approach to organization and syntax.
-Furthermore, I wanted to try a static site generator framework and with
-SvelteKit nearing a 1.0 release, I figured now was as good a time as any.  </p>
-<p>Next (lol) on the docket are Next.js and Astro.</p>
-<h2>So what\u2019s left?</h2>
-<p>I am trying some new stuff with this site. I want to add a lot more details
-before I really consider it to be \u201Cdone.\u201D One big example is dark mode support.
-I would like to be able to choose \u201CAuto\u201D in addition to the current Light/Dark
-toggle. Another one (as I mentioned above) is that I want the blog section to
-get some more attention. It\u2019s pretty basic right now, which is fine, but I want
-to enable photos, code snippets, interactive elements, searching articles, etc.
-I also think it would be cool to have some sort of dashboard for editing my
-site. Right now the whole site is made by me, so I\u2019d either have to find a
-dashboard/CMS to connect up or write my own. In the mean time I suppose I\u2019ll be using just VSCode.</p>`;
-});
-var _20210711AllNewSite = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": _2021_07_11_all_new_site,
-  metadata: metadata$2
-});
-var metadata$1 = {
-  "title": "New Domain",
-  "date": "2021-05-19 00:00:00 -0400",
-  "categories": "blog"
-};
-var { title: title$1, date: date$1, categories: categories$1 } = metadata$1;
-var _2021_05_04_new_domain = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  return `<h1>${escape2(title$1)}</h1>
-<p>I am excited to report that my new domain, <a href="${"https://fsj.xyz"}" rel="${"nofollow"}">fsj.xyz</a> is live.
-In the endless quest to have a short domain name, I elected for the gTLD
-<strong>.xyz</strong> and just my initials. It was remarkably difficult to secure a domain
-name that I felt excited about, but I am very happy with this one. My old domain
-(finnjames.dev) redirects to this site, now.</p>
-<p>I do think it is easy to get obsessed with acquiring the perfect domain name. I
-went through a lot of different options before settling on this one. I can\u2019t say
-it was my very first choice, but as it turns out, fsj.com has been taken since
-the 90s. I appreciate that this one is short, easy to say and write, and is
-reasonably memorable.</p>
-<p>I have also set up an email account for this domain. Try it out by sending an
-email to \u201Chey\u201D at this domain!</p>`;
-});
-var _20210504NewDomain = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": _2021_05_04_new_domain,
-  metadata: metadata$1
-});
-var metadata = {
-  "title": "Hello World!",
-  "date": "2020-05-16 00:00:00 -0400",
-  "categories": "test"
-};
-var { title, date, categories } = metadata;
-var _2020_05_16_init = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  return `<h1>${escape2(title)}</h1>
-<p>This is the first post on this site. It\u2019s here for testing purposes.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua. Viverra tellus in hac habitasse
-platea dictumst vestibulum rhoncus est. Odio ut enim blandit volutpat maecenas
-volutpat. Felis eget velit aliquet sagittis id consectetur purus ut. Ac turpis
-egestas integer eget aliquet nibh praesent tristique magna.</p>
-<p>Vestibulum mattis ullamcorper velit sed. Urna cursus eget nunc scelerisque
-viverra mauris. Quis imperdiet massa tincidunt nunc pulvinar sapien et ligula.
-Ac turpis egestas sed tempus. Nulla at volutpat diam ut venenatis. Nisl
-condimentum id venenatis a condimentum vitae sapien.</p>`;
-});
-var _20200516Init = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": _2020_05_16_init,
-  metadata
-});
-var css = {
-  code: '.gray.svelte-7prj8d{color:var(--med-dark-gray)}.roman.svelte-7prj8d{font-variation-settings:"wght" 400}h2.svelte-7prj8d,h3.svelte-7prj8d,h4.svelte-7prj8d{line-height:1}h2.svelte-7prj8d{padding-top:1.2rem}h3.svelte-7prj8d{padding-top:0.6rem}',
-  map: '{"version":3,"file":"cv.md","sources":["cv.md"],"sourcesContent":["<script context=\\"module\\">\\n\\texport const metadata = {\\"title\\":\\"CV\\"};\\n\\tconst { title } = metadata;\\n<\/script>\\n<style lang=\\"scss\\">.gray {\\n  color: var(--med-dark-gray);\\n}\\n\\n.roman {\\n  font-variation-settings: \\"wght\\" 400;\\n}\\n\\nh2, h3, h4 {\\n  line-height: 1;\\n}\\n\\nh2 {\\n  padding-top: 1.2rem;\\n}\\n\\nh3 {\\n  padding-top: 0.6rem;\\n}</style>\\n\\n\\n<h1>CV</h1>\\n<h2>Education</h2>\\n<h3>University of North Carolina at Chapel Hill</h3>\\n<p>Computer Science and Studio Art double major. GPA: 3.94. Expected graduation: May 2022.</p>\\n<h3>Honors Carolina</h3>\\n<p>I joined the UNC Honors Program in my first year.</p>\\n<h2>Grants & Honors</h2>\\n<h3>NC Space Grant for Undergraduate Research Fellowship</h3>\\n<span class=\\"gray\\">June 2020 - May 2021</span>\\n<p>My proposal for \u201CA New Test of General Relativity using Binary Supermassive Black Holes and Radio Telescopes\u201D was selected to receive funding so that I can develop and use sophisticated image processing systems for radio telescope observations of the OJ287 black hole system.</p>\\n<h3>Phi Beta Kappa</h3>\\n<span class=\\"gray\\">April 2021</span>\\n<p>I joined the Phi Beta Kappa honor society in April of 2021.</p>\\n<h3>UNC Nomination for Barry M. Goldwater Scholarship</h3>\\n<span class=\\"gray\\">January 2021</span>\\n<p>I was selected by my university for nomination for the Barry M. Goldwater Scholarship, a prestigious award for undergraduates to further their science and engineering research. The scholarship is particularly focused on supporting students in beginning their graduate school careers.</p>\\n<h3>ERIRA</h3>\\n<span class=\\"gray\\">August 2019</span>\\n<p>I was selected for the Educational Research In Radio Astronomy program. It is an intensive course at the Green Bank Observatory involving data collection, data analysis, deadline management, and teamwork.</p>\\n<h3>HackNC Second Place Winner</h3>\\n<span class=\\"gray\\">October 2019</span>\\n<p>I won second place for my hardware project at HackNC 2019. My team and I constructed a rig using Python and OpenCV to 3D track the position of objects in real time. As the team\u2019s software developer, I wrote the system that interpreted the dual input streams coming from the stereoscopic camera setup so that the depth of the objects could be calculated in real time. In this project, I led my team to each build a part of the project separately and combine them seamlessly.</p>\\n<h3>RYLA</h3>\\n<span class=\\"gray\\">April 2017</span>\\n<p>I was honored with the Rotary Youth Leadership Award for exhibiting leadership and initiative in my community service and schoolwork, and I attended the associated conference. The conference is an 18-hour-a-day high-energy event where the recipients work with each other to develop leadership and problem solving skills. I was sponsored by the East Chapel Hill Rotary Club.</p>\\n<h2>Work</h2>\\n<h3>SAS <span class=\\"roman\\">\u2014 UX Developer Intern</span></h3>\\n<span class=\\"gray\\">May 2021 \u2013 August 2021</span>\\n<p>I am creating a new internal application to improve interface accessibility and consistency.</p>\\n<h3>UNC Department of Physics & Astronomy <span class=\\"roman\\">\u2014 Research Assistant</span></h3>\\n<span class=\\"gray\\">August 2019 \u2013 Present</span>\\n<p>I do astrophysics research and software development with Dr. Dan Reichart in the Physics & Astronomy Department at UNC.</p>\\n<p>For my first project, I wrote <a\\n  href=\\"https://github.com/finnsjames/threepio\\"\\n  rel=\\"nofollow\\"\\n>an open source application</a> to interpret data coming from the 40\u2019 radio telescope at the Green Bank Observatory. I engineered the data logic to interface between sixty-year-old radio astronomy equipment and modern analysis programs. I designed the UI/UX to remain accessible to the students and scientists who use it for their research.</p>\\n<p>Now, I am building a new front-end application for the Skynet robotic telescope network, with a focus on the radio data interpretation and analysis tools.</p>\\n<h3>UNC Department of Computer Science <span class=\\"roman\\">\u2014 Learning Assistant</span></h3>\\n<span class=\\"gray\\">Spring 2021 \u2013 Present</span>\\n<p>I help teach undergraduate students in COMP541, an upper-level chip architecture course taught by Dr. Montek Singh.</p>\\n<h3>Freelance <span class=\\"roman\\">\u2014 Web Developer & Designer</span></h3>\\n<span class=\\"gray\\">June 2019 \u2013 Present</span>\\n<p>I am a freelance designer and full-stack web developer. I am a one-stop shop for local clients to create or overhaul their web presence. A portfolio example: the <a\\n  href=\\"https://chapelhillfriends.org\\"\\n  rel=\\"nofollow\\"\\n>Chapel Hill Friends Meeting website</a>.</p>\\n<h3>Carolina Friends School <span class=\\"roman\\">\u2014 Counselor</span></h3>\\n<span class=\\"gray\\">Summer 2016 \u2013 Summer 2019</span>\\n<p>I led activities with campers at Carolina Friends School Summer Programs to encourage teamwork, participation, and community.</p>\\n<h2>Skills</h2>\\n<h3>Computer Science</h3>\\n<p><strong>Proficient in:</strong> Python, C, Java, TypeScript, Vue, JavaScript, SystemVerilog, <span title=\\"source for this site on GitHub (finnsjames/fsj.xyz)\\">HTML/CSS</span></p>\\n<p><strong>Courses Completed by Summer 2021:</strong> Digital Logic & Computer Design, Models of Language & Computation, Data Structures, Computer Architecture, Digital Photography, Modern Web Development, UX Design & Usability</p>\\n<h3>Mathematics</h3>\\n<p><strong>Courses Completed by Summer 2021:</strong> Discrete Mathematics, Linear Algebra, Multivariable Calculus, Probability</p>\\n<p><strong>Familiarity with:</strong> Wolfram Mathematica, Microsoft Excel</p>\\n<h3>Astrophysics</h3>\\n<p><strong>Courses Completed by Summer 2021:</strong> Calculus-Based Mechanics & Relativity, Intro Astronomy & Lab, Intro Cosmology</p>\\n<p><strong>Familiarity with:</strong> Astropy, NumPy, Stellarium, Radio Cartographer, Afterglow</p>\\n<h3>Technology</h3>\\n<p><strong>IDEs & editors:</strong>\\nPyCharm, IntelliJ IDEA, Eclipse, VSCode, vim</p>\\n<p><strong>Tools:</strong>\\ngit, node, npm, zsh, bash</p>\\n<p><strong>Software:</strong>\\nPhotoshop, Illustrator, XD, InDesign, Premiere Pro, Audacity, Microsoft Office</p>\\n<p><strong>Operating Systems:</strong>\\nmacOS, Linux, Windows, iOS</p>\\n<h3>Foreign Language</h3>\\n<p><strong>Japanese:</strong>\\nI have completed three semesters of Japanese.</p>\\n<h2>Community Service</h2>\\n<h3>Cofounder, <span class=\\"roman\\">Project Recap</span></h3>\\n<span class=\\"gray\\">Spring 2018</span>\\n<p>I co-founded and managed a charitable program that continues today to collect, clean, and redistribute graduation paraphernalia to high school students.</p>\\n<h3>Creator & Instructor, <span class=\\"roman\\">CodeBuilders Programming Course</span></h3>\\n<span class=\\"gray\\">Spring 2017</span>\\n<p>I created and taught an intro programming class for middle-school-aged students. We covered Python and Web development. I designed the course to focus on fundamentals so that the students would feel more comfortable coding and working with computers.</p>\\n<h3>Instructor, <span class=\\"roman\\">Durham Public Library</span></h3>\\n<span class=\\"gray\\">Summer 2016</span>\\n<p>I volunteered with the Durham Public Library Techno Saturdays Program, where I taught programming and computer science to children who might otherwise not have had exposure to computers.</p>\\n<h2>Interests</h2>\\n<h4>Photography</h4>\\n<p>A few of my recent images may be found in my <a\\n  href=\\"/portfolio#photography\\"\\n>Portfolio</a>.</p>\\n<h4>Drawing & Painting</h4>\\n<p>Likewise, a few of my drawings <a\\n  href=\\"/portfolio#drawing\\"\\n>may also be found there</a>.</p>\\n<h4>Martial Arts</h4>\\n<p>I have practiced martial arts for years and have achieved a second degree black belt in the Japanese martial art <em>toshindo</em>.</p>\\n<h4>Reading</h4>\\n<p>My favorite books include <em>The Brief Wondrous Life of Oscar Wao</em> by Junot D\xEDaz, <em>Jane Eyre</em> by Charlotte Bront\xEB, and <em>Going Postal</em> by Terry Pratchett.</p>\\n<h4>Architecture</h4>\\n<p>I am a fan of modern architecture and minimalist spaces. I particularly appreciate the works of Ludwig Mies van der Rohe.</p>\\n<h4>Cooking</h4>\\n<p>I love to cook, especially Japanese and Italian cuisine. I also once threw a Latke\u2013Hamantash Debate event in the style of <a\\n  href=\\"https://en.wikipedia.org/wiki/Latke%E2%80%93Hamantash_Debate\\"\\n  rel=\\"nofollow\\"\\n>the original</a>, which involved both making and arguing about the relative metaphysical merits of both foods.</p>\\n<br />\\n<br />\\n<span class=\\"gray\\">Updated June 2021</span>\\n"],"names":[],"mappings":"AAImB,KAAK,cAAC,CAAC,AACxB,KAAK,CAAE,IAAI,eAAe,CAAC,AAC7B,CAAC,AAED,MAAM,cAAC,CAAC,AACN,uBAAuB,CAAE,MAAM,CAAC,GAAG,AACrC,CAAC,AAED,gBAAE,CAAE,gBAAE,CAAE,EAAE,cAAC,CAAC,AACV,WAAW,CAAE,CAAC,AAChB,CAAC,AAED,EAAE,cAAC,CAAC,AACF,WAAW,CAAE,MAAM,AACrB,CAAC,AAED,EAAE,cAAC,CAAC,AACF,WAAW,CAAE,MAAM,AACrB,CAAC"}'
-};
-var Cv$1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  $$result.css.add(css);
-  return `<h1>CV</h1>
-<h2 class="${"svelte-7prj8d"}">Education</h2>
-<h3 class="${"svelte-7prj8d"}">University of North Carolina at Chapel Hill</h3>
-<p>Computer Science and Studio Art double major. GPA: 3.94. Expected graduation: May 2022.</p>
-<h3 class="${"svelte-7prj8d"}">Honors Carolina</h3>
-<p>I joined the UNC Honors Program in my first year.</p>
-<h2 class="${"svelte-7prj8d"}">Grants &amp; Honors</h2>
-<h3 class="${"svelte-7prj8d"}">NC Space Grant for Undergraduate Research Fellowship</h3>
-<span class="${"gray svelte-7prj8d"}">June 2020 - May 2021</span>
-<p>My proposal for \u201CA New Test of General Relativity using Binary Supermassive Black Holes and Radio Telescopes\u201D was selected to receive funding so that I can develop and use sophisticated image processing systems for radio telescope observations of the OJ287 black hole system.</p>
-<h3 class="${"svelte-7prj8d"}">Phi Beta Kappa</h3>
-<span class="${"gray svelte-7prj8d"}">April 2021</span>
-<p>I joined the Phi Beta Kappa honor society in April of 2021.</p>
-<h3 class="${"svelte-7prj8d"}">UNC Nomination for Barry M. Goldwater Scholarship</h3>
-<span class="${"gray svelte-7prj8d"}">January 2021</span>
-<p>I was selected by my university for nomination for the Barry M. Goldwater Scholarship, a prestigious award for undergraduates to further their science and engineering research. The scholarship is particularly focused on supporting students in beginning their graduate school careers.</p>
-<h3 class="${"svelte-7prj8d"}">ERIRA</h3>
-<span class="${"gray svelte-7prj8d"}">August 2019</span>
-<p>I was selected for the Educational Research In Radio Astronomy program. It is an intensive course at the Green Bank Observatory involving data collection, data analysis, deadline management, and teamwork.</p>
-<h3 class="${"svelte-7prj8d"}">HackNC Second Place Winner</h3>
-<span class="${"gray svelte-7prj8d"}">October 2019</span>
-<p>I won second place for my hardware project at HackNC 2019. My team and I constructed a rig using Python and OpenCV to 3D track the position of objects in real time. As the team\u2019s software developer, I wrote the system that interpreted the dual input streams coming from the stereoscopic camera setup so that the depth of the objects could be calculated in real time. In this project, I led my team to each build a part of the project separately and combine them seamlessly.</p>
-<h3 class="${"svelte-7prj8d"}">RYLA</h3>
-<span class="${"gray svelte-7prj8d"}">April 2017</span>
-<p>I was honored with the Rotary Youth Leadership Award for exhibiting leadership and initiative in my community service and schoolwork, and I attended the associated conference. The conference is an 18-hour-a-day high-energy event where the recipients work with each other to develop leadership and problem solving skills. I was sponsored by the East Chapel Hill Rotary Club.</p>
-<h2 class="${"svelte-7prj8d"}">Work</h2>
-<h3 class="${"svelte-7prj8d"}">SAS <span class="${"roman svelte-7prj8d"}">\u2014 UX Developer Intern</span></h3>
-<span class="${"gray svelte-7prj8d"}">May 2021 \u2013 August 2021</span>
-<p>I am creating a new internal application to improve interface accessibility and consistency.</p>
-<h3 class="${"svelte-7prj8d"}">UNC Department of Physics &amp; Astronomy <span class="${"roman svelte-7prj8d"}">\u2014 Research Assistant</span></h3>
-<span class="${"gray svelte-7prj8d"}">August 2019 \u2013 Present</span>
-<p>I do astrophysics research and software development with Dr. Dan Reichart in the Physics &amp; Astronomy Department at UNC.</p>
-<p>For my first project, I wrote <a href="${"https://github.com/finnsjames/threepio"}" rel="${"nofollow"}">an open source application</a> to interpret data coming from the 40\u2019 radio telescope at the Green Bank Observatory. I engineered the data logic to interface between sixty-year-old radio astronomy equipment and modern analysis programs. I designed the UI/UX to remain accessible to the students and scientists who use it for their research.</p>
-<p>Now, I am building a new front-end application for the Skynet robotic telescope network, with a focus on the radio data interpretation and analysis tools.</p>
-<h3 class="${"svelte-7prj8d"}">UNC Department of Computer Science <span class="${"roman svelte-7prj8d"}">\u2014 Learning Assistant</span></h3>
-<span class="${"gray svelte-7prj8d"}">Spring 2021 \u2013 Present</span>
-<p>I help teach undergraduate students in COMP541, an upper-level chip architecture course taught by Dr. Montek Singh.</p>
-<h3 class="${"svelte-7prj8d"}">Freelance <span class="${"roman svelte-7prj8d"}">\u2014 Web Developer &amp; Designer</span></h3>
-<span class="${"gray svelte-7prj8d"}">June 2019 \u2013 Present</span>
-<p>I am a freelance designer and full-stack web developer. I am a one-stop shop for local clients to create or overhaul their web presence. A portfolio example: the <a href="${"https://chapelhillfriends.org"}" rel="${"nofollow"}">Chapel Hill Friends Meeting website</a>.</p>
-<h3 class="${"svelte-7prj8d"}">Carolina Friends School <span class="${"roman svelte-7prj8d"}">\u2014 Counselor</span></h3>
-<span class="${"gray svelte-7prj8d"}">Summer 2016 \u2013 Summer 2019</span>
-<p>I led activities with campers at Carolina Friends School Summer Programs to encourage teamwork, participation, and community.</p>
-<h2 class="${"svelte-7prj8d"}">Skills</h2>
-<h3 class="${"svelte-7prj8d"}">Computer Science</h3>
-<p><strong>Proficient in:</strong> Python, C, Java, TypeScript, Vue, JavaScript, SystemVerilog, <span title="${"source for this site on GitHub (finnsjames/fsj.xyz)"}">HTML/CSS</span></p>
-<p><strong>Courses Completed by Summer 2021:</strong> Digital Logic &amp; Computer Design, Models of Language &amp; Computation, Data Structures, Computer Architecture, Digital Photography, Modern Web Development, UX Design &amp; Usability</p>
-<h3 class="${"svelte-7prj8d"}">Mathematics</h3>
-<p><strong>Courses Completed by Summer 2021:</strong> Discrete Mathematics, Linear Algebra, Multivariable Calculus, Probability</p>
-<p><strong>Familiarity with:</strong> Wolfram Mathematica, Microsoft Excel</p>
-<h3 class="${"svelte-7prj8d"}">Astrophysics</h3>
-<p><strong>Courses Completed by Summer 2021:</strong> Calculus-Based Mechanics &amp; Relativity, Intro Astronomy &amp; Lab, Intro Cosmology</p>
-<p><strong>Familiarity with:</strong> Astropy, NumPy, Stellarium, Radio Cartographer, Afterglow</p>
-<h3 class="${"svelte-7prj8d"}">Technology</h3>
-<p><strong>IDEs &amp; editors:</strong>
-PyCharm, IntelliJ IDEA, Eclipse, VSCode, vim</p>
-<p><strong>Tools:</strong>
-git, node, npm, zsh, bash</p>
-<p><strong>Software:</strong>
-Photoshop, Illustrator, XD, InDesign, Premiere Pro, Audacity, Microsoft Office</p>
-<p><strong>Operating Systems:</strong>
-macOS, Linux, Windows, iOS</p>
-<h3 class="${"svelte-7prj8d"}">Foreign Language</h3>
-<p><strong>Japanese:</strong>
-I have completed three semesters of Japanese.</p>
-<h2 class="${"svelte-7prj8d"}">Community Service</h2>
-<h3 class="${"svelte-7prj8d"}">Cofounder, <span class="${"roman svelte-7prj8d"}">Project Recap</span></h3>
-<span class="${"gray svelte-7prj8d"}">Spring 2018</span>
-<p>I co-founded and managed a charitable program that continues today to collect, clean, and redistribute graduation paraphernalia to high school students.</p>
-<h3 class="${"svelte-7prj8d"}">Creator &amp; Instructor, <span class="${"roman svelte-7prj8d"}">CodeBuilders Programming Course</span></h3>
-<span class="${"gray svelte-7prj8d"}">Spring 2017</span>
-<p>I created and taught an intro programming class for middle-school-aged students. We covered Python and Web development. I designed the course to focus on fundamentals so that the students would feel more comfortable coding and working with computers.</p>
-<h3 class="${"svelte-7prj8d"}">Instructor, <span class="${"roman svelte-7prj8d"}">Durham Public Library</span></h3>
-<span class="${"gray svelte-7prj8d"}">Summer 2016</span>
-<p>I volunteered with the Durham Public Library Techno Saturdays Program, where I taught programming and computer science to children who might otherwise not have had exposure to computers.</p>
-<h2 class="${"svelte-7prj8d"}">Interests</h2>
-<h4 class="${"svelte-7prj8d"}">Photography</h4>
-<p>A few of my recent images may be found in my <a href="${"/portfolio#photography"}">Portfolio</a>.</p>
-<h4 class="${"svelte-7prj8d"}">Drawing &amp; Painting</h4>
-<p>Likewise, a few of my drawings <a href="${"/portfolio#drawing"}">may also be found there</a>.</p>
-<h4 class="${"svelte-7prj8d"}">Martial Arts</h4>
-<p>I have practiced martial arts for years and have achieved a second degree black belt in the Japanese martial art <em>toshindo</em>.</p>
-<h4 class="${"svelte-7prj8d"}">Reading</h4>
-<p>My favorite books include <em>The Brief Wondrous Life of Oscar Wao</em> by Junot D\xEDaz, <em>Jane Eyre</em> by Charlotte Bront\xEB, and <em>Going Postal</em> by Terry Pratchett.</p>
-<h4 class="${"svelte-7prj8d"}">Architecture</h4>
-<p>I am a fan of modern architecture and minimalist spaces. I particularly appreciate the works of Ludwig Mies van der Rohe.</p>
-<h4 class="${"svelte-7prj8d"}">Cooking</h4>
-<p>I love to cook, especially Japanese and Italian cuisine. I also once threw a Latke\u2013Hamantash Debate event in the style of <a href="${"https://en.wikipedia.org/wiki/Latke%E2%80%93Hamantash_Debate"}" rel="${"nofollow"}">the original</a>, which involved both making and arguing about the relative metaphysical merits of both foods.</p>
-<br>
-<br>
-<span class="${"gray svelte-7prj8d"}">Updated June 2021</span>`;
-});
-var Cv = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  return `${$$result.head += `${$$result.title = `<title>CV - Finn James</title>`, ""}`, ""}
-
-${validate_component(Cv$1, "CV").$$render($$result, {}, {}, {})}`;
-});
-var cv = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": Cv
-});
-
-// .svelte-kit/vercel/entry.js
+// .svelte-kit/vercel-tmp/entry.js
+var server = new Server(manifest);
 var entry_default = async (req, res) => {
-  const { pathname, searchParams } = new URL(req.url || "", "http://localhost");
-  let body;
+  let request;
   try {
-    body = await getRawBody(req);
+    request = await getRequest(`https://${req.headers.host}`, req);
   } catch (err) {
     res.statusCode = err.status || 400;
     return res.end(err.reason || "Invalid request body");
   }
-  const rendered = await render({
-    method: req.method,
-    headers: req.headers,
-    path: pathname,
-    query: searchParams,
-    rawBody: body
-  });
-  if (rendered) {
-    const { status, headers, body: body2 } = rendered;
-    return res.writeHead(status, headers).end(body2);
-  }
-  return res.writeHead(404).end();
+  setResponse(res, await server.respond(request, {
+    getClientAddress() {
+      return request.headers.get("x-forwarded-for");
+    }
+  }));
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {});
+/*! fetch-blob. MIT License. Jimmy Wärting <https://jimmy.warting.se/opensource> */
+/*! formdata-polyfill. MIT License. Jimmy Wärting <https://jimmy.warting.se/opensource> */
