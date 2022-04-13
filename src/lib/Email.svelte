@@ -4,7 +4,7 @@
   function hex2a(hex: string): string {
     let str = "";
     for (var i = 0; i < hex.length; i += 2) {
-      str += String.fromCharCode(parseInt(hex.slice(i, 2), 16));
+      str += String.fromCharCode(parseInt(hex.slice(i, i + 2), 16));
     }
     return str;
   }
