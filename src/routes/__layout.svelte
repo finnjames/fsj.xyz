@@ -2,7 +2,7 @@
   import Footer from "$lib/Footer.svelte";
   import Header from "$lib/Header.svelte";
   import { page } from "$app/stores";
-  import { colorMode } from "@/stores.ts";
+  import { colorMode } from "@/stores";
   import { onDestroy, onMount } from "svelte";
 
   function getInitialColorMode() {
@@ -54,12 +54,11 @@
 <svelte:head>
   <link rel="preload" href="/normalize.css" as="style" />
   <link rel="preload" href="/fonts.css" as="style" />
-  <link rel="preload" href="/main.scss" as="style" />
 
   <link rel="stylesheet" href="/normalize.css" />
   <link rel="stylesheet" href="/hint.min.css" />
   <link rel="stylesheet" href="/fonts.css" />
-  <link rel="stylesheet" href="/main.scss" />
+
   <script>
     function getInitialColorMode() {
       const persistedColorMode = window.localStorage.getItem("color-mode");
@@ -101,7 +100,7 @@
     <content>
       <slot />
     </content>
-    {#if $page.path != "/"}
+    {#if $page.url.pathname != "/"}
       <Footer />
     {/if}
   </main>

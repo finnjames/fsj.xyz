@@ -1,8 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { colorMode } from "@/stores.ts";
+  import { colorMode } from "@/stores";
   const nav = [
-    // { name: "Home", link: "/" },
     { name: "CV", link: "/cv" },
     { name: "Posts", link: "/posts" },
     { name: "Portfolio", link: "/portfolio" }
@@ -11,7 +10,6 @@
 </script>
 
 <svelte:head>
-  <link rel="preload" href="/images/fsj.svg" as="image" />
   <link rel="preload" href="/icons/sun.svg" as="image" />
   <link rel="preload" href="/icons/moon.svg" as="image" />
 </svelte:head>
@@ -30,7 +28,7 @@
           class="nav-item"
           tabindex="0"
           style="transition-delay: {i * 32}ms"
-          class:active={item.link === $page.path}
+          class:active={item.link === $page.url.pathname}
           on:click={() => (menuOpen = false)}
           sveltekit:prefetch
           href={item.link}
@@ -38,7 +36,7 @@
           {@html item.name}
         </a>
       {/each}
-      {#if $page.path != "/portfolio"}
+      {#if $page.url.pathname != "/portfolio"}
         <button
           class="nav-item"
           id="color-mode-toggle"

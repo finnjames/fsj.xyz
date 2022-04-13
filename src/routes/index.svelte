@@ -1,5 +1,6 @@
 <script lang="ts">
-  import Intro from "$markdown/intro.md"; // TODO: why is this a problem?
+  // @ts-ignore
+  import Intro from "$markdown/intro.md";
   import { onMount } from "svelte";
 
   let bg: HTMLElement, splash: HTMLElement, helmet: HTMLElement;
@@ -17,11 +18,9 @@
   }
 
   export let mousePos = new orderedPair(0, 0),
-    pos = new orderedPair(0, 0),
-    windowSize = new orderedPair(0, 0);
+    pos = new orderedPair(0, 0);
 
   onMount(async () => {
-    onWindowResize();
     (function animationLoop() {
       window.requestAnimationFrame(animationLoop);
       float();
@@ -32,21 +31,17 @@
     mousePos.setBoth(event.clientX, event.clientY);
   };
 
-  const onWindowResize = () => {
-    windowSize.setBoth(window.innerWidth, window.innerHeight);
-  };
-
   function float(): void {
     pos.setBoth(pos.x + (mousePos.x - pos.x) * 0.05, pos.y + (mousePos.y - pos.y) * 0.05);
     try {
       splash.style.transform = `
-        translateX(${(windowSize.x - pos.x) / 20}px) translateY(${(windowSize.y - pos.y) / 40}px)
+        translateX(${-pos.x / 20}px) translateY(${-pos.y / 40}px)
       `;
       helmet.style.transform = `
-        translateX(${(windowSize.x - pos.x) / 10}px) translateY(${(windowSize.y - pos.y) / 20}px)
+        translateX(${-pos.x / 10}px) translateY(${-pos.y / 20}px)
       `;
       bg.style.transform = `
-        translateX(${(windowSize.x - pos.x) / 40}px) translateY(${(windowSize.y - pos.y) / 80}px)
+        translateX(${-pos.x / 40}px) translateY(${-pos.y / 80}px)
       `;
     } catch (error) {
       pos.setBoth(0, 0);
@@ -54,13 +49,13 @@
   }
 </script>
 
-<svelte:window on:mousemove={onMouseMove} on:resize={onWindowResize} />
+<svelte:window on:mousemove={onMouseMove} />
 
 <svelte:head>
   <title>Finn James</title>
   <meta
     name="description"
-    content="I’m Finn, a frontend developer & illustrator. I also write software for telescopes."
+    content="I’m Finn, a software engineer & artist. I also write software for telescopes."
   />
 </svelte:head>
 
@@ -91,11 +86,11 @@
     position: relative;
   }
   #splash {
-    background-image: url("/images/flight-suit-me.png");
+    background-image: url("/images/flight-suit-me.webp");
     background-size: auto 900px;
     background-repeat: no-repeat;
     position: fixed;
-    right: calc(-24rem + 40vw);
+    right: calc(-28rem + 40vw);
     top: 2.2rem;
     min-height: 50rem;
     height: calc(100vh - 2rem);
@@ -105,7 +100,7 @@
   }
   #splash-helmet {
     @extend #splash;
-    background-image: url("/images/flight-suit-helmet.png");
+    background-image: url("/images/flight-suit-helmet.webp");
   }
   @media (prefers-reduced-motion) {
     #bg,

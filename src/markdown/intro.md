@@ -51,8 +51,8 @@ I am a software engineer and amateur artist based in Chapel Hill, NC. I also bui
     }
   }
   .email-wrapper {
-    padding-top: 0.8rem;
-      transform: translateX(-1px);
+    margin-top: 2.4rem;
+    transform: translateX(-1px);
   }
   @media screen and (max-width: 767px) {
     .email-wrapper {

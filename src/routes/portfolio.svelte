@@ -10,15 +10,15 @@
 
 <div id="portfolio">
   <h1 id="photography" class="no-hash">Photography</h1>
-  <img loading="lazy" alt="Eszter 1" src="/art/p-e2.jpeg" />
-  <img loading="lazy" alt="Coulture" src="/art/p-c1.jpeg" />
-  <img loading="lazy" alt="Thomas" src="/art/p-t1.jpeg" />
-  <img loading="lazy" alt="Hannah" src="/art/p-h1.jpeg" />
-  <img loading="lazy" alt="Eszter 2" src="/art/p-e1.jpeg" />
+  <img loading="lazy" alt="Eszter 1" src="/art/p-e2.webp" />
+  <img loading="lazy" alt="Coulture" src="/art/p-c1.webp" />
+  <img loading="lazy" alt="Thomas" src="/art/p-t1.webp" />
+  <img loading="lazy" alt="Hannah" src="/art/p-h1.webp" />
+  <img loading="lazy" alt="Eszter 2" src="/art/p-e1.webp" />
   <h1 id="drawing" class="no-hash">Drawing</h1>
-  <img loading="lazy" alt="Charcoal drawing of my desk" class="image" src="/art/a-c1.jpeg" />
-  <img loading="lazy" alt="Ink drawing in the style of Mucha" class="image" src="/art/a-i1.jpeg" />
-  <img loading="lazy" alt="Charcoal drawings with a backlight" class="image" src="/art/a-c2.jpeg" />
+  <img loading="lazy" alt="Charcoal drawing of my desk" class="image" src="/art/a-c1.webp" />
+  <img loading="lazy" alt="Ink drawing in the style of Mucha" class="image" src="/art/a-i1.webp" />
+  <img loading="lazy" alt="Charcoal drawings with a backlight" class="image" src="/art/a-c2.webp" />
 </div>
 
 <style lang="scss">
