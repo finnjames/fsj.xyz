@@ -1,4 +1,4 @@
-import{S as F,i as G,s as H,e as c,t as o,k as z,c as y,a as u,h as r,d as e,m as T,b as N,g as h,F as i,E as D}from"../../chunks/index-bbc8ee63.js";function O(C){let n,w,b,a,_,l,x,j,p,g,k,I,m,E,v,d,q;return{c(){n=c("h1"),w=o(A),b=z(),a=c("p"),_=o("I am excited to report that my new domain, "),l=c("a"),x=o("fsj.xyz"),j=o(` is live.
+import{S as F,i as G,s as H,e as c,t as o,k as z,c as y,a as u,h as r,d as e,m as T,b as N,g as h,F as i,E as D}from"../../chunks/index-ffd6fc2d.js";function O(C){let n,w,b,a,_,l,x,j,p,g,k,I,m,E,v,d,q;return{c(){n=c("h1"),w=o(A),b=z(),a=c("p"),_=o("I am excited to report that my new domain, "),l=c("a"),x=o("fsj.xyz"),j=o(` is live.
 In the endless quest to have a short domain name, I elected for the gTLD
 `),p=c("strong"),g=o(".xyz"),k=o(` and just my initials. It was remarkably difficult to secure a domain
 name that I felt excited about, but I am very happy with this one. My old domain

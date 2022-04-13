@@ -1,4 +1,4 @@
-import{S as se,i as ae,s as ne,e as l,t as a,k as w,c as r,a as h,h as n,d as t,m as f,b as H,g as i,F as s,E as B}from"../../chunks/index-bbc8ee63.js";function le(ie){let d,N,S,m,j,u,M,W,_,v,q,x,p,F,c,z,D,A,b,G,E,y,J,P,I,L,V,k,O,C,g,R;return{c(){d=l("h1"),N=a(oe),S=w(),m=l("p"),j=a(`As much as Jekyll + GitHub Pages served me well for my old static site, I have
+import{S as se,i as ae,s as ne,e as l,t as a,k as w,c as r,a as h,h as n,d as t,m as f,b as H,g as i,F as s,E as B}from"../../chunks/index-ffd6fc2d.js";function le(ie){let d,N,S,m,j,u,M,W,_,v,q,x,p,F,c,z,D,A,b,G,E,y,J,P,I,L,V,k,O,C,g,R;return{c(){d=l("h1"),N=a(oe),S=w(),m=l("p"),j=a(`As much as Jekyll + GitHub Pages served me well for my old static site, I have
 decided to take the plunge into a modern framework-based version. This site is
 made in the excellent `),u=l("a"),M=a("SvelteKit"),W=a(`. It isn\u2019t done, yet.
 At time of this writing, the \u201CPosts\u201D page still needs

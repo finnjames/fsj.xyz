@@ -7,6 +7,10 @@
     { name: "Portfolio", link: "/portfolio" }
   ];
   let menuOpen = false;
+  let icons = {
+    light: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`,
+    dark: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`
+  };
 </script>
 
 <svelte:head>
@@ -36,21 +40,17 @@
           {@html item.name}
         </a>
       {/each}
-      {#if $page.url.pathname != "/portfolio"}
-        <button
-          class="nav-item"
-          id="color-mode-toggle"
-          on:click={colorMode.toggle}
-          style="transition-delay: {nav.length * 32}ms"
-        >
-          <img
-            src="/icons/{$colorMode === 'dark' ? 'sun' : 'moon'}.svg"
-            alt="toggle dark mode"
-            height="24"
-            width="24"
-          />
-        </button>
-      {/if}
+      <button
+        class="nav-item"
+        class:portfolio={$page.url.pathname === "/portfolio"}
+        id="color-mode-toggle"
+        on:click={colorMode.toggle}
+        style="transition-delay: {nav.length * 32}ms"
+      >
+        <svg height="24" width="24">
+          {@html icons[$colorMode]}
+        </svg>
+      </button>
     </div>
     <button id="menu-icon" aria-label="menu" on:click={() => (menuOpen = !menuOpen)}>
       <div />
@@ -74,10 +74,14 @@
     display: inline-flex;
     justify-content: center;
     padding-left: 1rem;
-    cursor: pointer;
-    img {
-      width: 24px;
+    svg {
+      fill: var(--fg);
+      stroke: var(--fg);
     }
+    &.portfolio {
+      opacity: 0.4;
+    }
+    cursor: pointer;
   }
   #logo {
     touch-action: manipulation;
@@ -228,9 +232,6 @@
         transition: transform 300ms cubic-bezier(0, 0.62, 0.34, 1),
           opacity 300ms cubic-bezier(0, 0.62, 0.34, 1),
           visibility 300ms cubic-bezier(0, 0.62, 0.34, 1);
-      }
-      #color-mode-toggle img {
-        width: 32px;
       }
       &.active {
         position: fixed;

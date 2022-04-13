@@ -17,6 +17,8 @@
   }
 
   let address: any;
+
+  let copyIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
 </script>
 
 <div id="email-container" href="#">
@@ -41,7 +43,9 @@
     }}
   >
     <div id="copy-front">
-      <img alt="copy email address" src="/icons/copy.svg" height="24" width="24" />
+      <svg height="24" width="24">
+        {@html copyIcon}
+      </svg>
     </div>
   </button>
 </div>
@@ -101,6 +105,7 @@
     cursor: pointer;
     background-color: transparent;
     perspective: 100px;
+    color: inherit;
   }
   #copy-front {
     border-radius: inherit;
@@ -118,9 +123,6 @@
     will-change: transform, filter;
     transform: translateY(0px);
     filter: brightness(100%);
-    img {
-      transform-style: preserve-3d;
-    }
   }
   #copy:hover #copy-front {
     transform-style: preserve-3d;

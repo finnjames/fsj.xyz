@@ -1,4 +1,5 @@
 <script lang="ts">
+  // @ts-ignore
   import CV from "$markdown/cv.md";
 </script>
 

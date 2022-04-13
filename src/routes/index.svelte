@@ -100,6 +100,7 @@
   }
   #splash-helmet {
     @extend #splash;
+    right: calc(-32rem + 40vw);
     background-image: url("/images/flight-suit-helmet.webp");
   }
   @media (prefers-reduced-motion) {
