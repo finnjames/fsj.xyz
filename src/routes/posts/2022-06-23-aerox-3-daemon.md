@@ -18,7 +18,7 @@ This is frustrating because I like to have my computer setup as LED-free as poss
 
 I have only tested this on macOS Monterey and with the 2.4GHz wireless connector, but it appears to be working with no caveats.
 
-Use a shell script like this one that sets all of the mouse settings you want using `rivalcfg`. This example one just turns off all LEDs. Make sure that you specify where `rivalcfg` is located.
+Use a shell script like this one that sets all of the mouse settings you want using [rivalcfg](https://github.com/flozz/rivalcfg). This one turns off all LEDs. Make sure that you specify where `rivalcfg` is located.
 
 ```bash
 #!/bin/sh 
@@ -46,19 +46,19 @@ Next, create a file at `~/Library/LaunchAgents/com.aerox.plist` with the followi
     </array>
     <key>LaunchEvents</key>
     <dict>
-            <key>com.apple.iokit.matching</key>
+        <key>com.apple.iokit.matching</key>
             <dict>
-                    <key>com.apple.device-attach</key>
-                    <dict>
-                            <key>idProduct</key>
-                            <integer>1234</integer>
-                            <key>idVendor</key>
-                            <integer>1234</integer>
-                            <key>IOProviderClass</key>
-                            <string>IOUSBDevice</string>
-                            <key>IOMatchLaunchStream</key>
-                            <true/>
-                    </dict>
+                <key>com.apple.device-attach</key>
+                <dict>
+                    <key>idProduct</key>
+                    <integer>1234</integer>
+                    <key>idVendor</key>
+                    <integer>1234</integer>
+                    <key>IOProviderClass</key>
+                    <string>IOUSBDevice</string>
+                    <key>IOMatchLaunchStream</key>
+                    <true/>
+                </dict>
             </dict>
     </dict>
 </dict>
@@ -76,4 +76,4 @@ The mouse should update its LED colors within a few seconds. In a classic featur
 
 ## Credits
 
-I only got this working because of [rivalcfg](https://github.com/flozz/rivalcfg), a reverse-engineered SteelSeries config CLI and [this StackOverflow answer](https://stackoverflow.com/a/12259762) explaining how to write a systemd daemon that runs a script when a specific USB device is detected
+I only got this working because of rivalcfg and [this StackOverflow answer](https://stackoverflow.com/a/12259762) explaining how to write a systemd daemon that runs a script when a specific USB device is detected
