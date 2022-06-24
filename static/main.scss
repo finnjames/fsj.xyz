@@ -3,6 +3,7 @@
   --breakpoint: 767px;
   // colors
   --bg: white;
+  --bg-dark: #291c40;
   --fg: #1a101f;
   --white: white;
   --light-gray: #ccc;
@@ -21,6 +22,7 @@
   --darker-magenta: #68002b;
   --cyan: #1192ce;
 }
+
 [data-color-mode="dark"] {
   --bg: #150e22;
   --fg: white;
@@ -70,22 +72,27 @@ h6 {
       position: absolute;
       color: var(--med-light-gray);
       font-variation-settings: "SLNT" -15, "wght" 600, "CASL" -15;
-      @if $hx == "h1" {
+
+      @if $hx =="h1" {
         content: "#";
         left: -1.90rem;
       }
-      @if $hx == "h2" {
+
+      @if $hx =="h2" {
         content: "##";
         left: -2.76rem;
       }
-      @if $hx == "h3" {
+
+      @if $hx =="h3" {
         content: "###";
         left: -3.14rem;
       }
-      @if $hx == "h4" {
+
+      @if $hx =="h4" {
         content: "####";
         left: -3.42rem;
       }
+
       @media (max-width: #{32rem + 4rem}) {
         display: none;
       }
@@ -99,19 +106,29 @@ content a {
   transition: color 150ms linear;
   text-decoration-color: var(--magenta);
   font-weight: 500;
+
   &:hover {
     color: var(--magenta);
     transition: color 100ms linear;
   }
+
   &:active {
     opacity: 0.6;
   }
 }
 
 code {
-  font-family: "RecVar", monospace;
-  font-variation-settings: "MONO" 1;
-  background-color: var(--light-gray);
-  padding: 0.1rem 0.2rem;
-  border-radius: 0.2rem;
+  font-family: "RecVar", monospace !important;
+  font-variation-settings: "MONO" 1 !important;
+
+  &:not(code[class*="language-"]) {
+    padding: 0.1rem 0.24rem;
+    background: var(--light-gray) !important;
+    border-radius: 0.2rem;
+
+  }
+}
+
+pre {
+  border-radius: 0.4rem;
 }

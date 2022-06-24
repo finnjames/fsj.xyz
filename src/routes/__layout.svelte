@@ -58,6 +58,7 @@
   <link rel="stylesheet" href="/normalize.css" />
   <link rel="stylesheet" href="/hint.min.css" />
   <link rel="stylesheet" href="/fonts.css" />
+  <link rel="stylesheet" href="/prism.css" />
 
   <script>
     function getInitialColorMode() {
