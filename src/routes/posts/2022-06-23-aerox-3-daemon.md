@@ -8,7 +8,7 @@ snippet: How to make a SteelSeries Aerox 3 Mouse Remember LED Colors
 
 ## Background
 
-I bought a new mouse to replace my old one and I had limited options. I wanted a wireless mouse that worked with both Bluetooth and 2.4GHz. I narrowed it down to the MX Master and the Aerox 3 Wireless, and a sale on the Aerox made the decision. I like the mouse a lot, I think it looks good and is nice to use, but it has one fatal flaw—it doesn't remember the LED colors on device memory.
+I bought a new mouse to replace my old one and I had limited options. I wanted a wireless USB-C mouse that worked with both Bluetooth and 2.4GHz. I narrowed it down to the MX Master and the Aerox 3 Wireless, and a sale on the Aerox made the decision. I like the mouse a lot, I think it looks good and is nice to use, but it has one fatal flaw—it doesn't remember the LED colors on device memory.
 
 This is frustrating because I like to have my computer setup as LED-free as possible, especially at night. Even more frustrating is that the mouse resets to rainbow RGB colors everytime it sleeps from inactivity, not just powers off! So since I didn't want to install SteelSeries' questionable device management software, I decided to make my own.
 
@@ -76,4 +76,4 @@ The mouse should update its LED colors within a few seconds. In a classic featur
 
 ## Credits
 
-I only got this owrking because of [rivalcfg](https://github.com/flozz/rivalcfg), a reverse-engineered SteelSeries config CLI and [this StackOverflow answer](https://stackoverflow.com/a/12259762) explaining how to write a systemd daemon that runs a script when a specific USB device is detected
+I only got this working because of [rivalcfg](https://github.com/flozz/rivalcfg), a reverse-engineered SteelSeries config CLI and [this StackOverflow answer](https://stackoverflow.com/a/12259762) explaining how to write a systemd daemon that runs a script when a specific USB device is detected
