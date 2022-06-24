@@ -10,7 +10,7 @@ snippet: How to make a SteelSeries Aerox 3 Mouse Remember LED Colors
 
 I bought a new mouse to replace my old one and I had limited options. I wanted a wireless USB-C mouse that worked with both Bluetooth and 2.4GHz. I narrowed it down to the MX Master and the Aerox 3 Wireless, and a sale on the Aerox made the decision. I like the mouse a lot, I think it looks good and is nice to use, but it has one fatal flaw—it doesn't remember the LED colors on device memory.
 
-This is frustrating because I like to have my computer setup as LED-free as possible, especially at night. Even more frustrating is that the mouse resets to rainbow RGB colors everytime it sleeps from inactivity, not just powers off! So since I didn't want to install SteelSeries' questionable device management software, I decided to make my own.
+This is frustrating because I like to have my computer setup as LED-free as possible, especially at night. Even more frustrating is that the mouse resets to rainbow RGB colors everytime it sleeps from inactivity, not just when it powers off! So since I didn't want to install SteelSeries' questionable device management software, I decided to make my own.
 
 ## The Daemon
 
