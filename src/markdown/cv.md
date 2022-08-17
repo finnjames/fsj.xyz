@@ -26,11 +26,51 @@ title: CV
 
 ### University of North Carolina at Chapel Hill
 
-Computer Science B.S. with a Studio Art minor. GPA: 3.93. Expected graduation: May 2022.
+Computer Science B.S. with a Studio Art minor. GPA: 3.94. Graduated May 2022.
 
 ### Honors Carolina
 
 I joined the UNC Honors Program in my first year.
+
+## Work
+
+### Google <span class="roman">— Software Engineer</span>
+
+<span class="gray">August 2022 – Present</span>
+
+I work as a Software Engineer at Google RTP.
+
+### SAS <span class="roman">— UX Developer Intern</span>
+
+<span class="gray">May 2021 – May 2022</span>
+
+I am creating a new internal application to improve interface accessibility and consistency.
+
+### UNC Department of Physics & Astronomy <span class="roman">— Research Assistant</span>
+
+<span class="gray">August 2019 – Present</span>
+
+I did astrophysics research and software development with Dr. Dan Reichart in the Physics & Astronomy Department at UNC.
+
+I wrote the logic and UI/UX for software to interpret data coming from the 40' radio telescope at the Green Bank Observatory. I engineered the system to interface between sixty-year-old radio astronomy equipment and modern analysis programs, all while remaining accessible to the scientists who use it for their research.
+
+### UNC Department of Computer Science <span class="roman">— Learning Assistant</span>
+
+<span class="gray">Spring 2021 – Present</span>
+
+I help teach undergraduate students in COMP541, an upper-level chip architecture course taught by Dr. Montek Singh.
+
+### Freelance <span class="roman">— Web Developer & Designer</span>
+
+<span class="gray">June 2019 – Present</span>
+
+I am a freelance designer and full-stack web developer. I am a one-stop shop for local clients to create or overhaul their web presence. A portfolio example: the [Chapel Hill Friends Meeting website](https://chapelhillfriends.org).
+
+### Carolina Friends School <span class="roman">— Counselor</span>
+
+<span class="gray">Summer 2016 – Summer 2019</span>
+
+I led activities with campers at Carolina Friends School Summer Programs to encourage teamwork, participation, and community.
 
 ## Grants & Honors
 
@@ -69,42 +109,6 @@ I won second place for my hardware project at HackNC 2019. My team and I constru
 <span class="gray">April 2017</span>
 
 I was honored with the Rotary Youth Leadership Award for exhibiting leadership and initiative in my community service and schoolwork, and I attended the associated conference. The conference is an 18-hour-a-day high-energy event where the recipients work with each other to develop leadership and problem solving skills. I was sponsored by the East Chapel Hill Rotary Club.
-
-## Work
-
-### SAS <span class="roman">— UX Developer Intern</span>
-
-<span class="gray">May 2021 – May 2022</span>
-
-I am creating a new internal application to improve interface accessibility and consistency.
-
-### UNC Department of Physics & Astronomy <span class="roman">— Research Assistant</span>
-
-<span class="gray">August 2019 – Present</span>
-
-I do astrophysics research and software development with Dr. Dan Reichart in the Physics & Astronomy Department at UNC.
-
-For my first project, I wrote the logic and UI/UX for software to interpret data coming from the 40' radio telescope at the Green Bank Observatory. I engineered the system to interface between sixty-year-old radio astronomy equipment and modern analysis programs, all while remaining accessible to the scientists who use it for their research.
-
-Now, I am building a new front-end application for the Skynet robotic telescope network, with a focus on the radio data interpretation and analysis tools. This is funded by a new grant to increase accessibility of astrophysics research for students around the country.
-
-### UNC Department of Computer Science <span class="roman">— Learning Assistant</span>
-
-<span class="gray">Spring 2021 – Present</span>
-
-I help teach undergraduate students in COMP541, an upper-level chip architecture course taught by Dr. Montek Singh.
-
-### Freelance <span class="roman">— Web Developer & Designer</span>
-
-<span class="gray">June 2019 – Present</span>
-
-I am a freelance designer and full-stack web developer. I am a one-stop shop for local clients to create or overhaul their web presence. A portfolio example: the [Chapel Hill Friends Meeting website](https://chapelhillfriends.org).
-
-### Carolina Friends School <span class="roman">— Counselor</span>
-
-<span class="gray">Summer 2016 – Summer 2019</span>
-
-I led activities with campers at Carolina Friends School Summer Programs to encourage teamwork, participation, and community.
 
 ## Skills
 
@@ -194,4 +198,4 @@ I love to cook, especially Japanese and Italian cuisine. I also once threw a Lat
 <br />
 <br />
 
-<span class="gray">Updated March 2022</span>
+<span class="gray">Updated August 2022</span>
