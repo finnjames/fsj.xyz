@@ -9,14 +9,31 @@ title: CV
   .roman {
     font-variation-settings: "wght" 400;
   }
+  
   h2, h3, h4 {
     line-height: 1;
   }
   h2 {
     padding-top: 1.2rem;
+    position: relative;
+    display: inline-block;
   }
   h3 {
     padding-top: 0.6rem;
+  }
+
+  h2::after {
+    /* Highlight color */
+    background-color: var(--light-magenta);
+
+    content: "";
+    position: absolute;
+    width: calc(100% + 0.5rem);
+    height: 60%;
+    left: -0.16rem;
+    bottom: 0;
+    z-index: -1;
+    transform: rotate(-1deg) skew(8deg) translateY(0.1rem);
   }
 </style>
 
