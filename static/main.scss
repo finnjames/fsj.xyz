@@ -1,6 +1,9 @@
 :root {
   // sizing
   --breakpoint: 767px;
+  // fonts
+  --font-weight-normal: 400;
+  --font-weight-bold: 800;
   // colors
   --bg: white;
   --bg-dark: #291c40;
@@ -25,8 +28,12 @@
 }
 
 [data-color-mode="dark"] {
+  // fonts
+  --font-weight-normal: 350;
+  --font-weight-bold: 750;
+  // colors
   --bg: #150e22;
-  --fg: white;
+  --fg: #f6f2fc;
   --dark-gray: #b0a4c9;
   --med-dark-gray: #9688b1;
   --med-gray: #6d5c8d;
@@ -44,6 +51,7 @@ body {
   margin: 0;
   box-sizing: border-box;
   font-family: "RecVar", sans-serif;
+  font-variation-settings: "wght" var(--font-weight-normal);
   background-color: var(--bg);
   color: var(--fg);
   transition: background-color 320ms;
@@ -65,7 +73,7 @@ h4,
 h5,
 h6 {
   position: relative;
-  font-variation-settings: "wght" 800;
+  font-variation-settings: "wght" var(--font-weight-bold);
 }
 
 @media screen and (min-width: 992px) {

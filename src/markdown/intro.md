@@ -27,7 +27,7 @@ I am a software engineer and amateur artist based in Chapel Hill, NC. I also bui
     font-size: 3.2rem;
     margin-top: 1rem;
     margin-bottom: 1.6rem;
-    font-variation-settings: "wght" 800, "CASL" 1, "slnt" -15;
+    font-variation-settings: "wght" var(--font-weight-bold), "CASL" 1, "slnt" -15;
   }
   a {
     color: var(--medium-purple);
@@ -61,6 +61,6 @@ I am a software engineer and amateur artist based in Chapel Hill, NC. I also bui
   }
 
   .bold {
-    font-variation-settings: "wght" 800;
+    font-variation-settings: "wght" var(--font-weight-bold);
   }
 </style>

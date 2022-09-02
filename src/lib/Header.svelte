@@ -134,7 +134,7 @@
       padding: 1.2rem;
       display: block;
       text-decoration: none;
-      font-variation-settings: "wght" 400, "CASL" 1, "slnt" -15;
+      font-variation-settings: "wght" var(--font-weight-normal), "CASL" 1, "slnt" -15;
       font-size: larger;
       transform: translateY(-4px);
       color: var(--fg);
@@ -146,14 +146,14 @@
         padding-left: 2.4rem;
       }
       &:hover {
-        font-variation-settings: "wght" 840, "CASL" 1, "slnt" -15;
+        font-variation-settings: "wght" var(--font-weight-bold), "CASL" 1, "slnt" -15;
       }
       &:active {
-        font-variation-settings: "wght" 840, "CASL" 1, "slnt" -15;
+        font-variation-settings: "wght" var(--font-weight-bold), "CASL" 1, "slnt" -15;
       }
       &.active {
         color: var(--magenta);
-        font-variation-settings: "wght" 840, "CASL" 1, "slnt" -15;
+        font-variation-settings: "wght" var(--font-weight-bold), "CASL" 1, "slnt" -15;
       }
     }
   }
@@ -233,7 +233,7 @@
       }
       .nav-item {
         font-size: x-large;
-        font-variation-settings: "wght" 400, "CASL" 1, "slnt" -15;
+        font-variation-settings: "wght" var(--font-weight-normal), "CASL" 1, "slnt" -15;
         opacity: 0;
         transform: translateX(6rem);
         transition: transform 300ms cubic-bezier(0, 0.62, 0.34, 1),

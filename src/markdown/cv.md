@@ -7,7 +7,7 @@ title: CV
     color: var(--med-dark-gray);
   }
   .roman {
-    font-variation-settings: "wght" 400;
+    font-variation-settings: "wght" var(--font-weight-normal);
   }
   
   h2, h3, h4 {
