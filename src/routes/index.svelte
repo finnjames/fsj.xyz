@@ -32,7 +32,7 @@
   };
 
   function float(): void {
-    pos.setBoth(pos.x + (mousePos.x - pos.x) * 0.05, pos.y + (mousePos.y - pos.y) * 0.05);
+    pos.setBoth(pos.x + (mousePos.x - pos.x) * 0.04, pos.y + (mousePos.y - pos.y) * 0.04);
     try {
       splash.style.transform = `
         translateX(${-pos.x / 20}px) translateY(${-pos.y / 40}px)
