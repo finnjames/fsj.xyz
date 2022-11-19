@@ -55,7 +55,7 @@ I joined the UNC Honors Program in my first year.
 
 <span class="gray">August 2022 – Present</span>
 
-I work as a Software Engineer at Google RTP.
+I work as a Software Engineer at Google RDU.
 
 ### SAS <span class="roman">— UX Developer Intern</span>
 
