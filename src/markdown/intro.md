@@ -5,7 +5,7 @@
 
 My name is <span class="bold hint--top hint--rounded" aria-label="he/him, please">Finn James</span>. How’s it going?
 
-I am a software engineer and amateur artist based in Durham, NC. I also build <a href="https://github.com/finnsjames/threepio">systems</a> for <a href="https://skynet.unc.edu">telescopes</a>.
+I am a software engineer and amateur artist based in Durham, NC. I also build <a href="https://github.com/finnjames/threepio">systems</a> for <a href="https://skynet.unc.edu">telescopes</a>.
 
 [GitHub](https://github.com/finnjames) • [Instagram](https://instagram.com/notafinnsta) 
 
