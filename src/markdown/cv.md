@@ -45,10 +45,6 @@ title: CV
 
 Computer Science B.S. with a Studio Art minor. GPA: 3.94. Graduated May 2022.
 
-### Honors Carolina
-
-I joined the UNC Honors Program in my first year.
-
 ## Work
 
 ### Google <span class="roman">— Software Engineer</span>
@@ -61,7 +57,7 @@ I work as a Software Engineer at Google RDU.
 
 <span class="gray">May 2021 – May 2022</span>
 
-I am creating a new internal application to improve interface accessibility and consistency.
+I created an internal application to improve interface accessibility and consistency across platforms.
 
 ### UNC Department of Physics & Astronomy <span class="roman">— Research Assistant</span>
 
@@ -114,6 +110,10 @@ I was selected by my university for nomination for the Barry M. Goldwater Schola
 <span class="gray">August 2019</span>
 
 I was selected for the Educational Research In Radio Astronomy program. It is an intensive course at the Green Bank Observatory involving data collection, data analysis, deadline management, and teamwork.
+
+### Honors Carolina
+
+I joined the UNC Honors Program in my first year.
 
 ### HackNC Second Place Winner
 
@@ -216,3 +216,4 @@ I love to cook, especially Japanese and Italian cuisine. I also once threw a Lat
 <br />
 
 <span class="gray">Updated August 2022</span>
+
