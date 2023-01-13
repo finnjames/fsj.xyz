@@ -111,15 +111,17 @@ I was selected by my university for nomination for the Barry M. Goldwater Schola
 
 I was selected for the Educational Research In Radio Astronomy program. It is an intensive course at the Green Bank Observatory involving data collection, data analysis, deadline management, and teamwork.
 
-### Honors Carolina
-
-I joined the UNC Honors Program in my first year.
-
 ### HackNC Second Place Winner
 
 <span class="gray">October 2019</span>
 
 I won second place for my hardware project at HackNC 2019. My team and I constructed a rig using Python and OpenCV to 3D track the position of objects in real time. As the team's software developer, I wrote the system that interpreted the dual input streams coming from the stereoscopic camera setup so that the depth of the objects could be calculated in real time. In this project, I led my team to each build a part of the project separately and combine them seamlessly.
+
+### Honors Carolina
+
+<span class="gray">January 2019</span>
+
+I joined the UNC Honors Program in my first year.
 
 ### RYLA
 
